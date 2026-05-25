@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>洛克王国 PvP 计算器 - 讨论区</title>
+    <link rel="stylesheet" href="css/head.css" />
+    <link rel="stylesheet" href="css/body.css" />
+    <style>
+      /* 讨论区页面样式 */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--c-f5, #f5f5f5);
+      }
+      [data-theme="dark"] body {
+        background: var(--c-f5, #262626);
+      }
+      .discuss-header {
+        background: var(--c-ff, #fff);
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      [data-theme="dark"] .discuss-header {
+        background: var(--c-ff, #222222);
+      }
+      .discuss-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+      .giscus-container {
+        margin-top: 20px;
+      }
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: var(--p-main, #ea4c89);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+      .back-btn:hover {
+        background: var(--p-hover, #ec5e95);
+      }
+      .back-btn svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+      .discuss-title {
+        margin-top: 0;
+        margin-bottom: 8px;
+        color: var(--c-22, #222);
+        font-size: 24px;
+      }
+      .discuss-desc {
+        color: var(--c-66, #666);
+        margin: 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div style="font-size: 24px">⚔️</div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <a href="index.html" style="text-decoration: none; color: inherit">
+          <h1>洛克王国 PvP 计算器 - 讨论区</h1>
+        </a>
+      </div>
+
+    </header>
+
+    <div class="discuss-content">
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="s422346963/RokePvP-Calculator"
+        data-repo-id="R_kgDOSmg18Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSmg18c4C9yGQ"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async
+      ></script>
+    </div>
+
+    <script>
+      // 主题切换功能
+      function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+      }
+
+      // 初始化主题
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      });
+    </script>
+  </body>
+</html>
