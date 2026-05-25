@@ -1580,15 +1580,11 @@ function rebuildQuickSkillSelect() {
   if (!input) return;
 
   const atkName   = state.atk ? state.atk.n : null;
-  const legalSet  = (atkName && SPIRIT_SKILLS[atkName] && SPIRIT_SKILLS[atkName].length)
+  let legalSet  = (atkName && SPIRIT_SKILLS[atkName] && SPIRIT_SKILLS[atkName].length)
     ? new Set(SPIRIT_SKILLS[atkName]) : null;
 
   if (!legalSet) {
-    _comboAllSkills = [];
-    input.placeholder = '请先选择攻击方精灵…';
-    input.readOnly = true;
-    document.getElementById('skill-combo-dropdown').innerHTML = '';
-    return;
+    legalSet = new Set(SKILLS.map(s => s.n));
   }
 
   // 合法技能（该精灵可学）放前，非法放后
