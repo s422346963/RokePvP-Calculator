@@ -237,7 +237,7 @@
   <div class="skill-panel">
       <h3>⚡ 技能参数</h3>
       <div class="mode-tabs">
-        <button class="mode-tab active" id="tab-modefull" onclick="switchMode('FULL')">
+        <button class="mode-tab" id="tab-modefull" onclick="switchMode('FULL')">
           完整技能配置
           <span class="tab-sub">攻防各配置4个技能，左右面板对比伤害</span>
         </button>
@@ -245,14 +245,14 @@
           单技能参数配置
           <span class="tab-sub">从技能库选技能，手动或自动填写各项加成倍率</span>
         </button>
-        <button class="mode-tab" id="tab-modea" onclick="switchMode('A')">
+        <button class="mode-tab active" id="tab-modea" onclick="switchMode('A')">
           单技能快捷计算
           <span class="tab-sub">游戏内显示威力（已含特性/克制/等级等所有加成）</span>
         </button>
       </div>
 
       <!-- Mode FULL -->
-      <div class="mode-section active" id="section-modefull">
+      <div class="mode-section" id="section-modefull">
         <div class="full-skill-panel">
           <!-- 攻击方技能 -->
           <div class="full-skill-side">
@@ -330,7 +330,7 @@
       </div>
 
       <!-- Mode A -->
-      <div class="mode-section" id="section-modea">
+      <div class="mode-section active" id="section-modea">
         <div class="skill-row">
           <div class="skill-field" style="flex:0 0 140px">
             <div class="field-label">技能威力（游戏内显示）</div>
@@ -546,7 +546,7 @@ let state = {
   defAtkLevel: 0, defDefLevel: 0,
   skillType: 'physical',
   skillAttr: '普通',
-  mode: 'FULL',
+  mode: 'A',
   selectedSkillName: '',
 };
 
@@ -2535,6 +2535,7 @@ setupSearch('atk');
 setupSearch('def');
 setAtkStat('patk', false);
 setDefStat('pdef', false);
+switchMode(state.mode); // 初始化模式状态
 
 function toggleTheme() {
   const isLight = document.documentElement.getAttribute('data-theme') === 'light';
@@ -3439,8 +3440,8 @@ document.addEventListener('DOMContentLoaded', () => {
   buildFullSkillRows('def');
   renderFavoriteGroup();
   // 初始 FULL 模式隐藏公共 result-panel
-  const rp = document.getElementById('result-panel');
-  if (rp) rp.style.display = 'none';
+  //const rp = document.getElementById('result-panel');
+  //if (rp) rp.style.display = 'none';
 });
 
 // 在精灵被选中时也刷新 full 面板
