@@ -1764,19 +1764,20 @@ function filterSkillLib() {
 // VARIABLE POWER TIP  （浮动威力提示）
 // ============================================================
 
+// TODO 闪击/鸣沙陷阱 基力威力表
 // 闪击：速度差→威力查表（攻方速度 - 防方速度）
 const SPEED_DIFF_TABLE = [
   { min: -Infinity, max: -1,  p: 60,  label: '< 0（慢于对方）' },
-  { min: 0,  max: 14,  p: 100, label: '0 ~ 14'   },
-  { min: 15, max: 29,  p: 130, label: '15 ~ 29'  },
-  { min: 30, max: 44,  p: 140, label: '30 ~ 44'  },
-  { min: 45, max: 59,  p: 150, label: '45 ~ 59'  },
-  { min: 60, max: 74,  p: 160, label: '60 ~ 74'  },
-  { min: 75, max: 89,  p: 170, label: '75 ~ 89'  },
-  { min: 90, max: 104, p: 180, label: '90 ~ 104' },
-  { min: 105,max: 119, p: 190, label: '105 ~ 119'},
-  { min: 120,max: 134, p: 194, label: '120 ~ 134'},
-  { min: 135,max: Infinity, p: 200, label: '≥ 135' }
+  { min: 0,  max: 27,  p: 100, label: '0 ~ 27'   },
+  { min: 28, max: 57,  p: 130, label: '28 ~ 57'  },
+  { min: 58, max: 87,  p: 140, label: '58 ~ 87'  },
+  { min: 88, max: 117,  p: 150, label: '88 ~ 117'  },
+  { min: 118, max: 147,  p: 160, label: '118 ~ 147'  },
+  { min: 148, max: 177,  p: 170, label: '148 ~ 177'  },
+  { min: 178, max: 207, p: 180, label: '178 ~ 207' },
+  { min: 208,max: 237, p: 190, label: '208 ~ 237'},
+  { min: 238,max: 271, p: 194, label: '120 ~ 271'},
+  { min: 271,max: Infinity, p: 200, label: '≥ 271' }
 ];
 // 鸣沙陷阱：物防差→威力查表（攻方物防 - 防方物防），区间与闪击相同
 const PDEF_DIFF_TABLE = SPEED_DIFF_TABLE;
