@@ -32,8 +32,6 @@ dist/
 build/
 .cache/
 
-# CodeBuddy 配置目录
-.codebuddy/
 
 # 临时文件
 *.tmp
