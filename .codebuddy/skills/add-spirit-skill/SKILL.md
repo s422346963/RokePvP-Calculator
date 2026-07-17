@@ -1,6 +1,6 @@
 ---
 name: "add-spirit-skill"
-description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵，在 data/spirit_trait.js 中添加特性描述，在 data/spirit_skill.js 中添加空技能数组。"
+description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵，在 data/spirit_trait.js 中添加特性描述"
 ---
 
 # Add Spirit Skill
@@ -25,7 +25,6 @@ description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵�
 ## 功能说明
 1. 在 `data/spirits.js` 中添加新精灵数据，a1、a2、st、img 留空
 2. 在 `data/spirit_trait.js` 中添加新特性描述（如果特性不存在）
-3. 在 `data/spirit_skill.js` 中添加空技能数组
 
 ## 说明
 
@@ -59,14 +58,7 @@ spirit_trait.js数据结构：
 }
 ```
 
-spirit_skill.js数据结构
 
-```
-{
-  不咕钟: [],
-  九尾狐: [],
-}
-```
 
 
 
@@ -102,10 +94,6 @@ spirit_skill.js数据结构
 	}
 	在data/spirit_trait.js中新增一条特性描述
 	'留学生': '自己全技能能耗+2,可以学习全部攻击技能'
-	
-	在data/spirit_skill中添加学院呱呱的技能数据
-	{
-	    其他精灵:[]
-	    学院呱呱: []
-	}
-	
+
+
+​	
