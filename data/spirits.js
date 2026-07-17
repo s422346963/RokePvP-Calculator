@@ -7207,7 +7207,7 @@ const SPIRITS =[
     "a2": "翼",
     "st": "",
     "tr": "不死鸟",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%81%AB%E7%BE%BD.webp"
   },
   {
     "n": "飞飞钥",
@@ -7221,7 +7221,7 @@ const SPIRITS =[
     "a2": "机械",
     "st": "",
     "tr": "上锁",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%A3%9E%E9%A3%9E%E9%92%A5.webp"
   },
   {
     "n": "蝎子王",
@@ -7235,7 +7235,7 @@ const SPIRITS =[
     "a2": "恶",
     "st": "",
     "tr": "流沙统治者",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E8%9D%8E%E5%AD%90%E7%8E%8B.webp"
   },
   {
     "n": "森巨人",
@@ -7249,7 +7249,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "盘根木",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E6%A3%AE%E5%B7%A8%E4%BA%BA.webp"
   },
   {
     "n": "雷神之子",
@@ -7263,7 +7263,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "电子音乐",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%9B%B7%E7%A5%9E%E4%B9%8B%E5%AD%90.webp"
   },
   {
     "n": "饮雪狂兽",
@@ -7277,7 +7277,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "冰雪魂魄",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%A5%AE%E9%9B%AA%E7%8B%82%E5%85%BD.webp"
   },
   {
     "n": "火巨人",
@@ -7291,7 +7291,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "淬炼火",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%81%AB%E5%B7%A8%E4%BA%BA.webp"
   },
   {
     "n": "友爱星飞",
@@ -7305,7 +7305,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "友谊之果",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%8F%8B%E7%88%B1%E6%98%9F%E9%A3%9E.webp"
   },
   {
     "n": "克莱因龙",
@@ -7319,7 +7319,7 @@ const SPIRITS =[
     "a2": "萌",
     "st": "",
     "tr": "莫比乌斯",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%85%8B%E8%8E%B1%E5%9B%A0%E9%BE%99.webp"
   },
   {
     "n": "邪眼巨魔",
@@ -7333,7 +7333,7 @@ const SPIRITS =[
     "a2": "虫",
     "st": "",
     "tr": "瞳中倒影",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%82%AA%E7%9C%BC%E5%B7%A8%E9%AD%94.webp"
   },
   {
     "n": "夜游魔",
@@ -7347,7 +7347,7 @@ const SPIRITS =[
     "a2": "恶",
     "st": "",
     "tr": "异类",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%A4%9C%E6%B8%B8%E9%AD%94.webp"
   },
   {
     "n": "障眼魔",
@@ -7361,7 +7361,7 @@ const SPIRITS =[
     "a2": "水",
     "st": "",
     "tr": "滴眼液",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%9A%9C%E7%9C%BC%E9%AD%94-small.png"
   },
   {
     "n": "星云旅者",
@@ -7375,7 +7375,7 @@ const SPIRITS =[
     "a2": "翼",
     "st": "",
     "tr": "与星星同行",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E6%98%9F%E4%BA%91%E6%97%85%E8%80%85.png"
   },
   {
     "n": "珀尔鼬",
@@ -7389,7 +7389,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "迎宾",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%8F%80%E5%B0%94%E9%BC%AC.png"
   },
   {
     "n": "溯源钟",
@@ -7403,7 +7403,7 @@ const SPIRITS =[
     "a2": "机械",
     "st": "",
     "tr": "整点报时",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E6%BA%AF%E6%BA%90%E9%92%9F.png"
   },
   {
     "n": "加尔",
@@ -7417,7 +7417,7 @@ const SPIRITS =[
     "a2": "萌",
     "st": "",
     "tr": "有求必应",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%8A%A0%E5%B0%94.png"
   },
   {
     "n": "黑化加尔",
@@ -7431,7 +7431,7 @@ const SPIRITS =[
     "a2": "幽",
     "st": "",
     "tr": "一意孤行",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E9%BB%91%E5%8C%96%E5%8A%A0%E5%B0%94.png"
   },
   {
     "n": "胡桃王子",
@@ -7445,7 +7445,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "守护之心",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E8%83%A1%E6%A1%83%E7%8E%8B%E5%AD%90.png"
   },
   {
     "n": "离心舞者",
@@ -7459,7 +7459,7 @@ const SPIRITS =[
     "a2": "幻",
     "st": "",
     "tr": "和弦共振",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%A6%BB%E5%BF%83%E8%88%9E%E8%80%85.png"
   },
   {
     "n": "徘徊爪爪",
@@ -7473,7 +7473,7 @@ const SPIRITS =[
     "a2": "毒",
     "st": "",
     "tr": "猫精灵的礼物",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%BE%98%E5%BE%8A%E7%88%AA%E7%88%AA.png"
   },
   {
     "n": "炮米花",
@@ -7487,7 +7487,7 @@ const SPIRITS =[
     "a2": "草",
     "st": "",
     "tr": "爆裂玉米",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%82%AE%E7%B1%B3%E8%8A%B1.png"
   },
   {
     "n": "深渊蛙",
@@ -7501,7 +7501,7 @@ const SPIRITS =[
     "a2": "武",
     "st": "",
     "tr": "王子的诺言",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E6%B7%B1%E6%B8%8A%E8%9B%99.png"
   },
   {
     "n": "卡拉波斯",
@@ -7515,7 +7515,7 @@ const SPIRITS =[
     "a2": "",
     "st": "",
     "tr": "诅咒",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%8D%A1%E6%8B%89%E6%B3%A2%E6%96%AF.png"
   },
   {
     "n": "流明坎德拉",
@@ -7529,7 +7529,7 @@ const SPIRITS =[
     "a2": "火",
     "st": "",
     "tr": "光度换算",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E6%B5%81%E6%98%8E%E5%9D%8E%E5%BE%B7%E6%8B%89.png"
   },
   {
     "n": "半朽蜜果灵",
@@ -7543,7 +7543,7 @@ const SPIRITS =[
     "a2": "幽",
     "st": "",
     "tr": "长久保存法",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%8D%8A%E6%9C%BD%E8%9C%9C%E6%9E%9C%E7%81%B5.png"
   },
   {
     "n": "稻草守护者",
@@ -7557,7 +7557,7 @@ const SPIRITS =[
     "a2": "萌",
     "st": "",
     "tr": "守望者",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%A8%BB%E8%8D%89%E5%AE%88%E6%8A%A4%E8%80%85.webp"
   },
   {
     "n": "壳栗丝鼠",
@@ -7571,7 +7571,7 @@ const SPIRITS =[
     "a2": "毒",
     "st": "",
     "tr": "扎手",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E5%A3%B3%E6%A0%97%E4%B8%9D%E9%BC%A0.webp"
   },
   {
     "n": "睡铃雪影娃娃",
@@ -7585,7 +7585,7 @@ const SPIRITS =[
     "a2": "草",
     "st": "",
     "tr": "安眠",
-    "img": ""
+    "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%9D%A1%E9%93%83%E9%9B%AA%E5%BD%B1%E5%A8%83%E5%A8%83.webp"
   }
 ]
 
