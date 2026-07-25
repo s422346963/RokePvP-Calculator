@@ -50,10 +50,130 @@
   header { background: var(--header-bg); padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
   header h1 { font-size: 20px; font-weight: 700; color: var(--header-text); }
   header span { font-size: 13px; color: rgba(255,255,255,.65); }
-  .theme-toggle { margin-left: auto; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: 5px 10px; cursor: pointer; color: #fff; font-size: 13px; white-space: nowrap; user-select: none; transition: background .2s; }
+  .header-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .theme-toggle { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: 5px 10px; cursor: pointer; color: #fff; font-size: 13px; white-space: nowrap; user-select: none; transition: background .2s, border-color .2s; }
   .theme-toggle:hover { background: rgba(255,255,255,.22); }
   .theme-toggle .tt-icon { font-size: 16px; }
-  .main { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+  .fav-toggle.is-active { background: rgba(255,213,79,.22); border-color: rgba(255,213,79,.55); }
+  .fav-toggle.is-active:hover { background: rgba(255,213,79,.32); }
+  /* 主内容始终水平居中；收藏为可拖动浮动面板 */
+  .main { max-width: 1200px; margin: 0 auto; padding: 20px 16px; position: relative; }
+  .main-layout { display: block; }
+  .main-body { width: 100%; min-width: 0; }
+  /* 收藏浮动面板：默认右侧，可拖动 */
+  .fav-sidebar {
+    display: none;
+    position: fixed;
+    right: 12px;
+    top: 128px;
+    left: auto;
+    width: 200px;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    touch-action: none;
+  }
+  .fav-sidebar.is-open { display: block; }
+  .fav-sidebar.is-dragging {
+    box-shadow: 0 12px 32px rgba(0,0,0,.28);
+    opacity: .96;
+    user-select: none;
+  }
+  .fav-sidebar .fav-sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: -4px -4px 10px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    cursor: grab;
+    user-select: none;
+  }
+  .fav-sidebar .fav-sidebar-title:active,
+  .fav-sidebar.is-dragging .fav-sidebar-title { cursor: grabbing; }
+  .fav-sidebar .fav-sidebar-title:hover { background: rgba(124,107,255,.08); }
+  .fav-sidebar .fav-drag-grip {
+    font-size: 12px;
+    color: var(--text2);
+    letter-spacing: -1px;
+    line-height: 1;
+    opacity: .7;
+  }
+  .fav-sidebar .fav-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fav-sidebar .fav-item {
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 10px;
+    min-width: 0;
+    margin-bottom: 0;
+    background: var(--card2);
+    border: 1px solid var(--border);
+  }
+  .fav-sidebar .fav-item-bg {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    opacity: .28;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity .15s, transform .15s;
+  }
+  .fav-sidebar .fav-item-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(36, 38, 64, .55) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(36, 38, 64, .55) 100%
+    );
+  }
+  [data-theme="light"] .fav-sidebar .fav-item-bg::after {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, .65) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(255, 255, 255, .65) 100%
+    );
+  }
+  .fav-sidebar .fav-item-body {
+    position: relative;
+    z-index: 1;
+  }
+  .fav-sidebar .fav-item:hover {
+    border-color: var(--accent);
+  }
+  .fav-sidebar .fav-item:hover .fav-item-bg {
+    opacity: .42;
+    transform: scale(1.06);
+  }
+  .fav-sidebar .fav-empty {
+    font-size: 12px;
+    color: var(--text2);
+    text-align: center;
+    padding: 18px 8px;
+    line-height: 1.6;
+  }
   .panels { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 16px; margin-bottom: 16px; align-items: start; }
   .result-wrap { margin-top: 0; }
   .swap-col { display: flex; align-items: flex-start; justify-content: center; padding-top: 52px; }
@@ -61,6 +181,13 @@
   .swap-btn:hover { transform: rotate(180deg); box-shadow: 0 4px 14px rgba(0,0,0,.5); }
   .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
   .panel-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .panel-header .panel-fav-btn { margin-left: auto; flex-shrink: 0; padding: 4px 10px; font-size: 11px; }
+  .panel-header .panel-fav-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .panel-header .panel-fav-btn:disabled:hover { background: rgba(124,107,255,.15); }
   .panel-badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
   .badge-atk { background: rgba(255,112,67,.25); color: #ff7043; border: 1px solid rgba(255,112,67,.4); }
   .badge-def { background: rgba(66,165,245,.25); color: #42a5f5; border: 1px solid rgba(66,165,245,.4); }
@@ -236,7 +363,46 @@
   .fav-item-del { font-size: 13px; color: var(--text2); background: none; border: none; cursor: pointer; padding: 2px 4px; border-radius: 4px; opacity: .6; }
   .fav-item-del:hover { opacity: 1; color: #ef5350; }
   .fav-save-btn { padding: 5px 12px; border-radius: 8px; border: 1px solid var(--accent); background: rgba(124,107,255,.15); color: var(--accent); font-size: 12px; font-weight: 600; cursor: pointer; }
-  .fav-save-btn:hover { background: rgba(124,107,255,.3); }
+  .fav-save-btn:hover:not(:disabled) { background: rgba(124,107,255,.3); }
+  /* 收藏卡片：攻防应用按钮 */
+  .fav-apply-atk {
+    flex: 1;
+    font-size: 11px;
+    padding: 5px 4px;
+    border-color: rgba(255, 112, 67, .55);
+    background: rgba(255, 112, 67, .14);
+    color: var(--atk-color);
+  }
+  .fav-apply-atk:hover:not(:disabled) {
+    background: rgba(255, 112, 67, .28);
+    border-color: var(--atk-color);
+  }
+  .fav-apply-def {
+    flex: 1;
+    font-size: 11px;
+    padding: 5px 4px;
+    border-color: rgba(66, 165, 245, .55);
+    background: rgba(66, 165, 245, .14);
+    color: var(--def-color);
+  }
+  .fav-apply-def:hover:not(:disabled) {
+    background: rgba(66, 165, 245, .28);
+    border-color: var(--def-color);
+  }
+  [data-theme="light"] .fav-apply-atk {
+    border-color: rgba(212, 74, 32, .45);
+    background: rgba(212, 74, 32, .10);
+  }
+  [data-theme="light"] .fav-apply-atk:hover:not(:disabled) {
+    background: rgba(212, 74, 32, .20);
+  }
+  [data-theme="light"] .fav-apply-def {
+    border-color: rgba(26, 122, 200, .45);
+    background: rgba(26, 122, 200, .10);
+  }
+  [data-theme="light"] .fav-apply-def:hover:not(:disabled) {
+    background: rgba(26, 122, 200, .20);
+  }
   .t-normal{background:#9e9e9e;color:#fff}.t-grass{background:#66bb6a;color:#fff}
   .t-普通{background:#9e9e9e;color:#fff}.t-草{background:#66bb6a;color:#fff}.t-火{background:#ef5350;color:#fff}.t-水{background:#42a5f5;color:#fff}.t-光{background:#ffcc02;color:#333}.t-地{background:#a1887f;color:#fff}.t-冰{background:#80deea;color:#333}.t-龙{background:#7c4dff;color:#fff}.t-电{background:#ffca28;color:#333}.t-毒{background:#ab47bc;color:#fff}.t-虫{background:#9ccc65;color:#fff}.t-武{background:#ef9a9a;color:#333}.t-翼{background:#81d4fa;color:#333}.t-萌{background:#f48fb1;color:#fff}.t-幽{background:#5c6bc0;color:#fff}.t-恶{background:#4e342e;color:#fff}.t-机械{background:#78909c;color:#fff}.t-幻{background:#ce93d8;color:#333}
   /* ===== 特性双面板 ===== */
@@ -271,11 +437,18 @@
     header { padding: 10px 14px; gap: 8px; flex-wrap: nowrap; }
     header h1 { font-size: 15px; }
     header span { display: none; }
+    .header-actions { gap: 6px; }
     .theme-toggle { padding: 4px 8px; font-size: 12px; flex-shrink: 0; }
     .theme-toggle .tt-icon { font-size: 14px; }
 
     /* Main 内边距 */
     .main { padding: 12px 10px; }
+
+    /* 收藏：窄屏仍为浮动可拖动，略缩宽度 */
+    .fav-sidebar {
+      width: min(240px, calc(100vw - 16px));
+      max-height: min(60vh, calc(100vh - 80px));
+    }
 
     /* 攻防面板：移动端纵向排列 */
     .panels { grid-template-columns: 1fr; gap: 12px; }
@@ -352,8 +525,6 @@
     .search-input, .niv-select, .niv-input, .field-input,
     .skill-lib-search, .mult-box-input, .reduce-input { font-size: 16px; }
 
-    /* 收藏面板：窄屏降为2列 */
-    #fav-panel .fav-grid { grid-template-columns: repeat(2, 1fr) !important; }
   }
 
     .skill-illegal { opacity: 0.5; }

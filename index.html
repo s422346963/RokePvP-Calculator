@@ -25,13 +25,21 @@
     <a target="_blank" href="https://wiki.biligame.com/rocom/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4"><span>数据来源：BWiki 精灵图鉴</span></a>
     <span style="font-size:12px;opacity:.6;margin-top:2px">玩家自制，请勿用于商业用途。问题反馈：QQ 397979472</span>
   </div>
-  <div class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">
-    <span class="tt-icon" id="theme-icon">🌙</span>
-    <span id="theme-label">夜间</span>
+  <div class="header-actions">
+    <div class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">
+      <span class="tt-icon" id="theme-icon">🌙</span>
+      <span id="theme-label">夜间</span>
+    </div>
+    <div class="theme-toggle fav-toggle" id="fav-toggle-btn" onclick="toggleFavPanel()" title="显示/隐藏收藏配置">
+      <span class="tt-icon" id="fav-toggle-icon">⭐</span>
+      <span id="fav-toggle-label">收藏夹</span>
+    </div>
   </div>
 </header>
 
 <div class="main">
+  <div class="main-layout">
+  <div class="main-body">
 
   <div class="panels">
     <!-- Attacker -->
@@ -39,6 +47,7 @@
       <div class="panel-header">
         <span class="panel-badge badge-atk">攻击方</span>
         <span class="panel-title">选择出招精灵</span>
+        <button class="fav-save-btn panel-fav-btn" id="atk-fav-btn" onclick="openSaveFavDialog('atk')" disabled title="选择精灵后可收藏">⭐ 收藏</button>
       </div>
       <div class="search-wrap" id="atk-search-wrap">
         <span class="search-icon">🔍</span>
@@ -139,6 +148,7 @@
       <div class="panel-header">
         <span class="panel-badge badge-def">防御方</span>
         <span class="panel-title">选择承受精灵</span>
+        <button class="fav-save-btn panel-fav-btn" id="def-fav-btn" onclick="openSaveFavDialog('def')" disabled title="选择精灵后可收藏">⭐ 收藏</button>
       </div>
       <div class="search-wrap" id="def-search-wrap">
         <span class="search-icon">🔍</span>
@@ -231,9 +241,6 @@
     </div>
   </div>
 
-  <!-- 收藏配置面板（精灵配置与技能参数之间） -->
-  <div id="fav-panel" style="margin-top:14px;display:none"></div>
-
   <!-- Skill Panel -->
   <div class="skill-panel">
       <h3>⚡ 技能参数</h3>
@@ -259,17 +266,11 @@
           <div class="full-skill-side">
             <div class="full-skill-side-title">⚔️ 攻击方技能 <span id="full-atk-name" style="color:var(--atk-color);font-weight:700">未选择精灵</span></div>
             <div id="full-atk-skills"><div class="fsk-header-row"><span class="fsk-header-cell"></span><span class="fsk-header-cell">类型</span><span class="fsk-header-cell">属性</span><span class="fsk-header-cell">能耗</span><span class="fsk-header-cell">连击</span><span class="fsk-header-cell">威力</span><span class="fsk-header-cell">备注</span></div><div class="fsk-row-bg" id="fsk-atk-0"><div class="fsk-combo-wrap"><span class="fsk-idx">1</span><input class="fsk-combo-input" id="fsk-input-atk-0" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-atk-0"></div></div><span class="fsk-tag" id="fsk-tag-atk-0">—</span><span class="fsk-attr-tag" id="fsk-attr-atk-0" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-atk-0" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-atk-0" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-atk-0" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-atk-0" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-atk-0"></span><span class="fsk-dmg-pct" id="fsk-pct-atk-0"></span><div class="fsk-row-bg" id="fsk-atk-1"><div class="fsk-combo-wrap"><span class="fsk-idx">2</span><input class="fsk-combo-input" id="fsk-input-atk-1" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-atk-1"></div></div><span class="fsk-tag" id="fsk-tag-atk-1">—</span><span class="fsk-attr-tag" id="fsk-attr-atk-1" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-atk-1" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-atk-1" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-atk-1" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-atk-1" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-atk-1"></span><span class="fsk-dmg-pct" id="fsk-pct-atk-1"></span><div class="fsk-row-bg" id="fsk-atk-2"><div class="fsk-combo-wrap"><span class="fsk-idx">3</span><input class="fsk-combo-input" id="fsk-input-atk-2" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-atk-2"></div></div><span class="fsk-tag" id="fsk-tag-atk-2">—</span><span class="fsk-attr-tag" id="fsk-attr-atk-2" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-atk-2" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-atk-2" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-atk-2" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-atk-2" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-atk-2"></span><span class="fsk-dmg-pct" id="fsk-pct-atk-2"></span><div class="fsk-row-bg" id="fsk-atk-3"><div class="fsk-combo-wrap"><span class="fsk-idx">4</span><input class="fsk-combo-input" id="fsk-input-atk-3" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-atk-3"></div></div><span class="fsk-tag" id="fsk-tag-atk-3">—</span><span class="fsk-attr-tag" id="fsk-attr-atk-3" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-atk-3" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-atk-3" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-atk-3" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-atk-3" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-atk-3"></span><span class="fsk-dmg-pct" id="fsk-pct-atk-3"></span></div>
-            <div style="margin-top:8px;text-align:right">
-              <button class="fav-save-btn" onclick="openSaveFavDialog('atk')">⭐ 收藏攻击方</button>
-            </div>
           </div>
           <!-- 防御方技能 -->
           <div class="full-skill-side">
             <div class="full-skill-side-title">🛡️ 防御方技能 <span id="full-def-name" style="color:var(--def-color);font-weight:700">未选择精灵</span></div>
             <div id="full-def-skills"><div class="fsk-header-row"><span class="fsk-header-cell"></span><span class="fsk-header-cell">类型</span><span class="fsk-header-cell">属性</span><span class="fsk-header-cell">能耗</span><span class="fsk-header-cell">连击</span><span class="fsk-header-cell">威力</span><span class="fsk-header-cell">备注</span></div><div class="fsk-row-bg" id="fsk-def-0"><div class="fsk-combo-wrap"><span class="fsk-idx">1</span><input class="fsk-combo-input" id="fsk-input-def-0" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-def-0"></div></div><span class="fsk-tag" id="fsk-tag-def-0">—</span><span class="fsk-attr-tag" id="fsk-attr-def-0" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-def-0" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-def-0" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-def-0" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-def-0" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-def-0"></span><span class="fsk-dmg-pct" id="fsk-pct-def-0"></span><div class="fsk-row-bg" id="fsk-def-1"><div class="fsk-combo-wrap"><span class="fsk-idx">2</span><input class="fsk-combo-input" id="fsk-input-def-1" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-def-1"></div></div><span class="fsk-tag" id="fsk-tag-def-1">—</span><span class="fsk-attr-tag" id="fsk-attr-def-1" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-def-1" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-def-1" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-def-1" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-def-1" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-def-1"></span><span class="fsk-dmg-pct" id="fsk-pct-def-1"></span><div class="fsk-row-bg" id="fsk-def-2"><div class="fsk-combo-wrap"><span class="fsk-idx">3</span><input class="fsk-combo-input" id="fsk-input-def-2" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-def-2"></div></div><span class="fsk-tag" id="fsk-tag-def-2">—</span><span class="fsk-attr-tag" id="fsk-attr-def-2" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-def-2" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-def-2" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-def-2" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-def-2" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-def-2"></span><span class="fsk-dmg-pct" id="fsk-pct-def-2"></span><div class="fsk-row-bg" id="fsk-def-3"><div class="fsk-combo-wrap"><span class="fsk-idx">4</span><input class="fsk-combo-input" id="fsk-input-def-3" placeholder="选择技能…" readonly="" autocomplete="off"><span class="fsk-combo-arrow">▼</span><div class="fsk-combo-dropdown" id="fsk-drop-def-3"></div></div><span class="fsk-tag" id="fsk-tag-def-3">—</span><span class="fsk-attr-tag" id="fsk-attr-def-3" style="background: transparent; color: var(--text2);">—</span><span class="fsk-tag" id="fsk-cost-def-3" style="color: rgb(255, 202, 40); border-color: rgba(255, 202, 40, 0.4); font-weight: 700; text-align: center;">—</span><input type="number" class="fsk-hits" id="fsk-hits-def-3" min="1" max="10" title="连击次数"><input type="number" class="fsk-power" id="fsk-power-def-3" min="0" max="9999" title="技能威力（可手动修改）"><span class="fsk-tip-icon" id="fsk-tip-def-3" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgb(68, 68, 68); color: rgb(255, 255, 255); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; position: relative; visibility: hidden;">?</span></div><span class="fsk-dmg" id="fsk-dmg-def-3"></span><span class="fsk-dmg-pct" id="fsk-pct-def-3"></span></div>
-            <div style="margin-top:8px;text-align:right">
-              <button class="fav-save-btn" onclick="openSaveFavDialog('def')">⭐ 收藏防御方</button>
-            </div>
           </div>
         </div>
         <!-- 四项参数：卡片下方独立一行 -->
@@ -501,8 +502,12 @@
     <div style="color:var(--text2);font-size:14px;text-align:center;padding:12px">请选择双方精灵并设置技能参数</div>
   </div>
 
+  </div><!-- /.main-body -->
+  </div><!-- /.main-layout -->
 </div>
 
+<!-- 收藏配置：可拖动浮动面板（默认右侧，默认隐藏） -->
+<aside id="fav-panel" class="fav-sidebar"></aside>
 
 <script>
 
@@ -2313,6 +2318,13 @@ function getEmoji(type) {
   return ({'草':'🌿','火':'🔥','水':'💧','光':'✨','地':'🌍','冰':'❄️','龙':'🐉','电':'⚡','毒':'☠️','虫':'🐛','武':'👊','翼':'🦅','萌':'💕','幽':'👻','恶':'😈','机械':'🤖','幻':'🔮','普通':'⭕'})[type] || '🔮';
 }
 
+function updatePanelFavBtn(side, enabled) {
+  const btn = document.getElementById(side + '-fav-btn');
+  if (!btn) return;
+  btn.disabled = !enabled;
+  btn.title = enabled ? '收藏当前精灵配置' : '选择精灵后可收藏';
+}
+
 function renderCard(side, spirit) {
   const card    = document.getElementById(side + '-card');
   const statsEl = document.getElementById(side + '-stats');
@@ -2323,6 +2335,7 @@ function renderCard(side, spirit) {
   if (!spirit) {
     card.innerHTML = `<div class="no-spirit">请搜索并选择${side==='atk'?'攻击方':'防御方'}精灵</div>`;
     [statsEl, lvRow, natRow, redRow].forEach(el => el && (el.style.display='none'));
+    updatePanelFavBtn(side, false);
     return;
   }
   card.innerHTML = `
@@ -2338,6 +2351,7 @@ function renderCard(side, spirit) {
   if (lvRow) lvRow.style.display = 'flex';
   if (natRow) natRow.style.display = 'flex';
   if (redRow && side === 'def') redRow.style.display = 'flex';
+  updatePanelFavBtn(side, true);
   recalcStats(side);
 }
 
@@ -2383,25 +2397,7 @@ function setupSearch(side) {
         if (!groups[key]) groups[key] = [];
         groups[key].push(s);
       });
-      // 收藏分组置顶
-      const favs = loadFavorites();
       let html = '';
-      if (favs.length) {
-        html += '<div class="dropdown-group-header fav-group-header" style="padding:4px 12px 2px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)">' +
-          '<span style="font-size:12px;color:#ffd54f;font-weight:700">⭐ 收藏配置</span>' +
-          '<span style="font-size:11px;color:var(--text2)">' + favs.length + ' 项</span>' +
-          '<span style="font-size:10px;color:var(--text2);margin-left:auto" class="group-arrow">▶</span>' +
-        '</div>' +
-        '<div class="dropdown-group-body fav-group-body" style="display:none">';
-        favs.forEach((f, idx) => {
-          const skillStr = f.skills ? f.skills.filter(Boolean).map(s=>s.skillName).join(' · ') : '';
-          html += '<div class="fav-dd-item" data-fav-idx="' + idx + '" style="padding:8px 14px;cursor:pointer;border-bottom:1px solid var(--border)22;display:flex;flex-direction:column;gap:2px">' +
-            '<span style="font-size:13px;font-weight:600">' + f.name + '</span>' +
-            '<span style="font-size:11px;color:var(--text2)">' + f.spiritName + ' · ' + (f.nature||'普通') + (skillStr ? ' | ' + skillStr : '') + '</span>' +
-          '</div>';
-        });
-        html += '</div>';
-      }
       const sortedKeys = Object.keys(groups).filter(k => groups[k].length > 0);
       sortedKeys.forEach(attr => {
         const bg = TYPE_COLORS[attr] || '#888';
@@ -2417,30 +2413,8 @@ function setupSearch(side) {
       });
       dd.innerHTML = html;
 
-      // 收藏分组折叠/展开 + 点击应用
-      const favHdr = dd.querySelector('.fav-group-header');
-      const favBody = dd.querySelector('.fav-group-body');
-      if (favHdr && favBody) {
-        favHdr.addEventListener('click', () => {
-          const isOpen = favBody.style.display !== 'none';
-          favBody.style.display = isOpen ? 'none' : 'block';
-          favHdr.querySelector('.group-arrow').textContent = isOpen ? '▶' : '▼';
-        });
-        favBody.querySelectorAll('.fav-dd-item').forEach(item => {
-          item.addEventListener('mousedown', e => {
-            e.preventDefault();
-            const idx = parseInt(item.dataset.favIdx);
-            loadFavConfig(favs[idx], side);
-            dd.classList.remove('open');
-          });
-          item.addEventListener('mouseover', () => item.style.background='var(--hover)');
-          item.addEventListener('mouseout',  () => item.style.background='');
-        });
-      }
-
-      // 分组折叠/展开（跳过收藏分组，它有自己的绑定）
+      // 分组折叠/展开
       dd.querySelectorAll('.dropdown-group-header').forEach(hdr => {
-        if (hdr.classList.contains('fav-group-header')) return; // 跳过收藏分组
         hdr.addEventListener('click', () => {
           const attr = hdr.dataset.attr;
           const body = dd.querySelector('.dropdown-group-body[data-attr="' + attr + '"]');
@@ -3230,15 +3204,7 @@ function openSaveFavDialog(side) {
   favs.unshift(fav);
   saveFavorites(favs);
   renderFavoriteGroup();
-  // 同步刷新精灵下拉中的收藏分组
-  ['atk','def'].forEach(s => {
-    const dd = document.getElementById(s + '-dropdown');
-    if (dd && dd.style.display !== 'none') {
-      // 触发重渲，注入收藏分组到顶部
-      renderFavGroupInDropdown(s);
-    }
-  });
-  alert('已收藏「' + fav.name + '」');
+  //alert('已收藏「' + fav.name + '」');
 }
 
 // 将精灵配置应用到指定侧
@@ -3309,106 +3275,194 @@ function deleteFav(id) {
   renderFavoriteGroup();
 }
 
+const FAV_PANEL_KEY = 'roko_fav_panel_open';
+const FAV_POS_KEY = 'roko_fav_panel_pos';
+const FAV_PANEL_WIDTH = 240;
+
+function isFavPanelOpen() {
+  const v = localStorage.getItem(FAV_PANEL_KEY);
+  // 默认不展示
+  return v === '1';
+}
+
+function toggleFavPanel() {
+  localStorage.setItem(FAV_PANEL_KEY, isFavPanelOpen() ? '0' : '1');
+  syncFavToggleUI();
+  renderFavoriteGroup();
+}
+
+function syncFavToggleUI() {
+  const open = isFavPanelOpen();
+  const btn = document.getElementById('fav-toggle-btn');
+  if (btn) btn.classList.toggle('is-active', open);
+}
+
+function getDefaultFavPos() {
+  const w = Math.min(FAV_PANEL_WIDTH, window.innerWidth - 16);
+  return {
+    left: Math.max(8, window.innerWidth - w + 12),
+    top: 125,
+  };
+}
+
+function loadFavPos() {
+  try {
+    const p = JSON.parse(localStorage.getItem(FAV_POS_KEY));
+    if (p && typeof p.left === 'number' && typeof p.top === 'number' &&
+        Number.isFinite(p.left) && Number.isFinite(p.top)) {
+      return p;
+    }
+  } catch (_) {}
+  return null;
+}
+
+function saveFavPos(pos) {
+  localStorage.setItem(FAV_POS_KEY, JSON.stringify(pos));
+}
+
+function clampFavPos(left, top, panel) {
+  const w = panel.offsetWidth || FAV_PANEL_WIDTH;
+  const h = panel.offsetHeight || 80;
+  const maxL = Math.max(0, window.innerWidth - Math.min(w, 48));
+  const maxT = Math.max(0, window.innerHeight - 40);
+  return {
+    left: Math.min(Math.max(0, left), maxL),
+    top: Math.min(Math.max(0, top), maxT),
+  };
+}
+
+function applyFavPanelPos(panel) {
+  if (!panel) return;
+  const raw = loadFavPos() || getDefaultFavPos();
+  const pos = clampFavPos(raw.left, raw.top, panel);
+  panel.style.left = pos.left + 'px';
+  panel.style.top = pos.top + 'px';
+  panel.style.right = 'auto';
+}
+
+function setupFavPanelDrag() {
+  const panel = document.getElementById('fav-panel');
+  if (!panel || panel.dataset.dragReady === '1') return;
+  panel.dataset.dragReady = '1';
+
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  panel.addEventListener('pointerdown', (e) => {
+    const handle = e.target.closest('.fav-drag-handle');
+    if (!handle || e.target.closest('button, a, input')) return;
+    if (e.button !== undefined && e.button !== 0) return;
+    dragging = true;
+    panel.classList.add('is-dragging');
+    const rect = panel.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    try { panel.setPointerCapture(e.pointerId); } catch (_) {}
+    e.preventDefault();
+  });
+
+  panel.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const pos = clampFavPos(e.clientX - offsetX, e.clientY - offsetY, panel);
+    panel.style.left = pos.left + 'px';
+    panel.style.top = pos.top + 'px';
+    panel.style.right = 'auto';
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    panel.classList.remove('is-dragging');
+    try { panel.releasePointerCapture(e.pointerId); } catch (_) {}
+    const left = parseFloat(panel.style.left);
+    const top = parseFloat(panel.style.top);
+    if (Number.isFinite(left) && Number.isFinite(top)) {
+      saveFavPos({ left, top });
+    }
+  }
+
+  panel.addEventListener('pointerup', endDrag);
+  panel.addEventListener('pointercancel', endDrag);
+
+  window.addEventListener('resize', () => {
+    if (!panel.classList.contains('is-open')) return;
+    applyFavPanelPos(panel);
+  });
+}
+
 function renderFavoriteGroup() {
   const panel = document.getElementById('fav-panel');
   if (!panel) return;
 
+  setupFavPanelDrag();
+
+  const open = isFavPanelOpen();
+  panel.classList.toggle('is-open', open);
+  syncFavToggleUI();
+
   const favs = loadFavorites();
+  let html = '<div class="fav-sidebar-title fav-drag-handle" title="按住拖动位置">' +
+    '<span class="fav-drag-grip">⠿</span>' +
+    '<span style="flex:1">⭐ 收藏夹 <span style="font-size:11px;color:var(--text2);font-weight:600">(' + favs.length + ')</span></span>' +
+    '</div>';
+
   if (favs.length === 0) {
-    panel.style.display = 'none';
+    html += '<div class="fav-empty">暂无收藏<br>在完整技能配置中点击「收藏」添加</div>';
+    panel.innerHTML = html;
+    if (open) applyFavPanelPos(panel);
     return;
   }
 
-  panel.style.display = 'block';
-  panel.style.cssText = 'margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;display:block';
-
-  let html = '<div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px">⭐ 收藏的精灵配置</div>';
-  html += '<div class="fav-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">';
+  html += '<div class="fav-grid">';
   favs.forEach((f, idx) => {
-    const skillPreview = f.skills ? f.skills.filter(Boolean).map(s => s.skillName).join(' / ') : '';
+    const natureLabel = (!f.nature || f.nature === 'neutral') ? '普通' : f.nature;
+    const spirit = (typeof SPIRITS !== 'undefined') ? SPIRITS.find(s => s.n === f.spiritName) : null;
+    const imgUrl = spirit && spirit.img ? spirit.img : '';
+    const bgHtml = imgUrl
+      ? `<div class="fav-item-bg" style="background-image:url('${imgUrl.replace(/'/g, '%27')}')"></div>`
+      : '';
+    const label = (f.spiritName || f.name) + ' | ' + natureLabel;
     html += `
-      <div class="fav-item" data-fav-idx="${idx}" style="flex-direction:column;align-items:stretch;gap:0;padding:10px;min-width:0">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-          <span class="fav-item-name" style="font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</span>
-          <button class="fav-item-del" data-del-id="${f.id}" title="删除">✕</button>
-        </div>
-        <div style="font-size:11px;color:var(--text2);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.spiritName} · ${f.nature || '普通'} · ${f.createdAt}</div>
-        ${skillPreview ? `<div style="font-size:11px;color:var(--text2);margin-bottom:6px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🗡 ${skillPreview}</div>` : '<div style="margin-bottom:6px"></div>'}
-        <div style="display:flex;gap:6px">
-          <button class="fav-save-btn fav-apply-atk" data-fav-idx="${idx}" style="flex:1;font-size:11px;padding:5px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">⚔️ 攻击方</button>
-          <button class="fav-save-btn fav-apply-def" data-fav-idx="${idx}" style="flex:1;font-size:11px;padding:5px 4px;background:rgba(82,196,164,.15);border-color:rgba(82,196,164,.6);color:#52c4a4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">🛡 防御方</button>
+      <div class="fav-item" data-fav-idx="${idx}">
+        ${bgHtml}
+        <div class="fav-item-body">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span class="fav-item-name" style="font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${label}</span>
+            <button class="fav-item-del" data-del-id="${f.id}" title="删除">✕</button>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="fav-save-btn fav-apply-atk" data-fav-idx="${idx}">攻击方</button>
+            <button class="fav-save-btn fav-apply-def" data-fav-idx="${idx}">防御方</button>
+          </div>
         </div>
       </div>`;
   });
   html += '</div>';
   panel.innerHTML = html;
 
+  if (open) applyFavPanelPos(panel);
+
   // 事件绑定（避免 onclick 字符串解析）
   panel.querySelectorAll('.fav-apply-atk').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.favIdx);
       loadFavConfig(favs[idx], 'atk');
-      // 视觉反馈
-      btn.textContent = '✅ 已应用';
-      setTimeout(() => { btn.textContent = '⚔️ 攻击方'; }, 1200);
+      btn.textContent = '已应用';
+      setTimeout(() => { btn.textContent = '攻击方'; }, 1200);
     });
   });
   panel.querySelectorAll('.fav-apply-def').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.favIdx);
       loadFavConfig(favs[idx], 'def');
-      btn.textContent = '✅ 已应用';
-      setTimeout(() => { btn.textContent = '🛡 防御方'; }, 1200);
+      btn.textContent = '已应用';
+      setTimeout(() => { btn.textContent = '防御方'; }, 1200);
     });
   });
   panel.querySelectorAll('.fav-item-del').forEach(btn => {
     btn.addEventListener('click', () => deleteFav(btn.dataset.delId));
   });
-}
-
-// 在精灵下拉框顶部注入收藏分组
-function renderFavGroupInDropdown(side) {
-  const dd = document.getElementById(side + '-dropdown');
-  if (!dd) return;
-  // 移除旧的收藏组
-  const old = dd.querySelector('.fav-group-header');
-  if (old) old.remove();
-  const oldBody = dd.querySelector('.fav-group-body');
-  if (oldBody) oldBody.remove();
-
-  const favs = loadFavorites();
-  if (!favs.length) return;
-
-  const hdr = document.createElement('div');
-  hdr.className = 'fav-group-header dropdown-group-header';
-  hdr.style.cssText = 'padding:4px 12px 2px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)';
-  hdr.innerHTML = '<span style="font-size:12px;color:#ffd54f;font-weight:700">⭐ 收藏配置</span><span style="font-size:11px;color:var(--text2)">' + favs.length + ' 项</span><span style="font-size:10px;color:var(--text2);margin-left:auto" class="fav-grp-arrow">▶</span>';
-
-  const body = document.createElement('div');
-  body.className = 'fav-group-body';
-  body.style.display = 'none';
-  favs.forEach((f, idx) => {
-    const item = document.createElement('div');
-    item.style.cssText = 'padding:8px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:1px solid var(--border)22';
-    item.innerHTML = `<span style="flex:1;font-size:13px">${f.name}</span><span style="font-size:11px;color:var(--text2)">${f.spiritName}</span><span style="font-size:11px;color:var(--text2)">${f.nature||'普通'}</span>`;
-    item.addEventListener('mousedown', e => {
-      e.preventDefault();
-      loadFavConfig(f, side);
-      dd.classList.remove('open');
-      const arrow = document.getElementById(side + '-search-arrow');
-      if (arrow) arrow.textContent = '▼';
-    });
-    body.appendChild(item);
-  });
-
-  hdr.addEventListener('click', () => {
-    const isOpen = body.style.display !== 'none';
-    body.style.display = isOpen ? 'none' : 'block';
-    hdr.querySelector('.fav-grp-arrow').textContent = isOpen ? '▶' : '▼';
-  });
-
-  dd.insertBefore(body, dd.firstChild);
-  dd.insertBefore(hdr, dd.firstChild);
 }
 
 // ============================================================
