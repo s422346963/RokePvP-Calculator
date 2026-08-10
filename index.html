@@ -110,22 +110,22 @@
       </div>
       <div class="stats-grid" id="atk-stats" style="display:none">
         <div class="stat-box active-atk" id="atk-stat-patk" onclick="setAtkStat('patk')" title="使用物攻出招">
-          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value atk-color" id="val-atk-patk">—</div><div class="stat-base" id="base-atk-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-patk" min="0" max="100" value="60" placeholder="IV" title="物攻个体值(0-100)" onclick="event.stopPropagation()" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value atk-color" id="val-atk-patk">—</div><div class="stat-base" id="base-atk-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-patk" value="60" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-patk','atk')">60</button></div>
         </div>
         <div class="stat-box" id="atk-stat-matk" onclick="setAtkStat('matk')" title="使用魔攻出招">
-          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value atk-color" id="val-atk-matk">—</div><div class="stat-base" id="base-atk-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-matk" min="0" max="100" value="60" placeholder="IV" title="魔攻个体值(0-100)" onclick="event.stopPropagation()" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value atk-color" id="val-atk-matk">—</div><div class="stat-base" id="base-atk-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-matk" value="60" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-matk','atk')">60</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-atk-spd">—</div><div class="stat-base" id="base-atk-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-spd" min="0" max="100" value="60" placeholder="IV" title="速度个体值(0-100)" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-atk-spd">—</div><div class="stat-base" id="base-atk-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-spd" value="60" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-spd','atk')">60</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-hp" min="0" max="100" value="0" placeholder="IV" title="HP个体值(0-100)" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-hp" value="0" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-hp','atk')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value" id="val-atk-pdef">—</div><div class="stat-base" id="base-atk-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-pdef" min="0" max="100" value="0" placeholder="IV" title="物防个体值(0-100)" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value" id="val-atk-pdef">—</div><div class="stat-base" id="base-atk-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-pdef" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-pdef','atk')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value" id="val-atk-mdef">—</div><div class="stat-base" id="base-atk-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="atk-iv-mdef" min="0" max="100" value="0" placeholder="IV" title="魔防个体值(0-100)" oninput="recalcStats('atk');calc()"></div>
+          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value" id="val-atk-mdef">—</div><div class="stat-base" id="base-atk-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-mdef','atk')">0</button></div>
         </div>
       </div>
       <div class="level-row" id="atk-level-row" style="display:none">
@@ -211,22 +211,22 @@
       </div>
       <div class="stats-grid" id="def-stats" style="display:none">
         <div class="stat-box active-def" id="def-stat-pdef" onclick="setDefStat('pdef')" title="使用物防承受">
-          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value def-color" id="val-def-pdef">—</div><div class="stat-base" id="base-def-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-def" min="0" max="100" value="0" placeholder="IV" title="物防个体值(0-100)" onclick="event.stopPropagation()" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value def-color" id="val-def-pdef">—</div><div class="stat-base" id="base-def-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-def" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-def','def')">0</button></div>
         </div>
         <div class="stat-box" id="def-stat-mdef" onclick="setDefStat('mdef')" title="使用魔防承受">
-          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value def-color" id="val-def-mdef">—</div><div class="stat-base" id="base-def-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-mdef" min="0" max="100" value="0" placeholder="IV" title="魔防个体值(0-100)" onclick="event.stopPropagation()" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value def-color" id="val-def-mdef">—</div><div class="stat-base" id="base-def-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-mdef','def')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-spd" min="0" max="100" value="0" placeholder="IV" title="速度个体值(0-100)" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-spd" value="0" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-spd','def')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-def-hp">—</div><div class="stat-base" id="base-def-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-hp" min="0" max="100" value="60" placeholder="IV" title="HP个体值(0-100)" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-def-hp">—</div><div class="stat-base" id="base-def-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-hp" value="60" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-hp','def')">60</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value" id="val-def-patk">—</div><div class="stat-base" id="base-def-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-patk" min="0" max="100" value="0" placeholder="IV" title="物攻个体值(0-100)" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value" id="val-def-patk">—</div><div class="stat-base" id="base-def-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-patk" value="0" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-patk','def')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value" id="val-def-matk">—</div><div class="stat-base" id="base-def-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><input class="stat-iv-input" type="number" id="def-iv-matk" min="0" max="100" value="0" placeholder="IV" title="魔攻个体值(0-100)" oninput="recalcStats('def');calc()"></div>
+          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value" id="val-def-matk">—</div><div class="stat-base" id="base-def-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-matk" value="0" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-matk','def')">0</button></div>
         </div>
       </div>
 
@@ -570,6 +570,25 @@ function readIV(id) {
   const raw = document.getElementById(id).value;
   if (raw === '' || raw === null) return 50; // 空时默认50
   return Math.max(0, Math.min(100, parseInt(raw, 10) || 0));
+}
+
+// 设置个体值按钮的显示值与内部 value（按钮用 value 属性存储，textContent 显示）
+function setIv(id, v) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  v = Math.max(0, Math.min(100, parseInt(v, 10) || 0));
+  el.value = v;
+  el.textContent = v;
+}
+
+// 点击个体值按钮：当前为 0 则切到 60，否则（含 60）切回 0
+function toggleIV(id, side) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const cur = parseInt(el.value, 10) || 0;
+  setIv(id, cur === 0 ? 60 : 0);
+  recalcStats(side);
+  calc();
 }
 
 
@@ -1257,19 +1276,19 @@ function swapSpirits() {
 
   // IV 不参与交换，始终重置为固定默认值
   // 攻方：物攻/魔攻/速度 = 60，其余 = 0
-  document.getElementById('atk-iv-patk').value = 60;
-  document.getElementById('atk-iv-matk').value = 60;
-  document.getElementById('atk-iv-spd').value  = 60;
-  document.getElementById('atk-iv-hp').value   = 0;
-  document.getElementById('atk-iv-pdef').value = 0;
-  document.getElementById('atk-iv-mdef').value = 0;
+  setIv('atk-iv-patk', 60);
+  setIv('atk-iv-matk', 60);
+  setIv('atk-iv-spd', 60);
+  setIv('atk-iv-hp', 0);
+  setIv('atk-iv-pdef', 0);
+  setIv('atk-iv-mdef', 0);
   // 防方：HP = 60，其余 = 0
-  document.getElementById('def-iv-hp').value   = 60;
-  document.getElementById('def-iv-def').value  = 0;
-  document.getElementById('def-iv-mdef').value = 0;
-  document.getElementById('def-iv-spd').value  = 0;
-  document.getElementById('def-iv-patk').value = 0;
-  document.getElementById('def-iv-matk').value = 0;
+  setIv('def-iv-hp', 60);
+  setIv('def-iv-def', 0);
+  setIv('def-iv-mdef', 0);
+  setIv('def-iv-spd', 0);
+  setIv('def-iv-patk', 0);
+  setIv('def-iv-matk', 0);
 
   // 重新渲染两侧卡片与属性
   renderCard('atk', state.atk);
@@ -3229,8 +3248,8 @@ function loadFavConfig(fav, side) {
   // ── 3. 个体值 ──
   if (fav.ivs) {
     ['hp','patk','matk','pdef','mdef','spd'].forEach(k => {
-      const el = document.getElementById(getIvElId(side, k));
-      if (el && fav.ivs[k] !== undefined) el.value = fav.ivs[k];
+      const id = getIvElId(side, k);
+      if (fav.ivs[k] !== undefined) setIv(id, fav.ivs[k]);
     });
   }
 
