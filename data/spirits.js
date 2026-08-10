@@ -7586,6 +7586,20 @@ const SPIRITS =[
     "st": "",
     "tr": "安眠",
     "img": "https://cdn.jsdelivr.net/gh/s422346963/public@picgo/picgo/%E7%9D%A1%E9%93%83%E9%9B%AA%E5%BD%B1%E5%A8%83%E5%A8%83.webp"
+  },
+  {
+    "n": "宝藏沙狐",
+    "hp": 96,
+    "pa": 101,
+    "ma": 41,
+    "pd": 124,
+    "md": 91,
+    "sp": 100,
+    "a1": "普通",
+    "a2": "",
+    "st": "",
+    "tr": "博物",
+    "img": "https://raw.githubusercontent.com/s422346963/public/picgo/picgo/宝藏沙狐.png"
   }
 ]
 
