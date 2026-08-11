@@ -11,8 +11,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="css/head.css">
   <script src="data/spirits.js"></script>
-  <script src="data/spirit_skill.js"></script>
-  <script src="data/spirit_trait.js"></script>
   <script src="data/skills.js"></script>
   <script src="data/type.js"></script>
   <script src="data/pinyin.js"></script>
@@ -1414,7 +1412,7 @@ function updateTraitPanelForMode(mode, skill) {
   const atkCondEl = document.getElementById(`trait-atk-cond-${mode}`);
 
   if (atkNameEl) atkNameEl.textContent = atkTr || '暂无特性';
-  if (atkDescEl) atkDescEl.textContent = (atkTr && TRAIT_DESC[atkTr]) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
+  if (atkDescEl) atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
 
   // ── 防方面板 ──
   const defNameEl = document.getElementById(`trait-def-name-${mode}`);
@@ -1423,7 +1421,7 @@ function updateTraitPanelForMode(mode, skill) {
   const defCondEl = document.getElementById(`trait-def-cond-${mode}`);
 
   if (defNameEl) defNameEl.textContent = defTr || '暂无特性';
-  if (defDescEl) defDescEl.textContent = (defTr && TRAIT_DESC[defTr]) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
+  if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
 
   if (!skill) {
     if (atkMultEl) atkMultEl.value = '1.00';
@@ -1449,20 +1447,20 @@ function updateTraitPanelForMode(mode, skill) {
   if (atkCondEl) renderTraitCond(atkResult.needsInput, atkCondEl, mode, 'atk');
   // 倍率提示
   if (atkDescEl && atkResult.desc && atkResult.desc !== '特性对此技能无直接伤害加成' && atkResult.desc !== '无特性') {
-    atkDescEl.innerHTML = `<span>${(atkTr && TRAIT_DESC[atkTr]) || ''}</span>` +
+    atkDescEl.innerHTML = `<span>${(state.atk && state.atk.tr_desc) || ''}</span>` +
       `<div style="margin-top:4px;font-weight:600;color:var(--atk-color)">✨ ${atkResult.desc}</div>`;
   } else if (atkDescEl) {
-    atkDescEl.textContent = (atkTr && TRAIT_DESC[atkTr]) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
+    atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
   }
 
   // 更新防方倍率
   if (defMultEl) defMultEl.value = defResult.mult.toFixed(2);
   if (defCondEl) renderTraitCond(defResult.needsInput, defCondEl, mode, 'def');
   if (defDescEl && defResult.desc && defResult.desc !== '特性对此技能无直接伤害加成' && defResult.desc !== '无特性') {
-    defDescEl.innerHTML = `<span>${(defTr && TRAIT_DESC[defTr]) || ''}</span>` +
+    defDescEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span>` +
       `<div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${defResult.desc}</div>`;
   } else if (defDescEl) {
-    defDescEl.textContent = (defTr && TRAIT_DESC[defTr]) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
+    defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
   }
 }
 
@@ -1528,9 +1526,9 @@ function onTraitCondChange(mode, side) {
     const descEl = document.getElementById(`trait-atk-desc-${mode}`);
     const atkTr = state.atk ? state.atk.tr : null;
     if (descEl && r.desc && r.desc !== '特性对此技能无直接伤害加成' && r.desc !== '无特性') {
-      descEl.innerHTML = `<span>${(atkTr && TRAIT_DESC[atkTr]) || ''}</span><div style="margin-top:4px;font-weight:600;color:var(--atk-color)">✨ ${r.desc}</div>`;
+      descEl.innerHTML = `<span>${(state.atk && state.atk.tr_desc) || ''}</span><div style="margin-top:4px;font-weight:600;color:var(--atk-color)">✨ ${r.desc}</div>`;
     } else if (descEl) {
-      descEl.textContent = (atkTr && TRAIT_DESC[atkTr]) || '';
+      descEl.textContent = (state.atk && state.atk.tr_desc) || '';
     }
   } else {
     const r = calcDefTraitMult(state.atk, state.def, skill, opts);
@@ -1539,9 +1537,9 @@ function onTraitCondChange(mode, side) {
     const descEl = document.getElementById(`trait-def-desc-${mode}`);
     const defTr = state.def ? state.def.tr : null;
     if (descEl && r.desc && r.desc !== '特性对此技能无直接伤害加成' && r.desc !== '无特性') {
-      descEl.innerHTML = `<span>${(defTr && TRAIT_DESC[defTr]) || ''}</span><div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${r.desc}</div>`;
+      descEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span><div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${r.desc}</div>`;
     } else if (descEl) {
-      descEl.textContent = (defTr && TRAIT_DESC[defTr]) || '';
+      descEl.textContent = (state.def && state.def.tr_desc) || '';
     }
   }
   // 触发重算
@@ -1592,31 +1590,16 @@ function readTraitOpts() {
 // ============================================================
 
 // 缓存当前精灵的全量伤害技能列表（flat，不分组）供过滤用
-let _comboAllSkills = [];  // [{skill对象, isIllegal}]
+let _comboAllSkills = [];  // [{skill对象}]
 
 function rebuildQuickSkillSelect() {
   // 重新构建 _comboAllSkills 并渲染面板（无过滤）
   const input = document.getElementById('skill-combo-input');
   if (!input) return;
 
-  const atkName   = state.atk ? state.atk.n : null;
-  let legalSet  = (atkName && SPIRIT_SKILLS[atkName] && SPIRIT_SKILLS[atkName].length)
-    ? new Set(SPIRIT_SKILLS[atkName]) : null;
-
-  if (!legalSet) {
-    legalSet = new Set(SKILLS.map(s => s.n));
-  }
-
-  // 合法技能（该精灵可学）放前，非法放后
-  const legal   = SKILLS.filter(s =>  legalSet.has(s.n));
-  const illegal = SKILLS.filter(s => !legalSet.has(s.n));
-  _comboAllSkills = [
-    ...legal.map(s  => ({ skill: s, isIllegal: false })),
-    ...illegal.map(s => ({ skill: s, isIllegal: true  })),
-  ];
-
-  const total = legal.length;
-  input.placeholder = '搜索技能… （' + total + ' 个可用 / ' + illegal.length + ' 个不可学）';
+  const total = SKILLS.length;
+  _comboAllSkills = SKILLS.map(s => ({ skill: s }));
+  input.placeholder = '搜索技能… （' + total + ' 个）';
   input.readOnly = false;
 
   // 默认面板：合法技能按属性分组
@@ -1639,16 +1622,15 @@ function renderComboPanel(q) {
   let html = '';
 
   if (!q) {
-    // 无输入时：合法技能按属性分组显示（状态技能单独分组）
+    // 无输入时：按属性分组显示（状态技能单独分组）
     const groups = {};
-    const statusLegal = [];
-    filtered.filter(e => !e.isIllegal).forEach(e => {
-      if (e.skill.k === '状态') { statusLegal.push(e.skill); return; }
+    const statusSkills = [];
+    filtered.forEach(e => {
+      if (e.skill.k === '状态') { statusSkills.push(e.skill); return; }
       const a = e.skill.a;
       if (!groups[a]) groups[a] = [];
       groups[a].push(e.skill);
     });
-    const illegalList = filtered.filter(e => e.isIllegal).map(e => e.skill);
 
     Object.keys(groups).sort().forEach(attr => {
       const bg = TYPE_COLORS[attr] || '#888';
@@ -1657,50 +1639,36 @@ function renderComboPanel(q) {
         '<span class="type-tag" style="background:' + bg + ';color:' + tc + ';font-size:11px">' + attr + '</span>' +
         '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + groups[attr].length + ' 个</span>' +
         '</div>';
-      groups[attr].sort((a, b) => b.p - a.p).forEach(s => {
-        html += makeSkillItem(s, false);
-      });
+      groups[attr].sort((a, b) => b.p - a.p).forEach(s => { html += makeSkillItem(s); });
     });
 
-    if (statusLegal.length) {
+    if (statusSkills.length) {
       html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
         '<span style="font-size:11px;color:#80cbc4;font-weight:600">状态技能</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusLegal.length + ' 个</span>' +
+        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusSkills.length + ' 个</span>' +
         '</div>';
-      statusLegal.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s, false); });
-    }
-
-    if (illegalList.length) {
-      html += '<div class="skill-lib-separator">—— 该精灵不可学习（' + illegalList.length + '）——</div>';
-      illegalList.forEach(s => { html += makeSkillItem(s, true); });
+      statusSkills.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s); });
     }
   } else {
-    // 有输入时：扁平列表，合法在前
-    const legal   = filtered.filter(e => !e.isIllegal);
-    const illegal = filtered.filter(e =>  e.isIllegal);
-    legal.forEach(e   => { html += makeSkillItem(e.skill, false); });
-    if (illegal.length) {
-      html += '<div class="skill-lib-separator">—— 不可学习 ——</div>';
-      illegal.forEach(e => { html += makeSkillItem(e.skill, true); });
-    }
+    // 有输入时：扁平列表
+    filtered.forEach(e => { html += makeSkillItem(e.skill); });
   }
 
   dd.innerHTML = html;
   dd.querySelectorAll('.skill-lib-item').forEach(item => {
     item.addEventListener('mousedown', e => {
-      e.preventDefault(); // 阻止 input 失焦
+      e.preventDefault();
       const skill = SKILLS.find(s => s.n === item.dataset.name);
       if (skill) applyQuickSkill(skill);
     });
   });
 }
 
-function makeSkillItem(skill, isIllegal) {
+function makeSkillItem(skill) {
   const sbg       = TYPE_COLORS[skill.a] || '#888';
   const stc       = TYPE_TEXT_DARK.has(skill.a) ? '#333' : '#fff';
   const isStatus  = skill.k === '状态';
   const kindColor = skill.k === '物攻' ? '#ff9966' : skill.k === '魔攻' ? '#88aaff' : '#80cbc4';
-  const illMark   = isIllegal ? ' <em style="color:#f66;font-size:10px;font-style:normal">[illegal]</em>' : '';
   const attrTag   = isStatus
     ? '<span class="sli-kind" style="color:#80cbc4;font-weight:600">状态</span>'
     : '<span class="type-tag" style="background:' + sbg + ';color:' + stc + '">' + skill.a + '</span>' +
@@ -1708,8 +1676,8 @@ function makeSkillItem(skill, isIllegal) {
   const powerTag  = isStatus
     ? '<span class="sli-power" style="color:var(--text2)">威力 --</span>'
     : '<span class="sli-power">威力 ' + skill.p + '</span>';
-  return '<div class="skill-lib-item' + (isIllegal ? ' skill-illegal' : '') + '" data-name="' + skill.n + '">' +
-    '<span class="sli-name">' + skill.n + illMark + '</span>' +
+  return '<div class="skill-lib-item" data-name="' + skill.n + '">' +
+    '<span class="sli-name">' + skill.n + '</span>' +
     attrTag +
     powerTag +
   '</div>';
@@ -2265,35 +2233,21 @@ function filterSkillLib() {
   const dd = document.getElementById('skill-lib-dropdown');
   if (!q) { dd.classList.remove('open'); return; }
 
-  // 获取攻击方可用技能集合
-  const atkName = state.atk ? state.atk.n : null;
-  const legalSet = (atkName && SPIRIT_SKILLS[atkName] && SPIRIT_SKILLS[atkName].length)
-    ? new Set(SPIRIT_SKILLS[atkName]) : null;
-
   const matched = SKILLS.filter(s => matchQuery(s.n, q));
   if (!matched.length) { dd.classList.remove('open'); return; }
 
-  // 合法技能在前，非法技能置灰在后
-  const legal   = legalSet ? matched.filter(s =>  legalSet.has(s.n)) : matched;
-  const illegal = legalSet ? matched.filter(s => !legalSet.has(s.n)) : [];
-
-  const renderItem = (s, isIllegal) => {
+  const renderItem = (s) => {
     const bg = TYPE_COLORS[s.a] || '#888';
     const tc = TYPE_TEXT_DARK.has(s.a) ? '#333' : '#fff';
-    const illegalMark = isIllegal ? ` <em style="color:#f66;font-size:10px;font-style:normal">[illegal]</em>` : '';
-    return `<div class="skill-lib-item${isIllegal ? ' skill-illegal' : ''}" data-name="${s.n}">
-      <span class="sli-name">${s.n}${illegalMark}</span>
+    return `<div class="skill-lib-item" data-name="${s.n}">
+      <span class="sli-name">${s.n}</span>
       <span class="type-tag" style="background:${bg};color:${tc}">${s.a}</span>
       <span class="sli-kind">${s.k}</span>
       <span class="sli-power">威力 ${s.p}</span>
     </div>`;
   };
 
-  dd.innerHTML = [
-    ...legal.map(s => renderItem(s, false)),
-    ...(illegal.length ? [`<div class="skill-lib-separator">—— 该精灵不可学习 ——</div>`] : []),
-    ...illegal.map(s => renderItem(s, true))
-  ].join('');
+  dd.innerHTML = matched.map(s => renderItem(s)).join('');
 
   dd.querySelectorAll('.skill-lib-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -2756,16 +2710,7 @@ function openFskDropdown(side, idx) {
     return;
   }
 
-  // 构建合法/非法列表（复用 Tab2 逻辑）
-  const spiritName = spirit.n;
-  const legalSet = (SPIRIT_SKILLS[spiritName] && SPIRIT_SKILLS[spiritName].length)
-    ? new Set(SPIRIT_SKILLS[spiritName]) : null;
-  const legal   = legalSet ? SKILLS.filter(s =>  legalSet.has(s.n)) : SKILLS;
-  const illegal = legalSet ? SKILLS.filter(s => !legalSet.has(s.n)) : [];
-  const allSkills = [
-    ...legal.map(s  => ({ skill: s, isIllegal: false })),
-    ...illegal.map(s => ({ skill: s, isIllegal: true  })),
-  ];
+  const allSkills = SKILLS.map(s => ({ skill: s }));
 
   // 过滤
   const filtered = q
@@ -2780,16 +2725,15 @@ function openFskDropdown(side, idx) {
 
   let html = '';
   if (!q) {
-    // 无输入：合法按属性分组，状态技能单独分组，非法置底
+    // 无输入：按属性分组显示（状态技能单独分组）
     const groups = {};
-    const statusLegal = [];
-    filtered.filter(e => !e.isIllegal).forEach(e => {
-      if (e.skill.k === '状态') { statusLegal.push(e.skill); return; }
+    const statusSkills = [];
+    filtered.forEach(e => {
+      if (e.skill.k === '状态') { statusSkills.push(e.skill); return; }
       const a = e.skill.a;
       if (!groups[a]) groups[a] = [];
       groups[a].push(e.skill);
     });
-    const illegalList = filtered.filter(e => e.isIllegal).map(e => e.skill);
     Object.keys(groups).sort().forEach(attr => {
       const bg = TYPE_COLORS[attr] || '#888';
       const tc = TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff';
@@ -2797,28 +2741,18 @@ function openFskDropdown(side, idx) {
         '<span class="type-tag" style="background:' + bg + ';color:' + tc + ';font-size:11px">' + attr + '</span>' +
         '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + groups[attr].length + ' 个</span>' +
         '</div>';
-      groups[attr].sort((a, b) => b.p - a.p).forEach(s => { html += makeSkillItem(s, false); });
+      groups[attr].sort((a, b) => b.p - a.p).forEach(s => { html += makeSkillItem(s); });
     });
-    if (statusLegal.length) {
+    if (statusSkills.length) {
       html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
         '<span style="font-size:11px;color:#80cbc4;font-weight:600">状态技能</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusLegal.length + ' 个</span>' +
+        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusSkills.length + ' 个</span>' +
         '</div>';
-      statusLegal.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s, false); });
-    }
-    if (illegalList.length) {
-      html += '<div class="skill-lib-separator">—— 该精灵不可学习（' + illegalList.length + '）——</div>';
-      illegalList.forEach(s => { html += makeSkillItem(s, true); });
+      statusSkills.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s); });
     }
   } else {
-    // 有输入：扁平，合法在前
-    const legalFiltered   = filtered.filter(e => !e.isIllegal);
-    const illegalFiltered = filtered.filter(e =>  e.isIllegal);
-    legalFiltered.forEach(e   => { html += makeSkillItem(e.skill, false); });
-    if (illegalFiltered.length) {
-      html += '<div class="skill-lib-separator">—— 不可学习 ——</div>';
-      illegalFiltered.forEach(e => { html += makeSkillItem(e.skill, true); });
-    }
+    // 有输入：扁平列表
+    filtered.forEach(e => { html += makeSkillItem(e.skill); });
   }
 
   drop.innerHTML = html;

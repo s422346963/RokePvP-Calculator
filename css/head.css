@@ -529,7 +529,6 @@
 
   }
 
-    .skill-illegal { opacity: 0.5; }
     .skill-lib-separator { padding: 4px 12px; font-size: 11px; color: var(--text2); text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(128,128,128,0.06); }
     #skill-combo-input:hover { border-color: var(--accent); }
     .dropdown-group-header:hover { background: var(--card2); }

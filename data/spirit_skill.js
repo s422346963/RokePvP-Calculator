@@ -1,3 +1,0 @@
-const SPIRIT_SKILLS = {
- 
-};
