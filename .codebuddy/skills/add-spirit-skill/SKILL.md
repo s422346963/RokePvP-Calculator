@@ -1,6 +1,6 @@
 ---
 name: "add-spirit-skill"
-description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵，在 data/spirit_trait.js 中添加特性描述"
+description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵"
 ---
 
 # Add Spirit Skill
@@ -24,7 +24,7 @@ description: "新增精灵资质数据。在 data/spirits.js 中添加新精灵�
 
 ## 功能说明
 1. 在 `data/spirits.js` 中添加新精灵数据，a1、a2、st、img 留空
-2. 在 `data/spirit_trait.js` 中添加新特性描述（如果特性不存在）
+
 
 ## 说明
 
@@ -47,15 +47,6 @@ spirits.js数据结构：
         "img": ""
       }
   ]
-```
-
-spirit_trait.js数据结构：
-
-```
-{
-		'警惕': '使用技能时，敌方获得2层中毒。',
-  		'鼓气': '使用能耗为3的技能时，获得攻防+20%。',
-}
 ```
 
 
@@ -92,8 +83,3 @@ spirit_trait.js数据结构：
 		"tr": "留学生",
 		"img": ""
 	}
-	在data/spirit_trait.js中新增一条特性描述
-	'留学生': '自己全技能能耗+2,可以学习全部攻击技能'
-
-
-​	

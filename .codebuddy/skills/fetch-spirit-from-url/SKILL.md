@@ -1,6 +1,6 @@
 ---
 name: "fetch-spirit-from-url"
-description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-info-attrlist 的元素中提取精灵资质数据（生命/物攻/魔攻/物防/魔防/速度），从 class 为 sprite-trait-desc 的元素中提取精灵特性，并将数据写入 data/spirits.js、data/spirit_trait.js"
+description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-info-attrlist 的元素中提取精灵资质数据（生命/物攻/魔攻/物防/魔防/速度），从 class 为 sprite-trait-desc 的元素中提取精灵特性"
 ---
 
 # Fetch Spirit From URL
@@ -40,7 +40,6 @@ description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-
 
 3. 将解析得到的数据写入以下文件：
    - `data/spirits.js`：在 `SPIRITS` 数组中新增一条精灵记录，a1、a2、st、img 留空（除非页面中能明确获取）。
-   - `data/spirit_trait.js`：若特性名称 `tr` 在 `TRAIT_DESC` 中不存在，则新增一条特性描述 `tr: trait_desc（写入前先读取对应文件，避免覆盖已有内容）`。
 
 ## 数据结构
 
@@ -60,23 +59,12 @@ description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-
         "a2": "",
         "st": "最终形态",
         "tr": "警惕",
+        "tr_desc":"最好的伙伴的特性描述"
         "img": ""
       }
   ]
 ```
 
-`data/spirit_trait.js` 数据结构（TRAIT_DESC 对象）：
-
-```
-{
-		'警惕': '使用技能时，敌方获得2层中毒。',
-  		'鼓气': '使用能耗为3的技能时，获得攻防+20%。',
-}
-```
-
-```
-
-```
 
 ## 示例
 
@@ -88,7 +76,7 @@ description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-
      "n": "迪莫",
      "hp": 120, "pa": 80, "ma": 80, "pd": 105, "md": 105, "sp": 92,
      "tr": "最好的伙伴",
-     "trait_desc": "最好的伙伴的特性描述……"
+     "trait_desc": "最好的伙伴的特性描述"
    }
    ```
 2. 在 `data/spirits.js` 中新增：
@@ -96,8 +84,6 @@ description: "从给定的URL链接中抓取精灵数据。从 class 为 sprite-
    {
      "n": "迪莫",
      "hp": 120, "pa": 80, "ma": 80, "pd": 105, "md": 105, "sp": 92,
-     "a1": "", "a2": "", "st": "", "tr": "最好的伙伴", "img": ""
+     "a1": "", "a2": "", "st": "", "tr": "最好的伙伴", "img": "","tr_desc":"最好的伙伴的特性描述"
    }
    ```
-3. 在 `data/spirit_trait.js` 中新增（若特性不存在）：
-   `'最好的伙伴': '最好的伙伴的特性描述……'`

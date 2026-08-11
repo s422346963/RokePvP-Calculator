@@ -9483,8 +9483,8 @@ const SPIRITS =
         "sp": 80,
         "a1": "普通",
         "a2": "",
-        "st": "",
         "tr": "博物",
+        "st": "",
         "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/49/9l4gtjcogcjjhodordnz9dye7tnhvdb.png/180px-JL_fangfanghu.png",
         "tr_desc": "在场时，识破精灵的变化效果，解除其伪装。"
     },
@@ -9499,8 +9499,8 @@ const SPIRITS =
         "sp": 100,
         "a1": "普通",
         "a2": "",
-        "st": "",
         "tr": "博物",
+        "st": "",
         "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/b0vodz0btqjvumlf48gflbfdzdo15h0.png/180px-JL_hulianchacha.png",
         "tr_desc": "在场时，识破精灵的变化效果，解除其伪装。"
     }
