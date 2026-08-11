@@ -13,7 +13,8 @@ const SPIRITS =
         "a2": "",
         "tr": "最好的伙伴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/sw0puzl5c0n8hu49ryqk7drh1gxtblr.png/180px-JL_dimo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/sw0puzl5c0n8hu49ryqk7drh1gxtblr.png/180px-JL_dimo.png",
+        "tr_desc": "造成克制伤害后，获得攻防速+20%，并回复2能量。"
     },
     {
         "no": "001",
@@ -28,7 +29,8 @@ const SPIRITS =
         "a2": "",
         "tr": "裁决",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/7qezwl2nb2ymfw4dos2vu163szd9p2h.png/180px-JL_shengguangdimo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/7qezwl2nb2ymfw4dos2vu163szd9p2h.png/180px-JL_shengguangdimo.png",
+        "tr_desc": "造成克制伤害后，获得攻防速+20%，回复2能量，首个技能替换为光系愿力冲击。"
     },
     {
         "no": "001",
@@ -43,7 +45,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "滋养",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/dfjw0rmtvjca55818p4zrv3rgh53wuc.png/180px-JL_shengcaodimo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/dfjw0rmtvjca55818p4zrv3rgh53wuc.png/180px-JL_shengcaodimo.png",
+        "tr_desc": "造成克制伤害后，获得攻防速+20%，回复2能量，首个技能替换为草系愿力冲击。"
     },
     {
         "no": "001",
@@ -58,7 +61,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "点燃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/f9i1rwu00yct36m8hwm9lra0kkjcry0.png/180px-JL_shenghuodimo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/f9i1rwu00yct36m8hwm9lra0kkjcry0.png/180px-JL_shenghuodimo.png",
+        "tr_desc": "造成克制伤害后，获得攻防速+20%，回复2能量，首个技能替换为火系愿力冲击。"
     },
     {
         "no": "001",
@@ -73,7 +77,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "净化",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/69/h6he56fvj9hogroxuwde360noeykscr.png/180px-JL_shengshuidimo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/69/h6he56fvj9hogroxuwde360noeykscr.png/180px-JL_shengshuidimo.png",
+        "tr_desc": "造成克制伤害后，获得攻防速+20%，回复2能量，首个技能替换为水系愿力冲击。"
     },
     {
         "no": "002",
@@ -88,7 +93,8 @@ const SPIRITS =
         "a2": "",
         "tr": "氧循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ee/052k5u3hhjgn9m5hzbv2e7bzuqqg6v1.png/180px-JL_miaomiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ee/052k5u3hhjgn9m5hzbv2e7bzuqqg6v1.png/180px-JL_miaomiao.png",
+        "tr_desc": "使用草系技能后，回复10%生命。"
     },
     {
         "no": "003",
@@ -103,7 +109,8 @@ const SPIRITS =
         "a2": "",
         "tr": "氧循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/b90yd1wb94yfv670cnsnn95r7g85u58.png/180px-JL_miaowu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/b90yd1wb94yfv670cnsnn95r7g85u58.png/180px-JL_miaowu.png",
+        "tr_desc": "使用草系技能后，回复10%生命。"
     },
     {
         "no": "004",
@@ -118,7 +125,8 @@ const SPIRITS =
         "a2": "",
         "tr": "氧循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/hco9lbeodwhu0lv8xz0qlpen2p21x2a.png/180px-JL_molimiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/hco9lbeodwhu0lv8xz0qlpen2p21x2a.png/180px-JL_molimiao.png",
+        "tr_desc": "使用草系技能后，回复10%生命。"
     },
     {
         "no": "004",
@@ -133,7 +141,8 @@ const SPIRITS =
         "a2": "",
         "tr": "深层氧循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/3lx2tas9ervt8e7hhp8o3nhvofygd1k.png/180px-JL_molimiao_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/3lx2tas9ervt8e7hhp8o3nhvofygd1k.png/180px-JL_molimiao_shouling.png",
+        "tr_desc": "使用草系技能后，回复15%生命。"
     },
     {
         "no": "004",
@@ -148,7 +157,8 @@ const SPIRITS =
         "a2": "",
         "tr": "草木苏醒时",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ee/e4w5hjhhbo71cy140prvt6eb3kjmv3y.png/180px-JL_wumiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ee/e4w5hjhhbo71cy140prvt6eb3kjmv3y.png/180px-JL_wumiao.png",
+        "tr_desc": "每回复1能量，物攻和魔攻永久+20%，攻击后重置。"
     },
     {
         "no": "005",
@@ -163,7 +173,8 @@ const SPIRITS =
         "a2": "",
         "tr": "助燃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ad/eigi6apueibdqnrkiwio8f60ex532zw.png/180px-JL_huohua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ad/eigi6apueibdqnrkiwio8f60ex532zw.png/180px-JL_huohua.png",
+        "tr_desc": "使用火系技能后，获得双攻+20%。"
     },
     {
         "no": "006",
@@ -178,7 +189,8 @@ const SPIRITS =
         "a2": "",
         "tr": "助燃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/hkz5kzn39wxdnugmj5fhgdwf2u1i048.png/180px-JL_yanhuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/hkz5kzn39wxdnugmj5fhgdwf2u1i048.png/180px-JL_yanhuo.png",
+        "tr_desc": "使用火系技能后，获得双攻+20%。"
     },
     {
         "no": "007",
@@ -193,7 +205,8 @@ const SPIRITS =
         "a2": "",
         "tr": "助燃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/boqwe6u97r8unsy5mzakw5zkfdbszob.png/180px-JL_huoshen.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/boqwe6u97r8unsy5mzakw5zkfdbszob.png/180px-JL_huoshen.png",
+        "tr_desc": "使用火系技能后，获得双攻+20%。"
     },
     {
         "no": "007",
@@ -208,7 +221,8 @@ const SPIRITS =
         "a2": "",
         "tr": "爆燃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/7ipufvmyuu0wz7o73cawbo3e29bn0xa.png/180px-JL_huoshen_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/7ipufvmyuu0wz7o73cawbo3e29bn0xa.png/180px-JL_huoshen_shouling.png",
+        "tr_desc": "使用火系技能后，获得双攻+30%。"
     },
     {
         "no": "008",
@@ -223,7 +237,8 @@ const SPIRITS =
         "a2": "",
         "tr": "浸润",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/mhbj8o4tgl6mnald2nbbsr4jn39auir.png/180px-JL_shuilanlan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/mhbj8o4tgl6mnald2nbbsr4jn39auir.png/180px-JL_shuilanlan.png",
+        "tr_desc": "使用水系技能后，全技能能耗-1。"
     },
     {
         "no": "009",
@@ -238,7 +253,8 @@ const SPIRITS =
         "a2": "",
         "tr": "浸润",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/f1zj5q9ebkwae83kb2ytwllk77byxl3.png/180px-JL_bobola.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/f1zj5q9ebkwae83kb2ytwllk77byxl3.png/180px-JL_bobola.png",
+        "tr_desc": "使用水系技能后，全技能能耗-1。"
     },
     {
         "no": "010",
@@ -253,7 +269,8 @@ const SPIRITS =
         "a2": "",
         "tr": "浸润",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2f/0wqphimotgpcz5rlcauthvx47atrsq0.png/180px-JL_shuiling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2f/0wqphimotgpcz5rlcauthvx47atrsq0.png/180px-JL_shuiling.png",
+        "tr_desc": "使用水系技能后，全技能能耗-1。"
     },
     {
         "no": "010",
@@ -268,7 +285,8 @@ const SPIRITS =
         "a2": "",
         "tr": "浪潮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/43/p95uogkvpgx6fi1kltoy8xy58yztz4w.png/180px-JL_shuiling_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/43/p95uogkvpgx6fi1kltoy8xy58yztz4w.png/180px-JL_shuiling_shouling.png",
+        "tr_desc": "使用水系技能后，全技能能耗-2。"
     },
     {
         "no": "011",
@@ -283,7 +301,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/lo66srvzxol3nxzggni3rksvstovv8s.png/180px-JL_yajiji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/lo66srvzxol3nxzggni3rksvstovv8s.png/180px-JL_yajiji.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -298,7 +317,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "011",
@@ -313,7 +333,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/ja0pcm43axwe3sc61eaglw5r7vulji8.png/180px-JL_yaji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/ja0pcm43axwe3sc61eaglw5r7vulji8.png/180px-JL_yaji.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -328,7 +349,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "011",
@@ -343,7 +365,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/oixnjxbkax0stq6kums502zxe6p0dai.png/180px-JL_yajiji_jijiya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/oixnjxbkax0stq6kums502zxe6p0dai.png/180px-JL_yajiji_jijiya.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -358,7 +381,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "011",
@@ -373,7 +397,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/ruu21bpma449jcz28vyljda37ews39t.png/180px-JL_dengyidengya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/ruu21bpma449jcz28vyljda37ews39t.png/180px-JL_dengyidengya.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -388,7 +413,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "011",
@@ -403,7 +429,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f6/l4z4x6ebk5oywkwzp75umazfu5z12kt.png/180px-JL_yajiji_ranleya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f6/l4z4x6ebk5oywkwzp75umazfu5z12kt.png/180px-JL_yajiji_ranleya.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -418,7 +445,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "011",
@@ -433,7 +461,8 @@ const SPIRITS =
         "a2": "",
         "tr": "挺起胸脯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4f/iopibmn3k4lkf0zvk7vxm6x8rewknd0.png/180px-JL_yajiji_qilaiya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4f/iopibmn3k4lkf0zvk7vxm6x8rewknd0.png/180px-JL_yajiji_qilaiya.png",
+        "tr_desc": "携带的能耗为1的技能，威力+50%。"
     },
     {
         "no": "011",
@@ -448,7 +477,8 @@ const SPIRITS =
         "a2": "",
         "tr": "“国王”的威严",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/j7jkx8rgrp2clyw0za1ptgf51qw3292.png/180px-JL_yajiji_shouling.png",
+        "tr_desc": ""
     },
     {
         "no": "012",
@@ -463,7 +493,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/tmjxdye6nimo0sd6kbz25r9angaffl5.png/180px-JL_banbanke.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/tmjxdye6nimo0sd6kbz25r9angaffl5.png/180px-JL_banbanke.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "013",
@@ -478,7 +509,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/4x85yk5hmmmurrdo2xc1jfeou1yoc0w.png/180px-JL_kakake.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/4x85yk5hmmmurrdo2xc1jfeou1yoc0w.png/180px-JL_kakake.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "014",
@@ -493,7 +525,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/30/1hajijlejjmw2valjmlx4f96svrxdwt.png/180px-JL_shuipaoke.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/30/1hajijlejjmw2valjmlx4f96svrxdwt.png/180px-JL_shuipaoke.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "012",
@@ -508,7 +541,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/ewhr0htxvw1369z1kcehwxjr3ddm242.png/180px-JL_banbanke_tuipi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/ewhr0htxvw1369z1kcehwxjr3ddm242.png/180px-JL_banbanke_tuipi.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "013",
@@ -523,7 +557,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/gaegk8u1x9dccyukhogp0k0tfn2l8wo.png/180px-JL_kakake_tuipi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/gaegk8u1x9dccyukhogp0k0tfn2l8wo.png/180px-JL_kakake_tuipi.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "014",
@@ -538,7 +573,8 @@ const SPIRITS =
         "a2": "",
         "tr": "缩壳",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/nhzelum2u3gd76w8o9xrla5bswiof9c.png/180px-JL_shuipaoke_tuipi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/nhzelum2u3gd76w8o9xrla5bswiof9c.png/180px-JL_shuipaoke_tuipi.png",
+        "tr_desc": "携带的防御技能能耗-2。"
     },
     {
         "no": "015",
@@ -553,7 +589,8 @@ const SPIRITS =
         "a2": "",
         "tr": "碰瓷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/60476cbxhhf2rwhn4sqk6uk8c799g4a.png/180px-JL_youlingyang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/60476cbxhhf2rwhn4sqk6uk8c799g4a.png/180px-JL_youlingyang.png",
+        "tr_desc": "自己使用恶系技能后，敌方失去2能量。"
     },
     {
         "no": "016",
@@ -568,7 +605,8 @@ const SPIRITS =
         "a2": "",
         "tr": "碰瓷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/80ocgqu4zr88s8ir1pz3mbmxn1hhcmt.png/180px-JL_lanlingyang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/80ocgqu4zr88s8ir1pz3mbmxn1hhcmt.png/180px-JL_lanlingyang.png",
+        "tr_desc": "自己使用恶系技能后，敌方失去2能量。"
     },
     {
         "no": "017",
@@ -583,7 +621,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "碰瓷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bd/3m1p9c7qd5klj92xhz42pghjt5bb0c4.png/180px-JL_guimeilingyang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bd/3m1p9c7qd5klj92xhz42pghjt5bb0c4.png/180px-JL_guimeilingyang.png",
+        "tr_desc": "自己使用恶系技能后，敌方失去2能量。"
     },
     {
         "no": "018",
@@ -598,7 +637,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/n7dh8n56ty0dxekm2d8wggqsh1e0ysr.png/180px-JL_xuerongniao_dong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/n7dh8n56ty0dxekm2d8wggqsh1e0ysr.png/180px-JL_xuerongniao_dong.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "019",
@@ -613,7 +653,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bd/cotkz4s2l6hof0jjo412fg2q36mclgc.png/180px-JL_dongyuque.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bd/cotkz4s2l6hof0jjo412fg2q36mclgc.png/180px-JL_dongyuque.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -628,7 +669,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/5xuyo3ofwb0mkyyymemml760smoob0k.png/180px-JL_lanniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/5xuyo3ofwb0mkyyymemml760smoob0k.png/180px-JL_lanniao.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -643,7 +685,8 @@ const SPIRITS =
         "a2": "",
         "tr": "破空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+75%。"
     },
     {
         "no": "018",
@@ -658,7 +701,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/iala5lfbudyxcyxbqha6nqgj0hus08b.png/180px-JL_xuerongniao_chun.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/iala5lfbudyxcyxbqha6nqgj0hus08b.png/180px-JL_xuerongniao_chun.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "019",
@@ -673,7 +717,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/2xh5fuvc7gxfryv5narlp84uu5oofhp.png/180px-JL_dongyuque_chun.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/2xh5fuvc7gxfryv5narlp84uu5oofhp.png/180px-JL_dongyuque_chun.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -688,7 +733,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/5ffsuxierd0snuqhbx5ewxf2xdeskwz.png/180px-JL_lanniao_chun.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/5ffsuxierd0snuqhbx5ewxf2xdeskwz.png/180px-JL_lanniao_chun.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -703,7 +749,8 @@ const SPIRITS =
         "a2": "",
         "tr": "破空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+75%。"
     },
     {
         "no": "018",
@@ -718,7 +765,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/25/a69bzpu3lhxlqs97epu2txnm470smmr.png/180px-JL_xuerongniao_xia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/25/a69bzpu3lhxlqs97epu2txnm470smmr.png/180px-JL_xuerongniao_xia.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "019",
@@ -733,7 +781,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/htvv0y0ycrrv7tqnayzihsf4brmnze0.png/180px-JL_dongyuque_xia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/htvv0y0ycrrv7tqnayzihsf4brmnze0.png/180px-JL_dongyuque_xia.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -748,7 +797,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/plbddm43qial81no387iw9dm7yh2k34.png/180px-JL_lanniao_xia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/plbddm43qial81no387iw9dm7yh2k34.png/180px-JL_lanniao_xia.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -763,7 +813,8 @@ const SPIRITS =
         "a2": "",
         "tr": "破空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+75%。"
     },
     {
         "no": "018",
@@ -778,7 +829,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/k0e0ekcqg6kh02jdkp6i0wvc2z12liz.png/180px-JL_xuerongniao_qiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/k0e0ekcqg6kh02jdkp6i0wvc2z12liz.png/180px-JL_xuerongniao_qiu.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "019",
@@ -793,7 +845,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/kmkac3d9pwrhdhzjdvurnxvxt7au4i1.png/180px-JL_dongyuque_qiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/kmkac3d9pwrhdhzjdvurnxvxt7au4i1.png/180px-JL_dongyuque_qiu.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -808,7 +861,8 @@ const SPIRITS =
         "a2": "",
         "tr": "顺风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/2z79wppqdwpt5k27vbigvo6e8unglcj.png/180px-JL_lanniao_qiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/2z79wppqdwpt5k27vbigvo6e8unglcj.png/180px-JL_lanniao_qiu.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+50%。"
     },
     {
         "no": "020",
@@ -823,7 +877,8 @@ const SPIRITS =
         "a2": "",
         "tr": "破空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0f/kxotizvji5i40phgzioega8397t87kb.png/180px-JL_lanniao_shouling.png",
+        "tr_desc": "若先于敌方攻击，本次技能威力+75%。"
     },
     {
         "no": "021",
@@ -838,7 +893,8 @@ const SPIRITS =
         "a2": "",
         "tr": "毒蘑菇",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4d/2lt3qqtyxkue2u91fotilosua88bs8j.png/180px-JL_xiaolinggu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4d/2lt3qqtyxkue2u91fotilosua88bs8j.png/180px-JL_xiaolinggu.png",
+        "tr_desc": "回合结束时，偷取敌方场上所有精灵1能量。"
     },
     {
         "no": "022",
@@ -853,7 +909,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "毒蘑菇",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/5my8rnae5eg8h7bi5b1n8dxdbttguax.png/180px-JL_youlinggu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/5my8rnae5eg8h7bi5b1n8dxdbttguax.png/180px-JL_youlinggu.png",
+        "tr_desc": "回合结束时，偷取敌方场上所有精灵1能量。"
     },
     {
         "no": "023",
@@ -868,7 +925,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "毒蘑菇",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/elpucp8qs8y2zuecowz2jhtjxom4oy8.png/180px-JL_lunhuilinggu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/elpucp8qs8y2zuecowz2jhtjxom4oy8.png/180px-JL_lunhuilinggu.png",
+        "tr_desc": "回合结束时，偷取敌方场上所有精灵1能量。"
     },
     {
         "no": "024",
@@ -883,7 +941,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/l86kpkxjpuxm7jxttcodwe5vlwqf68r.png/180px-JL_huociyanxiyi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/l86kpkxjpuxm7jxttcodwe5vlwqf68r.png/180px-JL_huociyanxiyi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "025",
@@ -898,7 +957,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/46ooanym87q4nh7ip8y2rbyp069btyc.png/180px-JL_conglinluxiyi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/46ooanym87q4nh7ip8y2rbyp069btyc.png/180px-JL_conglinluxiyi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "026",
@@ -913,7 +973,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/esnwkgw4bgxr7nya21trpzpwldhtqd2.png/180px-JL_shihuacixiyi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/esnwkgw4bgxr7nya21trpzpwldhtqd2.png/180px-JL_shihuacixiyi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "024",
@@ -928,7 +989,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0d/itmm1i2hm3vfyqjqzlu19m9o0ezpai0.png/180px-JL_shifuxi_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0d/itmm1i2hm3vfyqjqzlu19m9o0ezpai0.png/180px-JL_shifuxi_yidi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "025",
@@ -943,7 +1005,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/sy2z0zfjcm5gldo0kzu1cuavk0antof.png/180px-JL_shicixi_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/sy2z0zfjcm5gldo0kzu1cuavk0antof.png/180px-JL_shicixi_yidi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "026",
@@ -958,7 +1021,8 @@ const SPIRITS =
         "a2": "",
         "tr": "刺肤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/9h0ea3mrftfvhalj57qnxg84shhs3rq.png/180px-JL_shiguanwangxi_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/9h0ea3mrftfvhalj57qnxg84shhs3rq.png/180px-JL_shiguanwangxi_yidi.png",
+        "tr_desc": "每受到1次攻击，对攻击自己的精灵造成50威力物理伤害。"
     },
     {
         "no": "027",
@@ -973,7 +1037,8 @@ const SPIRITS =
         "a2": "",
         "tr": "地脉",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/af/nib0wsojbqggcpxcdn09wkhfinioo20.png/180px-JL_xiaobushi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/af/nib0wsojbqggcpxcdn09wkhfinioo20.png/180px-JL_xiaobushi.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次地系技能，回复3能量。"
     },
     {
         "no": "028",
@@ -988,7 +1053,8 @@ const SPIRITS =
         "a2": "",
         "tr": "地脉",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0d/kjvm9zhoghgvwi6272779ahullx835x.png/180px-JL_bulaishi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0d/kjvm9zhoghgvwi6272779ahullx835x.png/180px-JL_bulaishi.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次地系技能，回复3能量。"
     },
     {
         "no": "029",
@@ -1003,7 +1069,8 @@ const SPIRITS =
         "a2": "",
         "tr": "地脉",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/7cvut7qf9nmvgwdo4xoveovmc69qc0s.png/180px-JL_bulaikeyan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/7cvut7qf9nmvgwdo4xoveovmc69qc0s.png/180px-JL_bulaikeyan.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次地系技能，回复3能量。"
     },
     {
         "no": "029",
@@ -1018,7 +1085,8 @@ const SPIRITS =
         "a2": "",
         "tr": "地脉馈赠",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/6th67g9urywyrqkbp3x7rsrhxbynqwc.png/180px-JL_bulaikeyan_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/6th67g9urywyrqkbp3x7rsrhxbynqwc.png/180px-JL_bulaikeyan_shouling.png",
+        "tr_desc": "突破能量上限并立即回复10能量，入场前己方精灵每放1次地系技能，回复3能量。"
     },
     {
         "no": "030",
@@ -1033,7 +1101,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "渴求",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/70/shd69h8ixuqirkh7sp1ujgbysszegl8.png/180px-JL_emoding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/70/shd69h8ixuqirkh7sp1ujgbysszegl8.png/180px-JL_emoding.png",
+        "tr_desc": "入场时获得50%吸血。"
     },
     {
         "no": "031",
@@ -1048,7 +1117,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "渴求",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/l0ny90tnwgb67rmzu09q90drztquq6w.png/180px-JL_dingdingemo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/l0ny90tnwgb67rmzu09q90drztquq6w.png/180px-JL_dingdingemo.png",
+        "tr_desc": "入场时获得50%吸血。"
     },
     {
         "no": "031",
@@ -1063,7 +1133,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "贪得无厌",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/9qb2zoneu2dk4orrc2jscgbw4oj24oz.png/180px-JL_anyingemo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/9qb2zoneu2dk4orrc2jscgbw4oj24oz.png/180px-JL_anyingemo.png",
+        "tr_desc": "入场时获得 50% 吸血，每过量回复 5% 生命转化为 10% 物攻。"
     },
     {
         "no": "032",
@@ -1078,7 +1149,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/6hdybi3o9ski2hu1915598mhvs1yo9r.png/180px-JL_maomao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/6hdybi3o9ski2hu1915598mhvs1yo9r.png/180px-JL_maomao.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "033",
@@ -1093,7 +1165,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/bcgw6o1yolvhai4xr9mfydpjr8uj6ef.png/180px-JL_papa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/bcgw6o1yolvhai4xr9mfydpjr8uj6ef.png/180px-JL_papa.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "034",
@@ -1108,7 +1181,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c9/qfg8tdsl70pghybgqa2qprfa571ebj1.png/180px-JL_huadie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c9/qfg8tdsl70pghybgqa2qprfa571ebj1.png/180px-JL_huadie.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "034",
@@ -1123,7 +1197,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/mkcpsjmglf0ak7iluvmlq9wjq1l22kj.png/180px-JL_huadie_youmingzhiyan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/mkcpsjmglf0ak7iluvmlq9wjq1l22kj.png/180px-JL_huadie_youmingzhiyan.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "034",
@@ -1138,7 +1213,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/67/i5f8elsq5kdc3v02qut2hkcn2rl8qcm.png/180px-JL_huadie_miaomiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/67/i5f8elsq5kdc3v02qut2hkcn2rl8qcm.png/180px-JL_huadie_miaomiao.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "034",
@@ -1153,7 +1229,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "化茧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/16/ashlcqzzd06y7bl1fkzxkhxkhbq6mpf.png/180px-JL_huadie_qilihua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/16/ashlcqzzd06y7bl1fkzxkhxkhbq6mpf.png/180px-JL_huadie_qilihua.png",
+        "tr_desc": "受到致命伤害时，获得1层萌化，并免疫此次伤害。"
     },
     {
         "no": "035",
@@ -1168,7 +1245,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "小偷小摸",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/mp24kaxwof1fu2ogxv3i5q2gg6h5q7c.png/180px-JL_youlingshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/mp24kaxwof1fu2ogxv3i5q2gg6h5q7c.png/180px-JL_youlingshu.png",
+        "tr_desc": "入场时偷取所有敌方精灵2能量。"
     },
     {
         "no": "035",
@@ -1183,7 +1261,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "大捞一笔",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/hjxj1y6odgo2eb5n8usjb6t8yd9566b.png/180px-JL_youyingshu_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/hjxj1y6odgo2eb5n8usjb6t8yd9566b.png/180px-JL_youyingshu_shouling.png",
+        "tr_desc": "入场时偷取敌方场上所有精灵3能量"
     },
     {
         "no": "036",
@@ -1198,7 +1277,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "保守派",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/8ltfzlx2padg99pdl2c0qa9nm7luf2e.png/180px-JL_xiaoshulan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/8ltfzlx2padg99pdl2c0qa9nm7luf2e.png/180px-JL_xiaoshulan.png",
+        "tr_desc": "总技能能耗小于4时，自己获得双防+80%。"
     },
     {
         "no": "037",
@@ -1213,7 +1293,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "保守派",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/fm00nbbayp0nd1ilxrqiatqwbeneqfn.png/180px-JL_dashulan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/fm00nbbayp0nd1ilxrqiatqwbeneqfn.png/180px-JL_dashulan.png",
+        "tr_desc": "总技能能耗小于4时，自己获得双防+80%。"
     },
     {
         "no": "038",
@@ -1228,7 +1309,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "保守派",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/91/qmfugu2e8dmdhmlffx0ywnz81njxcwe.png/180px-JL_jushulan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/91/qmfugu2e8dmdhmlffx0ywnz81njxcwe.png/180px-JL_jushulan.png",
+        "tr_desc": "总技能能耗小于4时，自己获得双防+80%。"
     },
     {
         "no": "039",
@@ -1243,7 +1325,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ad/odt6r8qenxh86x1hzrzxgvgnbntog98.png/180px-JL_kuangjingchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ad/odt6r8qenxh86x1hzrzxgvgnbntog98.png/180px-JL_kuangjingchong.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1258,7 +1341,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/ba/mcoa54wmmi4k89jr9tdp9s6gykze0nc.png/180px-JL_jingshiwo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/ba/mcoa54wmmi4k89jr9tdp9s6gykze0nc.png/180px-JL_jingshiwo.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1273,7 +1357,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "040",
@@ -1288,7 +1373,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/be/e2ni78bsr45twcd0aloh55j0jzmaxlx.png/180px-JL_jingshiwo_yidi3.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/be/e2ni78bsr45twcd0aloh55j0jzmaxlx.png/180px-JL_jingshiwo_yidi3.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1303,7 +1389,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "040",
@@ -1318,7 +1405,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/4r0fp6dkzxf8bp08t0k70axpbiqkzwn.png/180px-JL_jingshiwo_yidi5.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/4r0fp6dkzxf8bp08t0k70axpbiqkzwn.png/180px-JL_jingshiwo_yidi5.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1333,7 +1421,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "040",
@@ -1348,7 +1437,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/qluzjv3g31s7wpd3xl1ucsq5yzv2oao.png/180px-JL_jingshiwo_yidi1.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/qluzjv3g31s7wpd3xl1ucsq5yzv2oao.png/180px-JL_jingshiwo_yidi1.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1363,7 +1453,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "040",
@@ -1378,7 +1469,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/2tlvavxy9y4f7fickpsfa4n5fe2eujq.png/180px-JL_jingshiwo_yidi2.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/2tlvavxy9y4f7fickpsfa4n5fe2eujq.png/180px-JL_jingshiwo_yidi2.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1393,7 +1485,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "040",
@@ -1408,7 +1501,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a8/ifqk7djn96yfs8om9soyqutialwis0v.png/180px-JL_jingshiwo_yidi4.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a8/ifqk7djn96yfs8om9soyqutialwis0v.png/180px-JL_jingshiwo_yidi4.png",
+        "tr_desc": "受到自己携带技能系别的攻击伤害-40%。"
     },
     {
         "no": "040",
@@ -1423,7 +1517,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "完全偏振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/5d9j04pgl7bm8s22gyimca5auyvrqkk.png/180px-JL_jingshiwo_shouling.png",
+        "tr_desc": "抵抗自己携带技能系别的攻击伤害。"
     },
     {
         "no": "041",
@@ -1438,7 +1533,8 @@ const SPIRITS =
         "a2": "",
         "tr": "养分重吸收",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/58/a56lpb3ie1au81pcwt9hoap4nqshm5r.png/180px-JL_qilicao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/58/a56lpb3ie1au81pcwt9hoap4nqshm5r.png/180px-JL_qilicao.png",
+        "tr_desc": "回合结束时，回复3能量。"
     },
     {
         "no": "042",
@@ -1453,7 +1549,8 @@ const SPIRITS =
         "a2": "",
         "tr": "养分重吸收",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/arj5joe5qfmjs8pu2cps2wyau6ahcoi.png/180px-JL_qiliye.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/arj5joe5qfmjs8pu2cps2wyau6ahcoi.png/180px-JL_qiliye.png",
+        "tr_desc": "回合结束时，回复3能量。"
     },
     {
         "no": "043",
@@ -1468,7 +1565,8 @@ const SPIRITS =
         "a2": "",
         "tr": "养分重吸收",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/kresdyardyhg8xbu014iqibrwrwjpuu.png/180px-JL_qilihua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/kresdyardyhg8xbu014iqibrwrwjpuu.png/180px-JL_qilihua.png",
+        "tr_desc": "回合结束时，回复3能量。"
     },
     {
         "no": "043",
@@ -1483,7 +1581,8 @@ const SPIRITS =
         "a2": "",
         "tr": "养分内循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/lnsh8ef0s1pba5ykmwzratw9ekazavt.png/180px-JL_qilihua_boss.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/lnsh8ef0s1pba5ykmwzratw9ekazavt.png/180px-JL_qilihua_boss.png",
+        "tr_desc": "回合结束时，回复6能量。"
     },
     {
         "no": "044",
@@ -1498,7 +1597,8 @@ const SPIRITS =
         "a2": "",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/rcr83w8on3ey2a9hsnw1ju37xpxqrc1.png/180px-JL_diudiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/rcr83w8on3ey2a9hsnw1ju37xpxqrc1.png/180px-JL_diudiu.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "045",
@@ -1513,7 +1613,8 @@ const SPIRITS =
         "a2": "",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/76/rdu49gfgqudrmthhedikd3ju6o0mood.png/180px-JL_kakachong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/76/rdu49gfgqudrmthhedikd3ju6o0mood.png/180px-JL_kakachong.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "046",
@@ -1528,7 +1629,8 @@ const SPIRITS =
         "a2": "",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/3q4ei5a3dhp2597wgp6k5d3trqrro68.png/180px-JL_kawachong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/3q4ei5a3dhp2597wgp6k5d3trqrro68.png/180px-JL_kawachong.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "044",
@@ -1543,7 +1645,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/7b7xwhkr0lyvmvoetkovt57dffckmgf.png/180px-JL_diudiu_huoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/7b7xwhkr0lyvmvoetkovt57dffckmgf.png/180px-JL_diudiu_huoshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "045",
@@ -1558,7 +1661,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/hqmxknrk4862ndjpfkwsu0kvi65bow8.png/180px-JL_kakachong_huoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/hqmxknrk4862ndjpfkwsu0kvi65bow8.png/180px-JL_kakachong_huoshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "046",
@@ -1573,7 +1677,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a7/gqirsr0ls4xypurpyr8j0x5204163ex.png/180px-JL_kawachong_huoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a7/gqirsr0ls4xypurpyr8j0x5204163ex.png/180px-JL_kawachong_huoshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "044",
@@ -1588,7 +1693,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/afdly522dnl8h7qvm7ctis5y4iaeobb.png/180px-JL_diudiu_shamo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/afdly522dnl8h7qvm7ctis5y4iaeobb.png/180px-JL_diudiu_shamo.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "045",
@@ -1603,7 +1709,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/eki4tyzcfgqe9xi2g8tw3c4gk1wp9lt.png/180px-JL_kakachong_shamo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/eki4tyzcfgqe9xi2g8tw3c4gk1wp9lt.png/180px-JL_kakachong_shamo.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "046",
@@ -1618,7 +1725,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/33/f7dzmldzrwthrea6ups9cst6go62qw3.png/180px-JL_kawachong_shamo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/33/f7dzmldzrwthrea6ups9cst6go62qw3.png/180px-JL_kawachong_shamo.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "044",
@@ -1633,7 +1741,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7d/mcpzhykts066t7u7k5lxmqxyylin7az.png/180px-JL_diudiu_xueshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7d/mcpzhykts066t7u7k5lxmqxyylin7az.png/180px-JL_diudiu_xueshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "045",
@@ -1648,7 +1757,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4c/ni1v1q48krv97vo4ybhae53ad0ddfmo.png/180px-JL_kakachong_xueshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4c/ni1v1q48krv97vo4ybhae53ad0ddfmo.png/180px-JL_kakachong_xueshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "046",
@@ -1663,7 +1773,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "诈死",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/ofh28v5u54csj0myu91dzxy4abmenh1.png/180px-JL_kawachong_xueshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/ofh28v5u54csj0myu91dzxy4abmenh1.png/180px-JL_kawachong_xueshan.png",
+        "tr_desc": "自己力竭时，少损失1点魔力。"
     },
     {
         "no": "047",
@@ -1678,7 +1789,8 @@ const SPIRITS =
         "a2": "",
         "tr": "专注力",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ca/p7090wn97ff4ovoan0i9sjtw7xrd0g7.png/180px-JL_huzhuquan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ca/p7090wn97ff4ovoan0i9sjtw7xrd0g7.png/180px-JL_huzhuquan.png",
+        "tr_desc": "入场首回合，获得物攻+100%。"
     },
     {
         "no": "048",
@@ -1693,7 +1805,8 @@ const SPIRITS =
         "a2": "",
         "tr": "专注力",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/3zssl7y96fpoaegofrnddanr1xinsfk.png/180px-JL_yinsuquan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/3zssl7y96fpoaegofrnddanr1xinsfk.png/180px-JL_yinsuquan.png",
+        "tr_desc": "入场首回合，获得物攻+100%。"
     },
     {
         "no": "048",
@@ -1708,7 +1821,8 @@ const SPIRITS =
         "a2": "",
         "tr": "全神贯注",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/sv2cat3v9jai8hjrddhgmon117safut.png/180px-JL_yinsuquan_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/sv2cat3v9jai8hjrddhgmon117safut.png/180px-JL_yinsuquan_shouling.png",
+        "tr_desc": "入场时，获得物攻+100%，每次行动后-20%。"
     },
     {
         "no": "049",
@@ -1723,7 +1837,8 @@ const SPIRITS =
         "a2": "",
         "tr": "囤积",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/r1ey433lenu38c6xlq3b7o88lhtqbfj.png/180px-JL_lversongshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/r1ey433lenu38c6xlq3b7o88lhtqbfj.png/180px-JL_lversongshu.png",
+        "tr_desc": "每有1能量，获得双防+10%。"
     },
     {
         "no": "050",
@@ -1738,7 +1853,8 @@ const SPIRITS =
         "a2": "",
         "tr": "囤积",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/ohcnt8yccl9esuvq5ip0cezfqwcg5a6.png/180px-JL_baozhensongshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/ohcnt8yccl9esuvq5ip0cezfqwcg5a6.png/180px-JL_baozhensongshu.png",
+        "tr_desc": "每有1能量，获得双防+10%。"
     },
     {
         "no": "051",
@@ -1753,7 +1869,8 @@ const SPIRITS =
         "a2": "",
         "tr": "囤积",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/2z5wqt64z20lwv3r6xya4z3jfumn2hy.png/180px-JL_bengchuangsongshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/2z5wqt64z20lwv3r6xya4z3jfumn2hy.png/180px-JL_bengchuangsongshu.png",
+        "tr_desc": "每有1能量，获得双防+10%。"
     },
     {
         "no": "052",
@@ -1768,7 +1885,8 @@ const SPIRITS =
         "a2": "",
         "tr": "复方汤剂",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/qclwssux834b7w7wvkicfx5r5kqi8aa.png/180px-JL_duudbao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/qclwssux834b7w7wvkicfx5r5kqi8aa.png/180px-JL_duudbao.png",
+        "tr_desc": "回合结束时，中毒效果触发次数+1。"
     },
     {
         "no": "053",
@@ -1783,7 +1901,8 @@ const SPIRITS =
         "a2": "",
         "tr": "复方汤剂",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/pjhuxhxk93d6gejhsblrjrtrqk840mw.png/180px-JL_duudguo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/pjhuxhxk93d6gejhsblrjrtrqk840mw.png/180px-JL_duudguo.png",
+        "tr_desc": "回合结束时，中毒效果触发次数+1。"
     },
     {
         "no": "054",
@@ -1798,7 +1917,8 @@ const SPIRITS =
         "a2": "",
         "tr": "惊吓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/da1qrhuj3yn22c8fsy3oq1xvn9vgjhy.png/180px-JL_xiaoyoulinglian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/da1qrhuj3yn22c8fsy3oq1xvn9vgjhy.png/180px-JL_xiaoyoulinglian.png",
+        "tr_desc": "能量等于0的精灵，无法对自己造成伤害。"
     },
     {
         "no": "055",
@@ -1813,7 +1933,8 @@ const SPIRITS =
         "a2": "",
         "tr": "惊吓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/s09nfadyov67f1x95fov9exrvtk3e2f.png/180px-JL_youlinglian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/s09nfadyov67f1x95fov9exrvtk3e2f.png/180px-JL_youlinglian.png",
+        "tr_desc": "能量等于0的精灵，无法对自己造成伤害。"
     },
     {
         "no": "056",
@@ -1828,7 +1949,8 @@ const SPIRITS =
         "a2": "",
         "tr": "惊吓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/49hxwt9v9u8svrduxvtic8u1sr5jk2f.png/180px-JL_youmingzhiyan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/49hxwt9v9u8svrduxvtic8u1sr5jk2f.png/180px-JL_youmingzhiyan.png",
+        "tr_desc": "能量等于0的精灵，无法对自己造成伤害。"
     },
     {
         "no": "055",
@@ -1843,7 +1965,8 @@ const SPIRITS =
         "a2": "",
         "tr": "惊吓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/pnl3p96pkjihygnqle69szsmc31hes7.png/180px-JL_youlinglian_biyan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/pnl3p96pkjihygnqle69szsmc31hes7.png/180px-JL_youlinglian_biyan.png",
+        "tr_desc": "能量等于0的精灵，无法对自己造成伤害。"
     },
     {
         "no": "056",
@@ -1858,7 +1981,8 @@ const SPIRITS =
         "a2": "",
         "tr": "惊吓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a3/5ugb0dqag5i15m8d2evxce4brxnz4le.png/180px-JL_youmingzhiyan_biyan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a3/5ugb0dqag5i15m8d2evxce4brxnz4le.png/180px-JL_youmingzhiyan_biyan.png",
+        "tr_desc": "能量等于0的精灵，无法对自己造成伤害。"
     },
     {
         "no": "057",
@@ -1873,7 +1997,8 @@ const SPIRITS =
         "a2": "",
         "tr": "做噩梦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/ouuajtdlj5q37xnnezicl8lhy6wvrdo.png/180px-JL_menhyou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/ouuajtdlj5q37xnnezicl8lhy6wvrdo.png/180px-JL_menhyou.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵失去3能量。"
     },
     {
         "no": "058",
@@ -1888,7 +2013,8 @@ const SPIRITS =
         "a2": "",
         "tr": "做噩梦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bc/jxto2tenemg9zkahb78ro0dm0dqs2f4.png/180px-JL_mengyouyou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bc/jxto2tenemg9zkahb78ro0dm0dqs2f4.png/180px-JL_mengyouyou.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵失去3能量。"
     },
     {
         "no": "057",
@@ -1903,7 +2029,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "做噩梦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/95/19xcyv4p60sbcrfnbg2hiz8y3d8r52n.png/180px-JL_mengyou_pink.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/95/19xcyv4p60sbcrfnbg2hiz8y3d8r52n.png/180px-JL_mengyou_pink.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵失去3能量。"
     },
     {
         "no": "058",
@@ -1918,7 +2045,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "做噩梦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8d/4lscrtkv75q1a5fi2frdgqdymw12mkt.png/180px-JL_mengyouyou_pink.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8d/4lscrtkv75q1a5fi2frdgqdymw12mkt.png/180px-JL_mengyouyou_pink.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵失去3能量。"
     },
     {
         "no": "059",
@@ -1933,7 +2061,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "稀兽花宝",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/4da4uqvsogxetz8ryg6w5w844z6jtvr.png/180px-JL_shouhualei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/4da4uqvsogxetz8ryg6w5w844z6jtvr.png/180px-JL_shouhualei.png",
+        "tr_desc": "根据自己的血脉，入场时获得不同效果。"
     },
     {
         "no": "060",
@@ -1948,7 +2077,8 @@ const SPIRITS =
         "a2": "",
         "tr": "壮胆",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/56nx3tj159bukqmzt9tqon7u598mkvj.png/180px-JL_fudishou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/56nx3tj159bukqmzt9tqon7u598mkvj.png/180px-JL_fudishou.png",
+        "tr_desc": "队伍存在虫系精灵，自己获得双攻+50%。"
     },
     {
         "no": "061",
@@ -1963,7 +2093,8 @@ const SPIRITS =
         "a2": "",
         "tr": "壮胆",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/e8ohqxycusljz5jfx3cypxdve4e66vk.png/180px-JL_shiyishou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/e8ohqxycusljz5jfx3cypxdve4e66vk.png/180px-JL_shiyishou.png",
+        "tr_desc": "队伍存在虫系精灵，自己获得双攻+50%。"
     },
     {
         "no": "062",
@@ -1978,7 +2109,8 @@ const SPIRITS =
         "a2": "",
         "tr": "壮胆",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d7/dnzpbifg5rexisaikk4clo88jv3pqi3.png/180px-JL_wanzuishou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d7/dnzpbifg5rexisaikk4clo88jv3pqi3.png/180px-JL_wanzuishou.png",
+        "tr_desc": "队伍存在虫系精灵，自己获得双攻+50%。"
     },
     {
         "no": "063",
@@ -1993,7 +2125,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/j10k7a44f5iy18x0ffmh5dlbdu9lqc8.png/180px-JL_bengbengzhongzi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/j10k7a44f5iy18x0ffmh5dlbdu9lqc8.png/180px-JL_bengbengzhongzi.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "064",
@@ -2008,7 +2141,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/57/hhjy78stvqk22wdxveoj1hp9pwakaq5.png/180px-JL_bengbengcao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/57/hhjy78stvqk22wdxveoj1hp9pwakaq5.png/180px-JL_bengbengcao.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2023,7 +2157,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/qx3uh1qc6urmjayk8zryifmjpvvyse5.png/180px-JL_bengbenghua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/qx3uh1qc6urmjayk8zryifmjpvvyse5.png/180px-JL_bengbenghua.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2038,7 +2173,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "高浓生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png",
+        "tr_desc": "使用技能时，敌方获得2层中毒。"
     },
     {
         "no": "063",
@@ -2053,7 +2189,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/ad5iwxxrvuv6dl297q8vctuqlx9jpqc.png/180px-JL_bengbengzhongzi_caiyuqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/ad5iwxxrvuv6dl297q8vctuqlx9jpqc.png/180px-JL_bengbengzhongzi_caiyuqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "064",
@@ -2068,7 +2205,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/25kfruuuq2bczrfy13lh9dzcm17bwy0.png/180px-JL_bengbengcao_caiyuqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/25kfruuuq2bczrfy13lh9dzcm17bwy0.png/180px-JL_bengbengcao_caiyuqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2083,7 +2221,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/4lh1nuybf3uii4rm04i2mxwol9d8379.png/180px-JL_bengbenghua_caiyuqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/4lh1nuybf3uii4rm04i2mxwol9d8379.png/180px-JL_bengbenghua_caiyuqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2098,7 +2237,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "高浓生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png",
+        "tr_desc": "使用技能时，敌方获得2层中毒。"
     },
     {
         "no": "063",
@@ -2113,7 +2253,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/ajeojyl2w9jbchahgacmygw4b3gj5se.png/180px-JL_bengbengzhongzi_duanmaoqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/ajeojyl2w9jbchahgacmygw4b3gj5se.png/180px-JL_bengbengzhongzi_duanmaoqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "064",
@@ -2128,7 +2269,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/ppwirrauyowapo9f2rjy664s5h8ljzp.png/180px-JL_bengbengcao_duanmaoqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/ppwirrauyowapo9f2rjy664s5h8ljzp.png/180px-JL_bengbengcao_duanmaoqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2143,7 +2285,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6d/c2lvqkc69g5wyb9iuk2mjq7uhgatr1w.png/180px-JL_bengbenghua_duanmaoqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6d/c2lvqkc69g5wyb9iuk2mjq7uhgatr1w.png/180px-JL_bengbenghua_duanmaoqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2158,7 +2301,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "高浓生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png",
+        "tr_desc": "使用技能时，敌方获得2层中毒。"
     },
     {
         "no": "063",
@@ -2173,7 +2317,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/9n7z0xov2af7tua0dkkgrdhfj85xnjm.png/180px-JL_bengbengzhongzi_xiangyaqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/9n7z0xov2af7tua0dkkgrdhfj85xnjm.png/180px-JL_bengbengzhongzi_xiangyaqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "064",
@@ -2188,7 +2333,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dd/4o84258vnzt9aigvu1o282f6rqt1egi.png/180px-JL_bengbengcao_xiangyaqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dd/4o84258vnzt9aigvu1o282f6rqt1egi.png/180px-JL_bengbengcao_xiangyaqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2203,7 +2349,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6a/9020fxlcz2ceinir3vl9i1uijvk2adn.png/180px-JL_bengbenghua_xiangyaqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6a/9020fxlcz2ceinir3vl9i1uijvk2adn.png/180px-JL_bengbenghua_xiangyaqiu.png",
+        "tr_desc": "使用草系技能时，敌方获得2层中毒。"
     },
     {
         "no": "065",
@@ -2218,7 +2365,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "高浓生物碱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d2/pob6cheep0jkox1mwit377tmqhsfaqc.png/180px-JL_bengbenghua_shouling.png",
+        "tr_desc": "使用技能时，敌方获得2层中毒。"
     },
     {
         "no": "066",
@@ -2233,7 +2381,8 @@ const SPIRITS =
         "a2": "",
         "tr": "快充",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b8/38hvw91l01p4dsaz2e7zg3mkk1ypy82.png/180px-JL_dianmiemie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b8/38hvw91l01p4dsaz2e7zg3mkk1ypy82.png/180px-JL_dianmiemie.png",
+        "tr_desc": "离场时回复10能量。"
     },
     {
         "no": "067",
@@ -2248,7 +2397,8 @@ const SPIRITS =
         "a2": "",
         "tr": "快充",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/gcfctj8ow5hrtybdsohh7vpyi7piul3.png/180px-JL_fenmiemie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/gcfctj8ow5hrtybdsohh7vpyi7piul3.png/180px-JL_fenmiemie.png",
+        "tr_desc": "离场时回复10能量。"
     },
     {
         "no": "068",
@@ -2263,7 +2413,8 @@ const SPIRITS =
         "a2": "",
         "tr": "快充",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e4/9h411sj5m9qa30hfz8li7e3khrijgeg.png/180px-JL_dianqiumiemie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e4/9h411sj5m9qa30hfz8li7e3khrijgeg.png/180px-JL_dianqiumiemie.png",
+        "tr_desc": "离场时回复10能量。"
     },
     {
         "no": "069",
@@ -2278,7 +2429,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "勇敢",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/2gwl44j2min030cf9c4pjcq31h77o3u.png/180px-JL_pugongying.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/2gwl44j2min030cf9c4pjcq31h77o3u.png/180px-JL_pugongying.png",
+        "tr_desc": "携带的能耗大于3的技能，威力+40%。"
     },
     {
         "no": "070",
@@ -2293,7 +2445,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "勇敢",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/5ze8yyuytkyt9oi5thzostzg932a5vc.png/180px-JL_pugongyingwawa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/5ze8yyuytkyt9oi5thzostzg932a5vc.png/180px-JL_pugongyingwawa.png",
+        "tr_desc": "携带的能耗大于3的技能，威力+40%。"
     },
     {
         "no": "071",
@@ -2308,7 +2461,8 @@ const SPIRITS =
         "a2": "",
         "tr": "腐植循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/nkh6zw4gn7uujd2sxbzd2so9w6wgmdg.png/180px-JL_yibeier.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/nkh6zw4gn7uujd2sxbzd2so9w6wgmdg.png/180px-JL_yibeier.png",
+        "tr_desc": "每回复1能量，同时回复5%生命。"
     },
     {
         "no": "072",
@@ -2323,7 +2477,8 @@ const SPIRITS =
         "a2": "",
         "tr": "腐植循环",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/dno8u91y68nj2trjtnvo2eswj6vwzqj.png/180px-JL_yibeifenfen.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/dno8u91y68nj2trjtnvo2eswj6vwzqj.png/180px-JL_yibeifenfen.png",
+        "tr_desc": "每回复1能量，同时回复5%生命。"
     },
     {
         "no": "073",
@@ -2338,7 +2493,8 @@ const SPIRITS =
         "a2": "",
         "tr": "慢热型",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/pe8neh6hvvvkanqk8o630xe1nkrpr9x.png/180px-JL_baifalanren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/pe8neh6hvvvkanqk8o630xe1nkrpr9x.png/180px-JL_baifalanren.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每成功应对1次，回复5能量。"
     },
     {
         "no": "074",
@@ -2353,7 +2509,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "慢热型",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/46/fg2nh9ekyiz5z69aoxavtat6nyd8221.png/180px-JL_dongliyuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/46/fg2nh9ekyiz5z69aoxavtat6nyd8221.png/180px-JL_dongliyuan.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每成功应对1次，回复5能量。"
     },
     {
         "no": "075",
@@ -2368,7 +2525,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "慢热型",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/32/pzkhf8dhcjuj6vi9mflomxapvzz894v.png/180px-JL_keshuiwang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/32/pzkhf8dhcjuj6vi9mflomxapvzz894v.png/180px-JL_keshuiwang.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每成功应对1次，回复5能量。"
     },
     {
         "no": "076",
@@ -2383,7 +2541,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/k1xrtaw9trebnthviohuao46gex9nbr.png/180px-JL_haikuichong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/k1xrtaw9trebnthviohuao46gex9nbr.png/180px-JL_haikuichong.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "077",
@@ -2398,7 +2557,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/elmhi8hbg54kb64cdo2hevdslmcmnwf.png/180px-JL_cikuichong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/elmhi8hbg54kb64cdo2hevdslmcmnwf.png/180px-JL_cikuichong.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "078",
@@ -2413,7 +2573,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/70/4jj6f2sn5j3nie33npav7uxhka8ivo1.png/180px-JL_qianjikui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/70/4jj6f2sn5j3nie33npav7uxhka8ivo1.png/180px-JL_qianjikui.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "078",
@@ -2428,7 +2589,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解腐蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/c12nvd5tzkp8raye3qk3w7bkbujoet0.png/180px-JL_qianjikui_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/c12nvd5tzkp8raye3qk3w7bkbujoet0.png/180px-JL_qianjikui_shouling.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得2层中毒。"
     },
     {
         "no": "076",
@@ -2443,7 +2605,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/tciyytxpvowaxmq5ovcwgahwq1ndgiu.png/180px-JL_haikuichong_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/tciyytxpvowaxmq5ovcwgahwq1ndgiu.png/180px-JL_haikuichong_yidi.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "077",
@@ -2458,7 +2621,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/cd9lvezthz8e1au8gkklyoxm67bicax.png/180px-JL_cikuichong_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/cd9lvezthz8e1au8gkklyoxm67bicax.png/180px-JL_cikuichong_yidi.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "078",
@@ -2473,7 +2637,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解扩散",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1e/tpb3r0v7d9wrl6bjdskgge4zql4lc2s.png/180px-JL_qianjikui_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1e/tpb3r0v7d9wrl6bjdskgge4zql4lc2s.png/180px-JL_qianjikui_yidi.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得1层中毒。"
     },
     {
         "no": "078",
@@ -2488,7 +2653,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "溶解腐蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/c12nvd5tzkp8raye3qk3w7bkbujoet0.png/180px-JL_qianjikui_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6c/c12nvd5tzkp8raye3qk3w7bkbujoet0.png/180px-JL_qianjikui_shouling.png",
+        "tr_desc": "每携带1个毒系技能进入战斗，水系技能使敌方获得2层中毒。"
     },
     {
         "no": "079",
@@ -2503,7 +2669,8 @@ const SPIRITS =
         "a2": "",
         "tr": "无忧无虑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/697r7fp7b3q6g12nv17mq2aomz8wyr2.png/180px-JL_juhuali.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/697r7fp7b3q6g12nv17mq2aomz8wyr2.png/180px-JL_juhuali.png",
+        "tr_desc": "可获得的萌化层数不受限制。"
     },
     {
         "no": "080",
@@ -2518,7 +2685,8 @@ const SPIRITS =
         "a2": "",
         "tr": "电流刺激",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c5/cmv45a9mr3n24ufjnpgzium228yhjlh.png/180px-JL_xiaoxingguang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c5/cmv45a9mr3n24ufjnpgzium228yhjlh.png/180px-JL_xiaoxingguang.png",
+        "tr_desc": "携带的攻击技能获得迸发：威力+40。"
     },
     {
         "no": "081",
@@ -2533,7 +2701,8 @@ const SPIRITS =
         "a2": "",
         "tr": "电流刺激",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/92/rk8zid4pmr7hhvbdnmfcrhgy7wq9stg.png/180px-JL_xingguangsh.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/92/rk8zid4pmr7hhvbdnmfcrhgy7wq9stg.png/180px-JL_xingguangsh.png",
+        "tr_desc": "携带的攻击技能获得迸发：威力+40。"
     },
     {
         "no": "080",
@@ -2548,7 +2717,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "电流刺激",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/39/gukp7qw18eoxzxcvh7pq89em1o3tyxl.png/180px-JL_xiaoxingguang_yueguang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/39/gukp7qw18eoxzxcvh7pq89em1o3tyxl.png/180px-JL_xiaoxingguang_yueguang.png",
+        "tr_desc": "携带的攻击技能获得迸发：威力+40。"
     },
     {
         "no": "081",
@@ -2563,7 +2733,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "电流刺激",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/cu6yg2prew8rv2jt4ink5ga0ycds3sz.png/180px-JL_xingguangshi_yueguang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/cu6yg2prew8rv2jt4ink5ga0ycds3sz.png/180px-JL_xingguangshi_yueguang.png",
+        "tr_desc": "携带的攻击技能获得迸发：威力+40。"
     },
     {
         "no": "082",
@@ -2578,7 +2749,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "虫群鼓舞",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/45/j7ydlhxri66w30py9gggkb39v58eswk.png/180px-JL_xiaomifeng.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/45/j7ydlhxri66w30py9gggkb39v58eswk.png/180px-JL_xiaomifeng.png",
+        "tr_desc": "队伍中每有1只其他的虫系精灵，自己入场时获得攻防速+10%。"
     },
     {
         "no": "083",
@@ -2593,7 +2765,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "虫群鼓舞",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4e/50fxcf1wx8grecan20kilq54r2460dm.png/180px-JL_huangfenghou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4e/50fxcf1wx8grecan20kilq54r2460dm.png/180px-JL_huangfenghou.png",
+        "tr_desc": "队伍中每有1只其他的虫系精灵，自己入场时获得攻防速+10%。"
     },
     {
         "no": "084",
@@ -2608,7 +2781,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "虫群鼓舞",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/879joxc8dbfm4glra28n821kbbolkc9.png/180px-JL_huakuifenghou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/879joxc8dbfm4glra28n821kbbolkc9.png/180px-JL_huakuifenghou.png",
+        "tr_desc": "队伍中每有1只其他的虫系精灵，自己入场时获得攻防速+10%。"
     },
     {
         "no": "084",
@@ -2623,7 +2797,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "虫群突袭",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/dvtxy5v8dk7bfuduwx4bpb6eae5fdrn.png/180px-JL_huakuifenghou_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/dvtxy5v8dk7bfuduwx4bpb6eae5fdrn.png/180px-JL_huakuifenghou_shouling.png",
+        "tr_desc": "队伍中每有1只其他的虫系精灵，自己入场时获得攻防速+15%。"
     },
     {
         "no": "085",
@@ -2638,7 +2813,8 @@ const SPIRITS =
         "a2": "",
         "tr": "嫁祸",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/six06mvlwqmffe55uxtfnkrhjw2xow7.png/180px-JL_xiaoye.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/six06mvlwqmffe55uxtfnkrhjw2xow7.png/180px-JL_xiaoye.png",
+        "tr_desc": "自己每失去25%生命，连击数+2。"
     },
     {
         "no": "086",
@@ -2653,7 +2829,8 @@ const SPIRITS =
         "a2": "",
         "tr": "嫁祸",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/6iwx7jqqn4iw790uf10wvmydr3s7uuw.png/180px-JL_ziye.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/53/6iwx7jqqn4iw790uf10wvmydr3s7uuw.png/180px-JL_ziye.png",
+        "tr_desc": "自己每失去25%生命，连击数+2。"
     },
     {
         "no": "087",
@@ -2668,7 +2845,8 @@ const SPIRITS =
         "a2": "",
         "tr": "嫁祸",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/rntyykpxn1l1lbc4ugl2zzlu5oj1bx4.png/180px-JL_ziyemeiying.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/rntyykpxn1l1lbc4ugl2zzlu5oj1bx4.png/180px-JL_ziyemeiying.png",
+        "tr_desc": "自己每失去25%生命，连击数+2。"
     },
     {
         "no": "088",
@@ -2683,7 +2861,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "洁癖",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/0v7shafr4mrb358cbpijl6itokux4ko.png/180px-JL_huaguitianer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/0v7shafr4mrb358cbpijl6itokux4ko.png/180px-JL_huaguitianer.png",
+        "tr_desc": "离场后，自己的增益和减益会被更换入场的精灵继承。"
     },
     {
         "no": "089",
@@ -2698,7 +2877,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "洁癖",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/pba1fsn97a9jo1f1na7oddg4sege02h.png/180px-JL_lanzhutianer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/pba1fsn97a9jo1f1na7oddg4sege02h.png/180px-JL_lanzhutianer.png",
+        "tr_desc": "离场后，自己的增益和减益会被更换入场的精灵继承。"
     },
     {
         "no": "090",
@@ -2713,7 +2893,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "洁癖",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/np2ygx3m3nxyen4nodh114n7qm5n4by.png/180px-JL_cuidingfuren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/np2ygx3m3nxyen4nodh114n7qm5n4by.png/180px-JL_cuidingfuren.png",
+        "tr_desc": "离场后，自己的增益和减益会被更换入场的精灵继承。"
     },
     {
         "no": "091",
@@ -2728,7 +2909,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "孤傲",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/dciqf2g4aqmr2zdoesjwr9den7182y0.png/180px-JL_heiyufuren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/dciqf2g4aqmr2zdoesjwr9den7182y0.png/180px-JL_heiyufuren.png",
+        "tr_desc": ""
     },
     {
         "no": "092",
@@ -2743,7 +2925,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "快锤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/fiyu1t7b4rztkgh8f00ewgyz34rxam4.png/180px-JL_chuitouguan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/fiyu1t7b4rztkgh8f00ewgyz34rxam4.png/180px-JL_chuitouguan.png",
+        "tr_desc": "携带的能耗小于3的技能，获得迅捷。"
     },
     {
         "no": "093",
@@ -2758,7 +2941,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "木桶戏法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/if53hkrrpvwkryyf9p9uvsawlvuvgt3.png/180px-JL_lvcaojingling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/63/if53hkrrpvwkryyf9p9uvsawlvuvgt3.png/180px-JL_lvcaojingling.png",
+        "tr_desc": "离场后，更换入场的精灵以木桶状态登场。"
     },
     {
         "no": "094",
@@ -2773,7 +2957,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "木桶戏法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/jdt8fx3lb2rrkk5gwgs1tnxg1ckjh94.png/180px-JL_mocaowuling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/jdt8fx3lb2rrkk5gwgs1tnxg1ckjh94.png/180px-JL_mocaowuling.png",
+        "tr_desc": "离场后，更换入场的精灵以木桶状态登场。"
     },
     {
         "no": "095",
@@ -2788,7 +2973,8 @@ const SPIRITS =
         "a2": "",
         "tr": "不移",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/7hzwzxm707lyp8nlufl4xm9ht8zhuo7.png/180px-JL_jiyishi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/7hzwzxm707lyp8nlufl4xm9ht8zhuo7.png/180px-JL_jiyishi.png",
+        "tr_desc": "携带的无额外效果的攻击技能，威力+30%。"
     },
     {
         "no": "096",
@@ -2803,7 +2989,8 @@ const SPIRITS =
         "a2": "普通",
         "tr": "咔咔冲刺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/qzppadvfql1w2569uab6eb1516g3ude.png/180px-JL_kakayumao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b0/qzppadvfql1w2569uab6eb1516g3ude.png/180px-JL_kakayumao.png",
+        "tr_desc": "若先于敌方行动，行动后获得连击数+1。"
     },
     {
         "no": "097",
@@ -2818,7 +3005,8 @@ const SPIRITS =
         "a2": "普通",
         "tr": "咔咔冲刺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/2iofk5t54r3wyodkgjncqcx8w6tfcez.png/180px-JL_kakaque.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/2iofk5t54r3wyodkgjncqcx8w6tfcez.png/180px-JL_kakaque.png",
+        "tr_desc": "若先于敌方行动，行动后获得连击数+1。"
     },
     {
         "no": "098",
@@ -2833,7 +3021,8 @@ const SPIRITS =
         "a2": "普通",
         "tr": "咔咔冲刺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/df/htbw3oog5scl1a04g0wnmci5oxz70w5.png/180px-JL_kakaniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/df/htbw3oog5scl1a04g0wnmci5oxz70w5.png/180px-JL_kakaniao.png",
+        "tr_desc": "若先于敌方行动，行动后获得连击数+1。"
     },
     {
         "no": "099",
@@ -2848,7 +3037,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "花精灵",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/mln1z8fodt08k502sg65r85iun52aj2.png/180px-JL_xiaocaochong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/mln1z8fodt08k502sg65r85iun52aj2.png/180px-JL_xiaocaochong.png",
+        "tr_desc": "回合结束时，己方队伍获得1次随机奉献。"
     },
     {
         "no": "100",
@@ -2863,7 +3053,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "花精灵",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/32eo2dh81m71u1ndbw7ltwwnmatiqba.png/180px-JL_caoyichong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/74/32eo2dh81m71u1ndbw7ltwwnmatiqba.png/180px-JL_caoyichong.png",
+        "tr_desc": "回合结束时，己方队伍获得1次随机奉献。"
     },
     {
         "no": "101",
@@ -2878,7 +3069,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "花精灵",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/tixzqs58uswzrvb5xgrg0lbh8w3iyc2.png/180px-JL_huayidie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/tixzqs58uswzrvb5xgrg0lbh8w3iyc2.png/180px-JL_huayidie.png",
+        "tr_desc": "回合结束时，己方队伍获得1次随机奉献。"
     },
     {
         "no": "102",
@@ -2893,7 +3085,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "自由飘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/5q82wqhltm5g19lfhs4supyl72f0c45.png/180px-JL_lvyiniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/5q82wqhltm5g19lfhs4supyl72f0c45.png/180px-JL_lvyiniao.png",
+        "tr_desc": "自己每有1层萌化，获得连击数+3。"
     },
     {
         "no": "103",
@@ -2908,7 +3101,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "自由飘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/38/sfoxpsilk7n8ipggmdqpmqirbmr1eb7.png/180px-JL_moyiniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/38/sfoxpsilk7n8ipggmdqpmqirbmr1eb7.png/180px-JL_moyiniao.png",
+        "tr_desc": "自己每有1层萌化，获得连击数+3。"
     },
     {
         "no": "104",
@@ -2923,7 +3117,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "自由飘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/86ingoumo5f3rv58260v3rpchqfeach.png/180px-JL_mojuanniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/86ingoumo5f3rv58260v3rpchqfeach.png/180px-JL_mojuanniao.png",
+        "tr_desc": "自己每有1层萌化，获得连击数+3。"
     },
     {
         "no": "105",
@@ -2938,7 +3133,8 @@ const SPIRITS =
         "a2": "",
         "tr": "石头大餐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/39aobydudzz3or732j2l8tpj6jbf9w6.png/180px-JL_amiyate.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0c/39aobydudzz3or732j2l8tpj6jbf9w6.png/180px-JL_amiyate.png",
+        "tr_desc": "能量不足时，消耗5%生命，代替1能量。"
     },
     {
         "no": "106",
@@ -2953,7 +3149,8 @@ const SPIRITS =
         "a2": "",
         "tr": "石头大餐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/sk9xj40zpp58v6kvkdp7bsmto733ojs.png/180px-JL_amiying.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/sk9xj40zpp58v6kvkdp7bsmto733ojs.png/180px-JL_amiying.png",
+        "tr_desc": "能量不足时，消耗5%生命，代替1能量。"
     },
     {
         "no": "107",
@@ -2968,7 +3165,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "石头大餐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7d/rl7pbmd2l834rum2ydfmvccmppplc4h.png/180px-JL_luoyin.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7d/rl7pbmd2l834rum2ydfmvccmppplc4h.png/180px-JL_luoyin.png",
+        "tr_desc": "能量不足时，消耗5%生命，代替1能量。"
     },
     {
         "no": "107",
@@ -2983,7 +3181,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "盛宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/2earnanpp0lgxvt6plkfr5qm2d5qc2h.png/180px-JL_shenyuanluoyin.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/2earnanpp0lgxvt6plkfr5qm2d5qc2h.png/180px-JL_shenyuanluoyin.png",
+        "tr_desc": "能量不足时，消耗5%最大生命，代替1能量。生命低于50%时，获得吸血100%。"
     },
     {
         "no": "108",
@@ -2998,7 +3197,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "水翼推进",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/mhi1jr0gyc1tf9u1txc7ona0eoxm884.png/180px-JL_fuzhousha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/mhi1jr0gyc1tf9u1txc7ona0eoxm884.png/180px-JL_fuzhousha.png",
+        "tr_desc": "己方精灵每使用1次水系技能，自己入场时获得全技能能耗-1。"
     },
     {
         "no": "109",
@@ -3013,7 +3213,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "水翼推进",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/e9ayrbe59rpfdtlub1dneqnul5cizhp.png/180px-JL_landiesha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/bf/e9ayrbe59rpfdtlub1dneqnul5cizhp.png/180px-JL_landiesha.png",
+        "tr_desc": "己方精灵每使用1次水系技能，自己入场时获得全技能能耗-1。"
     },
     {
         "no": "110",
@@ -3028,7 +3229,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "水翼推进",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a3/88s1q5qt4a8scdw4yf9gqu9hfqr741j.png/180px-JL_caidiesha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a3/88s1q5qt4a8scdw4yf9gqu9hfqr741j.png/180px-JL_caidiesha.png",
+        "tr_desc": "己方精灵每使用1次水系技能，自己入场时获得全技能能耗-1。"
     },
     {
         "no": "110",
@@ -3043,7 +3245,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "水翼飞升",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e7/0cnm7xkq50q0bo3q5zuoow48v03dn21.png/180px-JL_caidiesha_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e7/0cnm7xkq50q0bo3q5zuoow48v03dn21.png/180px-JL_caidiesha_shouling.png",
+        "tr_desc": "己方精灵每使用1次水系技能，自己入场时获得全技能能耗-1，且能耗为0的技能威力+30%。"
     },
     {
         "no": "111",
@@ -3058,7 +3261,8 @@ const SPIRITS =
         "a2": "",
         "tr": "石天平",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/imnxcwr9e25tibdwpu1qsrctvvvnpw5.png/180px-JL_xiaoshitou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/imnxcwr9e25tibdwpu1qsrctvvvnpw5.png/180px-JL_xiaoshitou.png",
+        "tr_desc": "若使用技能能耗高于敌方，回合结束敌方失去能耗之差的能量。"
     },
     {
         "no": "112",
@@ -3073,7 +3277,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "石天平",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/9n22zxopurxb52re9aibsgu9ol5g9u3.png/180px-JL_julingshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/9n22zxopurxb52re9aibsgu9ol5g9u3.png/180px-JL_julingshi.png",
+        "tr_desc": "若使用技能能耗高于敌方，回合结束敌方失去能耗之差的能量。"
     },
     {
         "no": "113",
@@ -3088,7 +3293,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "观星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/42/s2kjxdnjh9cwa6xlxs8469ns7650l9w.png/180px-JL_maya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/42/s2kjxdnjh9cwa6xlxs8469ns7650l9w.png/180px-JL_maya.png",
+        "tr_desc": "敌方每有1层星陨印记，自己的地系技能威力+20%。"
     },
     {
         "no": "114",
@@ -3103,7 +3309,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "观星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0e/jejif5s5derud4sq5av2filt4ryegr8.png/180px-JL_mayazhixing.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0e/jejif5s5derud4sq5av2filt4ryegr8.png/180px-JL_mayazhixing.png",
+        "tr_desc": "敌方每有1层星陨印记，自己的地系技能威力+20%。"
     },
     {
         "no": "115",
@@ -3118,7 +3325,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "观星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/fsyonnc5yruh4pvnvejdb673zcgajql.png/180px-JL_mayashixianggui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/fsyonnc5yruh4pvnvejdb673zcgajql.png/180px-JL_mayashixianggui.png",
+        "tr_desc": "敌方每有1层星陨印记，自己的地系技能威力+20%。"
     },
     {
         "no": "115",
@@ -3133,7 +3341,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "坠星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/sobor11cm2407czen14zaybb5nlj19q.png/180px-JL_yishijuxiang_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/sobor11cm2407czen14zaybb5nlj19q.png/180px-JL_yishijuxiang_shouling.png",
+        "tr_desc": "敌方每有1层星陨印记，自己的技能威力+20%。"
     },
     {
         "no": "116",
@@ -3148,7 +3357,8 @@ const SPIRITS =
         "a2": "",
         "tr": "目空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/rylq338aqvrqnzxcxyw51elcbq2y4eo.png/180px-JL_xiaodujiaoshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/rylq338aqvrqnzxcxyw51elcbq2y4eo.png/180px-JL_xiaodujiaoshou.png",
+        "tr_desc": "携带的非光系技能，威力+25%。"
     },
     {
         "no": "117",
@@ -3163,7 +3373,8 @@ const SPIRITS =
         "a2": "",
         "tr": "目空",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/4hir5b9awrtty0qrquv2e9l183y4a4u.png/180px-JL_baijindujiaoshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/4hir5b9awrtty0qrquv2e9l183y4a4u.png/180px-JL_baijindujiaoshou.png",
+        "tr_desc": "携带的非光系技能，威力+25%。"
     },
     {
         "no": "117",
@@ -3178,7 +3389,8 @@ const SPIRITS =
         "a2": "",
         "tr": "夺目",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/02futi8m26y4y2ug5aphr1yz152jgig.png/180px-JL_yilisi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/02futi8m26y4y2ug5aphr1yz152jgig.png/180px-JL_yilisi.png",
+        "tr_desc": "额外获得三个未携带的随机技能，且非光系技能威力+25%。"
     },
     {
         "no": "118",
@@ -3193,7 +3405,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/0jtyv74wjkxa96zy336x469hstmmjyp.png/180px-JL_xuanyanchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/0jtyv74wjkxa96zy336x469hstmmjyp.png/180px-JL_xuanyanchong.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "119",
@@ -3208,7 +3421,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a2/06kxgqnp0c110mjtoyx4lgszhnmw7a6.png/180px-JL_pengyechong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a2/06kxgqnp0c110mjtoyx4lgszhnmw7a6.png/180px-JL_pengyechong.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "120",
@@ -3223,7 +3437,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/ci17uu17g1weeaevc442zrx578epzit.png/180px-JL_fenggunmuchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/ci17uu17g1weeaevc442zrx578epzit.png/180px-JL_fenggunmuchong.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "120",
@@ -3238,7 +3453,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "齐鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/0jr3hj3nslqtjvkemzeruw3glg0g3j5.png/180px-JL_fenggunmuchong_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/0jr3hj3nslqtjvkemzeruw3glg0g3j5.png/180px-JL_fenggunmuchong_shouling.png",
+        "tr_desc": "自己携带的「虫鸣」技能威力+20，己方精灵携带的虫系技能获得巧变：虫鸣。"
     },
     {
         "no": "118",
@@ -3253,7 +3469,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/4yvnqhjk726hwgsqevgtmnbr35sc9bt.png/180px-JL_xuanyechong_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/4yvnqhjk726hwgsqevgtmnbr35sc9bt.png/180px-JL_xuanyechong_yidi.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "119",
@@ -3268,7 +3485,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/40/gqzxr34bbw8uz2xevc3fwg6mvvllf53.png/180px-JL_pengyechong_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/40/gqzxr34bbw8uz2xevc3fwg6mvvllf53.png/180px-JL_pengyechong_yidi.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "120",
@@ -3283,7 +3501,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "共鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/euosawzqxqsd9o3eonundx3fikd1qo2.png/180px-JL_fengguanmuchong_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/euosawzqxqsd9o3eonundx3fikd1qo2.png/180px-JL_fengguanmuchong_yidi.png",
+        "tr_desc": "携带的【虫鸣】技能威力+20。"
     },
     {
         "no": "120",
@@ -3298,7 +3517,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "齐鸣",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/0jr3hj3nslqtjvkemzeruw3glg0g3j5.png/180px-JL_fenggunmuchong_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/0jr3hj3nslqtjvkemzeruw3glg0g3j5.png/180px-JL_fenggunmuchong_shouling.png",
+        "tr_desc": "自己携带的「虫鸣」技能威力+20，己方精灵携带的虫系技能获得巧变：虫鸣。"
     },
     {
         "no": "121",
@@ -3313,7 +3533,8 @@ const SPIRITS =
         "a2": "",
         "tr": "预警",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/ehpqxykqf7109nopd25v5gisl9ke5jt.png/180px-JL_xiaoheimao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/ehpqxykqf7109nopd25v5gisl9ke5jt.png/180px-JL_xiaoheimao.png",
+        "tr_desc": "若敌方技能足够击败自己，回合开始时自己获得速度+50。"
     },
     {
         "no": "122",
@@ -3328,7 +3549,8 @@ const SPIRITS =
         "a2": "",
         "tr": "预警",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/ep8cg026x7cs64a70btok859kudtey3.png/180px-JL_heimaowushi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/ep8cg026x7cs64a70btok859kudtey3.png/180px-JL_heimaowushi.png",
+        "tr_desc": "若敌方技能足够击败自己，回合开始时自己获得速度+50。"
     },
     {
         "no": "122",
@@ -3343,7 +3565,8 @@ const SPIRITS =
         "a2": "",
         "tr": "先知",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/42/0g2677q4oxakjxcoq3g66jcnxhxvm94.png/180px-JL_heimaowushi_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/42/0g2677q4oxakjxcoq3g66jcnxhxvm94.png/180px-JL_heimaowushi_shouling.png",
+        "tr_desc": "若敌方技能足够击败自己，回合开始时自己获得速度+50，双攻+50%。"
     },
     {
         "no": "123",
@@ -3358,7 +3581,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "下黑手",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/ohqvft80ee3jq6s8zledplv3dqbevsy.png/180px-JL_huyouli.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/ohqvft80ee3jq6s8zledplv3dqbevsy.png/180px-JL_huyouli.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵获得5层中毒。"
     },
     {
         "no": "124",
@@ -3373,7 +3597,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "下黑手",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/5fpdxcqae8nqtp2v7gdanood03tgilj.png/180px-JL_youlingli.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/5fpdxcqae8nqtp2v7gdanood03tgilj.png/180px-JL_youlingli.png",
+        "tr_desc": "敌方精灵离场后，更换入场的精灵获得5层中毒。"
     },
     {
         "no": "125",
@@ -3388,7 +3613,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "毒牙",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/2s6uepmtijrm1etsx4ya5i2lqjvuwwx.png/180px-JL_duoduo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e8/2s6uepmtijrm1etsx4ya5i2lqjvuwwx.png/180px-JL_duoduo.png",
+        "tr_desc": "使敌方获得中毒时，也会使其获得物攻 - 40%, 速度 - 40"
     },
     {
         "no": "126",
@@ -3403,7 +3629,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "毒牙",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/e1r42tin4z91lz72om9ahk4u9t7g0z9.png/180px-JL_duoladuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/e1r42tin4z91lz72om9ahk4u9t7g0z9.png/180px-JL_duoladuo.png",
+        "tr_desc": "使敌方获得中毒时，也会使其获得物攻 - 40%, 速度 - 40"
     },
     {
         "no": "127",
@@ -3418,7 +3645,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "毒牙",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d4/5isucddgpzgvks4fngw4efns06eag8s.png/180px-JL_guladuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d4/5isucddgpzgvks4fngw4efns06eag8s.png/180px-JL_guladuo.png",
+        "tr_desc": "使敌方获得中毒时，也会使其获得物攻 - 40%, 速度 - 40"
     },
     {
         "no": "128",
@@ -3433,7 +3661,8 @@ const SPIRITS =
         "a2": "",
         "tr": "吸积盘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/aqsfcttcorv8wzctotgvveoujbckpms.png/180px-JL_kukugu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1a/aqsfcttcorv8wzctotgvveoujbckpms.png/180px-JL_kukugu.png",
+        "tr_desc": "回合结束时，敌方获得2层星陨印记。"
     },
     {
         "no": "129",
@@ -3448,7 +3677,8 @@ const SPIRITS =
         "a2": "",
         "tr": "吸积盘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c5/9gpwp830x6ginmn95hdp0tebas2ys2j.png/180px-JL_buxugu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c5/9gpwp830x6ginmn95hdp0tebas2ys2j.png/180px-JL_buxugu.png",
+        "tr_desc": "回合结束时，敌方获得2层星陨印记。"
     },
     {
         "no": "130",
@@ -3463,7 +3693,8 @@ const SPIRITS =
         "a2": "",
         "tr": "吸积盘",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/1iwbhf57998ds3u3xdtsfzbuwjobegl.png/180px-JL_bukugu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/1iwbhf57998ds3u3xdtsfzbuwjobegl.png/180px-JL_bukugu.png",
+        "tr_desc": "回合结束时，敌方获得2层星陨印记。"
     },
     {
         "no": "131",
@@ -3478,7 +3709,8 @@ const SPIRITS =
         "a2": "",
         "tr": "悲悯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/p10i55s8rn0r0lhip6ypmgcr2zrk9as.png/180px-JL_emolang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/p10i55s8rn0r0lhip6ypmgcr2zrk9as.png/180px-JL_emolang.png",
+        "tr_desc": "己方队伍中每有1只力竭的精灵，自己获得双攻+30%。"
     },
     {
         "no": "131",
@@ -3493,7 +3725,8 @@ const SPIRITS =
         "a2": "",
         "tr": "悼亡",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/nnjkkl0gws6ymqp5xx86vt93hbk67bn.png/180px-JL_emolang_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/nnjkkl0gws6ymqp5xx86vt93hbk67bn.png/180px-JL_emolang_shouling.png",
+        "tr_desc": "双方队伍中每有1只力竭的精灵，自己获得双攻+30%。"
     },
     {
         "no": "132",
@@ -3508,7 +3741,8 @@ const SPIRITS =
         "a2": "电",
         "tr": "超负荷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/8hj81poazwgqr50k7l2n08c5j0ckbn5.png/180px-JL_xiaodianqie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/8hj81poazwgqr50k7l2n08c5j0ckbn5.png/180px-JL_xiaodianqie.png",
+        "tr_desc": "攻击技能获得迸发：敌方获得全技能能耗+1。"
     },
     {
         "no": "133",
@@ -3523,7 +3757,8 @@ const SPIRITS =
         "a2": "电",
         "tr": "超负荷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/0gnyyoo13efackhal3j9yrhzfv46wok.png/180px-JL_dianqie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/0gnyyoo13efackhal3j9yrhzfv46wok.png/180px-JL_dianqie.png",
+        "tr_desc": "攻击技能获得迸发：敌方获得全技能能耗+1。"
     },
     {
         "no": "134",
@@ -3538,7 +3773,8 @@ const SPIRITS =
         "a2": "",
         "tr": "结晶水",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/89/im4j3t8f4v5e1mavpw44q6mujpkvwy5.png/180px-JL_xuedouding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/89/im4j3t8f4v5e1mavpw44q6mujpkvwy5.png/180px-JL_xuedouding.png",
+        "tr_desc": ""
     },
     {
         "no": "135",
@@ -3553,7 +3789,8 @@ const SPIRITS =
         "a2": "",
         "tr": "结晶水",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/jahyu6g3wganhb482n7ypr4io13e6me.png/180px-JL_xuemanren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/jahyu6g3wganhb482n7ypr4io13e6me.png/180px-JL_xuemanren.png",
+        "tr_desc": ""
     },
     {
         "no": "136",
@@ -3568,7 +3805,8 @@ const SPIRITS =
         "a2": "",
         "tr": "结晶水",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/rg8g40izqvj3qn267d3s879mpezzmdd.png/180px-JL_xuejuren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/rg8g40izqvj3qn267d3s879mpezzmdd.png/180px-JL_xuejuren.png",
+        "tr_desc": ""
     },
     {
         "no": "137",
@@ -3583,7 +3821,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "冻土",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/fkot36fev3qk8wrl3cnioeyzsnnfy07.png/180px-JL_huhuzhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/fkot36fev3qk8wrl3cnioeyzsnnfy07.png/180px-JL_huhuzhu.png",
+        "tr_desc": "每携带1个冰系技能进入战斗，地系技能威力+10%。"
     },
     {
         "no": "138",
@@ -3598,7 +3837,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "冻土",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/58/qh1f4774u5dniyjhwzsflznqwxxnmjj.png/180px-JL_liaoyazhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/58/qh1f4774u5dniyjhwzsflznqwxxnmjj.png/180px-JL_liaoyazhu.png",
+        "tr_desc": "每携带1个冰系技能进入战斗，地系技能威力+10%。"
     },
     {
         "no": "139",
@@ -3613,7 +3853,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰封",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/6ocfl45xal5dgjm0p58120s6nmhuc13.png/180px-JL_xuewawa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/6ocfl45xal5dgjm0p58120s6nmhuc13.png/180px-JL_xuewawa.png",
+        "tr_desc": "在场时，敌方全技能能耗+1。"
     },
     {
         "no": "140",
@@ -3628,7 +3869,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰封",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/89/tvo5qcxcbr0a4depnrbebzd3gdmt316.png/180px-JL_bingfengyuanling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/89/tvo5qcxcbr0a4depnrbebzd3gdmt316.png/180px-JL_bingfengyuanling.png",
+        "tr_desc": "在场时，敌方全技能能耗+1。"
     },
     {
         "no": "141",
@@ -3643,7 +3885,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰封",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/dgwr8orpj0fvcvananycwa93scqme5p.png/180px-JL_xueling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/dgwr8orpj0fvcvananycwa93scqme5p.png/180px-JL_xueling.png",
+        "tr_desc": "在场时，敌方全技能能耗+1。"
     },
     {
         "no": "142",
@@ -3658,7 +3901,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "捉迷藏",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/guy4b6z3uuwsko72hmcbrulojeb87uu.png/180px-JL_daermaodou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/guy4b6z3uuwsko72hmcbrulojeb87uu.png/180px-JL_daermaodou.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得全技能能耗+1。"
     },
     {
         "no": "143",
@@ -3673,7 +3917,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "捉迷藏",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/qzj02vvv7bcznoinf5vlpupf5ayj2cf.png/180px-JL_maodouwawa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/qzj02vvv7bcznoinf5vlpupf5ayj2cf.png/180px-JL_maodouwawa.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得全技能能耗+1。"
     },
     {
         "no": "144",
@@ -3688,7 +3933,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "捉迷藏",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4c/lmc3s1kouusumtbveogttnow6qh5z7d.png/180px-JL_xueyingwawa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4c/lmc3s1kouusumtbveogttnow6qh5z7d.png/180px-JL_xueyingwawa.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得全技能能耗+1。"
     },
     {
         "no": "144",
@@ -3703,7 +3949,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "抓到你了",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/n8v8t8x1qtnjbt9dfk9mas6mjtaqk3o.png/180px-JL_xueyingwawa_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/n8v8t8x1qtnjbt9dfk9mas6mjtaqk3o.png/180px-JL_xueyingwawa_shouling.png",
+        "tr_desc": "自己入场时敌方获得2层冻结，使敌方获得冻结时，也会使其获得全技能能耗+1。"
     },
     {
         "no": "145",
@@ -3718,7 +3965,8 @@ const SPIRITS =
         "a2": "",
         "tr": "机械变式",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/0qdu41cbhfawxyuhfvk0km5vlj55229.png/180px-JL_quanzhagn1.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/0qdu41cbhfawxyuhfvk0km5vlj55229.png/180px-JL_quanzhagn1.png",
+        "tr_desc": "自己携带的技能每回合位置变化时，该技能能耗-1。"
     },
     {
         "no": "146",
@@ -3733,7 +3981,8 @@ const SPIRITS =
         "a2": "",
         "tr": "机械变式",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/pjx70tg82f4iy1xdqgl22yru2j9xi3s.png/180px-JL_quanzhagn2.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/pjx70tg82f4iy1xdqgl22yru2j9xi3s.png/180px-JL_quanzhagn2.png",
+        "tr_desc": "自己携带的技能每回合位置变化时，该技能能耗-1。"
     },
     {
         "no": "147",
@@ -3748,7 +3997,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "灵魂灼伤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a9/q8h0y0esk7db4ol4xasbisiw8w7bz92.png/180px-JL_linghu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a9/q8h0y0esk7db4ol4xasbisiw8w7bz92.png/180px-JL_linghu.png",
+        "tr_desc": "冰系技能使敌方获得4层灼烧，火系技能使敌方获得2层冻结。"
     },
     {
         "no": "148",
@@ -3763,7 +4013,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "灵魂灼伤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/6nwhb377rkrl6czvii6g6imaegvahfy.png/180px-JL_jiuweihu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/6nwhb377rkrl6czvii6g6imaegvahfy.png/180px-JL_jiuweihu.png",
+        "tr_desc": "冰系技能使敌方获得4层灼烧，火系技能使敌方获得2层冻结。"
     },
     {
         "no": "149",
@@ -3778,7 +4029,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "灵魂灼伤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/bczx8wm0rabbb0l2k5at48t901ybutx.png/180px-JL_jianzuihuxian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/bczx8wm0rabbb0l2k5at48t901ybutx.png/180px-JL_jianzuihuxian.png",
+        "tr_desc": "冰系技能使敌方获得4层灼烧，火系技能使敌方获得2层冻结。"
     },
     {
         "no": "150",
@@ -3793,7 +4045,8 @@ const SPIRITS =
         "a2": "",
         "tr": "飓风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/473hekgrpo62e6kuxru1a4g5oaax2ej.png/180px-JL_liao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/473hekgrpo62e6kuxru1a4g5oaax2ej.png/180px-JL_liao.png",
+        "tr_desc": "对本精灵的技能，若其他翼系精灵携带相同技能，则获得迅捷。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "151",
@@ -3808,7 +4061,8 @@ const SPIRITS =
         "a2": "",
         "tr": "飓风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/48/8pcjz5bkbrq4fndmrtdes0d1mnw7e9y.png/180px-JL_lingyuyongshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/48/8pcjz5bkbrq4fndmrtdes0d1mnw7e9y.png/180px-JL_lingyuyongshi.png",
+        "tr_desc": "对本精灵的技能，若其他翼系精灵携带相同技能，则获得迅捷。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "152",
@@ -3823,7 +4077,8 @@ const SPIRITS =
         "a2": "",
         "tr": "飓风",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/92/51n9y1umiezcgkw3erghq43nlanzw7w.png/180px-JL_shengyuyiwang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/92/51n9y1umiezcgkw3erghq43nlanzw7w.png/180px-JL_shengyuyiwang.png",
+        "tr_desc": "对本精灵的技能，若其他翼系精灵携带相同技能，则获得迅捷。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "153",
@@ -3838,7 +4093,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "野性感官",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/7ozahbmzblchy4qz1cyo1i5u806jwdc.png/180px-JL_songzai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/7ozahbmzblchy4qz1cyo1i5u806jwdc.png/180px-JL_songzai.png",
+        "tr_desc": "应对成功后，下次行动先手+1。"
     },
     {
         "no": "154",
@@ -3853,7 +4109,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "野性感官",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/19maguu7bp77ewkcyfxjx0irulhx5he.png/180px-JL_yesongyang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/03/19maguu7bp77ewkcyfxjx0irulhx5he.png/180px-JL_yesongyang.png",
+        "tr_desc": "应对成功后，下次行动先手+1。"
     },
     {
         "no": "155",
@@ -3868,7 +4125,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "野性感官",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/dmap75c8ljjxxifwba3dr50qcdnml15.png/180px-JL_zhenyexunlin.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/dmap75c8ljjxxifwba3dr50qcdnml15.png/180px-JL_zhenyexunlin.png",
+        "tr_desc": "应对成功后，下次行动先手+1。"
     },
     {
         "no": "156",
@@ -3883,7 +4141,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "圣火骑士",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/ro5sl3wjkkm8t5pwf7qdjlett7hnrky.png/180px-JL_xiaoyongshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/ro5sl3wjkkm8t5pwf7qdjlett7hnrky.png/180px-JL_xiaoyongshi.png",
+        "tr_desc": "应对成功后，下次攻击威力翻倍。"
     },
     {
         "no": "157",
@@ -3898,7 +4157,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "圣火骑士",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/52auh059hhkoav0vwje6osgtrqvind7.png/180px-JL_chiyanshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/52auh059hhkoav0vwje6osgtrqvind7.png/180px-JL_chiyanshi.png",
+        "tr_desc": "应对成功后，下次攻击威力翻倍。"
     },
     {
         "no": "158",
@@ -3913,7 +4173,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "圣火骑士",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/93/t2q3x2t5sg8ncy7ijyrsramvt1cgw2t.png/180px-JL_chixinyongshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/93/t2q3x2t5sg8ncy7ijyrsramvt1cgw2t.png/180px-JL_chixinyongshi.png",
+        "tr_desc": "应对成功后，下次攻击威力翻倍。"
     },
     {
         "no": "159",
@@ -3928,7 +4189,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "思维之盾",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/c21r41bd7sfpr3m6uy3npl5ek4aij70.png/180px-JL_shuidishe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/c21r41bd7sfpr3m6uy3npl5ek4aij70.png/180px-JL_shuidishe.png",
+        "tr_desc": "应对成功后，下次行动技能能耗-5。"
     },
     {
         "no": "160",
@@ -3943,7 +4205,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "思维之盾",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/0qviky5i8r6oik5zfa5lpcz62v6ch7t.png/180px-JL_shuishesuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/0qviky5i8r6oik5zfa5lpcz62v6ch7t.png/180px-JL_shuishesuo.png",
+        "tr_desc": "应对成功后，下次行动技能能耗-5。"
     },
     {
         "no": "161",
@@ -3958,7 +4221,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "思维之盾",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/prepa9bgfrvr034d9ou78u348tjlwbd.png/180px-JL_youshemoshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/prepa9bgfrvr034d9ou78u348tjlwbd.png/180px-JL_youshemoshi.png",
+        "tr_desc": "应对成功后，下次行动技能能耗-5。"
     },
     {
         "no": "162",
@@ -3973,7 +4237,8 @@ const SPIRITS =
         "a2": "",
         "tr": "衡量",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/eupj85or6zwgfckuhf7asiq6x9l93h0.png/180px-JL_gongpingge.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d1/eupj85or6zwgfckuhf7asiq6x9l93h0.png/180px-JL_gongpingge.png",
+        "tr_desc": "入场时，复制敌方的增益。在场时，若敌方获得增益自己也会获得。"
     },
     {
         "no": "163",
@@ -3988,7 +4253,8 @@ const SPIRITS =
         "a2": "",
         "tr": "威慑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/ch0ymrmlzjgdr60o4iljkq14qs3uqab.png/180px-JL_xiaosongmao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/ch0ymrmlzjgdr60o4iljkq14qs3uqab.png/180px-JL_xiaosongmao.png",
+        "tr_desc": "打断敌方时，被打断的技能进入2回合冷却。"
     },
     {
         "no": "164",
@@ -4003,7 +4269,8 @@ const SPIRITS =
         "a2": "",
         "tr": "威慑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/qd5yuts8t0e0uqwo9h0b39pz36ou3i2.png/180px-JL_numusongmao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/qd5yuts8t0e0uqwo9h0b39pz36ou3i2.png/180px-JL_numusongmao.png",
+        "tr_desc": "打断敌方时，被打断的技能进入2回合冷却。"
     },
     {
         "no": "165",
@@ -4018,7 +4285,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/7rnmeqhmntsn2w2lifoogdi5dvsmmog.png/180px-JL_xiaoshijiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/7rnmeqhmntsn2w2lifoogdi5dvsmmog.png/180px-JL_xiaoshijiu.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "166",
@@ -4033,7 +4301,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3c/hlzz2y5wj0r39cxrlfbey99vf7vksmq.png/180px-JL_shenshengshijiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3c/hlzz2y5wj0r39cxrlfbey99vf7vksmq.png/180px-JL_shenshengshijiu.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "167",
@@ -4048,7 +4317,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/rnsik0v8z4uwy43bq9qopw2oe28ndqz.png/180px-JL_huangjiashijiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/rnsik0v8z4uwy43bq9qopw2oe28ndqz.png/180px-JL_huangjiashijiu.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "165",
@@ -4063,7 +4333,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/8msnbt5ptmjpe7lqhqv758e1hz86ddq.png/180px-JL_xiaoshijiu_gaoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/8msnbt5ptmjpe7lqhqv758e1hz86ddq.png/180px-JL_xiaoshijiu_gaoshan.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "166",
@@ -4078,7 +4349,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/20/9s18a4naf4f1fcvyrclfbubggojivdy.png/180px-JL_shenshengshijiu_gaoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/20/9s18a4naf4f1fcvyrclfbubggojivdy.png/180px-JL_shenshengshijiu_gaoshan.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "167",
@@ -4093,7 +4365,8 @@ const SPIRITS =
         "a2": "",
         "tr": "乘风连击",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ae/2bp8l82ebwmyp6uyhj5zfi9llyb2umd.png/180px-JL_huangjiashijiu_gaoshan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ae/2bp8l82ebwmyp6uyhj5zfi9llyb2umd.png/180px-JL_huangjiashijiu_gaoshan.png",
+        "tr_desc": "使用翼系技能后，获得连击数+1。"
     },
     {
         "no": "168",
@@ -4108,7 +4381,8 @@ const SPIRITS =
         "a2": "",
         "tr": "毒腺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/c0unw8u8xfxowsjjfeu8jsw74mqqzjh.png/180px-JL_yuanyanzhizhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/c0unw8u8xfxowsjjfeu8jsw74mqqzjh.png/180px-JL_yuanyanzhizhu.png",
+        "tr_desc": "使用能耗小于等于1的技能时，敌方获得4层中毒。"
     },
     {
         "no": "169",
@@ -4123,7 +4397,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "毒腺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e9/0uhqx4uzt3l08zrpfl8bt6nwl8ivh5o.png/180px-JL_jianjiaozhizhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e9/0uhqx4uzt3l08zrpfl8bt6nwl8ivh5o.png/180px-JL_jianjiaozhizhu.png",
+        "tr_desc": "使用能耗小于等于1的技能时，敌方获得4层中毒。"
     },
     {
         "no": "170",
@@ -4138,7 +4413,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "毒腺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/2cdntp0f2reiawqy5sqem1gh43oahai.png/180px-JL_fengcizhizhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/2cdntp0f2reiawqy5sqem1gh43oahai.png/180px-JL_fengcizhizhu.png",
+        "tr_desc": "使用能耗小于等于1的技能时，敌方获得4层中毒。"
     },
     {
         "no": "171",
@@ -4153,7 +4429,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/gjf5wwk8z5x6i7md708u68hgpscyyqc.png/180px-JL_boboluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/gjf5wwk8z5x6i7md708u68hgpscyyqc.png/180px-JL_boboluo.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "172",
@@ -4168,7 +4445,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/3ljlgfutjexxirt25szzksdno7k6rpp.png/180px-JL_xiaoboluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/3ljlgfutjexxirt25szzksdno7k6rpp.png/180px-JL_xiaoboluo.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "173",
@@ -4183,7 +4461,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/sqsb8zhpo4xyewr0unun446fdq1zkte.png/180px-JL_shiboluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/sqsb8zhpo4xyewr0unun446fdq1zkte.png/180px-JL_shiboluo.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "171",
@@ -4198,7 +4477,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/qvh22nwomqb9ph7b97r1a3dn7kqj6n6.png/180px-JL_boboluo_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/qvh22nwomqb9ph7b97r1a3dn7kqj6n6.png/180px-JL_boboluo_yidi.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "172",
@@ -4213,7 +4493,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/mr9kftpbcncskrz4mvfv8iinos4x3aq.png/180px-JL_xiaoboluo_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/mr9kftpbcncskrz4mvfv8iinos4x3aq.png/180px-JL_xiaoboluo_yidi.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "173",
@@ -4228,7 +4509,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "消波块",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/r66c4jvtxlnjlrhnn9gzccvafsiwxub.png/180px-JL_shiboluo_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/r66c4jvtxlnjlrhnn9gzccvafsiwxub.png/180px-JL_shiboluo_yidi.png",
+        "tr_desc": "每携带1个水系技能进入战斗，地系技能能耗-1。"
     },
     {
         "no": "174",
@@ -4243,7 +4525,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "多人宿舍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/lgio8eolczpci0docabr12fz7gt416n.png/180px-JL_guguding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/lgio8eolczpci0docabr12fz7gt416n.png/180px-JL_guguding.png",
+        "tr_desc": "自己的能量可以超过能量上限。"
     },
     {
         "no": "175",
@@ -4258,7 +4541,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "多人宿舍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/4xj1mx9tzd9pqpt5c82859g3mwl7sz9.png/180px-JL_duoguding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/4xj1mx9tzd9pqpt5c82859g3mwl7sz9.png/180px-JL_duoguding.png",
+        "tr_desc": "自己的能量可以超过能量上限。"
     },
     {
         "no": "176",
@@ -4273,7 +4557,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "多人宿舍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a8/kr12vfsv9xljlvjetp17khbr6rq5i08.png/180px-JL_jiuyougu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a8/kr12vfsv9xljlvjetp17khbr6rq5i08.png/180px-JL_jiuyougu.png",
+        "tr_desc": "自己的能量可以超过能量上限。"
     },
     {
         "no": "177",
@@ -4288,7 +4573,8 @@ const SPIRITS =
         "a2": "",
         "tr": "逐魂鸟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/8oe6ci1x37bwdyma3c0iqftbcogeh0m.png/180px-JL_banban.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/8oe6ci1x37bwdyma3c0iqftbcogeh0m.png/180px-JL_banban.png",
+        "tr_desc": "能耗小于等于1的攻击技能，无法对自己造成伤害。"
     },
     {
         "no": "178",
@@ -4303,7 +4589,8 @@ const SPIRITS =
         "a2": "",
         "tr": "逐魂鸟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/qjdup6hsilf24zxpyivab52fxiwzf49.png/180px-JL_banxiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/qjdup6hsilf24zxpyivab52fxiwzf49.png/180px-JL_banxiao.png",
+        "tr_desc": "能耗小于等于1的攻击技能，无法对自己造成伤害。"
     },
     {
         "no": "179",
@@ -4318,7 +4605,8 @@ const SPIRITS =
         "a2": "",
         "tr": "得寸进尺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f6/fz259dzvnfzrfkgzwew4ntl9t86lbkp.png/180px-JL_caotouya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f6/fz259dzvnfzrfkgzwew4ntl9t86lbkp.png/180px-JL_caotouya.png",
+        "tr_desc": "天气为雨天，或处于其他水系环境中时，获得双攻+100%。"
     },
     {
         "no": "180",
@@ -4333,7 +4621,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "得寸进尺",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/a1rjs1dm1ghp69kdydccmm3c82zb86b.png/180px-JL_zhuangzhuangya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/59/a1rjs1dm1ghp69kdydccmm3c82zb86b.png/180px-JL_zhuangzhuangya.png",
+        "tr_desc": "天气为雨天，或处于其他水系环境中时，获得双攻+100%。"
     },
     {
         "no": "181",
@@ -4348,7 +4637,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "身经百练",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/12/7n29n7bzcrnfj5m80xjboyxu9ugdnur.png/180px-JL_haibaozhanshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/12/7n29n7bzcrnfj5m80xjboyxu9ugdnur.png/180px-JL_haibaozhanshi.png",
+        "tr_desc": "己方精灵每应对1次，自己入场时水系和武系技能威力+20%。"
     },
     {
         "no": "182",
@@ -4363,7 +4653,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "身经百练",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/7mfqe88qjmk7twfu6xnmzqobz3nlpri.png/180px-JL_haibaochuangzhang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1c/7mfqe88qjmk7twfu6xnmzqobz3nlpri.png/180px-JL_haibaochuangzhang.png",
+        "tr_desc": "己方精灵每应对1次，自己入场时水系和武系技能威力+20%。"
     },
     {
         "no": "183",
@@ -4378,7 +4669,8 @@ const SPIRITS =
         "a2": "",
         "tr": "泛音列",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/t5u9kxcgb1ixghx0u2ghawx8z5ju9s3.png/180px-JL_haoeryu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/t5u9kxcgb1ixghx0u2ghawx8z5ju9s3.png/180px-JL_haoeryu.png",
+        "tr_desc": "使用状态技能后，敌方获得【聒噪】技能的效果，持续3回合。"
     },
     {
         "no": "184",
@@ -4393,7 +4685,8 @@ const SPIRITS =
         "a2": "",
         "tr": "泛音列",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/93/9e8lbset4t8hfqc2tjoij8x075y78l9.png/180px-JL_diyinhaoyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/93/9e8lbset4t8hfqc2tjoij8x075y78l9.png/180px-JL_diyinhaoyu.png",
+        "tr_desc": "使用状态技能后，敌方获得【聒噪】技能的效果，持续3回合。"
     },
     {
         "no": "185",
@@ -4408,7 +4701,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "守护者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/nqtd1vfj4ov3bos7gt3bptb3jwuozrn.png/180px-JL_xiaotiantian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/nqtd1vfj4ov3bos7gt3bptb3jwuozrn.png/180px-JL_xiaotiantian.png",
+        "tr_desc": "己方其他精灵每有1层萌化，自己入场时全技能能耗-1。"
     },
     {
         "no": "186",
@@ -4423,7 +4717,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "守护者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/98rla9x7ksc3btt69iqxzgcymu1mpv9.png/180px-JL_hailuoguniang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/98rla9x7ksc3btt69iqxzgcymu1mpv9.png/180px-JL_hailuoguniang.png",
+        "tr_desc": "己方其他精灵每有1层萌化，自己入场时全技能能耗-1。"
     },
     {
         "no": "187",
@@ -4438,7 +4733,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "守护者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/mjg82mgebk09ihzb5kurjecyp60aoj5.png/180px-JL_kaluoer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/mjg82mgebk09ihzb5kurjecyp60aoj5.png/180px-JL_kaluoer.png",
+        "tr_desc": "己方其他精灵每有1层萌化，自己入场时全技能能耗-1。"
     },
     {
         "no": "188",
@@ -4453,7 +4749,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "腾挪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/2xpon1zoetbaadaex87r3faxk77dv5o.png/180px-JL_qiqi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/2xpon1zoetbaadaex87r3faxk77dv5o.png/180px-JL_qiqi.png",
+        "tr_desc": "攻击技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "189",
@@ -4468,7 +4765,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "腾挪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2f/qmykzcre829psvfs761ahibglxq8dx6.png/180px-JL_qiqishi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2f/qmykzcre829psvfs761ahibglxq8dx6.png/180px-JL_qiqishi.png",
+        "tr_desc": "攻击技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "189",
@@ -4483,7 +4781,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "192",
@@ -4498,7 +4797,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "渗透",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/h8yzpqtg2fqxeb6xihdizbt51ebnzkc.png/180px-JL_qiqihou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/h8yzpqtg2fqxeb6xihdizbt51ebnzkc.png/180px-JL_qiqihou.png",
+        "tr_desc": "己方精灵每使用1次武系或地系技能，自己入场时获得攻防+5%。"
     },
     {
         "no": "192",
@@ -4513,7 +4813,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "190",
@@ -4528,7 +4829,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "保卫",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/o0l58a78cyjm7f5m887pcmqfr72dvdn.png/180px-JL_qiqilei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/10/o0l58a78cyjm7f5m887pcmqfr72dvdn.png/180px-JL_qiqilei.png",
+        "tr_desc": "防御技能应对2次后，回满状态，变为棋绮后。"
     },
     {
         "no": "190",
@@ -4543,7 +4845,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "191",
@@ -4558,7 +4861,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "好象坏象",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/hnb97lbr5xx92t4lukk4nrv4awbdxdk.png/180px-JL_qiqidu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/hnb97lbr5xx92t4lukk4nrv4awbdxdk.png/180px-JL_qiqidu.png",
+        "tr_desc": "状态技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "191",
@@ -4573,7 +4877,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "188",
@@ -4588,7 +4893,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "腾挪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/pbptd6ok1tmglcr6rngx8b870vw3d9q.png/180px-JL_qiqi_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/pbptd6ok1tmglcr6rngx8b870vw3d9q.png/180px-JL_qiqi_yidi.png",
+        "tr_desc": "攻击技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "189",
@@ -4603,7 +4909,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "腾挪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/51/ov9yp8vt1i0h83538ou3se782wgpq3d.png/180px-JL_qiqishi_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/51/ov9yp8vt1i0h83538ou3se782wgpq3d.png/180px-JL_qiqishi_yidi.png",
+        "tr_desc": "攻击技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "189",
@@ -4618,7 +4925,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "192",
@@ -4633,7 +4941,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "渗透",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c2/5z0no902h9vkvw8v5s9lxepk3xdub5t.png/180px-JL_qiqihou_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c2/5z0no902h9vkvw8v5s9lxepk3xdub5t.png/180px-JL_qiqihou_yidi.png",
+        "tr_desc": "己方精灵每使用1次武系或地系技能，自己入场时获得攻防+5%。"
     },
     {
         "no": "192",
@@ -4648,7 +4957,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "190",
@@ -4663,7 +4973,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "保卫",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/8yh0kcq7de7ik9c2xqv95p52sggqbji.png/180px-JL_qiqilei_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/8yh0kcq7de7ik9c2xqv95p52sggqbji.png/180px-JL_qiqilei_yidi.png",
+        "tr_desc": "防御技能应对2次后，回满状态，变为棋绮后。"
     },
     {
         "no": "190",
@@ -4678,7 +4989,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "191",
@@ -4693,7 +5005,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "好象坏象",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/qgz5weru02xj1hvnyxd37ti6s1h6j22.png/180px-JL_qiqidu_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/qgz5weru02xj1hvnyxd37ti6s1h6j22.png/180px-JL_qiqidu_yidi.png",
+        "tr_desc": "状态技能应对1次后，回满状态，变为棋绮后。"
     },
     {
         "no": "191",
@@ -4708,7 +5021,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "御驾亲征",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9a/9iwy5xzs7f6j0putgp6b9rek6egd51x.png/180px-JL_qiqibixia.png",
+        "tr_desc": "棋契陛下大幅提升种族资质，力竭时扣除4魔力。"
     },
     {
         "no": "193",
@@ -4723,7 +5037,8 @@ const SPIRITS =
         "a2": "",
         "tr": "奔波命",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/2o5252ns9dv8775dvcse71gjh5d6a41.png/180px-JL_benboshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2c/2o5252ns9dv8775dvcse71gjh5d6a41.png/180px-JL_benboshu.png",
+        "tr_desc": "使用防御技能后，回合结束时脱离。"
     },
     {
         "no": "194",
@@ -4738,7 +5053,8 @@ const SPIRITS =
         "a2": "",
         "tr": "奔波命",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a6/951zx99obkj75xz4oxwzs2k0rx7bu31.png/180px-JL_liulangshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a6/951zx99obkj75xz4oxwzs2k0rx7bu31.png/180px-JL_liulangshu.png",
+        "tr_desc": "使用防御技能后，回合结束时脱离。"
     },
     {
         "no": "195",
@@ -4753,7 +5069,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "营养液泡",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fb/b7prgptvi9w39j8uh7rgbz1c2ysr6xf.png/180px-JL_daixiaolu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fb/b7prgptvi9w39j8uh7rgbz1c2ysr6xf.png/180px-JL_daixiaolu.png",
+        "tr_desc": "获得增益时，额外获得层数+2。"
     },
     {
         "no": "196",
@@ -4768,7 +5085,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "营养液泡",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a1/3hfr0ez50b6c85s1fwqd6r9lgkegs50.png/180px-JL_wudonglulu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a1/3hfr0ez50b6c85s1fwqd6r9lgkegs50.png/180px-JL_wudonglulu.png",
+        "tr_desc": "获得增益时，额外获得层数+2。"
     },
     {
         "no": "197",
@@ -4783,7 +5101,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "营养液泡",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/be/38gm002avvlpgs3gqfvj6aq064utoej.png/180px-JL_baifalulu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/be/38gm002avvlpgs3gqfvj6aq064utoej.png/180px-JL_baifalulu.png",
+        "tr_desc": "获得增益时，额外获得层数+2。"
     },
     {
         "no": "198",
@@ -4798,7 +5117,8 @@ const SPIRITS =
         "a2": "",
         "tr": "鼓气",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5f/52nlo8bixivsaj98mkx0lwz9pbnt9q4.png/180px-JL_doudou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5f/52nlo8bixivsaj98mkx0lwz9pbnt9q4.png/180px-JL_doudou.png",
+        "tr_desc": "使用能耗为3的技能时，获得攻防+20%。"
     },
     {
         "no": "199",
@@ -4813,7 +5133,8 @@ const SPIRITS =
         "a2": "",
         "tr": "鼓气",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/j4ibl9wquukrwd2gbzuuh9cuwj9856y.png/180px-JL_qiqiumao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/j4ibl9wquukrwd2gbzuuh9cuwj9856y.png/180px-JL_qiqiumao.png",
+        "tr_desc": "使用能耗为3的技能时，获得攻防+20%。"
     },
     {
         "no": "200",
@@ -4828,7 +5149,8 @@ const SPIRITS =
         "a2": "",
         "tr": "鼓气",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/93cyjy4vtse28htwmc1qm4zq908iuh3.png/180px-JL_qimengmi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/93cyjy4vtse28htwmc1qm4zq908iuh3.png/180px-JL_qimengmi.png",
+        "tr_desc": "使用能耗为3的技能时，获得攻防+20%。"
     },
     {
         "no": "200",
@@ -4843,7 +5165,8 @@ const SPIRITS =
         "a2": "",
         "tr": "三鼓作气",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ec/ctsyqecojfoyr0awkuijgh8cutxte29.png/180px-JL_qimengmi_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ec/ctsyqecojfoyr0awkuijgh8cutxte29.png/180px-JL_qimengmi_shouling.png",
+        "tr_desc": "使用能耗为3的技能时，获得攻防永久+20%。"
     },
     {
         "no": "201",
@@ -4858,7 +5181,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "铃兰晚钟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/94/gz0tu42452boryb2tccaxajec8kugx2.png/180px-JL_huayuanman.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/94/gz0tu42452boryb2tccaxajec8kugx2.png/180px-JL_huayuanman.png",
+        "tr_desc": "首次入场时，失去自己一半的当前生命。"
     },
     {
         "no": "202",
@@ -4873,7 +5197,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "铃兰晚钟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/86/n04stqqfxsl9orggngpl8khtuw9ejy1.png/180px-JL_manweishou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/86/n04stqqfxsl9orggngpl8khtuw9ejy1.png/180px-JL_manweishou.png",
+        "tr_desc": "首次入场时，失去自己一半的当前生命。"
     },
     {
         "no": "203",
@@ -4888,7 +5213,8 @@ const SPIRITS =
         "a2": "",
         "tr": "嫉妒",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/2vi6l4zkeygv3ow0lqzjixoxfg4gnxx.png/180px-JL_yileilong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/2vi6l4zkeygv3ow0lqzjixoxfg4gnxx.png/180px-JL_yileilong.png",
+        "tr_desc": "蓄力状态下，可以使用任一携带技能。"
     },
     {
         "no": "204",
@@ -4903,7 +5229,8 @@ const SPIRITS =
         "a2": "",
         "tr": "嫉妒",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/a6a52k4gs9d8sv7fn8jl3rrvwnm5dku.png/180px-JL_yinlanyalong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/a6a52k4gs9d8sv7fn8jl3rrvwnm5dku.png/180px-JL_yinlanyalong.png",
+        "tr_desc": "蓄力状态下，可以使用任一携带技能。"
     },
     {
         "no": "204",
@@ -4918,7 +5245,8 @@ const SPIRITS =
         "a2": "",
         "tr": "游弋",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e6/pswa2prbvq89bxk0cvveg5hn2v3otrk.png/180px-JL_yilanyalong_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e6/pswa2prbvq89bxk0cvveg5hn2v3otrk.png/180px-JL_yilanyalong_shouling.png",
+        "tr_desc": "蓄力时可使用任一携带技能，且获得双防+100%。"
     },
     {
         "no": "205",
@@ -4933,7 +5261,8 @@ const SPIRITS =
         "a2": "",
         "tr": "噼啪！",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e4/ph58jvwiaoc3xmncqt22pvjgn37irif.png/180px-JL_late.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e4/ph58jvwiaoc3xmncqt22pvjgn37irif.png/180px-JL_late.png",
+        "tr_desc": "入场后首次行动，所选技能使用次数+1。"
     },
     {
         "no": "206",
@@ -4948,7 +5277,8 @@ const SPIRITS =
         "a2": "",
         "tr": "噼啪！",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d0/c454d79g1zz26le95n44a2dpgslodq2.png/180px-JL_kula.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d0/c454d79g1zz26le95n44a2dpgslodq2.png/180px-JL_kula.png",
+        "tr_desc": "入场后首次行动，所选技能使用次数+1。"
     },
     {
         "no": "206",
@@ -4963,7 +5293,8 @@ const SPIRITS =
         "a2": "",
         "tr": "噼啪噼啪！",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/enm2j6n09bmh5frhzf5ang8ipqj7soc.png/180px-JL_kula_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/enm2j6n09bmh5frhzf5ang8ipqj7soc.png/180px-JL_kula_shouling.png",
+        "tr_desc": "入场后首次行动，所选技能使用次数+1，且该回合每次行动后回复2能量。"
     },
     {
         "no": "207",
@@ -4978,7 +5309,8 @@ const SPIRITS =
         "a2": "",
         "tr": "防过载保护",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/0owkyb7f8tvouj7utweswpek0jtvwgj.png/180px-JL_shandianhuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/0owkyb7f8tvouj7utweswpek0jtvwgj.png/180px-JL_shandianhuan.png",
+        "tr_desc": "每次行动后脱离。"
     },
     {
         "no": "208",
@@ -4993,7 +5325,8 @@ const SPIRITS =
         "a2": "",
         "tr": "防过载保护",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/cw36nebyrzka9n38v5n6pbgb4nri6cq.png/180px-JL_beishangdianhuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/cw36nebyrzka9n38v5n6pbgb4nri6cq.png/180px-JL_beishangdianhuan.png",
+        "tr_desc": "每次行动后脱离。"
     },
     {
         "no": "209",
@@ -5008,7 +5341,8 @@ const SPIRITS =
         "a2": "",
         "tr": "防过载保护",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/13/skne8oziw6piljlce1wovhh3j0f2j38.png/180px-JL_tongkudianhuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/13/skne8oziw6piljlce1wovhh3j0f2j38.png/180px-JL_tongkudianhuan.png",
+        "tr_desc": "每次行动后脱离。"
     },
     {
         "no": "210",
@@ -5023,7 +5357,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "虚假宝箱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/jqrcnpkj4dxgjm6n400bie7toorzwic.png/180px-JL_xiaoxiangguai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/jqrcnpkj4dxgjm6n400bie7toorzwic.png/180px-JL_xiaoxiangguai.png",
+        "tr_desc": "自己力竭时，敌方获得攻防+20%。"
     },
     {
         "no": "211",
@@ -5038,7 +5373,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "虚假宝箱",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/o9y5cw7waygg5qqn4qlcwe2u6nbr46c.png/180px-JL_mimixiangguai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/o9y5cw7waygg5qqn4qlcwe2u6nbr46c.png/180px-JL_mimixiangguai.png",
+        "tr_desc": "自己力竭时，敌方获得攻防+20%。"
     },
     {
         "no": "212",
@@ -5053,7 +5389,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "拨浪鼓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/16/n39gdh42r6e54q72yykwxcjh6ctnwvm.png/180px-JL_guzhongshe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/16/n39gdh42r6e54q72yykwxcjh6ctnwvm.png/180px-JL_guzhongshe.png",
+        "tr_desc": "己方精灵每使用1次状态技能，自己入场时毒系和萌系技能威力+10。"
     },
     {
         "no": "213",
@@ -5068,7 +5405,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "拨浪鼓",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/fznd50brcwqircehflmjk2ddkh1o1lb.png/180px-JL_hanyinshe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/fznd50brcwqircehflmjk2ddkh1o1lb.png/180px-JL_hanyinshe.png",
+        "tr_desc": "己方精灵每使用1次状态技能，自己入场时毒系和萌系技能威力+10。"
     },
     {
         "no": "214",
@@ -5083,7 +5421,8 @@ const SPIRITS =
         "a2": "",
         "tr": "振奋虫心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/5bqce6nwc9gwknpnywjv0unfx3l7beh.png/180px-JL_judulangzhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/5bqce6nwc9gwknpnywjv0unfx3l7beh.png/180px-JL_judulangzhu.png",
+        "tr_desc": "主动击败敌方后，己方队伍获得5次随机奉献。"
     },
     {
         "no": "215",
@@ -5098,7 +5437,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "振奋虫心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/oddysteeq5qo84pbhwndwpz6cdggfih.png/180px-JL_emolangzhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/oddysteeq5qo84pbhwndwpz6cdggfih.png/180px-JL_emolangzhu.png",
+        "tr_desc": "主动击败敌方后，己方队伍获得5次随机奉献。"
     },
     {
         "no": "216",
@@ -5113,7 +5453,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蒸汽膨胀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/g62yy9qjgkojq5ywwctvwq3i3sivwsr.png/180px-JL_huoweiwate.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/g62yy9qjgkojq5ywwctvwq3i3sivwsr.png/180px-JL_huoweiwate.png",
+        "tr_desc": "己方精灵每使用1次火系技能，自己入场时获得全技能威力+10。"
     },
     {
         "no": "217",
@@ -5128,7 +5469,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蒸汽膨胀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/h7mmse5378l1raua4mgmo1ihvqgsj6t.png/180px-JL_huoweizhanshi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/h7mmse5378l1raua4mgmo1ihvqgsj6t.png/180px-JL_huoweizhanshi.png",
+        "tr_desc": "己方精灵每使用1次火系技能，自己入场时获得全技能威力+10。"
     },
     {
         "no": "218",
@@ -5143,7 +5485,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蒸汽膨胀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/36/s22bejah56f1ogsn7zx3tupuy564u7d.png/180px-JL_liehuoshouhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/36/s22bejah56f1ogsn7zx3tupuy564u7d.png/180px-JL_liehuoshouhu.png",
+        "tr_desc": "己方精灵每使用1次火系技能，自己入场时获得全技能威力+10。"
     },
     {
         "no": "219",
@@ -5158,7 +5501,8 @@ const SPIRITS =
         "a2": "",
         "tr": "吟游之弦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/o1zrvywwsm2yjdiqu4j7ys1x4paody8.png/180px-JL_lilayao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/o1zrvywwsm2yjdiqu4j7ys1x4paody8.png/180px-JL_lilayao.png",
+        "tr_desc": "赋予的印记不会替换其他印记，而是同时生效。"
     },
     {
         "no": "220",
@@ -5173,7 +5517,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "珊瑚骨",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c4/g3zqdvcaezkfejqxism3kz0u9o4hs5e.png/180px-JL_haizhizhi_bilanshanhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c4/g3zqdvcaezkfejqxism3kz0u9o4hs5e.png/180px-JL_haizhizhi_bilanshanhu.png",
+        "tr_desc": "敌方精灵离场时，自己获得全技能能耗-3。"
     },
     {
         "no": "220",
@@ -5188,7 +5533,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "珊瑚骨",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/fq8v27vefxxdahf02zdi3l02s5o8pl9.png/180px-JL_haizhizhi_xinghuangbaihe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/fq8v27vefxxdahf02zdi3l02s5o8pl9.png/180px-JL_haizhizhi_xinghuangbaihe.png",
+        "tr_desc": "敌方精灵离场时，自己获得全技能能耗-3。"
     },
     {
         "no": "220",
@@ -5203,7 +5549,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "珊瑚骨",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/rlrb3tixe7tofcq5zf6wjg4x6ujer8a.png/180px-JL_haizhizhi_yanghongshading.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/rlrb3tixe7tofcq5zf6wjg4x6ujer8a.png/180px-JL_haizhizhi_yanghongshading.png",
+        "tr_desc": "敌方精灵离场时，自己获得全技能能耗-3。"
     },
     {
         "no": "220",
@@ -5218,7 +5565,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "珊瑚骨",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/lfbvgx2ad1rviv8r6meo9t79ybszm88.png/180px-JL_haizhizhi_cuilvlunbu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9f/lfbvgx2ad1rviv8r6meo9t79ybszm88.png/180px-JL_haizhizhi_cuilvlunbu.png",
+        "tr_desc": "敌方精灵离场时，自己获得全技能能耗-3。"
     },
     {
         "no": "221",
@@ -5233,7 +5581,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "定向精炼",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/13h9o30rpa9u5ajm5lm59blda1968lh.png/180px-JL_duoxi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/13h9o30rpa9u5ajm5lm59blda1968lh.png/180px-JL_duoxi.png",
+        "tr_desc": "己方精灵每使用1次防御技能，自己入场时机械系和地面系技能威力+10%。"
     },
     {
         "no": "222",
@@ -5248,7 +5597,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "定向精炼",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/4vm1h7olow3oq2npbct37c64oxgr8xj.png/180px-JL_kuduoxi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/4vm1h7olow3oq2npbct37c64oxgr8xj.png/180px-JL_kuduoxi.png",
+        "tr_desc": "己方精灵每使用1次防御技能，自己入场时机械系和地面系技能威力+10%。"
     },
     {
         "no": "223",
@@ -5263,7 +5613,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "定向精炼",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/fxhd33cruv8mt7b6j1vyly63ts3aj7h.png/180px-JL_boduoxi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/fxhd33cruv8mt7b6j1vyly63ts3aj7h.png/180px-JL_boduoxi.png",
+        "tr_desc": "己方精灵每使用1次防御技能，自己入场时机械系和地面系技能威力+10%。"
     },
     {
         "no": "224",
@@ -5278,7 +5629,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "暴食",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/37/dtemeladdw6vk3il834phm52cp03y09.png/180px-JL_xiaoyilong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/37/dtemeladdw6vk3il834phm52cp03y09.png/180px-JL_xiaoyilong.png",
+        "tr_desc": "携带的龙系技能获得迅捷。"
     },
     {
         "no": "225",
@@ -5293,7 +5645,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "暴食",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/5w4k0mrsapw5q1m8l5k22gh5j0lkeqb.png/180px-JL_yilong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/5w4k0mrsapw5q1m8l5k22gh5j0lkeqb.png/180px-JL_yilong.png",
+        "tr_desc": "携带的龙系技能获得迅捷。"
     },
     {
         "no": "226",
@@ -5308,7 +5661,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蓄电池",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/05/srsfllvgs15xy3k65s0ybht1388orfe.png/180px-JL_diandongchangjinglu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/05/srsfllvgs15xy3k65s0ybht1388orfe.png/180px-JL_diandongchangjinglu.png",
+        "tr_desc": "每入场1次，永久获得双攻+30%。"
     },
     {
         "no": "227",
@@ -5323,7 +5677,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蓄电池",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/21/ieqw30huiazso796471691yh68s7tcr.png/180px-JL_benlelu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/21/ieqw30huiazso796471691yh68s7tcr.png/180px-JL_benlelu.png",
+        "tr_desc": "每入场1次，永久获得双攻+30%。"
     },
     {
         "no": "228",
@@ -5338,7 +5693,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蓄电池",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/de/4d9hf8lx9m0j1uzxfpm0sicmw9m7524.png/180px-JL_jueshilu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/de/4d9hf8lx9m0j1uzxfpm0sicmw9m7524.png/180px-JL_jueshilu.png",
+        "tr_desc": "每入场1次，永久获得双攻+30%。"
     },
     {
         "no": "228",
@@ -5353,7 +5709,8 @@ const SPIRITS =
         "a2": "",
         "tr": "超级电池",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/9l5fxcvovnnxnxlze5p65lxy1ynw04c.png/180px-JL_jueshilu_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/9l5fxcvovnnxnxlze5p65lxy1ynw04c.png/180px-JL_jueshilu_shouling.png",
+        "tr_desc": "每入场1次，获得双攻永久+40%。"
     },
     {
         "no": "229",
@@ -5368,7 +5725,8 @@ const SPIRITS =
         "a2": "",
         "tr": "向心力",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/o6qdcc0z5q3xnsvyz0a7xm3somd9efp.png/180px-JL_tita.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/o6qdcc0z5q3xnsvyz0a7xm3somd9efp.png/180px-JL_tita.png",
+        "tr_desc": "1号位和2号位技能获得传动1和威力+30。"
     },
     {
         "no": "230",
@@ -5383,7 +5741,8 @@ const SPIRITS =
         "a2": "",
         "tr": "向心力",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/mlg0p9jdm1ty0vugb7ptxcge4r7lg2c.png/180px-JL_shengbotita.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/84/mlg0p9jdm1ty0vugb7ptxcge4r7lg2c.png/180px-JL_shengbotita.png",
+        "tr_desc": "1号位和2号位技能获得传动1和威力+30。"
     },
     {
         "no": "231",
@@ -5398,7 +5757,8 @@ const SPIRITS =
         "a2": "",
         "tr": "起飞加速",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/iuf7tg850fiz59m1gr3pyd2khkj9z55.png/180px-JL_xiaoyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1b/iuf7tg850fiz59m1gr3pyd2khkj9z55.png/180px-JL_xiaoyu.png",
+        "tr_desc": "本场战斗首次使用的技能获得迅捷。"
     },
     {
         "no": "232",
@@ -5413,7 +5773,8 @@ const SPIRITS =
         "a2": "",
         "tr": "起飞加速",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/qsojdf7xi75j3nijynxzo9yngxdv0lv.png/180px-JL_bimuyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/qsojdf7xi75j3nijynxzo9yngxdv0lv.png/180px-JL_bimuyu.png",
+        "tr_desc": "本场战斗首次使用的技能获得迅捷。"
     },
     {
         "no": "233",
@@ -5428,7 +5789,8 @@ const SPIRITS =
         "a2": "",
         "tr": "起飞加速",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8e/1jyqukw13p5y9pl2alvhl2hf98jxpj4.png/180px-JL_gaojiaoyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8e/1jyqukw13p5y9pl2alvhl2hf98jxpj4.png/180px-JL_gaojiaoyu.png",
+        "tr_desc": "本场战斗首次使用的技能获得迅捷。"
     },
     {
         "no": "233",
@@ -5443,7 +5805,8 @@ const SPIRITS =
         "a2": "",
         "tr": "相争",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cd/8hsbqxbz4x483xuy1bbg2kge4eoqhlo.png/180px-JL_gaomaoyuzhe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cd/8hsbqxbz4x483xuy1bbg2kge4eoqhlo.png/180px-JL_gaomaoyuzhe.png",
+        "tr_desc": "本场战斗首次使用的技能获得迅捷。拥有迅捷效果的技能先手+1。"
     },
     {
         "no": "234",
@@ -5458,7 +5821,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/18/40fulr4rhqag5d15y7te5kr48d16cf7.png/180px-JL_dingding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/18/40fulr4rhqag5d15y7te5kr48d16cf7.png/180px-JL_dingding.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "235",
@@ -5473,7 +5837,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/ic6hh8vem1m8by0ftv3b6mot75i4ah9.png/180px-JL_yingtaodingding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c7/ic6hh8vem1m8by0ftv3b6mot75i4ah9.png/180px-JL_yingtaodingding.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5488,7 +5853,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/4z0z5b7r348vnp4io8v99ny7i71w4mj.png/180px-JL_shuangqiudingding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/4z0z5b7r348vnp4io8v99ny7i71w4mj.png/180px-JL_shuangqiudingding.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5503,7 +5869,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/37zkmvffih3pcac4u2t8n4slud20n85.png/180px-JL_shuangqiudingding_yingtaocaomei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/61/37zkmvffih3pcac4u2t8n4slud20n85.png/180px-JL_shuangqiudingding_yingtaocaomei.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5518,7 +5885,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/8ar4o3byzrvg0hokzi47xqckv5xosjh.png/180px-JL_shuangqiudingding_yingtaomocha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/06/8ar4o3byzrvg0hokzi47xqckv5xosjh.png/180px-JL_shuangqiudingding_yingtaomocha.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "235",
@@ -5533,7 +5901,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/46/h1bmm0hih9hcgaxrpsqf5960fnrki6k.png/180px-JL_dingding_lanmei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/46/h1bmm0hih9hcgaxrpsqf5960fnrki6k.png/180px-JL_dingding_lanmei.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5548,7 +5917,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/db/hzho6mkqvlrjd47izzyt2m6ohqmmbag.png/180px-JL_shuangqiudingding_lanmeiqiaokeli.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/db/hzho6mkqvlrjd47izzyt2m6ohqmmbag.png/180px-JL_shuangqiudingding_lanmeiqiaokeli.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5563,7 +5933,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/p1o2nukwnxkpraj2ojyehivy41tc6js.png/180px-JL_shuangqiudingding_lanmeicaomei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/p1o2nukwnxkpraj2ojyehivy41tc6js.png/180px-JL_shuangqiudingding_lanmeicaomei.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5578,7 +5949,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/52/c2n3sizj3nnvc7vvat5oj83pkhx6vvk.png/180px-JL_shuangqiudingding_lanmeimocha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/52/c2n3sizj3nnvc7vvat5oj83pkhx6vvk.png/180px-JL_shuangqiudingding_lanmeimocha.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "235",
@@ -5593,7 +5965,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/79/fec17hfwhw0nw4u171oqvysqp4906lx.png/180px-JL_dingding_yangtao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/79/fec17hfwhw0nw4u171oqvysqp4906lx.png/180px-JL_dingding_yangtao.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5608,7 +5981,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/0fh2m3vyyemv6i6e5a1fz3bp5jvqmqk.png/180px-JL_shuangqiudingding_yangtaoqiaokeli.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/34/0fh2m3vyyemv6i6e5a1fz3bp5jvqmqk.png/180px-JL_shuangqiudingding_yangtaoqiaokeli.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5623,7 +5997,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/60dyi56peyoub41cb8catrk8wkgsf5a.png/180px-JL_shuangqiudingding_yangtaocaomei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/14/60dyi56peyoub41cb8catrk8wkgsf5a.png/180px-JL_shuangqiudingding_yangtaocaomei.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "236",
@@ -5638,7 +6013,8 @@ const SPIRITS =
         "a2": "",
         "tr": "加个雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/qwq0mjg57fhbc1ftedff5jut0g2bgu0.png/180px-JL_shuangqiudingding_yangtaomocha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/qwq0mjg57fhbc1ftedff5jut0g2bgu0.png/180px-JL_shuangqiudingding_yangtaomocha.png",
+        "tr_desc": "使敌方获得冻结时，也会使其获得2层冻结。"
     },
     {
         "no": "237",
@@ -5653,7 +6029,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "耐活王",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/tafsbc221qaehpjm98e2mn9la1nsfzi.png/180px-JL_ciluntuo_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/tafsbc221qaehpjm98e2mn9la1nsfzi.png/180px-JL_ciluntuo_yidi.png",
+        "tr_desc": "敌方受到中毒效果伤害时，自己回复等量生命。"
     },
     {
         "no": "238",
@@ -5668,7 +6045,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "耐活王",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/3h61gao59r5ip3u2xu5glut6a9uqc56.png/180px-JL_yueliangtuo_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/3h61gao59r5ip3u2xu5glut6a9uqc56.png/180px-JL_yueliangtuo_yidi.png",
+        "tr_desc": "敌方受到中毒效果伤害时，自己回复等量生命。"
     },
     {
         "no": "237",
@@ -5683,7 +6061,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "耐活王",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5a/n7yfduejizp1zoyz05jqardmdbc4kgp.png/180px-JL_ciluntuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5a/n7yfduejizp1zoyz05jqardmdbc4kgp.png/180px-JL_ciluntuo.png",
+        "tr_desc": "敌方受到中毒效果伤害时，自己回复等量生命。"
     },
     {
         "no": "238",
@@ -5698,7 +6077,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "耐活王",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e7/re0sjuqn9uis4jtrf77logv48c96zt1.png/180px-JL_yueliangtuo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e7/re0sjuqn9uis4jtrf77logv48c96zt1.png/180px-JL_yueliangtuo.png",
+        "tr_desc": "敌方受到中毒效果伤害时，自己回复等量生命。"
     },
     {
         "no": "239",
@@ -5713,7 +6093,8 @@ const SPIRITS =
         "a2": "龙",
         "tr": "洄游",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/5irnlmgv0lohvpm6uk2jq0kzh7o1313.png/180px-JL_doudingyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/5irnlmgv0lohvpm6uk2jq0kzh7o1313.png/180px-JL_doudingyu.png",
+        "tr_desc": "每次进入蓄力状态，获得全技能能耗永久-2。"
     },
     {
         "no": "240",
@@ -5728,7 +6109,8 @@ const SPIRITS =
         "a2": "龙",
         "tr": "洄游",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/styohtlkc3dbbx0w42tt3ctvjgnnp83.png/180px-JL_kuaiqiyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/styohtlkc3dbbx0w42tt3ctvjgnnp83.png/180px-JL_kuaiqiyu.png",
+        "tr_desc": "每次进入蓄力状态，获得全技能能耗永久-2。"
     },
     {
         "no": "241",
@@ -5743,7 +6125,8 @@ const SPIRITS =
         "a2": "龙",
         "tr": "洄游",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/qgqfzdxms6u3id2i61yqjzioe7uyhw2.png/180px-JL_yulong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f3/qgqfzdxms6u3id2i61yqjzioe7uyhw2.png/180px-JL_yulong.png",
+        "tr_desc": "每次进入蓄力状态，获得全技能能耗永久-2。"
     },
     {
         "no": "242",
@@ -5758,7 +6141,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "生物电",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/bp31m0d78o6ba38pm9ko9tjb4vwdy1c.png/180px-JL_danxiaomanyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/bp31m0d78o6ba38pm9ko9tjb4vwdy1c.png/180px-JL_danxiaomanyu.png",
+        "tr_desc": "携带的电系技能获得迸发：能耗-2。"
     },
     {
         "no": "243",
@@ -5773,7 +6157,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "生物电",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/65/eoiqqpkvwdi91bbub4st2b5magq4v3o.png/180px-JL_shandianmanyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/65/eoiqqpkvwdi91bbub4st2b5magq4v3o.png/180px-JL_shandianmanyu.png",
+        "tr_desc": "携带的电系技能获得迸发：能耗-2。"
     },
     {
         "no": "244",
@@ -5788,7 +6173,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "扩散侵蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/ppe62mp1jvipgpa2k3uxi9g18n6xnrt.png/180px-JL_feicuishuimu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/98/ppe62mp1jvipgpa2k3uxi9g18n6xnrt.png/180px-JL_feicuishuimu.png",
+        "tr_desc": "使用水系技能后，敌方获得中毒，获得层数等于中毒印记层数的2倍。"
     },
     {
         "no": "245",
@@ -5803,7 +6189,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "扩散侵蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/81/18y8vc5tol91u3wm7q7wriisbz4qpsd.png/180px-JL_liulishuimu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/81/18y8vc5tol91u3wm7q7wriisbz4qpsd.png/180px-JL_liulishuimu.png",
+        "tr_desc": "使用水系技能后，敌方获得中毒，获得层数等于中毒印记层数的2倍。"
     },
     {
         "no": "246",
@@ -5818,7 +6205,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蚀刻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/2nyxumq5g2tq6w5lu9mqkgq72mq3mvf.png/180px-JL_qiuluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/2nyxumq5g2tq6w5lu9mqkgq72mq3mvf.png/180px-JL_qiuluo.png",
+        "tr_desc": "回合结束时，敌方每2层中毒转化为1层中毒印记。"
     },
     {
         "no": "247",
@@ -5833,7 +6221,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蚀刻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/kopmsg8qplpu6rjxvz4nu58ymb00dok.png/180px-JL_qiuli.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/kopmsg8qplpu6rjxvz4nu58ymb00dok.png/180px-JL_qiuli.png",
+        "tr_desc": "回合结束时，敌方每2层中毒转化为1层中毒印记。"
     },
     {
         "no": "248",
@@ -5848,7 +6237,8 @@ const SPIRITS =
         "a2": "",
         "tr": "蚀刻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/5d4qtzm0zqoypfemnwuj5lxc9n3djcu.png/180px-JL_qiuka.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/5d4qtzm0zqoypfemnwuj5lxc9n3djcu.png/180px-JL_qiuka.png",
+        "tr_desc": "回合结束时，敌方每2层中毒转化为1层中毒印记。"
     },
     {
         "no": "249",
@@ -5863,7 +6253,8 @@ const SPIRITS =
         "a2": "",
         "tr": "散热",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/51/oy81pmjg4jrvciy8vikb8offpv3nzhq.png/180px-JL_keaiyuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/51/oy81pmjg4jrvciy8vikb8offpv3nzhq.png/180px-JL_keaiyuan.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次火系技能，回复3能量。"
     },
     {
         "no": "250",
@@ -5878,7 +6269,8 @@ const SPIRITS =
         "a2": "",
         "tr": "散热",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/fvjtrkpxcjmz72g5ie2v1qbjdptbrjz.png/180px-JL_zhireyuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/fvjtrkpxcjmz72g5ie2v1qbjdptbrjz.png/180px-JL_zhireyuan.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次火系技能，回复3能量。"
     },
     {
         "no": "251",
@@ -5893,7 +6285,8 @@ const SPIRITS =
         "a2": "",
         "tr": "散热",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/spj04n35kcczdec5rnysmqgfjemdtj6.png/180px-JL_huoyanyuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/54/spj04n35kcczdec5rnysmqgfjemdtj6.png/180px-JL_huoyanyuan.png",
+        "tr_desc": "初始能量为0，入场前己方精灵每放1次火系技能，回复3能量。"
     },
     {
         "no": "252",
@@ -5908,7 +6301,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰钻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/hz32q2xy67yxtnw033n6q7tlaj3r4bb.png/180px-JL_bulusi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/hz32q2xy67yxtnw033n6q7tlaj3r4bb.png/180px-JL_bulusi.png",
+        "tr_desc": "敌方携带技能总能耗每有1点，自己攻击时威力+10%。"
     },
     {
         "no": "253",
@@ -5923,7 +6317,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰钻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/3t70sxdtb90dbjqvv87fvfqqp3u98p8.png/180px-JL_xuedingbulusi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/3t70sxdtb90dbjqvv87fvfqqp3u98p8.png/180px-JL_xuedingbulusi.png",
+        "tr_desc": "敌方携带技能总能耗每有1点，自己攻击时威力+10%。"
     },
     {
         "no": "254",
@@ -5938,7 +6333,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰钻",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/njf9sva5yxojek179dsjwougrpufffw.png/180px-JL_bingzuanbulusi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2b/njf9sva5yxojek179dsjwougrpufffw.png/180px-JL_bingzuanbulusi.png",
+        "tr_desc": "敌方携带技能总能耗每有1点，自己攻击时威力+10%。"
     },
     {
         "no": "255",
@@ -5953,7 +6349,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "仁心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/kq3d9z5ckbys98cxcmvda4ef30upuc7.png/180px-JL_zhiyuhuowa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/kq3d9z5ckbys98cxcmvda4ef30upuc7.png/180px-JL_zhiyuhuowa.png",
+        "tr_desc": "敌方受到灼烧伤害时，自己回复等量生命。"
     },
     {
         "no": "256",
@@ -5968,7 +6365,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "仁心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/82/73psp26mdkr9dbbt0oy41d09s55wpam.png/180px-JL_shengguanghuowa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/82/73psp26mdkr9dbbt0oy41d09s55wpam.png/180px-JL_shengguanghuowa.png",
+        "tr_desc": "敌方受到灼烧伤害时，自己回复等量生命。"
     },
     {
         "no": "257",
@@ -5983,7 +6381,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "仁心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/0jzjzpcnhywrhp8goywwvx2zhze5i5r.png/180px-JL_huoguangxiunv.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/0jzjzpcnhywrhp8goywwvx2zhze5i5r.png/180px-JL_huoguangxiunv.png",
+        "tr_desc": "敌方受到灼烧伤害时，自己回复等量生命。"
     },
     {
         "no": "258",
@@ -5998,7 +6397,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/1leol8tgbv6wfiwx097ediw1c2759hw.png/180px-JL_wuda.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/1leol8tgbv6wfiwx097ediw1c2759hw.png/180px-JL_wuda.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "259",
@@ -6013,7 +6413,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/qyzk4ihscika1xugsf2gggabqeu04hr.png/180px-JL_miniwu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/qyzk4ihscika1xugsf2gggabqeu04hr.png/180px-JL_miniwu.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "260",
@@ -6028,7 +6429,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8f/m5dkm7pbe1ucos1guqhk190rm2tc9e8.png/180px-JL_wulata.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8f/m5dkm7pbe1ucos1guqhk190rm2tc9e8.png/180px-JL_wulata.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "258",
@@ -6043,7 +6445,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/eio05kggn8yulvlvqcfivag559snju5.png/180px-JL_wuda_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/eio05kggn8yulvlvqcfivag559snju5.png/180px-JL_wuda_yidi.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "259",
@@ -6058,7 +6461,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/exi84np0xcv0dlm3j4r17ale95fkfs2.png/180px-JL_miniwu_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/exi84np0xcv0dlm3j4r17ale95fkfs2.png/180px-JL_miniwu_yidi.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "260",
@@ -6073,7 +6477,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "恶魔的晚宴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/n391mbwszvjfy7q5jzldghrsht1ihch.png/180px-JL_wulata_yidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/n391mbwszvjfy7q5jzldghrsht1ihch.png/180px-JL_wulata_yidi.png",
+        "tr_desc": "主动击败敌方精灵时，自己获得双攻+50%。"
     },
     {
         "no": "261",
@@ -6088,7 +6493,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "翼轴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/5ufnm1iwuzgtaib31jpjmpbwsemv0u5.png/180px-JL_luoxuanpapa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c3/5ufnm1iwuzgtaib31jpjmpbwsemv0u5.png/180px-JL_luoxuanpapa.png",
+        "tr_desc": "1号位技能获得迅捷和传动1。"
     },
     {
         "no": "262",
@@ -6103,7 +6509,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "翼轴",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/iepvvjwm1gizwkg8ggx08r8apo30eu9.png/180px-JL_papasika.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/22/iepvvjwm1gizwkg8ggx08r8apo30eu9.png/180px-JL_papasika.png",
+        "tr_desc": "1号位技能获得迅捷和传动1。"
     },
     {
         "no": "263",
@@ -6118,7 +6525,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盲拧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/4kscrz4nb2jgczo5cjfbrfuk3acgobl.png/180px-JL_jixiefangfang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/87/4kscrz4nb2jgczo5cjfbrfuk3acgobl.png/180px-JL_jixiefangfang.png",
+        "tr_desc": "回合开始时，技能顺序打乱，4号位的技能能耗-4。"
     },
     {
         "no": "264",
@@ -6133,7 +6541,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盲拧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/tfpu0p7um1rej0ve72o0tq2f990mtg5.png/180px-JL_duocaifangfang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/tfpu0p7um1rej0ve72o0tq2f990mtg5.png/180px-JL_duocaifangfang.png",
+        "tr_desc": "回合开始时，技能顺序打乱，4号位的技能能耗-4。"
     },
     {
         "no": "265",
@@ -6148,7 +6557,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盲拧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/25/brox1l5cj1v1286s313jooeswqcpm95.png/180px-JL_lifangren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/25/brox1l5cj1v1286s313jooeswqcpm95.png/180px-JL_lifangren.png",
+        "tr_desc": "回合开始时，技能顺序打乱，4号位的技能能耗-4。"
     },
     {
         "no": "266",
@@ -6163,7 +6573,8 @@ const SPIRITS =
         "a2": "",
         "tr": "斗技",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8f/es1fidhdn775evke030wdrk15dnltrg.png/180px-JL_keliji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8f/es1fidhdn775evke030wdrk15dnltrg.png/180px-JL_keliji.png",
+        "tr_desc": "应对成功后，获得全技能威力永久+30。"
     },
     {
         "no": "267",
@@ -6178,7 +6589,8 @@ const SPIRITS =
         "a2": "",
         "tr": "斗技",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/gpb1n1n689sea7cu4sv1tz8k72tdthp.png/180px-JL_yunyunji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/gpb1n1n689sea7cu4sv1tz8k72tdthp.png/180px-JL_yunyunji.png",
+        "tr_desc": "应对成功后，获得全技能威力永久+30。"
     },
     {
         "no": "268",
@@ -6193,7 +6605,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "指挥家",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/g34k0n05zw02op7dyckttb05g8txeba.png/180px-JL_shenshiji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/g34k0n05zw02op7dyckttb05g8txeba.png/180px-JL_shenshiji.png",
+        "tr_desc": "应对成功后，永久获得双攻+30%。"
     },
     {
         "no": "269",
@@ -6208,7 +6621,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "斗技",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/laljotowuigs1fvm7vuidw3qe5qt1km.png/180px-JL_wuzheji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/laljotowuigs1fvm7vuidw3qe5qt1km.png/180px-JL_wuzheji.png",
+        "tr_desc": "应对成功后，获得全技能威力永久+30。"
     },
     {
         "no": "270",
@@ -6223,7 +6637,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "哨兵",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dd/9u8lntgvzxnd0ch62qffnkx56phs4im.png/180px-JL_youyou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dd/9u8lntgvzxnd0ch62qffnkx56phs4im.png/180px-JL_youyou.png",
+        "tr_desc": "回合开始时若敌方技能足够击败自己，自己获得速度+50，行动后脱离。"
     },
     {
         "no": "271",
@@ -6238,7 +6653,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "哨兵",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/38/fgrp99uzotyfd9qljxsu9krd8kyvvci.png/180px-JL_rongguangyouyou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/38/fgrp99uzotyfd9qljxsu9krd8kyvvci.png/180px-JL_rongguangyouyou.png",
+        "tr_desc": "回合开始时若敌方技能足够击败自己，自己获得速度+50，行动后脱离。"
     },
     {
         "no": "272",
@@ -6253,7 +6669,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "连续负荷",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/f0oyr9vbf97ff1uebakb1yztfkajhe1.png/180px-JL_pipaniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/f0oyr9vbf97ff1uebakb1yztfkajhe1.png/180px-JL_pipaniao.png",
+        "tr_desc": "自己技能的迸发效果延长1回合。"
     },
     {
         "no": "273",
@@ -6268,7 +6685,8 @@ const SPIRITS =
         "a2": "",
         "tr": "倾轧",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8e/hp82bybxz5f699gkdqb2bcr8apnd31v.png/180px-JL_shenlanjing.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8e/hp82bybxz5f699gkdqb2bcr8apnd31v.png/180px-JL_shenlanjing.png",
+        "tr_desc": "携带的技能受能耗变化效果的影响翻倍。"
     },
     {
         "no": "274",
@@ -6283,7 +6701,8 @@ const SPIRITS =
         "a2": "",
         "tr": "生长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/tbfzghifkegriklpp51cx95scwzannt.png/180px-JL_gelanzhongzi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/11/tbfzghifkegriklpp51cx95scwzannt.png/180px-JL_gelanzhongzi.png",
+        "tr_desc": "回合结束时，回复12%生命。"
     },
     {
         "no": "275",
@@ -6298,7 +6717,8 @@ const SPIRITS =
         "a2": "",
         "tr": "生长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/m5qf1blu3qoyk6sq7wlii3w0mxwz1pu.png/180px-JL_gelanhua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/m5qf1blu3qoyk6sq7wlii3w0mxwz1pu.png/180px-JL_gelanhua.png",
+        "tr_desc": "回合结束时，回复12%生命。"
     },
     {
         "no": "276",
@@ -6313,7 +6733,8 @@ const SPIRITS =
         "a2": "",
         "tr": "生长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f9/afqcy6z9p9todf6ufb9d95t148pa22c.png/180px-JL_gelanqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f9/afqcy6z9p9todf6ufb9d95t148pa22c.png/180px-JL_gelanqiu.png",
+        "tr_desc": "回合结束时，回复12%生命。"
     },
     {
         "no": "277",
@@ -6328,7 +6749,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b4/idyb58forcmd0yzckcc4j6rdmk36zpq.png/180px-JL_dishu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b4/idyb58forcmd0yzckcc4j6rdmk36zpq.png/180px-JL_dishu.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "278",
@@ -6343,7 +6765,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/ba/dfww1rsfrj64x7l1etve2rzksjgwxzk.png/180px-JL_dunshu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/ba/dfww1rsfrj64x7l1etve2rzksjgwxzk.png/180px-JL_dunshu.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "279",
@@ -6358,7 +6781,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/7v0gek5nbyae4bpzt5by7klm2270dnu.png/180px-JL_dundishu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/7v0gek5nbyae4bpzt5by7klm2270dnu.png/180px-JL_dundishu.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "277",
@@ -6373,7 +6797,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/dxn3qrp349n305y0qnhc8glzaswtl1h.png/180px-JL_dishu_xushui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/dxn3qrp349n305y0qnhc8glzaswtl1h.png/180px-JL_dishu_xushui.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "278",
@@ -6388,7 +6813,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/l9i7iqs9nmzc93i5an8ig1pq3qvy8q9.png/180px-JL_dunshu_xushui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/09/l9i7iqs9nmzc93i5an8ig1pq3qvy8q9.png/180px-JL_dunshu_xushui.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "279",
@@ -6403,7 +6829,8 @@ const SPIRITS =
         "a2": "",
         "tr": "警惕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/14oi299x97orfeuyhw89xi3alz7o94v.png/180px-JL_dundishu_xushui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/14oi299x97orfeuyhw89xi3alz7o94v.png/180px-JL_dundishu_xushui.png",
+        "tr_desc": "回合结束时，若自己能量为0则脱离。"
     },
     {
         "no": "280",
@@ -6418,7 +6845,8 @@ const SPIRITS =
         "a2": "",
         "tr": "涂鸦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/94/g0dtv7sgbhro3ivaxdoiw6g3kcmkuh4.png/180px-JL_moyoushi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/94/g0dtv7sgbhro3ivaxdoiw6g3kcmkuh4.png/180px-JL_moyoushi.png",
+        "tr_desc": "使用非本系技能时威力+50%。"
     },
     {
         "no": "281",
@@ -6433,7 +6861,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "涂鸦",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d5/obuq2ozam55ftz34i5x14c325xigiy1.png/180px-JL_hunluanyoucai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d5/obuq2ozam55ftz34i5x14c325xigiy1.png/180px-JL_hunluanyoucai.png",
+        "tr_desc": "使用非本系技能时威力+50%。"
     },
     {
         "no": "282",
@@ -6448,7 +6877,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "绝对秩序",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/26/gg84heqhpq5jx94h6mq4lq0vmqqhqb9.png/180px-JL_zhixumoyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/26/gg84heqhpq5jx94h6mq4lq0vmqqhqb9.png/180px-JL_zhixumoyu.png",
+        "tr_desc": "受到非敌方系别的技能攻击时伤害-50%。"
     },
     {
         "no": "283",
@@ -6463,7 +6893,8 @@ const SPIRITS =
         "a2": "",
         "tr": "坚韧铠甲",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/40/30gmhnbaoky9ba8l645vihk1ohm6csn.png/180px-JL_xiaojiachong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/40/30gmhnbaoky9ba8l645vihk1ohm6csn.png/180px-JL_xiaojiachong.png",
+        "tr_desc": "每受到1次攻击伤害，己方队伍获得1次随机奉献。"
     },
     {
         "no": "284",
@@ -6478,7 +6909,8 @@ const SPIRITS =
         "a2": "",
         "tr": "坚韧铠甲",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/2yivvbnbi38bgbn910ppff5fp92qs1b.png/180px-JL_kaijiachong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/2yivvbnbi38bgbn910ppff5fp92qs1b.png/180px-JL_kaijiachong.png",
+        "tr_desc": "每受到1次攻击伤害，己方队伍获得1次随机奉献。"
     },
     {
         "no": "285",
@@ -6493,7 +6925,8 @@ const SPIRITS =
         "a2": "",
         "tr": "正位宝剑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/e3d4b2qak4xvyegdksbrwz6gce9u8vv.png/180px-JL_shengjianshicong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/e3d4b2qak4xvyegdksbrwz6gce9u8vv.png/180px-JL_shengjianshicong.png",
+        "tr_desc": "仅可以使用1号位技能。"
     },
     {
         "no": "286",
@@ -6508,7 +6941,8 @@ const SPIRITS =
         "a2": "",
         "tr": "正位宝剑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/iwxxqa5h58xiy2k894tcitg478nro74.png/180px-JL_shengjianX.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/iwxxqa5h58xiy2k894tcitg478nro74.png/180px-JL_shengjianX.png",
+        "tr_desc": "仅可以使用1号位技能。"
     },
     {
         "no": "286",
@@ -6523,7 +6957,8 @@ const SPIRITS =
         "a2": "",
         "tr": "宝剑王牌",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/kot7a5zer39bvlj7o5okzt9mor1npsc.png/180px-JL_shengjianX_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/96/kot7a5zer39bvlj7o5okzt9mor1npsc.png/180px-JL_shengjianX_shouling.png",
+        "tr_desc": "仅可使用1号和3号位技能。"
     },
     {
         "no": "287",
@@ -6538,7 +6973,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "无差别过滤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/ihc9ecz6ggpm1ozp2fnj41r0ooyyzq5.png/180px-JL_xiniou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/ihc9ecz6ggpm1ozp2fnj41r0ooyyzq5.png/180px-JL_xiniou.png",
+        "tr_desc": "在场时，所有精灵连击数固定为2。"
     },
     {
         "no": "288",
@@ -6553,7 +6989,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "无差别过滤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/50kuzamtt3zkqecr32yq7nx1gu28b7k.png/180px-JL_nihouya.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/50kuzamtt3zkqecr32yq7nx1gu28b7k.png/180px-JL_nihouya.png",
+        "tr_desc": "在场时，所有精灵连击数固定为2。"
     },
     {
         "no": "288",
@@ -6568,7 +7005,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "强制过滤",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/bxy8wzv23f2xvlmqzzml1jbwx89afoa.png/180px-JL_nihouya_shouling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a4/bxy8wzv23f2xvlmqzzml1jbwx89afoa.png/180px-JL_nihouya_shouling.png",
+        "tr_desc": "在场时，所有精灵连击数固定为1。"
     },
     {
         "no": "289",
@@ -6583,7 +7021,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "不朽",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/83/nm3clnzg0dp9cn0xooyos3di9c5oooc.png/180px-JL_datougulong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/83/nm3clnzg0dp9cn0xooyos3di9c5oooc.png/180px-JL_datougulong.png",
+        "tr_desc": "力竭3回合后复活。"
     },
     {
         "no": "290",
@@ -6598,7 +7037,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "不朽",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e3/14nkp7fehhforv5re65sl17yxzf8xoz.png/180px-JL_jimiegulong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e3/14nkp7fehhforv5re65sl17yxzf8xoz.png/180px-JL_jimiegulong.png",
+        "tr_desc": "力竭3回合后复活。"
     },
     {
         "no": "291",
@@ -6613,7 +7053,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "侵蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/0a7l5gf4dt34yb437v9vhfj2yych2hw.png/180px-JL_lihaixiaoluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/0a7l5gf4dt34yb437v9vhfj2yych2hw.png/180px-JL_lihaixiaoluo.png",
+        "tr_desc": "敌方每有1层中毒效果，自己获得连击数+1。"
     },
     {
         "no": "292",
@@ -6628,7 +7069,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "侵蚀",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/65/6a8jljj2pvrhka793ssfj1l5y5rl7vp.png/180px-JL_lihaixiuluo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/65/6a8jljj2pvrhka793ssfj1l5y5rl7vp.png/180px-JL_lihaixiuluo.png",
+        "tr_desc": "敌方每有1层中毒效果，自己获得连击数+1。"
     },
     {
         "no": "293",
@@ -6643,7 +7085,8 @@ const SPIRITS =
         "a2": "",
         "tr": "付给恶魔的赎价",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cd/0xc3k3apjik5v9rhhbim1m0rxix5g2q.png/180px-JL_xiaopaersasi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cd/0xc3k3apjik5v9rhhbim1m0rxix5g2q.png/180px-JL_xiaopaersasi.png",
+        "tr_desc": "击败敌方精灵时，敌方额外损失1点魔力。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "294",
@@ -6658,7 +7101,8 @@ const SPIRITS =
         "a2": "",
         "tr": "付给恶魔的赎价",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8d/sgyp08hz4hsxxzc0fsp6956nx2f3p9f.png/180px-JL_paersasi2.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8d/sgyp08hz4hsxxzc0fsp6956nx2f3p9f.png/180px-JL_paersasi2.png",
+        "tr_desc": "击败敌方精灵时，敌方额外损失1点魔力。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "295",
@@ -6673,7 +7117,8 @@ const SPIRITS =
         "a2": "",
         "tr": "付给恶魔的赎价",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/eb/999r2wd7cpiay4ex9q8okam4ut8s3x0.png/180px-JL_longxipaer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/eb/999r2wd7cpiay4ex9q8okam4ut8s3x0.png/180px-JL_longxipaer.png",
+        "tr_desc": "击败敌方精灵时，敌方额外损失1点魔力。被敌方精灵击败时，自己额外损失1点魔力。"
     },
     {
         "no": "296",
@@ -6688,7 +7133,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "扫拖一体",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/k2ydaj5j591pqslupxwidfza3bs10ca.png/180px-JL_maotouxiaozhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/k2ydaj5j591pqslupxwidfza3bs10ca.png/180px-JL_maotouxiaozhu.png",
+        "tr_desc": "回合结束时驱散敌方1层印记，且驱散后己方队伍获得1次随机奉献。"
     },
     {
         "no": "297",
@@ -6703,7 +7149,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "扫拖一体",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3f/fz2lq1r86x5nr99pq8zhizp28orstb9.png/180px-JL_buchenchangrong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3f/fz2lq1r86x5nr99pq8zhizp28orstb9.png/180px-JL_buchenchangrong.png",
+        "tr_desc": "回合结束时驱散敌方1层印记，且驱散后己方队伍获得1次随机奉献。"
     },
     {
         "no": "298",
@@ -6718,7 +7165,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "特殊清洁场景",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4b/1z7pdj3l5590o07dyssax7cln3xhyer.png/180px-JL_shichenduanrong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4b/1z7pdj3l5590o07dyssax7cln3xhyer.png/180px-JL_shichenduanrong.png",
+        "tr_desc": "回合结束时偷取敌方1层印记。"
     },
     {
         "no": "299",
@@ -6733,7 +7181,8 @@ const SPIRITS =
         "a2": "",
         "tr": "灰色肖像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/lsbeh4rdkzmwljzgxl4us34eawhlnfk.png/180px-JL_huajingling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/lsbeh4rdkzmwljzgxl4us34eawhlnfk.png/180px-JL_huajingling.png",
+        "tr_desc": "攻击会使敌方已有的减益层数+3。"
     },
     {
         "no": "300",
@@ -6748,7 +7197,8 @@ const SPIRITS =
         "a2": "",
         "tr": "灰色肖像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/86rhmjb3bkoet2d0ogxjr9vz6m83ho7.png/180px-JL_huaxiangshouhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/86rhmjb3bkoet2d0ogxjr9vz6m83ho7.png/180px-JL_huaxiangshouhu.png",
+        "tr_desc": "攻击会使敌方已有的减益层数+3。"
     },
     {
         "no": "301",
@@ -6763,7 +7213,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "灰色肖像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ce/4kdtoy9bg47lszacgv1gzkhpornpxjf.png/180px-JL_huajianfashishou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ce/4kdtoy9bg47lszacgv1gzkhpornpxjf.png/180px-JL_huajianfashishou.png",
+        "tr_desc": "攻击会使敌方已有的减益层数+3。"
     },
     {
         "no": "302",
@@ -6778,7 +7229,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "变形活画",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f9/9nfnpzudto57huqq74lsbk8a04o2yge.png/180px-JL_huajianchentieshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f9/9nfnpzudto57huqq74lsbk8a04o2yge.png/180px-JL_huajianchentieshou.png",
+        "tr_desc": "攻击时，敌方每有1层增益，本次技能威力+10%，速度+5。"
     },
     {
         "no": "303",
@@ -6793,7 +7245,8 @@ const SPIRITS =
         "a2": "",
         "tr": "图书守卫者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f4/kc5kkmjsa28ub8terlfbsx8cna7rdou.png/180px-JL_shumochong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f4/kc5kkmjsa28ub8terlfbsx8cna7rdou.png/180px-JL_shumochong.png",
+        "tr_desc": "入场时，若自己魔力值为1，自己获得双攻+100%。"
     },
     {
         "no": "304",
@@ -6808,7 +7261,8 @@ const SPIRITS =
         "a2": "",
         "tr": "图书守卫者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f7/n58ft0m3p5wm4b7fqv1zvid4lhh3tx9.png/180px-JL_shujuanshouhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f7/n58ft0m3p5wm4b7fqv1zvid4lhh3tx9.png/180px-JL_shujuanshouhu.png",
+        "tr_desc": "入场时，若自己魔力值为1，自己获得双攻+100%。"
     },
     {
         "no": "305",
@@ -6823,7 +7277,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "图书守卫者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d6/6yx04bgvff6a4s4d8fur4d31uq706xz.png/180px-JL_gujuanzhizhengguan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d6/6yx04bgvff6a4s4d8fur4d31uq706xz.png/180px-JL_gujuanzhizhengguan.png",
+        "tr_desc": "入场时，若自己魔力值为1，自己获得双攻+100%。"
     },
     {
         "no": "306",
@@ -6838,7 +7293,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "构装契约者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/abjxiwun45jkhbrmujb4e3ez5r1qe5r.png/180px-JL_gujuanxiamoxiang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/abjxiwun45jkhbrmujb4e3ez5r1qe5r.png/180px-JL_gujuanxiamoxiang.png",
+        "tr_desc": "入场时，若敌方魔力值为1，自己获得双防+100%。"
     },
     {
         "no": "307",
@@ -6853,7 +7309,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "绒粉星光",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/9mja1p219mnssq57a2dtk71pt8rt7rt.png/180px-JL_rongrong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9c/9mja1p219mnssq57a2dtk71pt8rt7rt.png/180px-JL_rongrong.png",
+        "tr_desc": "攻击时，若敌方血脉是非本系的系别血脉，技能威力+100%。"
     },
     {
         "no": "308",
@@ -6868,7 +7325,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "绒粉星光",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/tafd8u4v1eepdbcjx6e9s2ctr2d3mp5.png/180px-JL_xiaorongjian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/tafd8u4v1eepdbcjx6e9s2ctr2d3mp5.png/180px-JL_xiaorongjian.png",
+        "tr_desc": "攻击时，若敌方血脉是非本系的系别血脉，技能威力+100%。"
     },
     {
         "no": "309",
@@ -6883,7 +7341,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "绒粉星光",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/47/1iaa827mu30fplchhc33rtm3wbzwouh.png/180px-JL_rongxianzi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/47/1iaa827mu30fplchhc33rtm3wbzwouh.png/180px-JL_rongxianzi.png",
+        "tr_desc": "攻击时，若敌方血脉是非本系的系别血脉，技能威力+100%。"
     },
     {
         "no": "310",
@@ -6898,7 +7357,8 @@ const SPIRITS =
         "a2": "",
         "tr": "月光审判",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/85/67mwc26q5u5lvy4133f2f5x4zj6wqao.png/180px-JL_xijiaoniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/85/67mwc26q5u5lvy4133f2f5x4zj6wqao.png/180px-JL_xijiaoniao.png",
+        "tr_desc": "攻击时，若敌方血脉是首领血脉，技能威力+100%。"
     },
     {
         "no": "311",
@@ -6913,7 +7373,8 @@ const SPIRITS =
         "a2": "",
         "tr": "月光审判",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/5rsgglr6be6gvdr90g66bqc0nhiiney.png/180px-JL_guangjiaoshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c6/5rsgglr6be6gvdr90g66bqc0nhiiney.png/180px-JL_guangjiaoshou.png",
+        "tr_desc": "攻击时，若敌方血脉是首领血脉，技能威力+100%。"
     },
     {
         "no": "312",
@@ -6928,7 +7389,8 @@ const SPIRITS =
         "a2": "",
         "tr": "月光审判",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/ibku66gfuw4vol7j0e0segdobxh7m2g.png/180px-JL_jiguangqianshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6b/ibku66gfuw4vol7j0e0segdobxh7m2g.png/180px-JL_jiguangqianshou.png",
+        "tr_desc": "攻击时，若敌方血脉是首领血脉，技能威力+100%。"
     },
     {
         "no": "313",
@@ -6943,7 +7405,8 @@ const SPIRITS =
         "a2": "",
         "tr": "茶多酚",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/d0nryyfw80ajhbg8bar9yrxs58dxuj9.png/180px-JL_guodong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/0b/d0nryyfw80ajhbg8bar9yrxs58dxuj9.png/180px-JL_guodong.png",
+        "tr_desc": "离场后，更换入场的精灵回复20%生命且免疫寄生。"
     },
     {
         "no": "314",
@@ -6958,7 +7421,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "茶多酚",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/dvopyimbampmh8tlpkeqxi1dnkfehks.png/180px-JL_mochabuding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4a/dvopyimbampmh8tlpkeqxi1dnkfehks.png/180px-JL_mochabuding.png",
+        "tr_desc": "离场后，更换入场的精灵回复20%生命且免疫寄生。"
     },
     {
         "no": "315",
@@ -6973,7 +7437,8 @@ const SPIRITS =
         "a2": "冰",
         "tr": "吉利丁片",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/f3l4hz6rjh4qnffuwuafpfc21iszmcb.png/180px-JL_yejiangbuding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b9/f3l4hz6rjh4qnffuwuafpfc21iszmcb.png/180px-JL_yejiangbuding.png",
+        "tr_desc": "离场后，更换入场的精灵获得双防+20%且免疫冻结。"
     },
     {
         "no": "316",
@@ -6988,7 +7453,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "美拉德反应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/8807uj2es5yglgl22j9p58f156f5p9f.png/180px-JL_rongyanbuding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/56/8807uj2es5yglgl22j9p58f156f5p9f.png/180px-JL_rongyanbuding.png",
+        "tr_desc": "离场后，更换入场的精灵获得双攻+20%且免疫灼烧。"
     },
     {
         "no": "317",
@@ -7003,7 +7469,8 @@ const SPIRITS =
         "a2": "",
         "tr": "契约的形状",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/eb/3bgae8brib2vmkq8r7wvi92w89olnpc.png/180px-JL_xingchenchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/eb/3bgae8brib2vmkq8r7wvi92w89olnpc.png/180px-JL_xingchenchong.png",
+        "tr_desc": "根据捕捉所用的咕噜球，入场时获得不同效果。"
     },
     {
         "no": "318",
@@ -7018,7 +7485,8 @@ const SPIRITS =
         "a2": "",
         "tr": "契约的形状",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/601qdkki9axlhxj4wp1ay0q75vrvgjc.png/180px-JL_luoxingchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/601qdkki9axlhxj4wp1ay0q75vrvgjc.png/180px-JL_luoxingchong.png",
+        "tr_desc": "根据捕捉所用的咕噜球，入场时获得不同效果。"
     },
     {
         "no": "319",
@@ -7033,7 +7501,8 @@ const SPIRITS =
         "a2": "",
         "tr": "契约的形状",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/50/n64ynwwroymmg9uj8bke5hil4iyr4ww.png/180px-JL_yunxingchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/50/n64ynwwroymmg9uj8bke5hil4iyr4ww.png/180px-JL_yunxingchong.png",
+        "tr_desc": "根据捕捉所用的咕噜球，入场时获得不同效果。"
     },
     {
         "no": "320",
@@ -7048,7 +7517,8 @@ const SPIRITS =
         "a2": "电",
         "tr": "对流",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/nfrrbzii0ast1enxgn06utdctbjsc7d.png/180px-JL_shungdengyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3d/nfrrbzii0ast1enxgn06utdctbjsc7d.png/180px-JL_shungdengyu.png",
+        "tr_desc": "自己的能耗增加变为能耗降低；能耗降低变为能耗增加。"
     },
     {
         "no": "321",
@@ -7063,7 +7533,8 @@ const SPIRITS =
         "a2": "电",
         "tr": "对流",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/80/jnp3ro1dfixnyjpl403x5qoi089ctfe.png/180px-JL_lidengyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/80/jnp3ro1dfixnyjpl403x5qoi089ctfe.png/180px-JL_lidengyu.png",
+        "tr_desc": "自己的能耗增加变为能耗降低；能耗降低变为能耗增加。"
     },
     {
         "no": "322",
@@ -7078,7 +7549,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "月牙雪糕",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/7qu2ylu57menspxgap05ybaea3x9qu3.png/180px-JL_yueyaxuexiong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fc/7qu2ylu57menspxgap05ybaea3x9qu3.png/180px-JL_yueyaxuexiong.png",
+        "tr_desc": "使用攻击技能时，敌方每层冻结视为1层额外星陨印记。"
     },
     {
         "no": "323",
@@ -7093,7 +7565,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "血型吸引",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/gjiz6pd6wn6ppipssrs2r1frwc0p5er.png/180px-JL_shiguangwengweng.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/gjiz6pd6wn6ppipssrs2r1frwc0p5er.png/180px-JL_shiguangwengweng.png",
+        "tr_desc": "敌方每携带1种系别的技能，自己攻击时威力+10。"
     },
     {
         "no": "324",
@@ -7108,7 +7581,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "血型吸引",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/17nq5jdsy66ffiuu3ojn6ibssja22us.png/180px-JL_qieguangwen.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/17nq5jdsy66ffiuu3ojn6ibssja22us.png/180px-JL_qieguangwen.png",
+        "tr_desc": "敌方每携带1种系别的技能，自己攻击时威力+10。"
     },
     {
         "no": "325",
@@ -7123,7 +7597,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "煤渣草",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/dclg9q7qth7w4juans6riykjunrg3bs.png/180px-JL_chaizhachong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/dclg9q7qth7w4juans6riykjunrg3bs.png/180px-JL_chaizhachong.png",
+        "tr_desc": "在场时，所有灼烧的衰减变为增长。"
     },
     {
         "no": "326",
@@ -7138,7 +7613,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "煤渣草",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/huryngwtucwp0is6u3ks6w5n2t49erl.png/180px-JL_ranxinchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/huryngwtucwp0is6u3ks6w5n2t49erl.png/180px-JL_ranxinchong.png",
+        "tr_desc": "在场时，所有灼烧的衰减变为增长。"
     },
     {
         "no": "327",
@@ -7153,7 +7629,8 @@ const SPIRITS =
         "a2": "",
         "tr": "搜刮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/33/br7ofyqfe7dgn4pkylg0111fsp15x4o.png/180px-JL_anyekulou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/33/br7ofyqfe7dgn4pkylg0111fsp15x4o.png/180px-JL_anyekulou.png",
+        "tr_desc": "敌方每使用1次【聚能】技能或更换精灵，自己入场时获得魔攻+20%。"
     },
     {
         "no": "328",
@@ -7168,7 +7645,8 @@ const SPIRITS =
         "a2": "",
         "tr": "搜刮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/86/ltbubsd2xs126xcsbnz209ulma36g2d.png/180px-JL_yejumo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/86/ltbubsd2xs126xcsbnz209ulma36g2d.png/180px-JL_yejumo.png",
+        "tr_desc": "敌方每使用1次【聚能】技能或更换精灵，自己入场时获得魔攻+20%。"
     },
     {
         "no": "329",
@@ -7183,7 +7661,8 @@ const SPIRITS =
         "a2": "",
         "tr": "搜刮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/f0tb5yfrc0iqj0i1mrr8zdoyup7f0xb.png/180px-JL_yexiao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/f0tb5yfrc0iqj0i1mrr8zdoyup7f0xb.png/180px-JL_yexiao.png",
+        "tr_desc": "敌方每使用1次【聚能】技能或更换精灵，自己入场时获得魔攻+20%。"
     },
     {
         "no": "329",
@@ -7198,7 +7677,8 @@ const SPIRITS =
         "a2": "",
         "tr": "扫荡",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/hmo0f6is0yzwi459wh0i4e65gaslpip.png/180px-JL_anyeluzhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/hmo0f6is0yzwi459wh0i4e65gaslpip.png/180px-JL_anyeluzhu.png",
+        "tr_desc": "造成的连击伤害提升，连击数越高，伤害提升越多。"
     },
     {
         "no": "330",
@@ -7213,7 +7693,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "星地善良",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6f/jt3bnpb0w0kwbw7uf8j31bqts0xkwd9.png/180px-JL_fenfenxing.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6f/jt3bnpb0w0kwbw7uf8j31bqts0xkwd9.png/180px-JL_fenfenxing.png",
+        "tr_desc": "回合结束时，若场上的己方精灵能量等于0，自己立即替换此精灵。"
     },
     {
         "no": "331",
@@ -7228,7 +7709,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "星地善良",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/47tcv35wtsfmzewww5jowafm8lghypg.png/180px-JL_xiaopiqiu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a5/47tcv35wtsfmzewww5jowafm8lghypg.png/180px-JL_xiaopiqiu.png",
+        "tr_desc": "回合结束时，若场上的己方精灵能量等于0，自己立即替换此精灵。"
     },
     {
         "no": "332",
@@ -7243,7 +7725,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "贪心算法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/5z7dakjx9tpkv89kdj5m7t0oqcumiyq.png/180px-JL_beise.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/5z7dakjx9tpkv89kdj5m7t0oqcumiyq.png/180px-JL_beise.png",
+        "tr_desc": "1号位技能获得传动1，且使用后使敌方获得6层灼烧。"
     },
     {
         "no": "333",
@@ -7258,7 +7741,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "贪心算法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a9/luksuyzr5ol2gs2gb5pd8zeocktmbcn.png/180px-JL_beijiaer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/a9/luksuyzr5ol2gs2gb5pd8zeocktmbcn.png/180px-JL_beijiaer.png",
+        "tr_desc": "1号位技能获得传动1，且使用后使敌方获得6层灼烧。"
     },
     {
         "no": "334",
@@ -7273,7 +7757,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "贪心算法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/34olxkzmrgwepvxdwmywqi3xqgqq1jd.png/180px-JL_beigusi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9b/34olxkzmrgwepvxdwmywqi3xqgqq1jd.png/180px-JL_beigusi.png",
+        "tr_desc": "1号位技能获得传动1，且使用后使敌方获得6层灼烧。"
     },
     {
         "no": "335",
@@ -7288,7 +7773,8 @@ const SPIRITS =
         "a2": "",
         "tr": "双向光速",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/6l1qwscvbtsvxqvlm38so74te4gsmx7.png/180px-JL_fenxingzai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/00/6l1qwscvbtsvxqvlm38so74te4gsmx7.png/180px-JL_fenxingzai.png",
+        "tr_desc": "在场时，所有回合结束时触发，触发次数+1。"
     },
     {
         "no": "336",
@@ -7303,7 +7789,8 @@ const SPIRITS =
         "a2": "",
         "tr": "双向光速",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/55/083mrtvn6hk0iyimlzhrui7ftvlq1da.png/180px-JL_fenerxingtu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/55/083mrtvn6hk0iyimlzhrui7ftvlq1da.png/180px-JL_fenerxingtu.png",
+        "tr_desc": "在场时，所有回合结束时触发，触发次数+1。"
     },
     {
         "no": "337",
@@ -7318,7 +7805,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "陨落",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/fdrx39ffqturb8qly1xdxpbf41kjz1o.png/180px-JL_luoyunxingtu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7b/fdrx39ffqturb8qly1xdxpbf41kjz1o.png/180px-JL_luoyunxingtu.png",
+        "tr_desc": "在场时,双方回合结束时的效果不会触发。"
     },
     {
         "no": "338",
@@ -7333,7 +7821,8 @@ const SPIRITS =
         "a2": "",
         "tr": "张弛有度",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/o1xtaz3emyunvh8w77yynj3ngzlvill.png/180px-JL_buguake.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/o1xtaz3emyunvh8w77yynj3ngzlvill.png/180px-JL_buguake.png",
+        "tr_desc": "周末时自己获得双攻+40%，其他时间获得双防+40%。"
     },
     {
         "no": "339",
@@ -7348,7 +7837,8 @@ const SPIRITS =
         "a2": "",
         "tr": "张弛有度",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d9/nmllzdht4fqoiwtsdm5scxbdkztbzvc.png/180px-JL_shanganwa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d9/nmllzdht4fqoiwtsdm5scxbdkztbzvc.png/180px-JL_shanganwa.png",
+        "tr_desc": "周末时自己获得双攻+40%，其他时间获得双防+40%。"
     },
     {
         "no": "340",
@@ -7363,7 +7853,8 @@ const SPIRITS =
         "a2": "",
         "tr": "天通地明",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9e/5itjjjg9mdxadecyksxjokti937x1ve.png/180px-JL_huohongwei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9e/5itjjjg9mdxadecyksxjokti937x1ve.png/180px-JL_huohongwei.png",
+        "tr_desc": "攻击时，若敌方血脉是污染血脉，技能威力+100%。"
     },
     {
         "no": "341",
@@ -7378,7 +7869,8 @@ const SPIRITS =
         "a2": "",
         "tr": "天通地明",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/9d6kmaaupvyv0kgv34ir4cwor345shz.png/180px-JL_yadanbin.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c1/9d6kmaaupvyv0kgv34ir4cwor345shz.png/180px-JL_yadanbin.png",
+        "tr_desc": "攻击时，若敌方血脉是污染血脉，技能威力+100%。"
     },
     {
         "no": "342",
@@ -7393,7 +7885,8 @@ const SPIRITS =
         "a2": "",
         "tr": "系统发育",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9e/lw9t8j8x7k1fq8wy7fhydglb8pn5529.png/180px-JL_xiaoxiaoyutu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9e/lw9t8j8x7k1fq8wy7fhydglb8pn5529.png/180px-JL_xiaoxiaoyutu.png",
+        "tr_desc": "获得能量或生命时，会将等量的能量或生命随机分配给场下的精灵。"
     },
     {
         "no": "343",
@@ -7408,7 +7901,8 @@ const SPIRITS =
         "a2": "",
         "tr": "系统发育",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/mx7d3gilg5p3cy4t25so0uwo6thx68p.png/180px-JL_chuntuxiaozi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/62/mx7d3gilg5p3cy4t25so0uwo6thx68p.png/180px-JL_chuntuxiaozi.png",
+        "tr_desc": "获得能量或生命时，会将等量的能量或生命随机分配给场下的精灵。"
     },
     {
         "no": "344",
@@ -7423,7 +7917,8 @@ const SPIRITS =
         "a2": "",
         "tr": "系统发育",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/jojwwmwoh6h5hoilugb2diniuh6qto7.png/180px-JL_chuntudalao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/27/jojwwmwoh6h5hoilugb2diniuh6qto7.png/180px-JL_chuntudalao.png",
+        "tr_desc": "获得能量或生命时，会将等量的能量或生命随机分配给场下的精灵。"
     },
     {
         "no": "345",
@@ -7438,7 +7933,8 @@ const SPIRITS =
         "a2": "",
         "tr": "守望星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/5d1t07baxojkscdkklli5t4bt5kvaf2.png/180px-JL_youxingguang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2e/5d1t07baxojkscdkklli5t4bt5kvaf2.png/180px-JL_youxingguang.png",
+        "tr_desc": "触发星陨时消耗一半层数，仍造成满层伤害。"
     },
     {
         "no": "346",
@@ -7453,7 +7949,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "守望星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/elndsuc6jfpfmgba4kmrnfm35qzjok3.png/180px-JL_yaoxingguang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/44/elndsuc6jfpfmgba4kmrnfm35qzjok3.png/180px-JL_yaoxingguang.png",
+        "tr_desc": "触发星陨时消耗一半层数，仍造成满层伤害。"
     },
     {
         "no": "347",
@@ -7468,7 +7965,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "守望星",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/i5wuwcjokrat3ebcyr5iozgrc520a68.png/180px-JL_muxingchen.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7a/i5wuwcjokrat3ebcyr5iozgrc520a68.png/180px-JL_muxingchen.png",
+        "tr_desc": "触发星陨时消耗一半层数，仍造成满层伤害。"
     },
     {
         "no": "348",
@@ -7483,7 +7981,8 @@ const SPIRITS =
         "a2": "",
         "tr": "狂欢开始",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/gp8xzlsmnd4kx5nks0yi3sw4hon6q9k.png/180px-JL_wusibeibei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/gp8xzlsmnd4kx5nks0yi3sw4hon6q9k.png/180px-JL_wusibeibei.png",
+        "tr_desc": "在场时，背包里会变化出随机精灵，随机精灵只能与本精灵相互更换，本精灵受到的克制伤害+25%。"
     },
     {
         "no": "349",
@@ -7498,7 +7997,8 @@ const SPIRITS =
         "a2": "",
         "tr": "狂欢开始",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/jbv5cc2h6bfiqmsoh9yxo5d4iz4ecgj.png/180px-JL_huiguangmuji.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/da/jbv5cc2h6bfiqmsoh9yxo5d4iz4ecgj.png/180px-JL_huiguangmuji.png",
+        "tr_desc": "在场时，背包里会变化出随机精灵，随机精灵只能与本精灵相互更换，本精灵受到的克制伤害+25%。"
     },
     {
         "no": "350",
@@ -7513,7 +8013,8 @@ const SPIRITS =
         "a2": "",
         "tr": "狂欢开始",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/69/ov6moz91u8h9ho0ychet285437cqyhv.png/180px-JL_jimufangzhou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/69/ov6moz91u8h9ho0ychet285437cqyhv.png/180px-JL_jimufangzhou.png",
+        "tr_desc": "在场时，背包里会变化出随机精灵，随机精灵只能与本精灵相互更换，本精灵受到的克制伤害+25%。"
     },
     {
         "no": "351",
@@ -7528,7 +8029,8 @@ const SPIRITS =
         "a2": "",
         "tr": "展翅",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/aczst6ix1gu1d2klovs00clj2cjd2kj.png/180px-JL_fanque.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/88/aczst6ix1gu1d2klovs00clj2cjd2kj.png/180px-JL_fanque.png",
+        "tr_desc": "在场时,自己携带的普通系技能变为翼系技能,若后于对手行动,自己受到的伤害+25%。"
     },
     {
         "no": "352",
@@ -7543,7 +8045,8 @@ const SPIRITS =
         "a2": "",
         "tr": "展翅",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/4jf9ln9ym1yl7xwfs2ktmmvfibodaua.png/180px-JL_zilingying.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/4jf9ln9ym1yl7xwfs2ktmmvfibodaua.png/180px-JL_zilingying.png",
+        "tr_desc": "在场时,自己携带的普通系技能变为翼系技能,若后于对手行动,自己受到的伤害+25%。"
     },
     {
         "no": "353",
@@ -7558,7 +8061,8 @@ const SPIRITS =
         "a2": "",
         "tr": "展翅",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/4w3o2ulopdfxovbqdbu34iyqmdo8jt1.png/180px-JL_fanying.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5c/4w3o2ulopdfxovbqdbu34iyqmdo8jt1.png/180px-JL_fanying.png",
+        "tr_desc": "在场时,自己携带的普通系技能变为翼系技能,若后于对手行动,自己受到的伤害+25%。"
     },
     {
         "no": "354",
@@ -7573,7 +8077,8 @@ const SPIRITS =
         "a2": "",
         "tr": "大雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/0b6rmkrozbqndb2jgqyz92ackydb4bo.png/180px-JL_xiaoxueren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/0b6rmkrozbqndb2jgqyz92ackydb4bo.png/180px-JL_xiaoxueren.png",
+        "tr_desc": "自己使用2次不同的冰系技能后,对手获得4层冻结,随后特性重置。"
     },
     {
         "no": "355",
@@ -7588,7 +8093,8 @@ const SPIRITS =
         "a2": "",
         "tr": "大雪球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/9v3gml9f3xxomxgcetq79tiqcixcxvk.png/180px-JL_xueguai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/9v3gml9f3xxomxgcetq79tiqcixcxvk.png/180px-JL_xueguai.png",
+        "tr_desc": "自己使用2次不同的冰系技能后,对手获得4层冻结,随后特性重置。"
     },
     {
         "no": "356",
@@ -7603,7 +8109,8 @@ const SPIRITS =
         "a2": "龙",
         "tr": "大火球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/nta47erm1ygjcb30zig65u5ma1ljef4.png/180px-JL_baoyanzai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/78/nta47erm1ygjcb30zig65u5ma1ljef4.png/180px-JL_baoyanzai.png",
+        "tr_desc": "自己使用 2 次不同的火系技能后，下次技能无需蓄力，随后特性重置。"
     },
     {
         "no": "357",
@@ -7618,7 +8125,8 @@ const SPIRITS =
         "a2": "龙",
         "tr": "大火球",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/8sicyxby9nfic3mfe1eeen3n5xn8dt7.png/180px-JL_baoyanpengpeng.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/8sicyxby9nfic3mfe1eeen3n5xn8dt7.png/180px-JL_baoyanpengpeng.png",
+        "tr_desc": "自己使用 2 次不同的火系技能后，下次技能无需蓄力，随后特性重置。"
     },
     {
         "no": "358",
@@ -7633,7 +8141,8 @@ const SPIRITS =
         "a2": "机械",
         "tr": "换碟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/71n9d075ylrp7mwyr15qp726a2qnhvp.png/180px-JL_houmaizai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f2/71n9d075ylrp7mwyr15qp726a2qnhvp.png/180px-JL_houmaizai.png",
+        "tr_desc": "自己携带的音波弹/音爆/金属噪音/午夜噪音威力提升且获得巧变:同系别技能。"
     },
     {
         "no": "359",
@@ -7648,7 +8157,8 @@ const SPIRITS =
         "a2": "机械",
         "tr": "换碟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/6stibupyxijjjuwznv9cl8bc1bmwwoq.png/180px-JL_yindiehou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/6stibupyxijjjuwznv9cl8bc1bmwwoq.png/180px-JL_yindiehou.png",
+        "tr_desc": "自己携带的音波弹/音爆/金属噪音/午夜噪音威力提升且获得巧变:同系别技能。"
     },
     {
         "no": "360",
@@ -7663,7 +8173,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "拉拉队长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/cs48upl19rn5j7c9spxzugh74fd00re.png/180px-JL_jiayouhaikui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/cs48upl19rn5j7c9spxzugh74fd00re.png/180px-JL_jiayouhaikui.png",
+        "tr_desc": "若自己在萌化状态下再获得萌化会解除萌化。"
     },
     {
         "no": "361",
@@ -7678,7 +8189,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "拉拉队长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/15/pjlq6c3hrgcr4refte5mgakqqtazkuv.png/180px-JL_jiayouxie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/15/pjlq6c3hrgcr4refte5mgakqqtazkuv.png/180px-JL_jiayouxie.png",
+        "tr_desc": "若自己在萌化状态下再获得萌化会解除萌化。"
     },
     {
         "no": "361",
@@ -7693,7 +8205,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "拉拉队长",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/9ke0gp2835gtvrksw3i9g900nnem4tp.png/180px-JL_jiayouxiedanzhi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/ff/9ke0gp2835gtvrksw3i9g900nnem4tp.png/180px-JL_jiayouxiedanzhi.png",
+        "tr_desc": "若自己在萌化状态下再获得萌化会解除萌化。"
     },
     {
         "no": "362",
@@ -7708,7 +8221,8 @@ const SPIRITS =
         "a2": "",
         "tr": "戏耍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/lmhuergeuwapg2e1a4ovul695x2cofa.png/180px-JL_xiaochoudoudou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/lmhuergeuwapg2e1a4ovul695x2cofa.png/180px-JL_xiaochoudoudou.png",
+        "tr_desc": "自己无法回复生命，而是将回复生命变为敌方扣除等量生命。"
     },
     {
         "no": "363",
@@ -7723,7 +8237,8 @@ const SPIRITS =
         "a2": "",
         "tr": "戏耍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/mj2f2r1geuzizz7qfojmetatfrzfief.png/180px-JL_xiaochoutu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b5/mj2f2r1geuzizz7qfojmetatfrzfief.png/180px-JL_xiaochoutu.png",
+        "tr_desc": "自己无法回复生命，而是将回复生命变为敌方扣除等量生命。"
     },
     {
         "no": "364",
@@ -7738,7 +8253,8 @@ const SPIRITS =
         "a2": "",
         "tr": "戏耍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/5mk185whhllolc2pthfhzccdv6c0zb5.png/180px-JL_xiaochougongjue.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/66/5mk185whhllolc2pthfhzccdv6c0zb5.png/180px-JL_xiaochougongjue.png",
+        "tr_desc": "自己无法回复生命，而是将回复生命变为敌方扣除等量生命。"
     },
     {
         "no": "365",
@@ -7753,7 +8269,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "焰色反应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/32945jxwupx5phy086vr80jjzq3h4e2.png/180px-JL_yanhuatuan.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/32945jxwupx5phy086vr80jjzq3h4e2.png/180px-JL_yanhuatuan.png",
+        "tr_desc": "在场时,衰减的灼烧变为相同层数的中毒。"
     },
     {
         "no": "366",
@@ -7768,7 +8285,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "焰色反应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/pfobrtc09a05nv32ebmha99b5rt05nz.png/180px-JL_yanhuabojue.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/pfobrtc09a05nv32ebmha99b5rt05nz.png/180px-JL_yanhuabojue.png",
+        "tr_desc": "在场时,衰减的灼烧变为相同层数的中毒。"
     },
     {
         "no": "367",
@@ -7783,7 +8301,8 @@ const SPIRITS =
         "a2": "",
         "tr": "魔术帽",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/lo2idt09h9u2g6qch33yhb6wcbzqizu.png/180px-JL_gugumao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f1/lo2idt09h9u2g6qch33yhb6wcbzqizu.png/180px-JL_gugumao.png",
+        "tr_desc": "在场时,场上双方携带的技能获得巧变:同系别技能。"
     },
     {
         "no": "368",
@@ -7798,7 +8317,8 @@ const SPIRITS =
         "a2": "",
         "tr": "魔术帽",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/h7he0vb9urzipljkk3sv78q084anrmp.png/180px-JL_gudemaomao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/h7he0vb9urzipljkk3sv78q084anrmp.png/180px-JL_gudemaomao.png",
+        "tr_desc": "在场时,场上双方携带的技能获得巧变:同系别技能。"
     },
     {
         "no": "369",
@@ -7813,7 +8333,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "安可",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/3w3c8w1f78mu474m14hzh10t4qum4b2.png/180px-JL_xuanguangdidi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/3w3c8w1f78mu474m14hzh10t4qum4b2.png/180px-JL_xuanguangdidi.png",
+        "tr_desc": "使用光系技能后,回合结束时自己返场。"
     },
     {
         "no": "370",
@@ -7828,7 +8349,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "安可",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/jzsn9knm8ysgwdzsqc11cpfhw73ehyw.png/180px-JL_pilididi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/01/jzsn9knm8ysgwdzsqc11cpfhw73ehyw.png/180px-JL_pilididi.png",
+        "tr_desc": "使用光系技能后,回合结束时自己返场。"
     },
     {
         "no": "371",
@@ -7843,7 +8365,8 @@ const SPIRITS =
         "a2": "",
         "tr": "合拍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ca/p2aqq5eo3i8dr9027hw0b275iiey6te.png/180px-JL_xiaoguxiang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/ca/p2aqq5eo3i8dr9027hw0b275iiey6te.png/180px-JL_xiaoguxiang.png",
+        "tr_desc": "若本回合自己与敌方使用的技能在系别/类型/能耗上每有1项相同,回合结束时获得物攻和物防永久+10%。"
     },
     {
         "no": "372",
@@ -7858,7 +8381,8 @@ const SPIRITS =
         "a2": "",
         "tr": "合拍",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/9ogz91a3td3ezs7sp0qzsvxubbbpwgo.png/180px-JL_juguxiang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b7/9ogz91a3td3ezs7sp0qzsvxubbbpwgo.png/180px-JL_juguxiang.png",
+        "tr_desc": "若本回合自己与敌方使用的技能在系别/类型/能耗上每有1项相同,回合结束时获得物攻和物防永久+10%。"
     },
     {
         "no": "373",
@@ -7873,7 +8397,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盲从",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/2fyw4qbvsp7fmpr16hb8g9a2ab5i75i.png/180px-JL_qianxianmuou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/2fyw4qbvsp7fmpr16hb8g9a2ab5i75i.png/180px-JL_qianxianmuou.png",
+        "tr_desc": "可以携带多个复写/借用/取念技能,非幻系技能能耗-2。"
     },
     {
         "no": "374",
@@ -7888,7 +8413,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盲从",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/4z0qov0tcz3oysxndia71bzide9qv3t.png/180px-JL_shuaishuaimoou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f8/4z0qov0tcz3oysxndia71bzide9qv3t.png/180px-JL_shuaishuaimoou.png",
+        "tr_desc": "可以携带多个复写/借用/取念技能,非幻系技能能耗-2。"
     },
     {
         "no": "375",
@@ -7903,7 +8429,8 @@ const SPIRITS =
         "a2": "",
         "tr": "留学生",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/bz09h3dbir06hbddrcvvjhnkqv9jqui.png/180px-JL_xueyuanguagua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ed/bz09h3dbir06hbddrcvvjhnkqv9jqui.png/180px-JL_xueyuanguagua.png",
+        "tr_desc": "自己全技能能耗+2，可以学习全部攻击技能。"
     },
     {
         "no": "376",
@@ -7918,7 +8445,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "不死鸟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/jjms0e2suktnez07yolwstte0p3o5c0.png/180px-JL_liezuanniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/dc/jjms0e2suktnez07yolwstte0p3o5c0.png/180px-JL_liezuanniao.png",
+        "tr_desc": "每场战斗1次，受到致命伤害时保留1血，且敌方获得15层灼烧。"
     },
     {
         "no": "377",
@@ -7933,7 +8461,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "不死鸟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/px31h3o8878d9sze90mb33v0vf2q2jy.png/180px-JL_changweihuoniao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/02/px31h3o8878d9sze90mb33v0vf2q2jy.png/180px-JL_changweihuoniao.png",
+        "tr_desc": "每场战斗1次，受到致命伤害时保留1血，且敌方获得15层灼烧。"
     },
     {
         "no": "378",
@@ -7948,7 +8477,8 @@ const SPIRITS =
         "a2": "翼",
         "tr": "不死鸟",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/0zaa8xghxtgg1g51dpl1qbirkcew9a4.png/180px-JL_huoyu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/24/0zaa8xghxtgg1g51dpl1qbirkcew9a4.png/180px-JL_huoyu.png",
+        "tr_desc": "每场战斗1次，受到致命伤害时保留1血，且敌方获得15层灼烧。"
     },
     {
         "no": "379",
@@ -7963,7 +8493,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "上锁",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/apeox47541b0hyg5h0ja2b9u5paoq3o.png/180px-JL_dingdingmao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/apeox47541b0hyg5h0ja2b9u5paoq3o.png/180px-JL_dingdingmao.png",
+        "tr_desc": "对手本回合使用的技能，冷却1回合。"
     },
     {
         "no": "380",
@@ -7978,7 +8509,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "上锁",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/d5rdhassttsq5gviwzbzj1du9qxp7n2.png/180px-JL_feifeiyao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/d5rdhassttsq5gviwzbzj1du9qxp7n2.png/180px-JL_feifeiyao.png",
+        "tr_desc": "对手本回合使用的技能，冷却1回合。"
     },
     {
         "no": "381",
@@ -7993,7 +8525,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "流沙统治者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/2jabctmj0bhlsc7v294r4vsjerzumaq.png/180px-JL_suijingxie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/60/2jabctmj0bhlsc7v294r4vsjerzumaq.png/180px-JL_suijingxie.png",
+        "tr_desc": "天气为沙暴时，自己获得速度+50。"
     },
     {
         "no": "382",
@@ -8008,7 +8541,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "流沙统治者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/0p0psma11lb5o5uo2ym7ujy3jme4u6i.png/180px-JL_jingweixie.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b6/0p0psma11lb5o5uo2ym7ujy3jme4u6i.png/180px-JL_jingweixie.png",
+        "tr_desc": "天气为沙暴时，自己获得速度+50。"
     },
     {
         "no": "383",
@@ -8023,7 +8557,8 @@ const SPIRITS =
         "a2": "地",
         "tr": "流沙统治者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/9x8ufk91ohkgy25yq12fqjb6uzyhncq.png/180px-JL_xieziwang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/9x8ufk91ohkgy25yq12fqjb6uzyhncq.png/180px-JL_xieziwang.png",
+        "tr_desc": "天气为沙暴时，自己获得速度+50。"
     },
     {
         "no": "384",
@@ -8038,7 +8573,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盘根木",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/s0qy88eoymuyq4883e8p3va4y0k887d.png/180px-JL_sendouding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8a/s0qy88eoymuyq4883e8p3va4y0k887d.png/180px-JL_sendouding.png",
+        "tr_desc": "初始生命为10%，入场前己方精灵每使用1次草系技能，回复30%生命。"
     },
     {
         "no": "385",
@@ -8053,7 +8589,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盘根木",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/kaes06w23eeftbfzrddlu8rct4qzm93.png/180px-JL_senmanren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f5/kaes06w23eeftbfzrddlu8rct4qzm93.png/180px-JL_senmanren.png",
+        "tr_desc": "初始生命为10%，入场前己方精灵每使用1次草系技能，回复30%生命。"
     },
     {
         "no": "386",
@@ -8068,7 +8605,8 @@ const SPIRITS =
         "a2": "",
         "tr": "盘根木",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/af9sop6j6apn3ou2mzoeg77hbgmhjgl.png/180px-JL_senjuren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/af9sop6j6apn3ou2mzoeg77hbgmhjgl.png/180px-JL_senjuren.png",
+        "tr_desc": "初始生命为10%，入场前己方精灵每使用1次草系技能，回复30%生命。"
     },
     {
         "no": "387",
@@ -8083,7 +8621,8 @@ const SPIRITS =
         "a2": "",
         "tr": "电子音乐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/39/0qqq0gfpw2q2vyptvexuwe3hwany938.png/180px-JL_pilibaobao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/39/0qqq0gfpw2q2vyptvexuwe3hwany938.png/180px-JL_pilibaobao.png",
+        "tr_desc": "天气为雷鸣时，使用电系技能后敌方获得引电。"
     },
     {
         "no": "388",
@@ -8098,7 +8637,8 @@ const SPIRITS =
         "a2": "",
         "tr": "电子音乐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ae/hho5axcw0i2uhw2e1et7ay4wp297oif.png/180px-JL_leimingwang.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ae/hho5axcw0i2uhw2e1et7ay4wp297oif.png/180px-JL_leimingwang.png",
+        "tr_desc": "天气为雷鸣时，使用电系技能后敌方获得引电。"
     },
     {
         "no": "389",
@@ -8113,7 +8653,8 @@ const SPIRITS =
         "a2": "",
         "tr": "电子音乐",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3c/jxnqg5v5ym5vqqdz0zyq6g09xqi169c.png/180px-JL_leishenzhizi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/3c/jxnqg5v5ym5vqqdz0zyq6g09xqi169c.png/180px-JL_leishenzhizi.png",
+        "tr_desc": "天气为雷鸣时，使用电系技能后敌方获得引电。"
     },
     {
         "no": "390",
@@ -8128,7 +8669,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰雪魂魄",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/122afrygb5epklj19ofbp1ji6koz427.png/180px-JL_xuelingshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/b/b1/122afrygb5epklj19ofbp1ji6koz427.png/180px-JL_xuelingshou.png",
+        "tr_desc": "天气为暴风雪时，敌方队伍中的精灵每有1层冻结，冰系技能威力+10%。"
     },
     {
         "no": "391",
@@ -8143,7 +8685,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰雪魂魄",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/5f08lvzil441dbmxu8u6hwrsmsbuomq.png/180px-JL_huanxueshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/1d/5f08lvzil441dbmxu8u6hwrsmsbuomq.png/180px-JL_huanxueshou.png",
+        "tr_desc": "天气为暴风雪时，敌方队伍中的精灵每有1层冻结，冰系技能威力+10%。"
     },
     {
         "no": "392",
@@ -8158,7 +8701,8 @@ const SPIRITS =
         "a2": "",
         "tr": "冰雪魂魄",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c0/043435p3wckqewibxioiw741zya0o37.png/180px-JL_yinxuekuangshou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c0/043435p3wckqewibxioiw741zya0o37.png/180px-JL_yinxuekuangshou.png",
+        "tr_desc": "天气为暴风雪时，敌方队伍中的精灵每有1层冻结，冰系技能威力+10%。"
     },
     {
         "no": "393",
@@ -8173,7 +8717,8 @@ const SPIRITS =
         "a2": "",
         "tr": "淬炼火",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/6b3hyt3nh3f2lussmaom8wr7yox3ua4.png/180px-JL_huodouding.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/6b3hyt3nh3f2lussmaom8wr7yox3ua4.png/180px-JL_huodouding.png",
+        "tr_desc": "入场前己方精灵每使用1次火系技能，获得攻防+10%，速度+10。（最多触发10次）"
     },
     {
         "no": "394",
@@ -8188,7 +8733,8 @@ const SPIRITS =
         "a2": "",
         "tr": "淬炼火",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/e3qymck4mtebny32bx8qavg5qu20c4t.png/180px-JL_huomanren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/41/e3qymck4mtebny32bx8qavg5qu20c4t.png/180px-JL_huomanren.png",
+        "tr_desc": "入场前己方精灵每使用1次火系技能，获得攻防+10%，速度+10。（最多触发10次）"
     },
     {
         "no": "395",
@@ -8203,7 +8749,8 @@ const SPIRITS =
         "a2": "",
         "tr": "淬炼火",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/nly2qxv1bau3t5sd5sdh84ve9azhtyo.png/180px-JL_huojuren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/77/nly2qxv1bau3t5sd5sdh84ve9azhtyo.png/180px-JL_huojuren.png",
+        "tr_desc": "入场前己方精灵每使用1次火系技能，获得攻防+10%，速度+10。（最多触发10次）"
     },
     {
         "no": "396",
@@ -8218,7 +8765,8 @@ const SPIRITS =
         "a2": "",
         "tr": "友谊之果",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fa/npvana713r65mc53dvfukbvfub0xpzc.png/180px-JL_tiantian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fa/npvana713r65mc53dvfukbvfub0xpzc.png/180px-JL_tiantian.png",
+        "tr_desc": "回合结束时，双方队伍中的所有精灵回复1能量。"
     },
     {
         "no": "397",
@@ -8233,7 +8781,8 @@ const SPIRITS =
         "a2": "",
         "tr": "友谊之果",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/18/lt9ekfaptlbqprs65bsxqdngaiawk7q.png/180px-JL_feifei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/18/lt9ekfaptlbqprs65bsxqdngaiawk7q.png/180px-JL_feifei.png",
+        "tr_desc": "回合结束时，双方队伍中的所有精灵回复1能量。"
     },
     {
         "no": "398",
@@ -8248,7 +8797,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "莫比乌斯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/dmb9sgdyyup7jst0xooitijhgx9rjfx.png/180px-JL_mobiwuwu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/17/dmb9sgdyyup7jst0xooitijhgx9rjfx.png/180px-JL_mobiwuwu.png",
+        "tr_desc": "回合结束时，若自己的能量为0，则回复10能量。"
     },
     {
         "no": "399",
@@ -8263,7 +8813,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "莫比乌斯",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5b/r977zv3ri4xjlmgdwd4w2oqai3il04k.png/180px-JL_huanliumobi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5b/r977zv3ri4xjlmgdwd4w2oqai3il04k.png/180px-JL_huanliumobi.png",
+        "tr_desc": "回合结束时，若自己的能量为0，则回复10能量。"
     },
     {
         "no": "400",
@@ -8278,7 +8829,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "瞳中倒影",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/19zlz9e8a4qr26msjlcnfrfno34zt6v.png/180px-JL_guiyankungchong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/99/19zlz9e8a4qr26msjlcnfrfno34zt6v.png/180px-JL_guiyankungchong.png",
+        "tr_desc": "自己或其他精灵离场时，自己与更换入场的精灵交换血量百分比。"
     },
     {
         "no": "401",
@@ -8293,7 +8845,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "瞳中倒影",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/mueiyix3fplljlezqlxk4ba8m9hzzxo.png/180px-JL_erlingguimei.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/9d/mueiyix3fplljlezqlxk4ba8m9hzzxo.png/180px-JL_erlingguimei.png",
+        "tr_desc": "自己或其他精灵离场时，自己与更换入场的精灵交换血量百分比。"
     },
     {
         "no": "402",
@@ -8308,7 +8861,8 @@ const SPIRITS =
         "a2": "虫",
         "tr": "瞳中倒影",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/jjsiczbj9nf8vz6voaruiuhy79rykis.png/180px-JL_jumoxiechong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cb/jjsiczbj9nf8vz6voaruiuhy79rykis.png/180px-JL_jumoxiechong.png",
+        "tr_desc": "自己或其他精灵离场时，自己与更换入场的精灵交换血量百分比。"
     },
     {
         "no": "403",
@@ -8323,7 +8877,8 @@ const SPIRITS =
         "a2": "",
         "tr": "异类",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/0qupktqi94l8rfrtl8893sheyeki9mm.png/180px-JL_mimifu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/23/0qupktqi94l8rfrtl8893sheyeki9mm.png/180px-JL_mimifu.png",
+        "tr_desc": "携带的翼系攻击技能获得选择：能耗+1，攻击时吸血50%。"
     },
     {
         "no": "404",
@@ -8338,7 +8893,8 @@ const SPIRITS =
         "a2": "",
         "tr": "异类",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/rblkyrh9l5i9bcx7mbahzqz9a2s8hny.png/180px-JL_fanfanfu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fe/rblkyrh9l5i9bcx7mbahzqz9a2s8hny.png/180px-JL_fanfanfu.png",
+        "tr_desc": "携带的翼系攻击技能获得选择：能耗+1，攻击时吸血50%。"
     },
     {
         "no": "405",
@@ -8353,7 +8909,8 @@ const SPIRITS =
         "a2": "恶",
         "tr": "异类",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/sdqaur83km93n466wrbeezxe2oeg4vi.png/180px-JL_yeyoumo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ea/sdqaur83km93n466wrbeezxe2oeg4vi.png/180px-JL_yeyoumo.png",
+        "tr_desc": "携带的翼系攻击技能获得选择：能耗+1，攻击时吸血50%。"
     },
     {
         "no": "406",
@@ -8368,7 +8925,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "滴眼液",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/ohy1fy3gteyfx3prlxjssnj80c46rcw.png/180px-JL_yayanmo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/fd/ohy1fy3gteyfx3prlxjssnj80c46rcw.png/180px-JL_yayanmo.png",
+        "tr_desc": "天气为雨天时，使用水系攻击技能时吸血50%。"
     },
     {
         "no": "407",
@@ -8383,7 +8941,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "滴眼液",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/e2fdvt0h6bk8uutq0j95g8xaxrzlg9g.png/180px-JL_yeyanmo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7f/e2fdvt0h6bk8uutq0j95g8xaxrzlg9g.png/180px-JL_yeyanmo.png",
+        "tr_desc": "天气为雨天时，使用水系攻击技能时吸血50%。"
     },
     {
         "no": "408",
@@ -8398,7 +8957,8 @@ const SPIRITS =
         "a2": "水",
         "tr": "滴眼液",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/8as6bjpzxptw7bbva7sbqwbws9z3vvn.png/180px-JL_duyanjumo.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7c/8as6bjpzxptw7bbva7sbqwbws9z3vvn.png/180px-JL_duyanjumo.png",
+        "tr_desc": "天气为雨天时，使用水系攻击技能时吸血50%。"
     },
     {
         "no": "409",
@@ -8413,7 +8973,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "与星星同行",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/12/tuarez4la0kulipzcw883faftsgrg2c.png/180px-JL_xingyunlvzhe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/12/tuarez4la0kulipzcw883faftsgrg2c.png/180px-JL_xingyunlvzhe.png",
+        "tr_desc": "攻击时，将敌方所有印记变为相同层数的星陨印记。"
     },
     {
         "no": "410",
@@ -8428,7 +8989,8 @@ const SPIRITS =
         "a2": "",
         "tr": "迎宾",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/qd7adjxohckrg65s5f8zulzyyvuy968.png/180px-JL_diandian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/a/ab/qd7adjxohckrg65s5f8zulzyyvuy968.png/180px-JL_diandian.png",
+        "tr_desc": "自己或其他精灵离场时，更换入场的精灵获得萌化。"
     },
     {
         "no": "411",
@@ -8443,7 +9005,8 @@ const SPIRITS =
         "a2": "",
         "tr": "迎宾",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5a/ahkmli2t67thkk2eoo44s3qvyrztgte.png/180px-JL_boeryou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5a/ahkmli2t67thkk2eoo44s3qvyrztgte.png/180px-JL_boeryou.png",
+        "tr_desc": "自己或其他精灵离场时，更换入场的精灵获得萌化。"
     },
     {
         "no": "412",
@@ -8458,7 +9021,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "整点报时",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/5ermqxnpjcymaoiy8ezd3dg8920c4qj.png/180px-JL_buguzhong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/5ermqxnpjcymaoiy8ezd3dg8920c4qj.png/180px-JL_buguzhong.png",
+        "tr_desc": "回合结束时，若本场战斗累计消耗的能量恰好为12，则回满能量和生命。"
     },
     {
         "no": "413",
@@ -8473,7 +9037,8 @@ const SPIRITS =
         "a2": "幻",
         "tr": "整点报时",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/4b4bho6x4yiz9vj1rzoqj8czcnyplg0.png/180px-JL_suyuanzhong.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e0/4b4bho6x4yiz9vj1rzoqj8czcnyplg0.png/180px-JL_suyuanzhong.png",
+        "tr_desc": "回合结束时，若本场战斗累计消耗的能量恰好为12，则回满能量和生命。"
     },
     {
         "no": "414",
@@ -8488,7 +9053,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "有求必应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/oqf25vh0yb5fqlb7o6h3lnydr0k6x4f.png/180px-JL_jialing.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cc/oqf25vh0yb5fqlb7o6h3lnydr0k6x4f.png/180px-JL_jialing.png",
+        "tr_desc": "使用「选择」技能后，会额外使用1次另一种「选择」效果。使用任意技能后，该技能冷却1回合。"
     },
     {
         "no": "415",
@@ -8503,7 +9069,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "有求必应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/55/h0vvc93svknaog217vwrie1t2w5qior.png/180px-JL_jiayi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/55/h0vvc93svknaog217vwrie1t2w5qior.png/180px-JL_jiayi.png",
+        "tr_desc": "使用「选择」技能后，会额外使用1次另一种「选择」效果。使用任意技能后，该技能冷却1回合。"
     },
     {
         "no": "416",
@@ -8518,7 +9085,8 @@ const SPIRITS =
         "a2": "萌",
         "tr": "有求必应",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4f/7s289cl0m4qf6ortplhy45povk7injp.png/180px-JL_jiaer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/4f/7s289cl0m4qf6ortplhy45povk7injp.png/180px-JL_jiaer.png",
+        "tr_desc": "使用「选择」技能后，会额外使用1次另一种「选择」效果。使用任意技能后，该技能冷却1回合。"
     },
     {
         "no": "417",
@@ -8533,7 +9101,8 @@ const SPIRITS =
         "a2": "幽",
         "tr": "一意孤行",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/p5x8b5zgquba7gff0yeoemk0148m2tz.png/180px-JL_heihuajiaer.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/8/8c/p5x8b5zgquba7gff0yeoemk0148m2tz.png/180px-JL_heihuajiaer.png",
+        "tr_desc": "使用「选择」技能后，会额外使用1次相同的「选择」效果。使用任意技能后，该技能冷却1回合。"
     },
     {
         "no": "418",
@@ -8548,7 +9117,8 @@ const SPIRITS =
         "a2": "",
         "tr": "守护之心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/43vg7om5bep7clqt6ds052x0ykn6jlk.png/180px-JL_yaoyaoxiaozi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/ef/43vg7om5bep7clqt6ds052x0ykn6jlk.png/180px-JL_yaoyaoxiaozi.png",
+        "tr_desc": "双方场上每有1种不同的增益，自己获得物防+20%。"
     },
     {
         "no": "419",
@@ -8563,7 +9133,8 @@ const SPIRITS =
         "a2": "",
         "tr": "守护之心",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/o8hm4tmgv7qhavj2875zvtdbhavb6yr.png/180px-JL_hutaowangzi.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/08/o8hm4tmgv7qhavj2875zvtdbhavb6yr.png/180px-JL_hutaowangzi.png",
+        "tr_desc": "双方场上每有1种不同的增益，自己获得物防+20%。"
     },
     {
         "no": "420",
@@ -8578,7 +9149,8 @@ const SPIRITS =
         "a2": "机械",
         "tr": "和弦共振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/0m1u8wly70487j97bi0i5w70oganmpu.png/180px-JL_zujianyuanjian.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/28/0m1u8wly70487j97bi0i5w70oganmpu.png/180px-JL_zujianyuanjian.png",
+        "tr_desc": "双方场上每有1种不同的印记，自己获得魔攻+50%。"
     },
     {
         "no": "421",
@@ -8593,7 +9165,8 @@ const SPIRITS =
         "a2": "机械",
         "tr": "和弦共振",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c2/pkidvyr3bec7k40336sdg9azo6o9fkk.png/180px-JL_lixinwuzhe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c2/pkidvyr3bec7k40336sdg9azo6o9fkk.png/180px-JL_lixinwuzhe.png",
+        "tr_desc": "双方场上每有1种不同的印记，自己获得魔攻+50%。"
     },
     {
         "no": "422",
@@ -8608,7 +9181,8 @@ const SPIRITS =
         "a2": "",
         "tr": "猫精灵的礼物",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2d/sjze90hnig3ebjygzd9rrcail55kurm.png/180px-JL_hudietaotao.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/2d/sjze90hnig3ebjygzd9rrcail55kurm.png/180px-JL_hudietaotao.png",
+        "tr_desc": "己方精灵每完整使用1次「选择」技能（「明」和「暗」各1次），自己入场时获得物攻+40%。"
     },
     {
         "no": "423",
@@ -8623,7 +9197,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "猫精灵的礼物",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/blqd3q1n5wf11h79hcg7ua27qsehw83.png/180px-JL_maolaoda.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/cf/blqd3q1n5wf11h79hcg7ua27qsehw83.png/180px-JL_maolaoda.png",
+        "tr_desc": "己方精灵每完整使用1次「选择」技能（「明」和「暗」各1次），自己入场时获得物攻+40%。"
     },
     {
         "no": "424",
@@ -8638,7 +9213,8 @@ const SPIRITS =
         "a2": "毒",
         "tr": "猫精灵的礼物",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/15/kcc1s6sdn0igd6efzeuwjxx39rtg2ke.png/180px-JL_maolaoye.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/15/kcc1s6sdn0igd6efzeuwjxx39rtg2ke.png/180px-JL_maolaoye.png",
+        "tr_desc": "己方精灵每完整使用1次「选择」技能（「明」和「暗」各1次），自己入场时获得物攻+40%。"
     },
     {
         "no": "425",
@@ -8653,7 +9229,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "爆裂玉米",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/olbb4wztiilvp9ti9nsk35mhzhgtk4m.png/180px-JL_baomizai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/7e/olbb4wztiilvp9ti9nsk35mhzhgtk4m.png/180px-JL_baomizai.png",
+        "tr_desc": "草系技能使敌方获得4层灼烧，火系技能使敌方获得1层寄生。"
     },
     {
         "no": "426",
@@ -8668,7 +9245,8 @@ const SPIRITS =
         "a2": "火",
         "tr": "爆裂玉米",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/50fz0qfxi1ara3jek3r04r2i0rseflz.png/180px-JL_baomihua.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/e/e2/50fz0qfxi1ara3jek3r04r2i0rseflz.png/180px-JL_baomihua.png",
+        "tr_desc": "草系技能使敌方获得4层灼烧，火系技能使敌方获得1层寄生。"
     },
     {
         "no": "427",
@@ -8683,7 +9261,8 @@ const SPIRITS =
         "a2": "",
         "tr": "王子的诺言",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f7/gz7igvh42wd6oy38lsrilymae2jhmf9.png/180px-JL_shizikedou.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f7/gz7igvh42wd6oy38lsrilymae2jhmf9.png/180px-JL_shizikedou.png",
+        "tr_desc": "每回合各1次，获得增益时，同时获得全技能能耗-1，获得减益时，同时获得全技能能耗+1。"
     },
     {
         "no": "428",
@@ -8698,7 +9277,8 @@ const SPIRITS =
         "a2": "",
         "tr": "王子的诺言",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/22z8g3b2qqzrvkguoxp23mxmzz62fwk.png/180px-JL_shiziwa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/22z8g3b2qqzrvkguoxp23mxmzz62fwk.png/180px-JL_shiziwa.png",
+        "tr_desc": "每回合各1次，获得增益时，同时获得全技能能耗-1，获得减益时，同时获得全技能能耗+1。"
     },
     {
         "no": "429",
@@ -8713,7 +9293,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "王子的诺言",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/lv4emi7go1c3fk8ti6xw9937bt1e7oa.png/180px-JL_shenyuanwa.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/d/d3/lv4emi7go1c3fk8ti6xw9937bt1e7oa.png/180px-JL_shenyuanwa.png",
+        "tr_desc": "每回合各1次，获得增益时，同时获得全技能能耗-1，获得减益时，同时获得全技能能耗+1。"
     },
     {
         "no": "430",
@@ -8728,7 +9309,8 @@ const SPIRITS =
         "a2": "",
         "tr": "诅咒",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/20/0nft4gmkrk9qem4fvbmt8kdop90j1zq.png/180px-JL_xieefangchui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/2/20/0nft4gmkrk9qem4fvbmt8kdop90j1zq.png/180px-JL_xieefangchui.png",
+        "tr_desc": "每受到1次技能攻击（不含连击），敌方获得1层暗涌印记。"
     },
     {
         "no": "431",
@@ -8743,7 +9325,8 @@ const SPIRITS =
         "a2": "",
         "tr": "诅咒",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/nbnin5mfpo2j8rx95seno12ssiwcmzw.png/180px-JL_hunshuifangchui.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/1/19/nbnin5mfpo2j8rx95seno12ssiwcmzw.png/180px-JL_hunshuifangchui.png",
+        "tr_desc": "每受到1次技能攻击（不含连击），敌方获得1层暗涌印记。"
     },
     {
         "no": "432",
@@ -8758,7 +9341,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "光度换算",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/c9sp16gcjwpp95llppr1ah9z4ni2tl8.png/180px-JL_shouyezhu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/97/c9sp16gcjwpp95llppr1ah9z4ni2tl8.png/180px-JL_shouyezhu.png",
+        "tr_desc": "携带的火系技能获得选择：使用后失去15%生命，光系技能威力永久+20。"
     },
     {
         "no": "433",
@@ -8773,7 +9357,8 @@ const SPIRITS =
         "a2": "光",
         "tr": "光度换算",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/43/gtet7642l18wuao0unue8g2cn9j1n47.png/180px-JL_liumingkandela.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/43/gtet7642l18wuao0unue8g2cn9j1n47.png/180px-JL_liumingkandela.png",
+        "tr_desc": "携带的火系技能获得选择：使用后失去15%生命，光系技能威力永久+20。"
     },
     {
         "no": "434",
@@ -8788,7 +9373,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "长久保存制法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/g1j76ib7woq13d605y13ybmzo3hz5cc.png/180px-JL_miguohai.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/7/73/g1j76ib7woq13d605y13ybmzo3hz5cc.png/180px-JL_miguohai.png",
+        "tr_desc": ""
     },
     {
         "no": "435",
@@ -8803,7 +9389,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "长久保存制法",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/sr496zto4upyl3x6elpvwg0olffs2cm.png/180px-JL_banxiumiguoling.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6e/sr496zto4upyl3x6elpvwg0olffs2cm.png/180px-JL_banxiumiguoling.png",
+        "tr_desc": ""
     },
     {
         "no": "436",
@@ -8818,7 +9405,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "守望者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/fas0nu20q0dw7tf3rql5xzzk0pdxu1y.png/180px-JL_daocaoren.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/5/5e/fas0nu20q0dw7tf3rql5xzzk0pdxu1y.png/180px-JL_daocaoren.png",
+        "tr_desc": "自己防御应对成功时，敌方获得萌化。"
     },
     {
         "no": "437",
@@ -8833,7 +9421,8 @@ const SPIRITS =
         "a2": "武",
         "tr": "守望者",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/jsevgyws6ks3ac4yguhmmtkb9vxdbu3.png/180px-JL_daocaoshouhuzhe.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/0/07/jsevgyws6ks3ac4yguhmmtkb9vxdbu3.png/180px-JL_daocaoshouhuzhe.png",
+        "tr_desc": "自己防御应对成功时，敌方获得萌化。"
     },
     {
         "no": "438",
@@ -8848,7 +9437,8 @@ const SPIRITS =
         "a2": "普通",
         "tr": "扎手",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/l4844735qy7f02rgzm28vqkeza9mp0l.png/180px-JL_lishu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/f/f0/l4844735qy7f02rgzm28vqkeza9mp0l.png/180px-JL_lishu.png",
+        "tr_desc": "每受到1次技能攻击（不含连击），敌方获得1层棘刺印记。"
     },
     {
         "no": "439",
@@ -8863,7 +9453,8 @@ const SPIRITS =
         "a2": "普通",
         "tr": "扎手",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/90/2josvsz6kkq59r8ozcm27u1ctddi8kb.png/180px-JL_kelisishu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/9/90/2josvsz6kkq59r8ozcm27u1ctddi8kb.png/180px-JL_kelisishu.png",
+        "tr_desc": "每受到1次技能攻击（不含连击），敌方获得1层棘刺印记。"
     },
     {
         "no": "440",
@@ -8878,7 +9469,8 @@ const SPIRITS =
         "a2": "草",
         "tr": "安眠",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6a/15j0n84aepubl8b3suhh84s0q52dz9g.png/180px-JL_xueyingwawachunri.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/6/6a/15j0n84aepubl8b3suhh84s0q52dz9g.png/180px-JL_xueyingwawachunri.png",
+        "tr_desc": "王国入夜后，进入战斗时获得全技能能耗+2，回合结束时自己回复5%生命和1能量。"
     },
     {
         "no": "441",
@@ -8893,7 +9485,8 @@ const SPIRITS =
         "a2": "",
         "st": "",
         "tr": "博物",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/49/9l4gtjcogcjjhodordnz9dye7tnhvdb.png/180px-JL_fangfanghu.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/49/9l4gtjcogcjjhodordnz9dye7tnhvdb.png/180px-JL_fangfanghu.png",
+        "tr_desc": "在场时，识破精灵的变化效果，解除其伪装。"
     },
     {
         "no": "442",
@@ -8908,6 +9501,7 @@ const SPIRITS =
         "a2": "",
         "st": "",
         "tr": "博物",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/b0vodz0btqjvumlf48gflbfdzdo15h0.png/180px-JL_hulianchacha.png"
+        "img": "https://patchwiki.biligame.com/images/rocom/thumb/3/35/b0vodz0btqjvumlf48gflbfdzdo15h0.png/180px-JL_hulianchacha.png",
+        "tr_desc": "在场时，识破精灵的变化效果，解除其伪装。"
     }
 ]
