@@ -8692,8 +8692,8 @@ const SPIRITS =
         "no": "392",
         "n": "饮雪狂兽",
         "hp": 104,
-        "pa": 98,
-        "ma": 32,
+        "pa": 85,
+        "ma": 24,
         "pd": 111,
         "md": 103,
         "sp": 125,
@@ -8702,7 +8702,7 @@ const SPIRITS =
         "tr": "冰雪魂魄",
         "st": "",
         "img": "https://patchwiki.biligame.com/images/rocom/thumb/c/c0/043435p3wckqewibxioiw741zya0o37.png/180px-JL_yinxuekuangshou.png",
-        "tr_desc": "天气为暴风雪时，敌方队伍中的精灵每有1层冻结，冰系技能威力+10%。"
+        "tr_desc": "天气为暴风雪时，冰系技能威力+100%。"
     },
     {
         "no": "393",
@@ -8771,9 +8771,9 @@ const SPIRITS =
     {
         "no": "397",
         "n": "友爱星飞",
-        "hp": 108,
-        "pa": 32,
-        "ma": 102,
+        "hp": 122,
+        "pa": 37,
+        "ma": 116,
         "pd": 88,
         "md": 100,
         "sp": 95,
@@ -8947,11 +8947,11 @@ const SPIRITS =
     {
         "no": "408",
         "n": "障眼魔",
-        "hp": 113,
+        "hp": 134,
         "pa": 103,
         "ma": 98,
-        "pd": 85,
-        "md": 98,
+        "pd": 96,
+        "md": 110,
         "sp": 75,
         "a1": "恶",
         "a2": "水",
@@ -9235,11 +9235,11 @@ const SPIRITS =
     {
         "no": "426",
         "n": "炮米花",
-        "hp": 107,
-        "pa": 93,
-        "ma": 95,
-        "pd": 105,
-        "md": 105,
+        "hp": 115,
+        "pa": 99,
+        "ma": 100,
+        "pd": 110,
+        "md": 110,
         "sp": 75,
         "a1": "草",
         "a2": "火",
@@ -9347,9 +9347,9 @@ const SPIRITS =
     {
         "no": "433",
         "n": "流明坎德拉",
-        "hp": 111,
-        "pa": 109,
-        "ma": 118,
+        "hp": 121,
+        "pa": 96,
+        "ma": 104,
         "pd": 108,
         "md": 123,
         "sp": 105,
@@ -9358,7 +9358,7 @@ const SPIRITS =
         "tr": "光度换算",
         "st": "",
         "img": "https://patchwiki.biligame.com/images/rocom/thumb/4/43/gtet7642l18wuao0unue8g2cn9j1n47.png/180px-JL_liumingkandela.png",
-        "tr_desc": "携带的火系技能获得选择：使用后失去15%生命，光系技能威力永久+20。"
+        "tr_desc": "携带的火系技能获得选择：使用后失去15%生命，光系技能威力永久+30。"
     },
     {
         "no": "434",
