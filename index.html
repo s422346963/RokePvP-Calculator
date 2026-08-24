@@ -349,22 +349,14 @@
             </div>
           </div>
           <div class="skill-field">
-            <div class="field-label">技能属性（用于本系加成 STAB）</div>
+            <!-- <div class="field-label">技能属性（用于本系加成 STAB）</div> -->
             <div class="type-selector" id="skill-type-selector-a">
               <!--              <button class="type-btn selected" style="border-color: rgb(158, 158, 158);">普通</button><button class="type-btn" style="border-color: rgb(102, 187, 106);">草</button><button class="type-btn" style="border-color: rgb(239, 83, 80);">火</button><button class="type-btn" style="border-color: rgb(66, 165, 245);">水</button><button class="type-btn" style="border-color: rgb(255, 204, 2);">光</button><button class="type-btn" style="border-color: rgb(161, 136, 127);">地</button><button class="type-btn" style="border-color: rgb(128, 222, 234);">冰</button><button class="type-btn" style="border-color: rgb(124, 77, 255);">龙</button><button class="type-btn" style="border-color: rgb(255, 202, 40);">电</button><button class="type-btn" style="border-color: rgb(171, 71, 188);">毒</button><button class="type-btn" style="border-color: rgb(156, 204, 101);">虫</button><button class="type-btn" style="border-color: rgb(239, 154, 154);">武</button><button class="type-btn" style="border-color: rgb(129, 212, 250);">翼</button><button class="type-btn" style="border-color: rgb(244, 143, 177);">萌</button><button class="type-btn" style="border-color: rgb(92, 107, 192);">幽</button><button class="type-btn" style="border-color: rgb(109, 76, 65);">恶</button><button class="type-btn" style="border-color: rgb(120, 144, 156);">机械</button><button class="type-btn" style="border-color: rgb(206, 147, 216);">幻</button>-->
             </div>
           </div>
         </div>
         <div style="margin-top:8px;font-size:11px;color:#9aa0be;background:rgba(124,107,255,.08);border-radius:8px;padding:8px 12px;">
-          💡 模式 A 下威力已包含特性加成 / 属性克制 / 能力等级等，直接输入游戏内显示的威力即可。本系加成（STAB）会根据攻击方属性自动判断。
-        </div>
-        <div class="skill-row" style="margin-top:8px">
-          <div class="skill-field">
-            <label style="font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px">
-              <input type="checkbox" id="stab-override-a" onchange="calc()">
-              手动覆盖 STAB（取消自动本系加成检测）
-            </label>
-          </div>
+          💡 模式 A 下威力已包含特性加成 / 属性克制 / 能力等级 / 本系加成等，直接输入游戏内显示的威力即可。
         </div>
         <div class="reduce-row" style="margin-top:10px">
           <span class="reduce-label">⭐ 星陨印记层数</span>
@@ -375,6 +367,18 @@
           <span class="reduce-label">🛡️ 防御方应对技能减伤</span>
           <input class="reduce-input" type="number" id="def-reduce" min="0" max="99" value="0" oninput="calc()" placeholder="0">
           <span style="font-size:13px;color:var(--text2)">%</span>
+        </div>
+        <div class="reduce-row" id="extra-mult-row-a" style="margin-top:6px">
+            <span class="reduce-label">✨ 其他额外倍率</span>
+            <div style="display:flex;gap:4px">
+              <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-a').value=1.0;calc()">x1.0</button>
+              <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-a').value=2.0;calc()">x2.0</button>
+              <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-a').value=2.5;calc()">x2.5</button>
+              <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-a').value=3.0;calc()">x3.0</button>
+              <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-a').value=4.0;calc()">x4.0</button>
+            </div>
+            <input class="reduce-input" type="number" id="extra-mult-a" min="0.1" max="10" step="0.05" value="1.0" oninput="calc()">
+            <span style="font-size:13px;color:var(--text2)">倍</span>
         </div>
       </div>
 
@@ -410,11 +414,20 @@
         <div style="font-size:10px;color:var(--text2);margin-top:10px;margin-bottom:2px">✏️ 手动输入</div>
         <!-- 基础威力独立一行 -->
         <div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px;margin-bottom:8px">
-          <div class="mult-box" style="flex:0 0 160px">
+          <div class="mult-box" style="flex:0 0 200px">
             <div class="mult-box-label">基础威力（技能库）</div>
             <input class="mult-box-input" type="number" id="base-power-b" value="100" min="1" max="9999" oninput="calc()" style="color:var(--atk-color)">
           </div>
+          <div class="mult-box" style="flex:0 0 200px">
+            <div class="mult-box-label">连击次数</div>
+            <input class="mult-box-input" type="number" id="hits-input-b" value="1" min="1" max="10" oninput="calc()" style="color:#ffca28">
+          </div>
           <div id="power-tip-b" style="flex:1;background:rgba(255,200,80,.08);border:1px solid rgba(255,200,80,.3);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);display:none;min-width:0" class="power-tip-box"></div>
+        </div>
+        <div>
+          <div class="trait-hint-box" style="flex:2;min-width:160px;font-size:10px">
+            <b>💡</b> 特性倍率自动计算，无需手动输入。需要参数的特性会在上方出现输入框。不涉及伤害的特性显示说明但不参与计算。
+          </div>
         </div>
         <!-- 特性双面板 Mode B -->
         <div class="trait-panels-row">
@@ -445,20 +458,6 @@
               </div>
               <div class="trait-cond-area" id="trait-def-cond-b"></div>
             </div>
-          </div>
-        </div>
-        <!-- 底部行 -->
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
-          <div class="mult-box" style="flex:1;min-width:100px">
-            <div class="mult-box-label">其他额外倍率</div>
-            <input class="mult-box-input" type="number" id="extra-mult-b" value="1.0" min="0.1" max="10" step="0.05" oninput="calc()">
-          </div>
-          <div class="mult-box" style="flex:1;min-width:80px">
-            <div class="mult-box-label">连击次数</div>
-            <input class="mult-box-input" type="number" id="hits-input-b" value="1" min="1" max="10" oninput="calc()" style="color:#ffca28">
-          </div>
-          <div class="trait-hint-box" style="flex:2;min-width:160px;font-size:10px">
-            <b>💡</b> 特性倍率自动计算，无需手动输入。需要参数的特性会在上方出现输入框。不涉及伤害的特性显示说明但不参与计算。
           </div>
         </div>
         <div style="font-size:10px;color:var(--text2);margin-top:8px;margin-bottom:2px">🔄 自动填入 / 同步</div>
@@ -492,6 +491,18 @@
           <span class="reduce-label">🛡️ 防御方应对技能减伤</span>
           <input class="reduce-input" type="number" id="def-reduce-b" min="0" max="99" value="0" oninput="calc()" placeholder="0">
           <span style="font-size:13px;color:var(--text2)">%</span>
+        </div>
+        <div class="reduce-row" id="extra-mult-row-b" style="margin-top:6px">
+          <span class="reduce-label">✨ 其他额外倍率</span>
+          <div style="display:flex;gap:4px">
+            <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-b').value=1.0;calc()">x1.0</button>
+            <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-b').value=2.0;calc()">x2.0</button>
+            <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-b').value=2.5;calc()">x2.5</button>
+            <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-b').value=3.0;calc()">x3.0</button>
+            <button class="quick-mult-btn" onclick="document.getElementById('extra-mult-b').value=4.0;calc()">x4.0</button>
+          </div>
+          <input class="reduce-input" type="number" id="extra-mult-b" min="0.1" max="10" step="0.05" value="1.0" oninput="calc()">
+          <span style="font-size:13px;color:var(--text2)">倍</span>
         </div>
       </div>
   </div>
@@ -530,7 +541,7 @@ function matchQuery(name, q){
 
 
 // 愿力冲击（全属性，每属性一条，k="双攻"表示取较高攻）
-// ['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'].forEach(t => SKILLS.push({"n":"愿力冲击","a":t,"p":80,"k":"双攻","c":3}));
+['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'].forEach(t => SKILLS.push({"n":"愿力冲击("+t+")","a":t,"p":80,"k":"双攻","c":3}));
 
 
 const SORTED_SPIRITS = SPIRITS;
@@ -1092,13 +1103,14 @@ function calc() {
   if (state.mode === 'A') {
     power = parseFloat(document.getElementById('power-input').value) || 0;
     const hits = Math.max(1, parseInt(document.getElementById('hits-input').value) || 1);
-    const stabAuto = hasStab(state.atk, state.skillAttr);
-    const stabOvrd = document.getElementById('stab-override-a').checked;
-    stabMult = (!stabOvrd && stabAuto) ? 1.25 : 1.0;
-    const singleDmgA = (atkFinal / defFinal) * (37/41) * power * stabMult * reduceMult;
+    // 模式A不计算本系加成
+    stabMult = 1.0;
+    extraMult = parseFloat(document.getElementById('extra-mult-a').value) || 1;
+    const singleDmgA = (atkFinal / defFinal) * (37/41) * power * stabMult * extraMult * reduceMult;
     dmg = Math.floor(singleDmgA * hits);
     formulaStr = `(${f1(atkFinal)} / ${f1(defFinal)}) × 37/41 × ${power}` +
       (stabMult > 1 ? ` × 1.25(本系)` : '') +
+      (extraMult !== 1 ? ` × ${extraMult}(其他)` : '') +
       (reduceMult < 1 ? ` × ${f2(reduceMult)}(减伤)` : '') +
       (hits > 1 ? ` × ${hits}连击` : '') +
       ` = ${f1(dmg)}`;
@@ -1729,7 +1741,11 @@ function applyQuickSkill(skill) {
   if (arrow) arrow.textContent = '▼';
 
   document.getElementById('base-power-b').value = skill.p;
-  setSkillType(skill.k === '物攻' ? 'physical' : 'magical');
+  // 双攻技能：取攻方物攻/魔攻较高一项，与伤害计算(isPhys)逻辑一致
+  const isPhys = skill.k === '双攻'
+    ? ((state.atk ? (state.atk.patk || state.atk.pa || 0) : 0) >= (state.atk ? (state.atk.matk || state.atk.ma || 0) : 0))
+    : skill.k === '物攻';
+  setSkillType(isPhys ? 'physical' : 'magical');
   state.skillAttr = skill.a;
   state.selectedSkillName = skill.n;
   document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('selected', b.textContent === skill.a));
@@ -2468,7 +2484,7 @@ function setupSearch(side) {
 // ============================================================
 // INIT
 // ============================================================
-buildTypeSelector('skill-type-selector-a');
+// buildTypeSelector('skill-type-selector-a'); // A 模式属性选择已隐藏（如需恢复取消注释）
 buildTypeSelector('skill-type-selector-b');
 setupSearch('atk');
 setupSearch('def');

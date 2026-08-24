@@ -426,6 +426,8 @@
   .trait-mult-input.def { color:#90caf9; border-color:rgba(144,202,249,.4); }
   .trait-reset-btn { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text2); cursor:pointer; white-space:nowrap; }
   .trait-reset-btn:hover { background:var(--card); color:var(--text); }
+  .quick-mult-btn { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--card); color:color-mix(in srgb, var(--text2) 65%, transparent); cursor:pointer; white-space:nowrap; }
+  .quick-mult-btn:hover { background:var(--bg); color:var(--text2); }
   .trait-cond-area { margin-top:8px; }
   .trait-cond-area:empty { display:none; }
   .trait-hint-box { font-size:11px; color:var(--text2); line-height:1.7; padding:8px 10px; background:rgba(255,220,50,.07); border-radius:8px; border:1px solid rgba(255,220,50,.2); }
