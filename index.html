@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0020)https://lovepvp.top/ -->
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -10,10 +9,6 @@
   <meta name="theme-color" content="#1a1a2e">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="css/head.css">
-  <script src="data/spirits.js"></script>
-  <script src="data/skills.js"></script>
-  <script src="data/type.js"></script>
-  <script src="data/pinyin.js"></script>
 </head>
 <body>
 
@@ -60,7 +55,7 @@
       <div class="nature-iv-row" id="atk-nature-row" style="display:none">
         <div class="niv-field" style="flex:1;min-width:100%">
           <div class="niv-label">性格</div>
-          <select class="niv-select" id="atk-nature" onchange="applyNaturePreset('atk');recalcStats('atk');calc()">
+          <select class="niv-select" id="atk-nature" onchange="recalcStats('atk');calc()">
             <option value="neutral">普通（无修正）</option>
             <optgroup label="+生命">
               <option value="沉默">沉默（+生命 -物攻）</option>
@@ -161,7 +156,7 @@
       <div class="nature-iv-row" id="def-nature-row" style="display:none">
         <div class="niv-field" style="flex:1;min-width:100%">
           <div class="niv-label">性格</div>
-          <select class="niv-select" id="def-nature" onchange="applyNaturePreset('def');recalcStats('def');calc()">
+          <select class="niv-select" id="def-nature" onchange="recalcStats('def');calc()">
             <option value="neutral">普通（无修正）</option>
             <optgroup label="+生命">
               <option value="沉默">沉默（+生命 -物攻）</option>
@@ -519,6 +514,12 @@
 <!-- 收藏配置：可拖动浮动面板（默认右侧，默认隐藏） -->
 <aside id="fav-panel" class="fav-sidebar"></aside>
 
+<!-- 游戏数据 -->
+<script src="data/spirits.js"></script>
+<script src="data/skills.js"></script>
+<script src="data/type.js"></script>
+<script src="data/pinyin.js"></script>
+
 <script>
 
 function toPinyin(str){
@@ -791,18 +792,6 @@ function getDefTraitNeedsInput(defTr, skill) {
 }
 
 // 组合包装（向后兼容）
-function calcTraitMult(atk, def, skill, opts) {
-  const a = calcAtkTraitMult(atk, def, skill, opts);
-  const d = calcDefTraitMult(atk, def, skill, opts);
-  return {
-    mult: a.mult * d.mult,
-    atkMult: a.mult, defMult: d.mult,
-    desc: [a.desc, d.desc].filter(s => s && s !== '\u65e0\u7279\u6027' && s !== '\u7279\u6027\u5bf9\u6b64\u6280\u80fd\u65e0\u76f4\u63a5\u4f24\u5bb3\u52a0\u6210' && s !== '\u7279\u6027\u5bf9\u6b64\u6280\u80fd\u65e0\u76f4\u63a5\u51cf\u4f24').join('\uff1b') || '\u65e0\u7279\u6027',
-    needsInput: [...a.needsInput, ...d.needsInput],
-  };
-}
-
-
 function checkDefCarriesAttr(defSpirit, attr) {
   if (!defSpirit || !attr) return null;
   // 尝试从完整模式技能槽获取
@@ -927,9 +916,6 @@ function getNature(side) {
   const key = document.getElementById(side + '-nature').value;
   return NATURE_TABLE[key] || NATURE_TABLE.neutral;
 }
-
-// applyNaturePreset：性格改变后无需额外操作（已在 onchange 里调用 recalcStats）
-function applyNaturePreset(side) { /* placeholder */ }
 
 function recalcStats(side) {
   const spirit = side === 'atk' ? state.atk : state.def;
@@ -1558,12 +1544,6 @@ function onTraitCondChange(mode, side) {
   if (mode === 'b') calc(); else calcFull();
 }
 
-// ── 旧函数保留空壳（兼容）──
-function buildTraitDescHtml() { return ''; }
-function buildTraitDescHtmlNoSkill() { return ''; }
-function renderTraitOptions(fields, container) { if (container) container.innerHTML = ''; }
-function onTraitOptChange() {}
-
 function readTraitOptsByMode(mode, side) {
   const opts = {};
   // side 为 'atk'|'def'，新版 ID 格式：trait-opt-{mode}-{side}-{key}
@@ -1754,13 +1734,6 @@ function applyQuickSkill(skill) {
   document.getElementById('skill-selected-info').textContent =
     '已选：' + skill.n + ' | ' + skill.a + '属性 | ' + skill.k + ' | 基础威力 ' + skill.p;
   calc();
-}
-
-// 兼容旧引用
-function toggleQuickSelect() {}
-function onQuickSkillSelect() {}
-function filterSkillLib() {
-  // 搜索框已合并，此函数保留空壳避免报错
 }
 
 // ============================================================
@@ -2238,59 +2211,6 @@ function buildTypeSelector(containerId) {
     };
     sel.appendChild(btn);
   });
-}
-
-// ============================================================
-// SKILL LIBRARY
-// ============================================================
-function filterSkillLib() {
-  const q  = document.getElementById('skill-lib-search').value.trim();
-  const dd = document.getElementById('skill-lib-dropdown');
-  if (!q) { dd.classList.remove('open'); return; }
-
-  const matched = SKILLS.filter(s => matchQuery(s.n, q));
-  if (!matched.length) { dd.classList.remove('open'); return; }
-
-  const renderItem = (s) => {
-    const bg = TYPE_COLORS[s.a] || '#888';
-    const tc = TYPE_TEXT_DARK.has(s.a) ? '#333' : '#fff';
-    return `<div class="skill-lib-item" data-name="${s.n}">
-      <span class="sli-name">${s.n}</span>
-      <span class="type-tag" style="background:${bg};color:${tc}">${s.a}</span>
-      <span class="sli-kind">${s.k}</span>
-      <span class="sli-power">威力 ${s.p}</span>
-    </div>`;
-  };
-
-  dd.innerHTML = matched.map(s => renderItem(s)).join('');
-
-  dd.querySelectorAll('.skill-lib-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const skill = SKILLS.find(s => s.n === item.dataset.name);
-      if (!skill) return;
-      document.getElementById('skill-lib-search').value = skill.n;
-      dd.classList.remove('open');
-      document.getElementById('base-power-b').value = skill.p;
-      setSkillType(skill.k === '物攻' ? 'physical' : 'magical');
-      state.skillAttr = skill.a;
-      state.selectedSkillName = skill.n;
-      document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('selected', b.textContent === skill.a));
-      syncModeBAutoFields();
-      updatePowerTip();
-      document.getElementById('skill-selected-info').textContent =
-        `已选：${skill.n} | ${skill.a}属性 | ${skill.k} | 基础威力 ${skill.p}`;
-      calc();
-    });
-  });
-
-  dd.classList.add('open');
-  const closeLib = e => {
-    if (!document.getElementById('skill-lib-search').contains(e.target) && !dd.contains(e.target)) {
-      dd.classList.remove('open');
-      document.removeEventListener('click', closeLib);
-    }
-  };
-  document.addEventListener('click', closeLib);
 }
 
 // ============================================================
@@ -3435,86 +3355,14 @@ function renderFavoriteGroup() {
 }
 
 // ============================================================
-// FULL MODE 初始化（精灵选择后同步）
+// FULL MODE 初始化
 // ============================================================
-const _origSetAtk = typeof window._origSetAtk !== 'undefined' ? window._origSetAtk : null;
-// 监听精灵状态变化，在 full 模式下同步刷新
-const _fullModeObserver = new MutationObserver(() => {
-  if (state.mode === 'FULL') {
-    const atkNameEl = document.getElementById('full-atk-name');
-    const defNameEl = document.getElementById('full-def-name');
-    if (atkNameEl) atkNameEl.textContent = state.atk ? state.atk.n : '未选择精灵';
-    if (defNameEl) defNameEl.textContent = state.def ? state.def.n : '未选择精灵';
-    calcFull();
-  }
-});
-
 document.addEventListener('DOMContentLoaded', () => {
   buildFullSkillRows('atk');
   buildFullSkillRows('def');
   renderFavoriteGroup();
-  // 初始 FULL 模式隐藏公共 result-panel
-  //const rp = document.getElementById('result-panel');
-  //if (rp) rp.style.display = 'none';
 });
-
-// 在精灵被选中时也刷新 full 面板
-const _origSelectSpirit = window.selectSpirit;
-if (typeof selectSpirit === 'function') {
-  const __orig = selectSpirit;
-  window.selectSpirit = function(...args) {
-    __orig.apply(this, args);
-    if (state.mode === 'FULL') {
-      const atkNameEl = document.getElementById('full-atk-name');
-      const defNameEl = document.getElementById('full-def-name');
-      if (atkNameEl) atkNameEl.textContent = state.atk ? state.atk.n : '未选择精灵';
-      if (defNameEl) defNameEl.textContent = state.def ? state.def.n : '未选择精灵';
-      buildFullSkillRows('atk');
-      buildFullSkillRows('def');
-      calcFull();
-    }
-  };
-}
 </script>
 <script src="analytics.js"></script>
-  <!-- 右下角悬浮讨论按钮 -->
-  <style>
-    .discuss-float-btn {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-main, #ea4c89) 0%, var(--p-hover, #ec5e95) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(73, 116, 234, 0.3);
-      z-index: 999;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .discuss-float-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(234, 76, 137, 0.4);
-    }
-    .discuss-float-btn svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
-    }
-  </style>
-  <!--
-  <a  target="_blank" href="discus.html" class="discuss-float-btn" title="进入讨论区">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"/>
-      <path d="M18 8H12V10H18V8Z"/>
-      <path d="M18 11H12V13H18V11Z"/>
-      <path d="M10 8H6V10H10V8Z"/>
-      <path d="M10 11H6V13H10V11Z"/>
-    </svg>
-  </a>
-  -->
 </body>
 </html>
