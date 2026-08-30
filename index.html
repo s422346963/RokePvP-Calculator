@@ -1767,20 +1767,19 @@ function filterSkillLib() {
 // VARIABLE POWER TIP  （浮动威力提示）
 // ============================================================
 
-// TODO 闪击/鸣沙陷阱 基力威力表
 // 闪击：速度差→威力查表（攻方速度 - 防方速度）
 const SPEED_DIFF_TABLE = [
-  { min: -Infinity, max: -1,  p: 60,  label: '< 0（慢于对方）' },
-  { min: 0,  max: 27,  p: 100, label: '0 ~ 27'   },
-  { min: 28, max: 57,  p: 130, label: '28 ~ 57'  },
-  { min: 58, max: 87,  p: 140, label: '58 ~ 87'  },
-  { min: 88, max: 117,  p: 150, label: '88 ~ 117'  },
-  { min: 118, max: 147,  p: 160, label: '118 ~ 147'  },
-  { min: 148, max: 177,  p: 170, label: '148 ~ 177'  },
-  { min: 178, max: 207, p: 180, label: '178 ~ 207' },
-  { min: 208,max: 237, p: 190, label: '208 ~ 237'},
-  { min: 238,max: 271, p: 194, label: '120 ~ 271'},
-  { min: 271,max: Infinity, p: 200, label: '≥ 271' }
+  { min: -Infinity, max: 0,   p: 60,  label: '≤ 0（不快于对方）' },
+  { min: 1,   max: 30,  p: 80,  label: '1 ~ 30'   },
+  { min: 31,  max: 60,  p: 100, label: '31 ~ 60'  },
+  { min: 61,  max: 90,  p: 120, label: '61 ~ 90'  },
+  { min: 91,  max: 120, p: 140, label: '91 ~ 120' },
+  { min: 121, max: 150, p: 150, label: '121 ~ 150' },
+  { min: 151, max: 180, p: 160, label: '151 ~ 180' },
+  { min: 181, max: 210, p: 170, label: '181 ~ 210' },
+  { min: 211, max: 240, p: 180, label: '211 ~ 240' },
+  { min: 241, max: 270, p: 190, label: '241 ~ 270' },
+  { min: 271, max: Infinity, p: 200, label: '≥ 271' }
 ];
 // 鸣沙陷阱：物防差→威力查表（攻方物防 - 防方物防），区间与闪击相同
 const PDEF_DIFF_TABLE = SPEED_DIFF_TABLE;
@@ -2431,7 +2430,7 @@ function setupSearch(side) {
   // ── 构建单条精灵 item HTML ─────────────────────────────────
   function makeSpiritItem(s) {
     const thumb = s.img
-      ? `<img src="${s.img}" alt="${s.n}" style="width:28px;height:28px;object-fit:contain;border-radius:5px;vertical-align:middle" onerror="this.replaceWith(document.createTextNode('${getEmoji(s.a1)}'))">`
+      ? `<img src="${s.img}" alt="${s.n}" loading="lazy" style="width:28px;height:28px;object-fit:contain;border-radius:5px;vertical-align:middle" onerror="this.replaceWith(document.createTextNode('${getEmoji(s.a1)}'))">`
       : getEmoji(s.a1);
     const tag1 = `<span class="type-tag" style="background:${TYPE_COLORS[s.a1]||'#888'};color:${TYPE_TEXT_DARK.has(s.a1)?'#333':'#fff'}">${s.a1}</span>`;
     const tag2 = s.a2 ? `<span class="type-tag" style="background:${TYPE_COLORS[s.a2]||'#888'};color:${TYPE_TEXT_DARK.has(s.a2)?'#333':'#fff'}">${s.a2}</span>` : '';
