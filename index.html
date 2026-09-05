@@ -518,6 +518,7 @@
 <script src="data/spirits.js"></script>
 <script src="data/skills.js"></script>
 <script src="data/type.js"></script>
+<script src="data/traitMult.js"></script>
 <script src="data/pinyin.js"></script>
 
 <script>
@@ -642,84 +643,11 @@ function calcAtkTraitMult(atk, def, skill, opts) {
   let mult = 1.0;
   const desc = [];
 
-  if (atkTr) {
-    switch(atkTr) {
-      case '\u633a\u8d77\u80f8\u8116': case '\u201c\u56fd\u738b\u201d\u7684\u5a01\u4e25':
-        if (skCost === 1) { mult *= 1.5; desc.push('\u80fd\u800701\u2192\u5a01\u529b\xd71.5'); } break;
-      case '\u52c7\u6562':
-        if (skCost > 3) { mult *= 1.4; desc.push('\u80fd\u8017>3\u2192\u5a01\u529b\xd71.4'); } break;
-      case '\u987a\u98ce':
-        if (opts.faster) { mult *= 1.5; desc.push('\u5148\u624b\u2192\u5a01\u529b\xd71.5'); } break;
-      case '\u7834\u7a7a':
-        if (opts.faster) { mult *= 1.75; desc.push('\u5148\u624b\u2192\u5a01\u529b\xd71.75'); } break;
-      case '\u76ee\u7a7a': case '\u593a\u76ee':
-        if (skAttr && skAttr !== '\u5149') { mult *= 1.25; desc.push('\u975e\u5149\u7cfb\u2192\u5a01\u529b\xd71.25'); } break;
-      case '\u6d82\u9e26':
-        if (skAttr && skAttr !== atkA1 && skAttr !== atkA2) { mult *= 1.5; desc.push('\u975e\u672c\u7cfb\u2192\u5a01\u529b\xd71.5'); } break;
-      case '\u4e0d\u79fb':
-        if (opts.noEffect !== false) { mult *= 1.3; desc.push('\u65e0\u989d\u5916\u6548\u679c\u2192\u5a01\u529b\xd71.3'); } break;
-      case '\u5723\u706b\u9a91\u58eb':
-        if (opts.activated) { mult *= 2.0; desc.push('\u5e94\u5bf9\u6210\u529f\u540e\u2192\u5a01\u529b\xd72.0'); } break;
-      case '\u4e13\u6ce8\u529b':
-        if (opts.activated) { mult *= 2.0; desc.push('\u5165\u573a\u9996\u56de\u5408\u2192\u7269\u653b\xd72.0'); } break;
-      case '\u5168\u795e\u8d2f\u6ce8': {
-        if (opts.activated) {
-          const n = Math.max(0,Math.min(5,opts.stackCount||0));
-          const r = 1.0+(5-n)*0.2; mult *= r;
-          desc.push('\u5168\u795e\u8d2f\u6ce8(\u5df2\u884c\u52a8'+n+'\u6b21)\u2192\u7269\u653b\xd7'+r.toFixed(2));
-        } break;
-      }
-      case '\u52a9\u71c3':
-        if (opts.activated) { mult *= 1.2; desc.push('\u52a9\u71c3\u6fc0\u6d3b\u2192\u53cc\u653b\xd71.2'); } break;
-      case '\u7206\u71c3':
-        if (opts.activated) { mult *= 1.3; desc.push('\u7206\u71c3\u6fc0\u6d3b\u2192\u53cc\u653b\xd71.3'); } break;
-      case '\u89c2\u661f':
-        if (skAttr==='\u5730'&&(opts.stackCount||0)>0){const m=1+0.15*opts.stackCount;mult*=m;desc.push('\u89c2\u661f'+opts.stackCount+'\u5c42\u2192\u5a01\u529b\xd7'+m.toFixed(2));} break;
-      case '\u5760\u661f':
-        if((opts.stackCount||0)>0){const m=1+0.15*opts.stackCount;mult*=m;desc.push('\u5760\u661f'+opts.stackCount+'\u5c42\u2192\u5a01\u529b\xd7'+m.toFixed(2));} break;
-      case '\u84c4\u7535\u6c60':
-        if((opts.stackCount||0)>0){const m=1+0.2*opts.stackCount;mult*=m;desc.push('\u84c4\u7535\u6c60\u5165\u573a'+opts.stackCount+'\u6b21\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u8d85\u7ea7\u7535\u6c60':
-        if((opts.stackCount||0)>0){const m=1+0.3*opts.stackCount;mult*=m;desc.push('\u8d85\u7ea7\u7535\u6c60'+opts.stackCount+'\u6b21\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u51b0\u94bb':
-        if((opts.enemyTotalCost||0)>0){const m=1+0.1*opts.enemyTotalCost;mult*=m;desc.push('\u51b0\u94bb(\u654c\u603b\u80fd\u8017'+opts.enemyTotalCost+')\u2192\u5a01\u529b\xd7'+m.toFixed(2));} break;
-      case '\u6708\u5149\u5ba1\u5224':
-        if(def&&def.st&&def.st.includes('\u9996\u9886')){mult*=2.0;desc.push('\u654c\u65b9\u9996\u9886\u8840\u8109\u2192\u5a01\u529b\xd72.0');} break;
-      case '\u7ed2\u7c89\u661f\u5149': {
-        const st=(defA1===atkA1||defA1===atkA2||defA2===atkA1||defA2===atkA2);
-        if(def&&!st){mult*=2.0;desc.push('\u654c\u975e\u672c\u7cfb\u8840\u8109\u2192\u5a01\u529b\xd72.0');} break;
-      }
-      case '\u5929\u901a\u5730\u660e':
-        if(opts.enemyIsPolluted){mult*=2.0;desc.push('\u654c\u6c61\u67d3\u8840\u8109\u2192\u5a01\u529b\xd72.0');} break;
-      case '\u53d8\u5f62\u6d3b\u753b': case '\u753b\u95f4\u6c89\u9435\u517d':
-        if((opts.enemyBuff||0)>0){const m=1+0.1*opts.enemyBuff;mult*=m;desc.push('\u654c'+opts.enemyBuff+'\u5c42\u589e\u76ca\u2192\u5a01\u529b\xd7'+m.toFixed(2));} break;
-      case '\u6094\u60af':
-        if((opts.stackCount||0)>0){const m=1+0.3*opts.stackCount;mult*=m;desc.push(opts.stackCount+'\u53ea\u529b\u7aed\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u609d\u4ea1':
-        if((opts.stackCount||0)>0){const m=1+0.3*opts.stackCount;mult*=m;desc.push(opts.stackCount+'\u53ea\u529b\u7aed\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u58ee\u80c6':
-        if(opts.activated){mult*=1.5;desc.push('\u961f\u4f0d\u6709\u866b\u7cfb\u2192\u53cc\u653b\xd71.5');} break;
-      case '\u866b\u7fa4\u9f13\u821e':
-        if((opts.stackCount||0)>0){const m=1+0.1*opts.stackCount;mult*=m;desc.push(opts.stackCount+'\u53ea\u866b\u7cfb\u2192\u653b\u9632\u901f\xd7'+m.toFixed(2));} break;
-      case '\u866b\u7fa4\u7a81\u88ad':
-        if((opts.stackCount||0)>0){const m=1+0.15*opts.stackCount;mult*=m;desc.push(opts.stackCount+'\u53ea\u866b\u7cfb\u2192\u653b\u9632\u901f\xd7'+m.toFixed(2));} break;
-      case '\u5f97\u5bf8\u8fdb\u5c3a':
-        if(opts.rainy){mult*=2.0;desc.push('\u96e8\u5929\u2192\u53cc\u653b\xd72.0');} break;
-      case '\u6700\u597d\u7684\u4f19\u4f34':
-        if(opts.activated){mult*=1.2;desc.push('\u514b\u5236\u89e6\u53d1\u540e\u2192\u653b\u9632\u901f\xd71.2');} break;
-      case '\u6307\u6325\u5bb6':
-        if((opts.stackCount||0)>0){const m=1+0.2*opts.stackCount;mult*=m;desc.push('\u5e94\u5bf9'+opts.stackCount+'\u6b21\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u8eab\u7ecf\u767e\u7ec3':
-        if((opts.stackCount||0)>0&&(skAttr==='\u6c34'||skAttr==='\u6b66')){const m=1+0.2*opts.stackCount;mult*=m;desc.push('\u5e94\u5bf9'+opts.stackCount+'\u6b21\u2192\u6c34/\u6b66\u5a01\u529b\xd7'+m.toFixed(2));} break;
-      case '\u6076\u9b54\u7684\u665a\u5bb4':
-        if((opts.stackCount||0)>0){const m=1+0.5*opts.stackCount;mult*=m;desc.push('\u51fb\u8d25'+opts.stackCount+'\u53ea\u2192\u53cc\u653b\xd7'+m.toFixed(2));} break;
-      case '\u9f13\u6c14':
-        if(skCost===3&&opts.activated){mult*=1.2;desc.push('\u80fd\u80013\u2192\u653b\u9632\xd71.2');} break;
-      case '\u4e09\u9f13\u4f5c\u6c14':
-        if(skCost===3&&(opts.stackCount||0)>0){const m=1+0.2*opts.stackCount;mult*=m;desc.push('\u4e09\u9f13'+opts.stackCount+'\u6b21\u2192\u653b\u9632\xd7'+m.toFixed(2));} break;
-      case '\u6c34\u7fc5\u98de\u5347':
-        if(skCost===0){mult*=1.3;desc.push('\u80fd\u80010\u2192\u5a01\u529b\xd71.3');} break;
-    }
+  // 特殊特性规则已数据化到 data/traitMult.js（ATK_TRAIT_RULES）
+  if (atkTr && ATK_TRAIT_RULES[atkTr]) {
+    const rule = ATK_TRAIT_RULES[atkTr];
+    const eff = rule.eff({ skAttr, skCost, skKind, atkA1, atkA2, defA1, defA2, def, opts });
+    if (eff) { mult *= eff.f; desc.push(eff.d); }
   }
 
   return {
@@ -745,33 +673,11 @@ function calcDefTraitMult(atk, def, skill, opts) {
   let mult = 1.0;
   const desc = [];
 
-  if (defTr) {
-    // 偏振：防御方携带了与攻击技能同属性的技能时，受该属性攻击伤害-40%（×0.6）
-    if (defTr === '\u504f\u632f') {
-      const autoCarry = checkDefCarriesAttr(def, skAttr);
-      const defCarries = autoCarry !== null ? autoCarry : (opts.defCarriesSameAttr !== undefined ? opts.defCarriesSameAttr : false);
-      if (defCarries) {
-        mult *= 0.6;
-        desc.push('\u9632\u5fa1\u65b9\u643a\u5e26'+skAttr+'\u7cfb\u6280\u80fd\uff0c\u53d7\u8be5\u7cfb\u653b\u51fb-40%\u2192\xd70.6');
-      }
-    }
-    // 完全偏振：同上条件，伤害×0.5（抵抗）
-    if (defTr === '\u5b8c\u5168\u504f\u632f') {
-      const autoCarry = checkDefCarriesAttr(def, skAttr);
-      const defCarries = autoCarry !== null ? autoCarry : (opts.defCarriesSameAttr !== undefined ? opts.defCarriesSameAttr : false);
-      if (defCarries) {
-        mult *= 0.5;
-        desc.push('\u9632\u5fa1\u65b9\u643a\u5e26'+skAttr+'\u7cfb\u6280\u80fd\uff0c\u53d7\u8be5\u7cfb\u653b\u51fb-50%\u2192\xd70.5');
-      }
-    }
-    // 绝对秩序：攻击技能属性不在攻击方精灵自身属性(a1/a2)内时触发，伤害-50%
-    if (defTr === '\u7edd\u5bf9\u79e9\u5e8f') {
-      const isAtkNativeType = skAttr === atkA1 || (atkA2 && skAttr === atkA2);
-      if (!isAtkNativeType) {
-        mult *= 0.5;
-        desc.push('\u653b\u51fb\u65b9\u4f7f\u7528\u975e\u672c\u7cfb\u6280\u80fd\uff0c\u4f24\u5bb3-50%\u2192\xd70.5');
-      }
-    }
+  // 防方特殊特性规则已数据化到 data/traitMult.js（DEF_TRAIT_RULES）
+  if (defTr && DEF_TRAIT_RULES[defTr]) {
+    const rule = DEF_TRAIT_RULES[defTr];
+    const eff = rule.eff({ skAttr, atkA1, atkA2, def, opts });
+    if (eff) { mult *= eff.f; desc.push(eff.d); }
   }
 
   return {
@@ -783,12 +689,10 @@ function calcDefTraitMult(atk, def, skill, opts) {
 
 // 防方特性所需的用户输入
 function getDefTraitNeedsInput(defTr, skill) {
-  const fields = [];
-  const skAttr = skill ? skill.a : '';
-  if (defTr === '\u504f\u632f' || defTr === '\u5b8c\u5168\u504f\u632f') {
-    fields.push({ id:'defCarriesSameAttr', label:'\u9632\u5fa1\u65b9\u643a\u5e26\u4e86'+skAttr+'\u7cfb\u6280\u80fd', type:'checkbox', key:'defCarriesSameAttr', def:true, onlyIfNoAuto:true });
-  }
-  return fields;
+  // 防方特殊特性的输入字段已数据化到 data/traitMult.js（DEF_TRAIT_RULES[defTr].fields）
+  const rule = defTr ? DEF_TRAIT_RULES[defTr] : null;
+  if (rule && rule.fields) return rule.fields(skill);
+  return [];
 }
 
 // 组合包装（向后兼容）
@@ -813,45 +717,10 @@ function checkDefCarriesAttr(defSpirit, attr) {
 }
 
 function getTraitNeedsInput(atkTr, defTr, skill) {
-  const fields = [];
-  const skAttr = skill ? skill.a : '';
-  const skCost = skill ? (skill.c || 0) : 0;
-  if (atkTr === '\u987a\u98ce' || atkTr === '\u7834\u7a7a')
-    fields.push({ id:'trait-opt-faster', label:'\u5148\u624b\u653b\u51fb\uff08\u653b\u65b9\u901f\u5ea6\u66f4\u9ad8\uff09', type:'checkbox', key:'faster', def:false });
-  if (atkTr === '\u5723\u706b\u9a91\u58eb' || atkTr === '\u6700\u597d\u7684\u4f19\u4f34')
-    fields.push({ id:'trait-opt-activated', label:'\u6761\u4ef6\u5df2\u89e6\u53d1', type:'checkbox', key:'activated', def:false });
-  if (atkTr === '\u4e13\u6ce8\u529b' || atkTr === '\u5168\u795e\u8d2f\u6ce8')
-    fields.push({ id:'trait-opt-activated', label:'\u7279\u6027\u6fc0\u6d3b\uff08\u9996\u56de\u5408\uff09', type:'checkbox', key:'activated', def:true });
-  if (atkTr === '\u5168\u795e\u8d2f\u6ce8')
-    fields.push({ id:'trait-opt-stacks', label:'\u5df2\u884c\u52a8\u6b21\u6570(0-5)', type:'number', key:'stackCount', def:0, min:0, max:5 });
-  if (atkTr === '\u52a9\u71c3' || atkTr === '\u7206\u71c3')
-    fields.push({ id:'trait-opt-activated', label:'\u5df2\u4f7f\u7528\u8fc7\u706b\u7cfb\u6280\u80fd', type:'checkbox', key:'activated', def:false });
-  if (atkTr === '\u89c2\u661f' || atkTr === '\u5760\u661f')
-    fields.push({ id:'trait-opt-stacks', label:'\u654c\u65b9\u661f\u964c\u5370\u8bb0\u5c42\u6570(0-20)', type:'number', key:'stackCount', def:0, min:0, max:20 });
-  if (atkTr === '\u51b0\u94bb')
-    fields.push({ id:'trait-opt-stacks', label:'\u654c\u65b9\u643a\u5e26\u6280\u80fd\u603b\u80fd\u8017', type:'number', key:'enemyTotalCost', def:0, min:0, max:20 });
-  if (atkTr === '\u53d8\u5f62\u6d3b\u753b' || atkTr === '\u753b\u95f4\u6c89\u9435\u517d')
-    fields.push({ id:'trait-opt-stacks', label:'\u654c\u65b9\u5f53\u524d\u589e\u76ca\u5c42\u6570', type:'number', key:'enemyBuff', def:0, min:0, max:20 });
-  if (atkTr === '\u84c4\u7535\u6c60' || atkTr === '\u8d85\u7ea7\u7535\u6c60')
-    fields.push({ id:'trait-opt-stacks', label:'\u5df2\u5165\u573a\u6b21\u6570(0-5)', type:'number', key:'stackCount', def:0, min:0, max:5 });
-  if (atkTr === '\u6094\u60af' || atkTr === '\u609d\u4ea1')
-    fields.push({ id:'trait-opt-stacks', label:'\u529b\u7aed\u7cbe\u7075\u6570\u91cf(0-5)', type:'number', key:'stackCount', def:0, min:0, max:5 });
-  if (atkTr === '\u58ee\u80c6')
-    fields.push({ id:'trait-opt-activated', label:'\u961f\u4f0d\u5b58\u5728\u866b\u7cfb\u7cbe\u7075', type:'checkbox', key:'activated', def:true });
-  if (atkTr === '\u866b\u7fa4\u9f13\u821e' || atkTr === '\u866b\u7fa4\u7a81\u88ad')
-    fields.push({ id:'trait-opt-stacks', label:'\u961f\u4f0d\u4e2d\u5176\u4ed6\u866b\u7cfb\u7cbe\u7075\u6570(0-5)', type:'number', key:'stackCount', def:0, min:0, max:5 });
-  if (atkTr === '\u5f97\u5bf8\u8fdb\u5c3a')
-    fields.push({ id:'trait-opt-activated', label:'\u5929\u6c14\u4e3a\u96e8\u5929', type:'checkbox', key:'rainy', def:false });
-  if (atkTr === '\u6307\u6325\u5bb6' || atkTr === '\u4e09\u9f13\u4f5c\u6c14')
-    fields.push({ id:'trait-opt-stacks', label:'\u5df2\u7d2f\u79ef\u89e6\u53d1\u6b21\u6570', type:'number', key:'stackCount', def:0, min:0, max:10 });
-  if (atkTr === '\u8eab\u7ecf\u767e\u7ec3' && (skAttr === '\u6c34' || skAttr === '\u6b66'))
-    fields.push({ id:'trait-opt-stacks', label:'\u5df2\u65b9\u5e94\u5bf9\u6210\u529f\u6b21\u6570', type:'number', key:'stackCount', def:0, min:0, max:10 });
-  if (atkTr === '\u6076\u9b54\u7684\u665a\u5bb4')
-    fields.push({ id:'trait-opt-stacks', label:'\u672c\u573a\u5df2\u51fb\u8d25\u654c\u65b9\u7cbe\u7075\u6570(0-5)', type:'number', key:'stackCount', def:0, min:0, max:5 });
-  if (atkTr === '\u5929\u901a\u5730\u660e')
-    fields.push({ id:'trait-opt-activated', label:'\u654c\u65b9\u662f\u6c61\u67d3\u8840\u8109', type:'checkbox', key:'enemyIsPolluted', def:false });
-  // 防御方偏振/完全偏振：若无法自动检测技能槽，让用户勾选
-  return fields;
+  // 攻方特殊特性的输入字段已数据化到 data/traitMult.js（ATK_TRAIT_RULES[atkTr].fields）
+  const rule = atkTr ? ATK_TRAIT_RULES[atkTr] : null;
+  if (rule && rule.fields) return rule.fields(skill);
+  return [];
 }
 
 function readTraitOpts() {
