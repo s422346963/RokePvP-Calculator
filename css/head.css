@@ -419,6 +419,8 @@
   .trait-name-row.def-color { color:#42a5f5; }
   .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; min-height:32px; }
   .trait-mult-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
+  .trait-mult-group { display:inline-flex; align-items:center; gap:6px; }
+  .trait-mult-group + .trait-mult-group { margin-left:2px; padding-left:10px; border-left:1px solid var(--border); }
   .trait-mult-label { font-size:11px; color:var(--text2); flex-shrink:0; }
   .trait-mult-input { width:72px; padding:4px 8px; background:var(--bg); border:1px solid var(--border); border-radius:6px; font-size:14px; font-weight:700; text-align:center; }
   .trait-mult-input:focus { outline:none; }

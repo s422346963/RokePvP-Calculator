@@ -6,6 +6,8 @@
 //   - 一条规则 = 一个特性名（或多个别名共享同一条规则，键与原始 switch case 一致）。
 //   - fields(skill)  返回该特性需要用户输入的字段（渲染成复选框/数字框）。
 //   - eff(ctx)       返回 { f: 倍率因子, d: 描述文案 }；条件不满足时返回 null（不加成、不显示）。
+//                     需要把「威力加法」反映进伤害时，可再返回 powerBonus（整数，
+//                     会经 calcAtkTraitMult 透传给 FULL 模式伤害计算对 power 做加法）。
 //   - ctx 由 calcAtkTraitMult 构造：
 //       { skAttr, skCost, skKind, atkA1, atkA2, defA1, defA2, def, opts }
 //   - 本文件使用真实中文字符（非 \uXXXX 转义），文件编码 UTF-8。
@@ -74,11 +76,24 @@ defineAtkTraitRule(['最好的伙伴'], () => [ck('activated', '条件已触发'
 defineAtkTraitRule(['专注力'], () => [ck('activated', '特性激活（首回合）', true)],
   ctx => ctx.opts.activated ? { f: 2.0, d: '入场首回合→物攻×2.0' } : null);
 
-defineAtkTraitRule(['助燃'], () => [ck('activated', '已使用过火系技能', false)],
-  ctx => ctx.opts.activated ? { f: 1.2, d: '助燃激活→双攻×1.2' } : null);
+// 助燃 / 爆燃：己方每用1次火系技能，双攻分别 +20%/+30%/层，线性叠加（f=1+0.2N / 1+0.3N，非乘性）
+defineAtkTraitRule(['助燃'],
+  () => [num('stackCount', '己方已使用火系技能次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.2 * n;
+    return { f: m, d: '火系技能' + n + '次→双攻+20%×' + n + '（×' + m.toFixed(2) + '）' };
+  });
 
-defineAtkTraitRule(['爆燃'], () => [ck('activated', '已使用过火系技能', false)],
-  ctx => ctx.opts.activated ? { f: 1.3, d: '爆燃激活→双攻×1.3' } : null);
+defineAtkTraitRule(['爆燃'],
+  () => [num('stackCount', '己方已使用火系技能次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.3 * n;
+    return { f: m, d: '火系技能' + n + '次→双攻+30%×' + n + '（×' + m.toFixed(2) + '）' };
+  });
 
 defineAtkTraitRule(['壮胆'], () => [ck('activated', '队伍存在虫系精灵', true)],
   ctx => ctx.opts.activated ? { f: 1.5, d: '队伍有虫系→双攻×1.5' } : null);
@@ -261,6 +276,30 @@ defineAtkTraitRule(['绒粉星光'], () => [],
     const st = (ctx.defA1 === ctx.atkA1 || ctx.defA1 === ctx.atkA2 ||
                 ctx.defA2 === ctx.atkA1 || ctx.defA2 === ctx.atkA2);
     return (ctx.def && !st) ? { f: 2.0, d: '敌非本系血脉→威力×2.0' } : null;
+  });
+
+// ------------------------------------------------------------
+// 渗透 / 蒸汽膨胀：按己方已使用某类技能的累计次数叠加
+//   - 渗透：己方每用1次武系或地系技能，入场时攻防+5%/层，线性叠加（f=1+0.05N，非乘性）
+//   - 蒸汽膨胀：己方每用1次火系技能，入场时全技能威力+10/层（威力加法，
+//     通过 eff 返回的 powerBonus 通道在 FULL 模式伤害计算中真正加到威力）
+// ------------------------------------------------------------
+defineAtkTraitRule(['渗透'],
+  () => [num('stackCount', '己方已使用武系或地系技能次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.05 * n;
+    return { f: m, d: '武/地技能' + n + '次→攻防+5%×' + n + '（×' + m.toFixed(2) + '）' };
+  });
+
+defineAtkTraitRule(['蒸汽膨胀'],
+  () => [num('stackCount', '己方已使用火系技能次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const bonus = 10 * n;
+    return { f: 1, d: '火系技能' + n + '次→全技能威力+' + bonus, powerBonus: bonus };
   });
 
 // ============================================================
