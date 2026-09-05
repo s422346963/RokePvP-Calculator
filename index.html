@@ -432,10 +432,17 @@
             <div class="trait-panel-body">
               <div class="trait-name-row atk-color" id="trait-atk-name-b">暂无特性</div>
               <div class="trait-desc-text" id="trait-atk-desc-b">选择攻击方精灵后自动显示</div>
-              <div class="trait-mult-row">
-                <span class="trait-mult-label">特性倍率</span>
-                <input class="trait-mult-input atk" type="number" id="trait-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="calc()">
-                <button class="trait-reset-btn" onclick="document.getElementById('trait-mult-b').value=1.0;calc()">重置</button>
+              <div class="trait-mult-row" style="flex-wrap:wrap">
+                <span class="trait-mult-group">
+                  <span class="trait-mult-label">特性倍率</span>
+                  <input class="trait-mult-input atk" type="number" id="trait-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="calc()">
+                  <button class="trait-reset-btn" onclick="document.getElementById('trait-mult-b').value=1.0;calc()">重置</button>
+                </span>
+                <span class="trait-mult-group">
+                  <span class="trait-mult-label">特性威力</span>
+                  <input class="trait-mult-input atk" type="number" id="trait-power-b" value="0" min="-9999" max="9999" step="10" oninput="calc()" title="威力加法型特性的自动加成（如蒸汽膨胀 +10/次）；可手动改">
+                  <button class="trait-reset-btn" onclick="resetTraitPowerB()">重置</button>
+                </span>
               </div>
               <div class="trait-cond-area" id="trait-atk-cond-b"></div>
             </div>
@@ -642,18 +649,24 @@ function calcAtkTraitMult(atk, def, skill, opts) {
 
   let mult = 1.0;
   const desc = [];
+  let powerBonus = 0;
 
   // 特殊特性规则已数据化到 data/traitMult.js（ATK_TRAIT_RULES）
   if (atkTr && ATK_TRAIT_RULES[atkTr]) {
     const rule = ATK_TRAIT_RULES[atkTr];
     const eff = rule.eff({ skAttr, skCost, skKind, atkA1, atkA2, defA1, defA2, def, opts });
-    if (eff) { mult *= eff.f; desc.push(eff.d); }
+    if (eff) {
+      mult *= eff.f;
+      if (eff.d) desc.push(eff.d);
+      if (eff.powerBonus) powerBonus = eff.powerBonus;  // 蒸汽膨胀等：威力加法
+    }
   }
 
   return {
     mult,
     desc: desc.length>0 ? desc.join('\uff1b') : (atkTr ? '\u7279\u6027\u5bf9\u6b64\u6280\u80fd\u65e0\u76f4\u63a5\u4f24\u5bb3\u52a0\u6210' : '\u65e0\u7279\u6027'),
     needsInput: getTraitNeedsInput(atkTr, null, skill),
+    powerBonus,
   };
 }
 
@@ -971,6 +984,10 @@ function calc() {
       ` = ${f1(dmg)}`;
   } else {
     power      = parseFloat(document.getElementById('base-power-b').value) || 0;
+    // 特性威力（威力加法型特性，如蒸汽膨胀 +10/次）：读取「特性威力」输入框，
+    // 由 updateTraitPanelForMode / onTraitCondChange 自动同步，也可手动覆盖后叠加到基础威力上
+    const _traitPowerElB = document.getElementById('trait-power-b');
+    if (_traitPowerElB) power += (parseFloat(_traitPowerElB.value) || 0);
     const hitsB = Math.max(1, parseInt(document.getElementById('hits-input-b').value) || 1);
     typeEff    = parseFloat(document.getElementById('type-eff-b').value) || 1;
     stabMult   = parseFloat(document.getElementById('stab-mult-b').value) || 1;
@@ -1295,6 +1312,7 @@ function updateTraitPanelForMode(mode, skill) {
     if (defMultEl) defMultEl.value = '1.00';
     if (atkCondEl) atkCondEl.innerHTML = '';
     if (defCondEl) defCondEl.innerHTML = '';
+    if (mode === 'b') { const _pw = document.getElementById('trait-power-b'); if (_pw) _pw.value = '0'; }
     return;
   }
 
@@ -1311,6 +1329,8 @@ function updateTraitPanelForMode(mode, skill) {
 
   // 更新攻方倍率
   if (atkMultEl) atkMultEl.value = atkResult.mult.toFixed(2);
+  // 特性威力（威力加法型，仅 B 模式有此输入框）：自动同步 powerBonus（如蒸汽膨胀 10N），倍率型为 0
+  if (mode === 'b') { const _pw = document.getElementById('trait-power-b'); if (_pw) _pw.value = (atkResult.powerBonus || 0); }
   if (atkCondEl) renderTraitCond(atkResult.needsInput, atkCondEl, mode, 'atk');
   // 倍率提示
   if (atkDescEl && atkResult.desc && atkResult.desc !== '特性对此技能无直接伤害加成' && atkResult.desc !== '无特性') {
@@ -1390,6 +1410,8 @@ function onTraitCondChange(mode, side) {
     const r = calcAtkTraitMult(state.atk, state.def, skill, opts);
     const el = document.getElementById(mode === 'b' ? 'trait-mult-b' : 'trait-mult-full');
     if (el) el.value = r.mult.toFixed(2);
+    // 特性威力（威力加法型，仅 B 模式有此输入框）：条件变化时自动同步 powerBonus（如蒸汽膨胀 10N）
+    if (mode === 'b') { const _pw = document.getElementById('trait-power-b'); if (_pw) _pw.value = (r.powerBonus || 0); }
     const descEl = document.getElementById(`trait-atk-desc-${mode}`);
     const atkTr = state.atk ? state.atk.tr : null;
     if (descEl && r.desc && r.desc !== '特性对此技能无直接伤害加成' && r.desc !== '无特性') {
@@ -1411,6 +1433,20 @@ function onTraitCondChange(mode, side) {
   }
   // 触发重算
   if (mode === 'b') calc(); else calcFull();
+}
+
+// 重置模式 B 的「特性威力」：恢复为当前特性自动计算的威力加成（如蒸汽膨胀 10×次数），再重算
+function resetTraitPowerB() {
+  const el = document.getElementById('trait-power-b');
+  if (!el) return;
+  let pb = 0;
+  const skill = state.selectedSkillName ? SKILLS.find(s => s.n === state.selectedSkillName) : null;
+  if (skill && state.atk && state.atk.tr) {
+    const r = calcAtkTraitMult(state.atk, state.def, skill, readTraitOptsByMode('b'));
+    pb = r.powerBonus || 0;
+  }
+  el.value = pb;
+  calc();
 }
 
 function readTraitOptsByMode(mode, side) {
@@ -2673,6 +2709,8 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
     power = _defCost2 * 10;
     skillSlot.power = power;
   }
+  // 蒸汽膨胀等攻方特性：入场后按己方累计使用次数给全技能威力加法加成（叠在基础威力之上）
+  power += (_atkTrCalc.powerBonus || 0);
   // 愿力冲击：skillSlot.yuanliBoost=true 时威力×2.5
   const yuanliPower = (isYuanliSkill && skillSlot.yuanliBoost) ? power * 2.5 : power;
   const singleDmg = (atkBase / defBase) * (37/41) * yuanliPower * typeEff * stabMult * reduceMult * traitMult * extraMult;
