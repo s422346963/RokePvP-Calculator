@@ -7,7 +7,7 @@
 本项目是一个纯前端网页工具，支持洛克王国中精灵的 PVP 伤害计算。通过输入攻击方和防御方的精灵信息、技能、性格、等级等参数，精确计算出战斗中的伤害值。
 
 **代码来源**：[lovepvp.top](https://lovepvp.top/)
-**数据来源**：[BWiki 精灵图鉴](https://wiki.biligame.com/rocom/)
+**数据来源**：[BWiki 精灵图鉴](https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4)
 
 ## ✨ 功能特性
 

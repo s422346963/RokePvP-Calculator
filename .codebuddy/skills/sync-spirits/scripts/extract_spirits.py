@@ -1,176 +1,157 @@
+# -*- coding: utf-8 -*-
 """
-Extract spirit card data from the spirit gallery HTML page.
-Parses <div class="dex-pet-card"> elements and outputs JSON.
+从 nrc 精灵图鉴页解析精灵基础信息，输出 JSON。
+
+图鉴页（https://wiki.biligame.com/nrc/精灵图鉴）每个精灵是一张
+`div.npc-card` 卡片，离线解析即可拿到：编号、名称、属性、图片、详情页链接等。
+详情页（如 https://wiki.biligame.com/nrc/迪莫）的资质/特性由 fetch_spirit_detail.py 解析。
 
 Usage:
-    python extract_spirits.py <input_html> <output_json> [--start-no N] [--end-no N]
+    python extract_spirits.py <input_html> <output_json> [--start-no N] [--end-no M] [--all]
 """
-
-import re
+import sys
 import json
 import argparse
-import sys
-import os
+import re
+from bs4 import BeautifulSoup
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
+BASE = "https://wiki.biligame.com"
+
+# 形态/阶段值视为「无特殊形态」，出现时不写入 st
+# （来自卡片 .npc-form 的显示文本；首领形态/本来的样子与基础形态资质相同，视为中性）
+_NEUTRAL_FORMS = ("main", "主形态", "原始形态", "首领形态", "本来的样子", "")
+_NEUTRAL_STAGES = ("一阶", "二阶", "三阶", "")
 
 
-def parse_html(html: str):
-    """
-    Parse the HTML and extract all spirit cards.
-    
-    Each card structure:
-    <div class="divsort dex-card dex-pet-card" 
-         data-param0="0" data-param1="stage" data-param2="type1"
-         data-param3="type2" data-param4="form1" data-param5="form2"
-         data-param6="shiny" data-param7="evo_pos" data-param8="season"
-         data-dex-search="..." style="...">
-      <div class="dex-pet-card-face">
-        <div class="dex-card-body">
-          <div class="dex-card-kicker">NO.001<span>stage</span></div>
-          <div class="dex-card-name"><a href="/rocom/..." title="name">name</a></div>
-          <div class="dex-card-subtitle">...</div>
-        </div>
-        <div class="dex-pet-art"><a href="..." title="..."><img src="..." /></a></div>
-        <div class="dex-card-types">
-          <span class="dex-type"><img/><span>type</span></span>
-          ...
-        </div>
-      </div>
-    </div>
-    """
+def _strip_type(t):
+    """属性标签形如「光系」，去掉「系」字得到裸属性「光」。"""
+    return t.replace("系", "").strip()
+
+
+def parse_gallery(html: str):
+    """解析全部 npc-card，返回基础信息 dict 列表。"""
+    soup = BeautifulSoup(html, "html.parser")
+    cards = soup.select("div.npc-card")
     results = []
-    
-    # Pattern to match each complete dex-pet-card with its nested divs
-    # The card consists of: outer div (.dex-pet-card) containing .dex-pet-card-face
-    # which contains .dex-card-body, .dex-pet-art, .dex-card-types
-    card_pattern = re.compile(
-        r'<div\s[^>]*dex-pet-card[^>]*>'
-        r'(.*?)'
-        r'</div>\s*</div>\s*</div>',
-        re.DOTALL
-    )
-    
-    for match in card_pattern.finditer(html):
-        card_html = match.group(0)
-        inner = match.group(1)
-        
-        # Extract data-param attributes
-        params = dict(re.findall(r'data-param(\d+)="([^"]*)"', card_html))
-        
-        # Extract dex-card-kicker (NO.xxx + stage)
-        kicker_match = re.search(r'dex-card-kicker[^>]*>(.*?)</div>', inner, re.DOTALL)
-        kicker_text = kicker_match.group(1).strip() if kicker_match else ""
-        
-        # Extract NO number
-        no_match = re.search(r'NO\.(\d+)', kicker_text)
-        no = no_match.group(1) if no_match else ""
-        
-        # Extract stage from span inside kicker
-        stage_span = re.search(r'<span>(.*?)</span>', kicker_text)
-        stage = stage_span.group(1) if stage_span else params.get("1", "")
-        
-        # Extract name
-        name_match = re.search(r'dex-card-name[^>]*>\s*<a[^>]*title="([^"]*)"[^>]*>(.*?)</a>', inner, re.DOTALL)
-        name = name_match.group(1) if name_match else ""
-        
-        # Extract detail URL
-        href_match = re.search(r'dex-card-name[^>]*>\s*<a\s+href="([^"]*)"', inner)
-        detail_url = ""
-        if href_match:
-            href = href_match.group(1)
-            detail_url = f"https://wiki.biligame.com{href}" if href.startswith('/') else href
-        
-        # Extract subtitle (form info)
-        subtitle_match = re.search(r'dex-card-subtitle[^>]*>(.*?)</div>', inner, re.DOTALL)
-        subtitle = subtitle_match.group(1).strip() if subtitle_match else ""
-        # Normalize &nbsp; and empty subtitles
-        if subtitle in ("&#160;", "&nbsp;", ""):
-            subtitle = ""
-        
-        # Extract image URL
-        img_match = re.search(r'<img[^>]*src="([^"]*)"', inner)
-        img_url = img_match.group(1) if img_match else ""
-        
-        # Extract types from .dex-card-types
+    for card in cards:
+        no = (card.get("data-number") or "").strip()
+        if not no:
+            # 兜底：从 aria-label "001 迪莫" 取
+            al = card.get("aria-label", "")
+            m = re.search(r"(\d+)", al)
+            no = m.group(1) if m else ""
+        no = no.zfill(3) if no.isdigit() else no
+
+        name_el = card.select_one(".npc-name")
+        name = name_el.get_text(strip=True) if name_el else ""
+
+        # 属性：卡片类型标签（可能双属性），裸属性
         types = []
-        type_matches = re.findall(r'dex-type[^>]*>\s*(?:<img[^>]*>)?\s*<span>(.*?)</span>', inner)
-        for t in type_matches:
-            types.append(t.strip())
-        
-        # Build spirit data
-        spirit = {
+        for t in card.select(".npc-card-types .npc-type"):
+            title = t.get("title", "") or t.get_text(strip=True)
+            if title:
+                types.append(_strip_type(title))
+        a1 = types[0] if len(types) > 0 else (card.get("data-type") or "")
+        a2 = types[1] if len(types) > 1 else ""
+
+        # 图片：优先全身立绘，回退到头像
+        art = card.select_one(".npc-art-normal img") or card.select_one(".npc-art-head img")
+        img = art.get("src", "") if art else ""
+
+        # 详情页链接
+        a = card.select_one(".npc-card-target a")
+        href = a.get("href", "") if a else ""
+        if href and not href.startswith("http"):
+            href = BASE + href
+        detail_url = href
+
+        # 名称：优先取详情链接 title —— wiki 官方完整名（含形态后缀，如
+        # 「鸭吉吉（蓬松的样子）」）。同一编号下各形态卡片的 .npc-name 都是
+        # 基础名（如「鸭吉吉」），只用它会因 (no, n) 撞车在合并时丢形态。
+        link_title = (a.get("title", "").strip() if a else "")
+        if link_title:
+            name = link_title
+        elif not name:
+            # 兜底：从 aria-label "011 鸭吉吉（蓬松的样子）" 去掉编号前缀
+            al = card.get("aria-label", "")
+            name = al.split(" ", 1)[1] if " " in al else al
+
+        stage_text = (card.select_one(".npc-stage").get_text(strip=True)
+                      if card.select_one(".npc-stage") else "")
+        # 形态：用卡片显示文本 .npc-form（如「蓬松的样子」），
+        # 不用 data-form（内部多值代号如 "main|regional"，写入 st 会变脏数据）
+        form_el = card.select_one(".npc-form")
+        form = form_el.get_text(strip=True) if form_el else ""
+        season = card.get("data-season", "")
+
+        # st：仅在确有特殊形态/阶段时记录（当前数据普遍为空，保持一致）
+        st_parts = []
+        if form and form not in _NEUTRAL_FORMS:
+            st_parts.append(form)
+        if stage_text and stage_text not in _NEUTRAL_STAGES:
+            st_parts.append(stage_text)
+        st = "/".join(st_parts)
+
+        results.append({
             "no": no,
             "n": name,
-            "stage": stage,
-            "a1": params.get("2", ""),
-            "a2": params.get("3", ""),
-            "form1": params.get("4", ""),
-            "form2": params.get("5", ""),
-            "has_shiny": params.get("6", ""),
-            "evo_pos": params.get("7", ""),
-            "season": params.get("8", ""),
-            "subtitle": subtitle,
-            "img": img_url,
+            "a1": a1,
+            "a2": a2,
+            "st": st,
+            "img": img,
             "detail_url": detail_url,
-            "types": types,
-        }
-        
-        # Build st (stage/form combined)
-        st_parts = []
-        if params.get("4") and params.get("4") not in ("原始形态", "首领形态"):
-            st_parts.append(params["4"])
-        if params.get("5") and params["5"] != "主形态":
-            st_parts.append(params["5"])
-        if stage:
-            st_parts.append(stage)
-        spirit["st"] = "/".join(st_parts) if st_parts else ""
-        
-        results.append(spirit)
-    
+            "stage": stage_text,
+            "form": form,
+            "season": season,
+        })
     return results
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract spirit cards from HTML page")
-    parser.add_argument("input", help="Input HTML file path")
+    parser = argparse.ArgumentParser(description="Extract spirit cards from nrc gallery HTML")
+    parser.add_argument("input", help="Input gallery HTML file path")
     parser.add_argument("output", help="Output JSON file path")
-    parser.add_argument("--start-no", type=int, default=1, help="Starting spirit number (inclusive)")
-    parser.add_argument("--end-no", type=int, default=9999, help="Ending spirit number (inclusive)")
-    parser.add_argument("--all", action="store_true", help="Output all spirits (ignore filter)")
-    
+    parser.add_argument("--start-no", type=int, default=1,
+                        help="Starting spirit number (inclusive)")
+    parser.add_argument("--end-no", type=int, default=9999,
+                        help="Ending spirit number (inclusive)")
+    parser.add_argument("--all", action="store_true",
+                        help="Output all spirits (ignore filter)")
     args = parser.parse_args()
-    
-    if not os.path.exists(args.input):
+
+    try:
+        html = open(args.input, "r", encoding="utf-8").read()
+    except FileNotFoundError:
         print(f"Error: Input file not found: {args.input}", file=sys.stderr)
         sys.exit(1)
-    
-    with open(args.input, "r", encoding="utf-8") as f:
-        html = f.read()
-    
-    spirits = parse_html(html)
+
+    spirits = parse_gallery(html)
     print(f"Parsed {len(spirits)} spirits from HTML")
-    
-    # Filter by number range
+
     if not args.all:
         filtered = []
         for s in spirits:
             try:
-                no_int = int(s["no"])
-                if args.start_no <= no_int <= args.end_no:
+                if args.start_no <= int(s["no"]) <= args.end_no:
                     filtered.append(s)
             except ValueError:
                 pass
         print(f"After filtering (no {args.start_no}-{args.end_no}): {len(filtered)} spirits")
         spirits = filtered
-    
-    # Sort by no
+
     spirits.sort(key=lambda s: int(s["no"]) if s["no"].isdigit() else 9999)
-    
+
+    import os
+    os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
         json.dump(spirits, f, ensure_ascii=False, indent=2)
-    
     print(f"Output written to: {args.output}")
-    
-    # Print summary
+
     for s in spirits[:5]:
         print(f"  NO.{s['no']:>3s} {s['n']:<8s} | {s['a1']}/{s['a2']} | st={s['st']}")
     if len(spirits) > 5:

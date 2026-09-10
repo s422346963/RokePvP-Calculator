@@ -1,132 +1,152 @@
 ---
 name: sync-spirits
-description: 从 wiki 精灵图鉴页面批量同步精灵数据。从图鉴列表页获取精灵基本信息，再逐个抓取详细资质数据，最后写入 data/spirits.js。
+description: 从 wiki 精灵图鉴页面（https://wiki.biligame.com/nrc/精灵图鉴）批量同步精灵数据。先抓取图鉴页拿到全部精灵基础信息（编号/名称/属性/图片/详情链接），再逐个访问详情页解析资质（生命/物攻/魔攻/物防/魔防/速度）、特性与属性，最后写入 data/spirits.js。当用户要求同步/更新精灵数据、补充新精灵、按编号范围同步时使用。
 ---
 
 # Sync Spirits
 
-从 `https://wiki.biligame.com/rocom/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4` 批量同步精灵数据到 `data/spirits.js`。
+从 `https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4`（精灵图鉴）同步精灵数据到 `data/spirits.js`。
+
+> 旧源 `rocom` 已下线，数据迁移到 `nrc` 域。**图鉴页结构完全重写**（`npc-card` 卡片），但**详情页复用了旧 `roco-` 结构**（资质/特性），所以采用两步法：图鉴页拿基础信息 + 详情链接，再逐个访问详情页取完整字段。
 
 ## 触发方式
 
-- "同步N号开始的精灵数据"
-- "从N号开始同步精灵"
-- "同步N-M号的精灵数据"
-- "同步N到M号的精灵"
+- "同步从 N 号开始的精灵数据"
+- "从 N 号开始同步精灵"
+- "同步 N-M 号的精灵数据"
+- "同步 N 到 M 号的精灵"
+- "全量同步精灵 / 清空数据后重新全量同步"
+- "更新/补充精灵数据"
+
+## 数据来源与结构
+
+### Step 1 · 精灵图鉴页（`nrc` 域）
+
+每个精灵是一张 `div.npc-card` 卡片：
+
+```html
+<div class="npc-card" data-id="pet_000004" data-number="001" aria-label="001 迪莫"
+     data-stage="1" data-form="main" data-shiny="no" data-season="none" data-type="光">
+  <span class="npc-card-target"><a href="/nrc/%E8%BF%AA%E8%8E%AB" title="迪莫">001 迪莫</a></span>
+  <div class="npc-number">001</div>
+  <div class="npc-stage">一阶</div>
+  <div class="npc-art"><div class="npc-art-normal"><img src=".../xxx.png"/></div>...</div>
+  <div class="npc-name">迪莫</div>
+  <div class="npc-card-types"><div class="npc-type" title="光系">...</div></div>
+</div>
+```
+
+- `data-number` → 编号（补零为 3 位）；`.npc-name` → 名称；`.npc-stage` → 阶段文本
+- `.npc-card-types .npc-type` 的 `title`（如「光系」）→ 属性，去「系」字得裸属性；双属性会出现两个 `.npc-type`
+- `.npc-art-normal img` → 图片（立绘，回退到 `.npc-art-head img`）
+- `.npc-card-target a` → 详情页链接（相对路径，需拼 `https://wiki.biligame.com`）
+- 注意：形态精灵（如 圣光迪莫 / 圣草迪莫）是**独立卡片**，拥有各自的 `no`（常与本体相同）与详情页，按 `no + 名称` 去重，均视为不同精灵
+- 图鉴总数 622 张卡（含形态，实测于 2026-09）
+
+### Step 2 · 精灵详情页（`/nrc/<名称>`）
+
+示例 `https://wiki.biligame.com/nrc/%E8%BF%AA%E8%8E%AB`，复用旧 `roco-` 结构：
+
+```html
+<div class="roco-stat-list">
+  <div class="roco-stat"><span class="roco-stat-name">生命</span>
+    <span class="roco-stat-val" data-val="120">0</span></div>   <!-- 真实数值在 data-val，文本是占位 0 -->
+  ...（攻击/魔攻/物防/魔防/速度）
+</div>
+<div class="roco-feature">
+  <span class="roco-feature-name">最好的伙伴</span>
+  <div class="roco-feature-desc">造成克制伤害后，获得攻防速+20%，并回复2能量。</div>
+</div>
+<span class="roco-type">光</span>   <!-- 可能多个，裸属性 -->
+```
+
+字段映射（写入 `data/spirits.js`）：
+
+| 字段 | 来源 |
+|---|---|
+| `no` | 图鉴 `data-number`（3 位补零） |
+| `n` | 图鉴 `.npc-name` |
+| `hp/pa/ma/pd/md/sp` | 详情 `.roco-stat`：按 `.roco-stat-name` 对应，数值取 `.roco-stat-val` 的 `data-val`（文本固定为 0，不可用） |
+| `a1`/`a2` | 详情 `.roco-type`（首个/次个，裸属性）；详情为空时回退到图鉴属性 |
+| `tr` | 详情 `.roco-feature-name` |
+| `tr_desc` | 详情 `.roco-feature-desc` |
+| `st` | 图鉴的特殊形态/阶段文本（`.npc-form` 显示文本 + `.npc-stage` 拼接，中性值如「一阶」「首领形态」「本来的样子」不记录，实际值如「首领」「蓬松的样子」「急急急鸭/首领」；普通精灵为空 `""`） |
+| `img` | 图鉴 `.npc-art-normal img` src |
+
+> **抓取方式（统一 requests）**：详情页用 `requests` 抓取（快，~0.x s/页），wiki 偶发 `567` 由指数退避重试吸收；个别页面持续被拦截（567 / 请求已被拦截）时稍后重跑即可（已缓存的秒过，只补抓失败的）。解析逻辑用 BeautifulSoup 取 `roco-stat-val[data-val]` 等。详情页 HTML 缓存到 `.tmp/spirit_details/`，重跑复用、便于排查。
+>
+> 图鉴页同样用 `requests` 下载（`sync_spirits.download_gallery`，内置指数退避重试）。
 
 ## 完整工作流程
 
-### Step 1: 下载图鉴页面 HTML
+所有命令在**项目根目录**执行（脚本使用相对路径 `.tmp/`、`data/`）。本机为 Windows PowerShell，**不要**用 `cd /d`。
 
-使用 `execute_command` 下载页面 HTML 到临时目录：
+### Step 1: 下载并解析图鉴页 → 基础信息 JSON
+
+`extract_spirits.py` 解析本地图鉴 HTML；若未提供 HTML，可先用命令下载（带重试）：
 
 ```cmd
-if not exist "%TEMP%\spirit_sync" mkdir "%TEMP%\spirit_sync"
-curl -sL -o "%TEMP%\spirit_sync\gallery.html" -H "User-Agent: Mozilla/5.0" "https://wiki.biligame.com/rocom/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4"
+python -c "import requests,pathlib; pathlib.Path('.tmp').mkdir(exist_ok=True); url='https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4'; h={'User-Agent':'Mozilla/5.0'};
+import time
+for i in range(1,6):
+    r=requests.get(url,headers=h,timeout=60); r.encoding='utf-8'
+    if r.status_code==200: pathlib.Path('.tmp/spirit_gallery.html').write_text(r.text,encoding='utf-8'); print('saved',len(r.text)); break
+    print('try',i,r.status_code); time.sleep(3*i)"
 ```
 
-**注意**：页面约 1.8MB，需等待下载完成。
+解析（按编号范围过滤）：
 
-### Step 2: 运行 Python 解析脚本提取精灵列表
-
-使用 `execute_command` 运行 `scripts/extract_spirits.py` 解析 HTML，按编号范围过滤：
-
-```bash
-python "<skill_base>/scripts/extract_spirits.py" \
-  "%TEMP%\spirit_sync\gallery.html" \
-  "%TEMP%\spirit_sync\spirits.json" \
-  --start-no <N>
+```cmd
+python ".codebuddy/skills/sync-spirits/scripts/extract_spirits.py" .tmp/spirit_gallery.html .tmp/spirits.json --start-no 1 --end-no 9999
 ```
 
-- `--start-no N`：从 N 号开始
-- `--end-no M`（可选）：到 M 号结束
-- 输出 JSON 文件，包含每个精灵的：`no`, `n`, `stage`, `a1`, `a2`, `form1`, `form2`, `img`, `detail_url`, `st` 等字段，其中的no,n,img,a1,a2是后续使用到的数据
+- `--start-no N` / `--end-no M`：编号范围；`--all`：忽略过滤输出全部
+- 输出 JSON：每个精灵含 `no, n, a1, a2, st, img, detail_url, stage, form, season`
 
-脚本会打印摘要，例如：
+### Step 2: 抓取详情页 + 组装 + 合并（推荐一条龙）
 
-```
-Parsed 594 spirits from HTML
-After filtering (no 440-9999): 155 spirits
-  NO.440 睡铃雪影娃娃    | 冰/草 | st=一阶
-  ...
+`sync_spirits.py` 会自动：读取/下载图鉴 → 解析列表 → 用 `requests` 逐个抓取每个详情页（带缓存）→ 组装完整对象 → 写 `.tmp/spirits_full.json`（只含成功结果）。加 `--merge` 才写入 `data/spirits.js`：新精灵先在内存累积（按 `no+名称` 去重只追加），**一轮结束统一落盘**——有新增才写，写前备份原文件到 `.tmp/spirits.js.bak`：
+
+```cmd
+python ".codebuddy/skills/sync-spirits/scripts/sync_spirits.py" --gallery .tmp/spirit_gallery.html --out .tmp/spirits_full.json --merge
 ```
 
-### Step 3: 逐个获取精灵详细数据
+- 不加 `--merge`：只生成 `.tmp/spirits_full.json`，**不改动项目数据**（安全预览）
+- `--start-no N` / `--end-no M` / `--all`：限定范围，避免一次性抓全量
+- `--limit N`：过滤后再截断，只抓前 N 个（测试用）
+- `--gallery`：指定已下载的图鉴 HTML（缺省自动下载）
 
-对于 Step 2 输出的每个精灵：
+### 错误处理与重跑
 
-1. **检查是否已存在**：读取 `data/spirits.js`，用 `no` + `n` 组合判断精灵是否已存在。已存在则跳过。
+- 错误分两类：`ERR`（抓取失败，多为 WAF `567` 拦截）与 `incomplete stats`（抓到了但六项资质不全是 `int`）。单只失败**不中断整轮**，失败精灵不写入 `data/spirits.js`
+- **轮末自愈**：按错误清单自动删除失败精灵的详情页缓存（`fetch_spirit_detail.delete_cache`）——`incomplete` 页会留下坏缓存，删掉后下次重跑重新抓取；`567` 本就无缓存，删除为空操作
+- **重跑收敛**：WAF `567` 是间歇性拦截，有 ERR 直接重跑同一命令即可（已缓存的秒过、只补抓失败的）；实测全量 622 只经 2-4 轮全部成功
+- 错误只打印到控制台（前 10 条）不落盘；需要完整日志可在 PowerShell 加 `| Tee-Object -FilePath .tmp/spirit_sync_log.txt`
 
-2. **获取详细数据**：使用 `web_fetch` 工具获取精灵详情页的原始 HTML：
-   ```
-   web_fetch:
-     url: https://wiki.biligame.com/rocom/<精灵URL编码名>
-     fetchInfo: 从 class="sprite-info-attrlist" 元素中提取精灵资质数据（生命/物攻/魔攻/物防/魔防/速度），从 class="sprite-trait-desc" 元素中提取精灵特性描述
-   ```
+### （可选）单独解析某个详情页
 
-3. **解析详细数据**（从页面 HTML 中提取）：
-   - **资质数值**：`hp`（生命）、`pa`（物攻）、`ma`（魔攻）、`pd`（物防）、`md`（魔防）、`sp`（速度）
-   - **特性**：`tr`（特性名称）
-   - **特性描述**：`tr_desc`（特性描述）
-   - **属性**：`a1`（主属性）、`a2`（副属性），从详情的属性标签提取
-   - **图片**：用列表页的 `img`
+`fetch_spirit_detail.py` 可单独解析一份详情页 HTML，便于排查单个精灵：
 
-4. **字段映射**，构建插入 `spirits.js` 的数据对象：
-   ```
-   {"no": "440", "n": "睡铃雪影娃娃", "hp": 116, "pa": 42, "ma": 104, "pd": 85, "md": 116, "sp": 100, "a1": "冰", "a2": "草", "tr": "安眠", "st": "", "img": "...", "tr_desc": "王国入夜后，进入战斗时获得全技能能耗+2，回合结束时自己回复5%生命和1能量。"}
-   ```
-   - `no`：3位数字字符串，不足补0（如 "001", "440"）
-   - `n`：精灵名称
-   - `a1`/`a2`：从详情页属性标签提取（比列表页更准确）
-   - `st`：为空字符串 `""`，除非有特殊说明
-   - `tr`：特性
-   - `tr_desc`：特性描述
-
-### Step 4: 写入 spirits.js
-
-将新精灵数据追加到 `data/spirits.js` 的 `SPIRITS` 数组中。
-
-**事项**：
-- 在数组最后一个元素 `}` 之后、`]` 之前插入
-- 每个对象后加逗号
-- 使用 4 空格缩进
-- 用 `replace_in_file` 工具精确替换
-- 最后一行 `]` 不变
-
-**插入模板**（追加在 `]` 之前）：
-
-```javascript
-    {
-        "no": "441",
-        "n": "宝藏小狐",
-        "hp": 108,
-        "pa": 50,
-        "ma": 50,
-        "pd": 112,
-        "md": 112,
-        "sp": 82,
-        "a1": "普通",
-        "a2": "",
-        "tr": "属性反击",
-        "st": "",
-        "img": "https://patchwiki.biligame.com/images/rocom/thumb/x/xx/xxxx.png/180px-JL_xxx.png",
-        "tr_desc": "xxxxxxxx"
-    },
+```cmd
+python ".codebuddy/skills/sync-spirits/scripts/fetch_spirit_detail.py" .tmp/spirit_detail.html
 ```
 
-### Step 5: 报告同步结果
+### Step 3: 验证
 
-完成所有精灵同步后，汇总报告：
+用 node 校验 `data/spirits.js` 语法与字段完整性（`const` 不挂到 context，需用 `vm.runInContext(code + ";SPIRITS;", sandbox)` 取回）：
 
-```
-同步完成！
-- 新增精灵：N 个
-- 已存在跳过：M 个  
-- 总计处理：T 个
+```cmd
+node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb);const S=vm.runInContext(fs.readFileSync('data/spirits.js','utf8')+'\n;SPIRITS;',sb);console.log('count',S.length);console.log('valid',S.every(s=>s.no&&s.n&&typeof s.hp==='number'&&typeof s.sp==='number'&&s.a1));const seen=new Set();let dup=0;for(const s of S){const k=s.no+s.n;if(seen.has(k))dup++;seen.add(k);}console.log('dups',dup);"
 ```
 
-### 错误处理
+- 检查：数量、字段完整（六项资质均为数字）、`no+n` 无重复、关键精灵（迪莫等）存在
+- 打开 `index.html` 手动验证：精灵搜索/选择正常、头像加载（失败有 emoji 兜底）
 
-- 下载页面失败：重试一次，仍失败则报错并停止
-- 单个精灵详情页获取失败：跳过该精灵，继续处理下一个，最后报告跳过的精灵
-- Python 脚本执行失败：检查 Python 环境和 beautifulsoup4 依赖
+## 注意事项
+
+- **只追加新精灵**：`--merge` 按 `no + 名称` 去重，已存在的精灵不会被覆盖或重复添加；若需更新某精灵数值，需手动编辑 `data/spirits.js`
+- **详情页数值取 `data-val`**：`.roco-stat-val` 文本固定为 `0`，必须用其 `data-val` 属性，否则六项资质全变成 0
+- **属性去「系」字**：图鉴 `.npc-type` 的 `title` 是「光系」之类，写入 `a1/a2` 时要去掉「系」
+- 所有用户可见文案为简体中文；文件 UTF-8 编码。终端乱码是显示端解码问题，不要"修复"编码（避免把中文塞进 `python -c` 内联脚本；必要中文放脚本文件内，脚本已用 `sys.stdout.reconfigure(encoding="utf-8")`）
+- `data/spirits.js` 被 `index.html` 在 body 末尾按序加载，不能移回 `<head>` 或加 `defer`
+- 详情页 HTML 缓存于 `.tmp/spirit_details/`，重跑复用；排查异常精灵可直接读取对应缓存文件
