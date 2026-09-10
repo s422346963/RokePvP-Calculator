@@ -37,6 +37,7 @@ build/
 *.tmp
 *.temp
 .temp/
+__pycache__/
 
 # 操作系统文件
 Desktop.ini
