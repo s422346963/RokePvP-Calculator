@@ -68,6 +68,7 @@ description: 从 wiki 技能图鉴页面（https://wiki.biligame.com/nrc/技能�
 | `k` 类型 | `.nrc-skill-category-chip`（首个非空） | 物攻/魔攻/防御/状态 |
 | `p` 威力 | `.nrc-skill-stat` 中 label=威力 的值 | 数字；"—"/"无" → `null` |
 | `c` 耗能 | `.nrc-skill-stat` 中 label=耗能 的值 | 数字；"—"/"无" → `null` |
+| `cb` 连击 | 由 `desc` 正则提取「N连击」 | 固定连击数；无固定连击（含「连击数+1」等条件描述）为 `1`；`convert_skills.py` 转换时计算 |
 | `desc` 描述 | `.nrc-skill-effect-text` | |
 | `img` 图标 | `.nrc-skill-icon img` src | 不写入 `data/skills.js` |
 
@@ -117,17 +118,19 @@ python ".codebuddy/skills/sync-skills/scripts/convert_skills.py" .tmp/skills.jso
 
 ```js
 const SKILLS = [
-  { n: "抓挠", a: "普通", p: 35, k: "物攻", c: 0, desc: "造成物伤，自己回复1能量。" },
+  { n: "抓挠", a: "普通", p: 35, k: "物攻", c: 0, cb: 1, desc: "造成物伤，自己回复1能量。" },
   ...
 ];
 ```
+
+- `cb` 由 `desc` 提取（`(\d+)连击`，默认 1），供 `index.html` 在模式 B / FULL 选中技能时自动填充连击次数
 
 ### Step 5: 验证
 
 用 node `vm` 校验语法与数据完整性（`const` 声明不挂载到 context，需用 `vm.runInContext(code + ";SKILLS;", sandbox)` 取回）：
 
 ```cmd
-node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb);const SKILLS=vm.runInContext(fs.readFileSync('data/skills.js','utf8')+'\n;SKILLS;',sb);console.log(SKILLS.length,SKILLS.every(s=>s.n&&s.a&&s.k&&typeof s.p==='number'&&typeof s.c==='number'),SKILLS.reduce((m,s)=>(m[s.k]=(m[s.k]||0)+1,m),{}));"
+node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb);const SKILLS=vm.runInContext(fs.readFileSync('data/skills.js','utf8')+'\n;SKILLS;',sb);console.log(SKILLS.length,SKILLS.every(s=>s.n&&s.a&&s.k&&typeof s.p==='number'&&typeof s.c==='number'&&typeof s.cb==='number'),SKILLS.reduce((m,s)=>(m[s.k]=(m[s.k]||0)+1,m),{}));"
 ```
 
 - 检查：数量（攻击类约 358）、字段完整、名称无重复、关键技能存在（闪击/鸣沙陷阱/魔能爆等变动威力技能，其 `p` 为基准威力，运行时由 `index.html` 的分档表覆盖）

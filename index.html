@@ -391,6 +391,7 @@
               <div class="skill-lib-dropdown" id="skill-combo-dropdown"></div>
             </div>
             <div id="skill-selected-info" style="font-size:12px;color:var(--text2);margin-top:5px">未选择技能</div>
+            <div id="skill-desc-info" style="font-size:11px;color:var(--text2);margin-top:4px;line-height:1.5;display:none"></div>
           </div>
           <div class="skill-field" style="flex:0 0 170px">
             <div class="field-label">技能类型（自动同步）</div>
@@ -1632,6 +1633,11 @@ function onSkillComboInput() {
   }
 }
 
+// 技能固有连击数：data/skills.js 的 cb 字段（由 gen_skill_cb.py 从描述提取），默认 1
+function skillDefaultHits(skill) {
+  return Math.max(1, (skill && skill.cb) || 1);
+}
+
 function applyQuickSkill(skill) {
   const input = document.getElementById('skill-combo-input');
   const dd    = document.getElementById('skill-combo-dropdown');
@@ -1641,6 +1647,9 @@ function applyQuickSkill(skill) {
   if (arrow) arrow.textContent = '▼';
 
   document.getElementById('base-power-b').value = skill.p;
+  // 连击次数同步为技能固有连击数
+  const hitsB = document.getElementById('hits-input-b');
+  if (hitsB) hitsB.value = skillDefaultHits(skill);
   // 双攻技能：取攻方物攻/魔攻较高一项，与伤害计算(isPhys)逻辑一致
   const isPhys = skill.k === '双攻'
     ? ((state.atk ? (state.atk.patk || state.atk.pa || 0) : 0) >= (state.atk ? (state.atk.matk || state.atk.ma || 0) : 0))
@@ -1653,6 +1662,11 @@ function applyQuickSkill(skill) {
   updatePowerTip();
   document.getElementById('skill-selected-info').textContent =
     '已选：' + skill.n + ' | ' + skill.a + '属性 | ' + skill.k + ' | 基础威力 ' + skill.p;
+  const descEl = document.getElementById('skill-desc-info');
+  if (descEl) {
+    descEl.textContent = (skill.desc || '暂无描述');
+    descEl.style.display = '';
+  }
   calc();
 }
 
@@ -2167,13 +2181,17 @@ function renderCard(side, spirit) {
     updatePanelFavBtn(side, false);
     return;
   }
+  // st 中名字已包含的形态词不再重复显示（如「鸭吉吉（蓬松的样子）」st=蓬松的样子）
+  const stText = spirit.st
+    ? spirit.st.split('/').filter(p => p && !spirit.n.includes(p)).join('/')
+    : '';
   card.innerHTML = `
     <div class="spirit-avatar">${spirit.img ? `<img src="${spirit.img}" alt="${spirit.n}" onerror="this.parentNode.innerHTML='<span class=\'avatar-fallback\'>${getEmoji(spirit.a1)}</span>'">` : `<span class="avatar-fallback">${getEmoji(spirit.a1)}</span>`}</div>
     <div class="spirit-info">
       <div class="spirit-title-row">
         <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>
         <span class="spirit-name">${spirit.n}</span>
-        ${spirit.st ? `<span class="spirit-meta">${spirit.st}</span>` : ''}
+        ${stText ? `<span class="spirit-meta">${stText}</span>` : ''}
       </div>
       ${spirit.tr ? `<div class="spirit-trait">特性：${spirit.tr}</div>` : ''}
       ${spirit.tr_desc ? `<div class="spirit-trait-desc">${spirit.tr_desc}</div>` : ''}
@@ -2333,6 +2351,13 @@ setupSearch('def');
 setAtkStat('patk', false);
 setDefStat('pdef', false);
 switchMode(state.mode); // 初始化模式状态
+
+// 技能威力 / 连击次数 / 星陨印记层数输入框：聚焦即全选，方便直接输入（三模式统一，含 FULL 动态技能槽）
+const SELECT_ON_FOCUS_SELECTOR =
+  '#power-input, #hits-input, #star-marks-a, #base-power-b, #hits-input-b, #star-marks-b, #star-marks-full, .fsk-hits, .fsk-power';
+document.addEventListener('focusin', e => {
+  if (e.target.matches && e.target.matches(SELECT_ON_FOCUS_SELECTOR)) e.target.select();
+});
 
 function toggleTheme() {
   const isLight = document.documentElement.getAttribute('data-theme') === 'light';
@@ -2638,7 +2663,7 @@ function setYuanliBoost(side, idx, val) {
 }
 
 function selectFskSkill(side, idx, sk) {
-  fullState[side][idx] = { skill: sk, hits: fullState[side][idx] ? fullState[side][idx].hits : 1, power: sk.p };
+  fullState[side][idx] = { skill: sk, hits: skillDefaultHits(sk), power: sk.p };
   buildFullSkillRows(side);
   calcFull();
 }
@@ -3137,7 +3162,11 @@ function loadFavConfig(fav, side) {
     const firstSkillSlot = fav.skills && fav.skills.find(Boolean);
     if (firstSkillSlot) {
       const sk = SKILLS.find(s => s.n === firstSkillSlot.skillName);
-      if (sk) applyQuickSkill(sk);
+      if (sk) {
+        applyQuickSkill(sk);
+        const hitsB = document.getElementById('hits-input-b');
+        if (hitsB && firstSkillSlot.hits) hitsB.value = firstSkillSlot.hits;
+      }
     }
   }
 
