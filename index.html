@@ -521,6 +521,21 @@
 <!-- 收藏配置：可拖动浮动面板（默认右侧，默认隐藏） -->
 <aside id="fav-panel" class="fav-sidebar"></aside>
 
+<!-- 通用弹窗：收藏保存 / 删除确认 -->
+<div id="app-modal-overlay" class="app-modal-overlay" hidden>
+  <div class="app-modal" role="dialog" aria-modal="true" aria-labelledby="app-modal-title">
+    <div class="app-modal-header">
+      <span class="app-modal-icon" id="app-modal-icon">⭐</span>
+      <span class="app-modal-title" id="app-modal-title">收藏配置</span>
+    </div>
+    <div class="app-modal-body" id="app-modal-body"></div>
+    <div class="app-modal-actions">
+      <button type="button" class="app-modal-btn" id="app-modal-cancel">取消</button>
+      <button type="button" class="app-modal-btn primary" id="app-modal-confirm">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- 游戏数据 -->
 <script src="data/spirits.js"></script>
 <script src="data/skills.js"></script>
@@ -2155,10 +2170,13 @@ function renderCard(side, spirit) {
   card.innerHTML = `
     <div class="spirit-avatar">${spirit.img ? `<img src="${spirit.img}" alt="${spirit.n}" onerror="this.parentNode.innerHTML='<span class=\'avatar-fallback\'>${getEmoji(spirit.a1)}</span>'">` : `<span class="avatar-fallback">${getEmoji(spirit.a1)}</span>`}</div>
     <div class="spirit-info">
-      <div class="spirit-name">${spirit.n}</div>
-      <div class="spirit-meta">${spirit.st||''}</div>
-      <div class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</div>
-      ${spirit.tr ? `<div style="font-size:11px;color:var(--text2);margin-top:4px">特性：${spirit.tr}</div>` : ''}
+      <div class="spirit-title-row">
+        <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>
+        <span class="spirit-name">${spirit.n}</span>
+        ${spirit.st ? `<span class="spirit-meta">${spirit.st}</span>` : ''}
+      </div>
+      ${spirit.tr ? `<div class="spirit-trait">特性：${spirit.tr}</div>` : ''}
+      ${spirit.tr_desc ? `<div class="spirit-trait-desc">${spirit.tr_desc}</div>` : ''}
     </div>
   `;
   statsEl.style.display = 'grid';
@@ -2958,6 +2976,56 @@ function saveFavorites(favs) {
   localStorage.setItem(FAV_KEY, JSON.stringify(favs));
 }
 
+// ── 通用弹窗（替代原生 prompt/confirm，风格与整体卡片一致）──
+function escapeHtmlText(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+let appModalOnConfirm = null;
+
+// cfg: { title, icon, bodyHtml, confirmText, danger, onConfirm(value) }
+function openAppModal(cfg) {
+  const overlay = document.getElementById('app-modal-overlay');
+  if (!overlay) return;
+  document.getElementById('app-modal-icon').textContent = cfg.icon || '⭐';
+  document.getElementById('app-modal-title').textContent = cfg.title || '';
+  document.getElementById('app-modal-body').innerHTML = cfg.bodyHtml || '';
+  const confirmBtn = document.getElementById('app-modal-confirm');
+  confirmBtn.textContent = cfg.confirmText || '确定';
+  confirmBtn.className = 'app-modal-btn ' + (cfg.danger ? 'danger' : 'primary');
+  appModalOnConfirm = cfg.onConfirm || null;
+  overlay.hidden = false;
+  const input = document.getElementById('app-modal-input');
+  if (input) { input.focus(); input.select(); }
+}
+
+function closeAppModal() {
+  const overlay = document.getElementById('app-modal-overlay');
+  if (overlay) overlay.hidden = true;
+  appModalOnConfirm = null;
+}
+
+function handleAppModalConfirm() {
+  const fn = appModalOnConfirm;
+  closeAppModal();
+  if (!fn) return;
+  const input = document.getElementById('app-modal-input');
+  fn(input ? input.value : undefined);
+}
+
+(function initAppModal() {
+  const overlay = document.getElementById('app-modal-overlay');
+  if (!overlay) return;
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeAppModal(); });
+  document.getElementById('app-modal-cancel').addEventListener('click', closeAppModal);
+  document.getElementById('app-modal-confirm').addEventListener('click', handleAppModalConfirm);
+  document.addEventListener('keydown', e => {
+    if (overlay.hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeAppModal(); }
+    else if (e.key === 'Enter') { e.preventDefault(); handleAppModalConfirm(); }
+  });
+})();
+
 // 收藏单个精灵配置（含性格、IV、4技能）
 function openSaveFavDialog(side) {
   const spirit = side === 'atk' ? state.atk : state.def;
@@ -2965,9 +3033,25 @@ function openSaveFavDialog(side) {
     alert('请先选择' + (side === 'atk' ? '攻击方' : '防御方') + '精灵');
     return;
   }
+  openAppModal({
+    title: '收藏当前配置',
+    icon: '⭐',
+    bodyHtml:
+      '<div class="app-modal-side-row">' +
+        '<span class="app-modal-side-badge">精灵名称</span>' +
+        '<span class="app-modal-spirit">' + escapeHtmlText(spirit.n) + '</span>' +
+      '</div>' +
+      '<label class="app-modal-label" for="app-modal-input">配置名称</label>' +
+      '<input id="app-modal-input" class="app-modal-input" maxlength="24" value="' + escapeHtmlText(spirit.n) + '">' +
+      '<div class="app-modal-hint">💡 将保存性格、个体值与 FULL 模式配招</div>',
+    confirmText: '⭐ 收藏',
+    onConfirm: name => saveFavConfig(side, spirit, name),
+  });
+}
+
+function saveFavConfig(side, spirit, rawName) {
   const defaultName = spirit.n;
-  const name = prompt('为精灵配置命名：', defaultName);
-  if (name === null) return;
+  const name = (rawName == null ? defaultName : rawName);
 
   // 保存性格与 IV
   const natureSel = document.getElementById(side + '-nature');
@@ -3000,7 +3084,6 @@ function openSaveFavDialog(side) {
   favs.unshift(fav);
   saveFavorites(favs);
   renderFavoriteGroup();
-  //alert('已收藏「' + fav.name + '」');
 }
 
 // 将精灵配置应用到指定侧
@@ -3064,11 +3147,22 @@ function loadFavConfig(fav, side) {
 }
 
 function deleteFav(id) {
-  if (!confirm('确定删除该收藏？')) return;
-  const sid = String(id);
-  const favs = loadFavorites().filter(f => String(f.id) !== sid);
-  saveFavorites(favs);
-  renderFavoriteGroup();
+  const fav = loadFavorites().find(f => String(f.id) === String(id));
+  const label = fav ? ((fav.spiritName || fav.name) + (fav.nature && fav.nature !== 'neutral' ? ' | ' + fav.nature : '')) : '';
+  openAppModal({
+    title: '删除收藏',
+    icon: '🗑️',
+    bodyHtml:
+      '<div class="app-modal-msg">确定删除收藏「' + escapeHtmlText(label) + '」？</div>' +
+      '<div class="app-modal-hint warn">删除后无法恢复</div>',
+    confirmText: '删除',
+    danger: true,
+    onConfirm: () => {
+      const sid = String(id);
+      saveFavorites(loadFavorites().filter(f => String(f.id) !== sid));
+      renderFavoriteGroup();
+    },
+  });
 }
 
 const FAV_PANEL_KEY = 'roko_fav_panel_open';

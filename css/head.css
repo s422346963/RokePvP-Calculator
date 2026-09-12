@@ -210,9 +210,12 @@
   .spirit-avatar img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .spirit-avatar .avatar-fallback { font-size: 26px; }
   .spirit-info { flex: 1; min-width: 0; }
+  .spirit-title-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .spirit-name { font-size: 16px; font-weight: 700; }
-  .spirit-meta { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .spirit-types { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+  .spirit-meta { font-size: 12px; color: var(--text2); }
+  .spirit-types { display: flex; gap: 4px; flex-shrink: 0; }
+  .spirit-trait { font-size: 11px; font-weight: 600; color: var(--text2); margin-top: 4px; }
+  .spirit-trait-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.5; }
   .type-chip { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .nature-iv-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 8px; flex-wrap: wrap; }
   .nature-iv-row .niv-field { flex: 1; min-width: 80px; }
@@ -404,6 +407,73 @@
   }
   [data-theme="light"] .fav-apply-def:hover:not(:disabled) {
     background: rgba(26, 122, 200, .20);
+  }
+  /* ===== 通用弹窗（收藏保存 / 删除确认），卡片 HUD 风格 ===== */
+  .app-modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10, 11, 22, .55);
+    backdrop-filter: blur(2px);
+    padding: 16px;
+    animation: app-modal-fade .16s ease;
+  }
+  .app-modal-overlay[hidden] { display: none; }
+  .app-modal {
+    width: 320px; max-width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    overflow: hidden;
+    animation: app-modal-pop .18s ease;
+  }
+  .app-modal-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(124,107,255,.16), rgba(124,107,255,.04));
+    border-bottom: 1px solid var(--border);
+  }
+  .app-modal-icon { font-size: 16px; }
+  .app-modal-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .app-modal-body { padding: 14px 16px; }
+  .app-modal-side-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-width: 0; }
+  .app-modal-side-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
+    color: var(--accent); background: rgba(124,107,255,.14); border: 1px solid rgba(124,107,255,.45);
+  }
+  .app-modal-spirit { font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .app-modal-label { display: block; font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+  .app-modal-input {
+    width: 100%; padding: 8px 10px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+    color: var(--text); font-size: 13px; outline: none;
+    transition: border-color .15s;
+  }
+  .app-modal-input:focus { border-color: var(--accent); }
+  .app-modal-msg { font-size: 13px; line-height: 1.6; color: var(--text); word-break: break-all; }
+  .app-modal-hint {
+    margin-top: 10px; font-size: 11px; line-height: 1.5;
+    color: var(--text2);
+    background: rgba(124,107,255,.08); border-radius: 6px; padding: 6px 8px;
+  }
+  .app-modal-hint.warn { background: rgba(239,83,80,.12); color: #ef5350; }
+  .app-modal-actions { display: flex; gap: 8px; padding: 12px 16px 14px; }
+  .app-modal-btn {
+    flex: 1; padding: 8px 0; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--text2);
+    transition: background .15s, color .15s;
+  }
+  .app-modal-btn:hover { background: var(--card2); color: var(--text); }
+  .app-modal-btn.primary { border: none; background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(124,107,255,.4); }
+  .app-modal-btn.primary:hover { background: var(--accent); filter: brightness(1.1); }
+  .app-modal-btn.danger { border: none; background: #ef5350; color: #fff; box-shadow: 0 2px 8px rgba(239,83,80,.35); }
+  .app-modal-btn.danger:hover { background: #ef5350; filter: brightness(1.08); }
+  @keyframes app-modal-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes app-modal-pop { from { opacity: 0; transform: scale(.94) translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .app-modal-overlay, .app-modal { animation: none; }
   }
   .t-normal{background:#9e9e9e;color:#fff}.t-grass{background:#66bb6a;color:#fff}
   .t-普通{background:#9e9e9e;color:#fff}.t-草{background:#66bb6a;color:#fff}.t-火{background:#ef5350;color:#fff}.t-水{background:#42a5f5;color:#fff}.t-光{background:#ffcc02;color:#333}.t-地{background:#a1887f;color:#fff}.t-冰{background:#80deea;color:#333}.t-龙{background:#7c4dff;color:#fff}.t-电{background:#ffca28;color:#333}.t-毒{background:#ab47bc;color:#fff}.t-虫{background:#9ccc65;color:#fff}.t-武{background:#ef9a9a;color:#333}.t-翼{background:#81d4fa;color:#333}.t-萌{background:#f48fb1;color:#fff}.t-幽{background:#5c6bc0;color:#fff}.t-恶{background:#4e342e;color:#fff}.t-机械{background:#78909c;color:#fff}.t-幻{background:#ce93d8;color:#333}
