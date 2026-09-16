@@ -30,17 +30,17 @@ const num = (key, label, def, min, max) => ({ id: 'trait-opt-' + key, label, typ
 // ------------------------------------------------------------
 // 能耗类（无需用户输入）
 // ------------------------------------------------------------
-defineAtkTraitRule(['挺起胸脖', '“国王”的威严'], () => [],
-  ctx => ctx.skCost === 1 ? { f: 1.5, d: '能耇01→威力×1.5' } : null);
+defineAtkTraitRule(['挺起胸脯', '“国王”的威严'], () => [],
+  ctx => ctx.skCost === 1 ? { f: 1.5, d: '能耗1→威力×1.5' } : null);
 
 defineAtkTraitRule(['勇敢'], () => [],
   ctx => ctx.skCost > 3 ? { f: 1.4, d: '能耗>3→威力×1.4' } : null);
 
 defineAtkTraitRule(['鼓气'], () => [],
-  ctx => ctx.skCost === 3 && ctx.opts.activated ? { f: 1.2, d: '能老3→攻防×1.2' } : null);
+  ctx => ctx.skCost === 3 && ctx.opts.activated ? { f: 1.2, d: '能耗3→攻防×1.2' } : null);
 
-defineAtkTraitRule(['水翅飞升'], () => [],
-  ctx => ctx.skCost === 0 ? { f: 1.3, d: '能老0→威力×1.3' } : null);
+defineAtkTraitRule(['水翼飞升'], () => [],
+  ctx => ctx.skCost === 0 ? { f: 1.3, d: '能耗0→威力×1.3' } : null);
 
 // ------------------------------------------------------------
 // 出手先后类（需勾选：是否先手）
@@ -107,7 +107,7 @@ defineAtkTraitRule(['天通地明'], () => [ck('enemyIsPolluted', '敌方是污�
 // ------------------------------------------------------------
 // 观星 / 坠星：敌印记层数叠加（需输入层数）
 // ------------------------------------------------------------
-defineAtkTraitRule(['观星'], () => [num('stackCount', '敌方星陌印记层数(0-20)', 0, 0, 20)],
+defineAtkTraitRule(['观星'], () => [num('stackCount', '敌方星陨印记层数(0-20)', 0, 0, 20)],
   ctx => {
     if (ctx.skAttr === '地' && (ctx.opts.stackCount || 0) > 0) {
       const m = 1 + 0.15 * ctx.opts.stackCount;
@@ -116,7 +116,7 @@ defineAtkTraitRule(['观星'], () => [num('stackCount', '敌方星陌印记层�
     return null;
   });
 
-defineAtkTraitRule(['坠星'], () => [num('stackCount', '敌方星陌印记层数(0-20)', 0, 0, 20)],
+defineAtkTraitRule(['坠星'], () => [num('stackCount', '敌方星陨印记层数(0-20)', 0, 0, 20)],
   ctx => {
     if ((ctx.opts.stackCount || 0) > 0) {
       const m = 1 + 0.15 * ctx.opts.stackCount;
@@ -158,7 +158,7 @@ defineAtkTraitRule(['冰钻'], () => [num('enemyTotalCost', '敌方携带技能�
     return null;
   });
 
-defineAtkTraitRule(['变形活画', '画间沉鐵兽'], () => [num('enemyBuff', '敌方当前增益层数', 0, 0, 20)],
+defineAtkTraitRule(['变形活画'], () => [num('enemyBuff', '敌方当前增益层数', 0, 0, 20)],
   ctx => {
     if ((ctx.opts.enemyBuff || 0) > 0) {
       const m = 1 + 0.1 * ctx.opts.enemyBuff;
@@ -168,9 +168,9 @@ defineAtkTraitRule(['变形活画', '画间沉鐵兽'], () => [num('enemyBuff', 
   });
 
 // ------------------------------------------------------------
-// 悔悯 / 悝亡：己方力竭精灵数叠加
+// 悲悯 / 悼亡：力竭精灵数叠加（悲悯=己方队伍，悼亡=双方队伍）
 // ------------------------------------------------------------
-defineAtkTraitRule(['悔悯'], () => [num('stackCount', '力竭精灵数量(0-5)', 0, 0, 5)],
+defineAtkTraitRule(['悲悯'], () => [num('stackCount', '己方力竭精灵数量(0-5)', 0, 0, 5)],
   ctx => {
     if ((ctx.opts.stackCount || 0) > 0) {
       const m = 1 + 0.3 * ctx.opts.stackCount;
@@ -179,7 +179,7 @@ defineAtkTraitRule(['悔悯'], () => [num('stackCount', '力竭精灵数量(0-5)
     return null;
   });
 
-defineAtkTraitRule(['悝亡'], () => [num('stackCount', '力竭精灵数量(0-5)', 0, 0, 5)],
+defineAtkTraitRule(['悼亡'], () => [num('stackCount', '双方力竭精灵数量(0-5)', 0, 0, 5)],
   ctx => {
     if ((ctx.opts.stackCount || 0) > 0) {
       const m = 1 + 0.3 * ctx.opts.stackCount;
@@ -231,7 +231,7 @@ defineAtkTraitRule(['三鼓作气'], () => [num('stackCount', '已累积触发�
   });
 
 defineAtkTraitRule(['身经百练'],
-  skill => ((skill && (skill.a === '水' || skill.a === '武')) ? [num('stackCount', '已方应对成功次数', 0, 0, 10)] : []),
+  skill => ((skill && (skill.a === '水' || skill.a === '武')) ? [num('stackCount', '己方应对成功次数', 0, 0, 10)] : []),
   ctx => {
     if ((ctx.opts.stackCount || 0) > 0 && (ctx.skAttr === '水' || ctx.skAttr === '武')) {
       const m = 1 + 0.2 * ctx.opts.stackCount;
