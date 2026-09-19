@@ -590,12 +590,16 @@ let state = {
 // HP:    (sv*1.7 + iv*0.85 + 70) * nature + 100
 // Other: (sv*1.1 + iv*0.55 + 10) * nature + 50
 // IV range: 0–100
+// 验证: 针叶巡林(HP:348),水灵(HP:501),迪莫(防御:175)
 // ============================================================
 function calcRealStat(sv, iv, nature, isHp) {
   iv = Math.max(0, Math.min(100, iv));
   // 种族值=105、无个体(iv=0)、无性格加成(nature=1.0) 时，中间值向下取整
   const baseRounder = (sv === 105 && iv === 0 && nature === 1.0) ? Math.floor : Math.round;
-  if (isHp) return Math.round((sv * 1.7 + iv * 0.85 + 70) * nature + 100);
+  if (isHp) {
+    const base = baseRounder(sv * 1.7 + iv * 0.85 + 70);
+    return Math.round(base * nature + 100);
+  }
   const base = baseRounder(sv * 1.1 + iv * 0.55 + 10);
   return Math.round(base * nature + 50);
 }
