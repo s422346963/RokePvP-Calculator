@@ -125,7 +125,7 @@
       <div class="level-row" id="atk-level-row" style="display:none">
         <span class="level-label">攻击能力等级</span>
         <button class="level-btn" onclick="changeLevel('atk','atk',-1)">−</button>
-        <span class="level-val" id="atk-atklevel-val">0</span>
+        <input type="number" class="level-input" id="atk-atklevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改攻击能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('atk','atk',this)" onkeydown="if(event.key==='Enter')this.blur()">
         <button class="level-btn" onclick="changeLevel('atk','atk',1)">+</button>
         <span class="level-multiplier" id="atk-atklevel-mult">×1.00</span>
       </div>
@@ -227,7 +227,7 @@
       <div class="level-row" id="def-level-row" style="display:none">
         <span class="level-label">防御能力等级</span>
         <button class="level-btn" onclick="changeLevel('def','def',-1)">−</button>
-        <span class="level-val" id="def-deflevel-val">0</span>
+        <input type="number" class="level-input" id="def-deflevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改防御能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('def','def',this)" onkeydown="if(event.key==='Enter')this.blur()">
         <button class="level-btn" onclick="changeLevel('def','def',1)">+</button>
         <span class="level-multiplier" id="def-deflevel-mult">×1.00</span>
       </div>
@@ -1177,21 +1177,18 @@ function swapSpirits() {
   }
   swapSelect('atk-nature', 'def-nature');
 
-  // IV 不参与交换，始终重置为固定默认值
-  // 攻方：物攻/魔攻/速度 = 60，其余 = 0
-  setIv('atk-iv-patk', 60);
-  setIv('atk-iv-matk', 60);
-  setIv('atk-iv-spd', 60);
-  setIv('atk-iv-hp', 0);
-  setIv('atk-iv-pdef', 0);
-  setIv('atk-iv-mdef', 0);
-  // 防方：HP = 60，其余 = 0
-  setIv('def-iv-hp', 60);
-  setIv('def-iv-def', 0);
-  setIv('def-iv-mdef', 0);
-  setIv('def-iv-spd', 0);
-  setIv('def-iv-patk', 0);
-  setIv('def-iv-matk', 0);
+  // 交换两侧个体值（IV 跟随精灵；防方物防 id 是 def-iv-def，其余规律统一）
+  [['atk-iv-patk', 'def-iv-patk'],
+   ['atk-iv-matk', 'def-iv-matk'],
+   ['atk-iv-spd',  'def-iv-spd'],
+   ['atk-iv-hp',   'def-iv-hp'],
+   ['atk-iv-pdef', 'def-iv-def'],
+   ['atk-iv-mdef', 'def-iv-mdef']
+  ].forEach(([aId, dId]) => {
+    const av = readIV(aId), dv = readIV(dId);
+    setIv(aId, dv);
+    setIv(dId, av);
+  });
 
   // 重新渲染两侧卡片与属性
   renderCard('atk', state.atk);
@@ -1202,17 +1199,7 @@ function swapSpirits() {
   const tmpAtkAtk = state.atkAtkLevel; const tmpAtkDef = state.atkDefLevel;
   state.atkAtkLevel = state.defAtkLevel; state.atkDefLevel = state.defDefLevel;
   state.defAtkLevel = tmpAtkAtk;        state.defDefLevel = tmpAtkDef;
-  // 更新显示
-  function refreshLevelUI(side) {
-    ['atk','def'].forEach(kind => {
-      const key = side + (kind==='atk'?'Atk':'Def') + 'Level';
-      const val = state[key] || 0;
-      const valEl = document.getElementById(`${side}-${kind}level-val`);
-      const multEl = document.getElementById(`${side}-${kind}level-mult`);
-      if (valEl) valEl.textContent = val >= 0 ? '+' + val : '' + val;
-      if (multEl) multEl.textContent = '×' + levelMult(val).toFixed(2);
-    });
-  }
+  // 更新显示（refreshLevelUI 为全局函数，定义在 changeLevel 之后）
   refreshLevelUI('atk'); refreshLevelUI('def');
 
   syncModeBAutoFields();
@@ -1225,13 +1212,54 @@ function swapSpirits() {
 //   kind: 'atk' | 'def'  — 攻击能力等级 or 防御能力等级
 function changeLevel(side, kind, delta) {
   const key = side + (kind === 'atk' ? 'Atk' : 'Def') + 'Level'; // e.g. 'atkAtkLevel'
-  state[key] = (state[key] || 0) + delta;
+  // 能力等级范围限制在 -99 ~ 99（与输入框一致）
+  state[key] = Math.max(-99, Math.min(99, (state[key] || 0) + delta));
   const val = state[key];
   const valEl = document.getElementById(`${side}-${kind}level-val`);
   const multEl = document.getElementById(`${side}-${kind}level-mult`);
-  if (valEl) valEl.textContent = val >= 0 ? '+' + val : '' + val;
+  setLevelValEl(valEl, val);
   if (multEl) multEl.textContent = '×' + levelMult(val).toFixed(2);
   // 同步 Tab B 的能力等级倍率输入框（仅攻方攻击/防方防御）
+  if (side === 'atk' && kind === 'atk') {
+    const bEl = document.getElementById('atk-level-mult-b');
+    if (bEl) bEl.value = levelMult(val).toFixed(2);
+  }
+  if (side === 'def' && kind === 'def') {
+    const bEl = document.getElementById('def-level-mult-b');
+    if (bEl) bEl.value = levelMult(val).toFixed(2);
+  }
+  calc();
+  if (state.mode === 'FULL') calcFull();
+}
+
+// 能力等级显示元素兼容 helper（现为 number input，保留 span 兼容）
+function setLevelValEl(el, val) {
+  if (!el) return;
+  if (el.tagName === 'INPUT') el.value = val;
+  else el.textContent = val >= 0 ? '+' + val : '' + val;
+}
+
+// 全局刷新某侧两个能力等级的输入框与倍率显示
+function refreshLevelUI(side) {
+  ['atk','def'].forEach(kind => {
+    const key = side + (kind==='atk'?'Atk':'Def') + 'Level';
+    const val = state[key] || 0;
+    setLevelValEl(document.getElementById(`${side}-${kind}level-val`), val);
+    const multEl = document.getElementById(`${side}-${kind}level-mult`);
+    if (multEl) multEl.textContent = '×' + levelMult(val).toFixed(2);
+  });
+}
+
+// 直接输入能力等级（整数，非法输入回退 0），后续同步与 changeLevel 对齐
+function onLevelInput(side, kind, el) {
+  const v = parseInt(el.value, 10);
+  const key = side + (kind === 'atk' ? 'Atk' : 'Def') + 'Level';
+  // 能力等级范围限制在 -99 ~ 99
+  state[key] = Number.isNaN(v) ? 0 : Math.max(-99, Math.min(99, v));
+  el.value = state[key];
+  const val = state[key];
+  const multEl = document.getElementById(`${side}-${kind}level-mult`);
+  if (multEl) multEl.textContent = '×' + levelMult(val).toFixed(2);
   if (side === 'atk' && kind === 'atk') {
     const bEl = document.getElementById('atk-level-mult-b');
     if (bEl) bEl.value = levelMult(val).toFixed(2);
@@ -1509,6 +1537,57 @@ function readTraitOpts() {
 // 缓存当前精灵的全量伤害技能列表（flat，不分组）供过滤用
 let _comboAllSkills = [];  // [{skill对象}]
 
+// 技能下拉按属性分组渲染（默认折叠，点击组头展开/收缩，与精灵下拉一致）
+function buildSkillGroupHtml(groups, statusSkills) {
+  let html = '';
+  // 属性排序与精灵下拉一致（普通、草、火…，即 ALL_TYPES 顺序；未知属性排最后）
+  Object.keys(groups).sort((a, b) => {
+    const ia = ALL_TYPES.indexOf(a), ib = ALL_TYPES.indexOf(b);
+    return (ia === -1 ? ALL_TYPES.length : ia) - (ib === -1 ? ALL_TYPES.length : ib);
+  }).forEach(attr => {
+    const icon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[attr])
+      ? '<img src="' + TYPE_ICONS[attr] + '" alt="" class="type-tag-icon" loading="lazy" onerror="this.remove()">'
+      : '';
+    html += '<div class="dropdown-group-header" data-attr="' + attr + '" style="text-align:left;padding:4px 12px 2px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none">' +
+      icon +
+      '<span style="font-size:11px;color:var(--text2)">' + groups[attr].length + ' 个</span>' +
+      '<span class="type-tag" style="background:' + (TYPE_COLORS[attr] || '#888') + ';color:' + (TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff') + ';font-size:11px;margin-left:auto">' + attr + '</span>' +
+      '<span style="font-size:10px;color:var(--text2)" class="group-arrow">▶</span>' +
+      '</div>' +
+      '<div class="dropdown-group-body" data-attr="' + attr + '" style="display:none">' +
+        groups[attr].sort((a, b) => b.p - a.p).map(s => makeSkillItem(s)).join('') +
+      '</div>';
+  });
+  if (statusSkills.length) {
+    html += '<div class="dropdown-group-header" data-attr="__status__" style="text-align:left;padding:4px 12px 2px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none">' +
+      '<span style="font-size:11px;color:#80cbc4;font-weight:600">状态技能</span>' +
+      '<span style="font-size:11px;color:var(--text2)">' + statusSkills.length + ' 个</span>' +
+      '<span style="font-size:10px;color:var(--text2);margin-left:auto" class="group-arrow">▶</span>' +
+      '</div>' +
+      '<div class="dropdown-group-body" data-attr="__status__" style="display:none">' +
+        statusSkills.sort((a, b) => a.n.localeCompare(b.n, 'zh')).map(s => makeSkillItem(s)).join('') +
+      '</div>';
+  }
+  return html;
+}
+
+// 绑定技能下拉组头点击展开/收缩
+function bindSkillGroupToggle(container) {
+  container.querySelectorAll('.dropdown-group-header').forEach(hdr => {
+    // 阻止 mousedown 默认行为，避免 FULL 模式下 input 因失焦而关闭下拉
+    hdr.addEventListener('mousedown', e => e.preventDefault());
+    hdr.addEventListener('click', () => {
+      const attr = hdr.dataset.attr;
+      const body = container.querySelector('.dropdown-group-body[data-attr="' + attr + '"]');
+      if (!body) return;
+      const arrowEl = hdr.querySelector('.group-arrow');
+      const isOpen = body.style.display !== 'none';
+      body.style.display = isOpen ? 'none' : 'block';
+      if (arrowEl) arrowEl.textContent = isOpen ? '▶' : '▼';
+    });
+  });
+}
+
 function rebuildQuickSkillSelect() {
   // 重新构建 _comboAllSkills 并渲染面板（无过滤）
   const input = document.getElementById('skill-combo-input');
@@ -1549,29 +1628,14 @@ function renderComboPanel(q) {
       groups[a].push(e.skill);
     });
 
-    Object.keys(groups).sort().forEach(attr => {
-      const bg = TYPE_COLORS[attr] || '#888';
-      const tc = TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff';
-      html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
-        '<span class="type-tag" style="background:' + bg + ';color:' + tc + ';font-size:11px">' + attr + '</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + groups[attr].length + ' 个</span>' +
-        '</div>';
-      groups[attr].sort((a, b) => b.p - a.p).forEach(s => { html += makeSkillItem(s); });
-    });
-
-    if (statusSkills.length) {
-      html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
-        '<span style="font-size:11px;color:#80cbc4;font-weight:600">状态技能</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusSkills.length + ' 个</span>' +
-        '</div>';
-      statusSkills.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s); });
-    }
+    html = buildSkillGroupHtml(groups, statusSkills);
   } else {
     // 有输入时：扁平列表
     filtered.forEach(e => { html += makeSkillItem(e.skill); });
   }
 
   dd.innerHTML = html;
+  bindSkillGroupToggle(dd);
   dd.querySelectorAll('.skill-lib-item').forEach(item => {
     item.addEventListener('mousedown', e => {
       e.preventDefault();
@@ -1582,18 +1646,20 @@ function renderComboPanel(q) {
 }
 
 function makeSkillItem(skill) {
-  const sbg       = TYPE_COLORS[skill.a] || '#888';
-  const stc       = TYPE_TEXT_DARK.has(skill.a) ? '#333' : '#fff';
   const isStatus  = skill.k === '状态';
   const kindColor = skill.k === '物攻' ? '#ff9966' : skill.k === '魔攻' ? '#88aaff' : '#80cbc4';
+  // 属性仅以图标展示在技能名称前（悬停 title 显示属性名），不再用图标+属性名标签
+  const attrIcon  = (!isStatus && typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[skill.a])
+    ? '<img src="' + TYPE_ICONS[skill.a] + '" alt="' + skill.a + '" title="' + skill.a + '系" class="type-tag-icon" loading="lazy" onerror="this.remove()">'
+    : '';
   const attrTag   = isStatus
     ? '<span class="sli-kind" style="color:#80cbc4;font-weight:600">状态</span>'
-    : '<span class="type-tag" style="background:' + sbg + ';color:' + stc + '">' + skill.a + '</span>' +
-      '<span class="sli-kind" style="color:' + kindColor + ';font-weight:600">' + skill.k + '</span>';
+    : '<span class="sli-kind" style="color:' + kindColor + ';font-weight:600">' + skill.k + '</span>';
   const powerTag  = isStatus
     ? '<span class="sli-power" style="color:var(--text2)">威力 --</span>'
     : '<span class="sli-power">威力 ' + skill.p + '</span>';
   return '<div class="skill-lib-item" data-name="' + skill.n + '">' +
+    attrIcon +
     '<span class="sli-name">' + skill.n + '</span>' +
     attrTag +
     powerTag +
@@ -1664,8 +1730,11 @@ function applyQuickSkill(skill) {
   document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('selected', b.textContent === skill.a));
   syncModeBAutoFields();
   updatePowerTip();
-  document.getElementById('skill-selected-info').textContent =
-    '已选：' + skill.n + ' | ' + skill.a + '属性 | ' + skill.k + ' | 基础威力 ' + skill.p;
+  const selIcon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[skill.a])
+    ? '<img src="' + TYPE_ICONS[skill.a] + '" alt="' + skill.a + '" title="' + skill.a + '系" class="type-tag-icon" onerror="this.remove()">'
+    : '';
+  document.getElementById('skill-selected-info').innerHTML =
+    '已选：' + selIcon + skill.n + ' | ' + skill.a + '属性 | ' + skill.k + ' | 基础威力 ' + skill.p;
   const descEl = document.getElementById('skill-desc-info');
   if (descEl) {
     descEl.textContent = (skill.desc || '暂无描述');
@@ -2154,6 +2223,17 @@ function buildTypeSelector(containerId) {
 // ============================================================
 // SPIRIT SEARCH
 // ============================================================
+// 属性标签：属性图标 + 属性名（图标加载失败时降级为纯文字；extraStyle 追加内联样式）
+function typeTagHtml(type, extraStyle) {
+  if (!type) return '';
+  const bg = TYPE_COLORS[type] || '#888';
+  const tc = TYPE_TEXT_DARK.has(type) ? '#333' : '#fff';
+  const icon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[type])
+    ? `<img src="${TYPE_ICONS[type]}" alt="" class="type-tag-icon" loading="lazy" onerror="this.remove()">`
+    : '';
+  return `<span class="type-tag" style="background:${bg};color:${tc};${extraStyle || ''}">${icon}${type}</span>`;
+}
+
 function typeChip(type) {
   if (!type) return '';
   const bg = TYPE_COLORS[type] || '#888';
@@ -2254,12 +2334,14 @@ function setupSearch(side) {
       let html = '';
       const sortedKeys = Object.keys(groups).filter(k => groups[k].length > 0);
       sortedKeys.forEach(attr => {
-        const bg = TYPE_COLORS[attr] || '#888';
-        const tc = TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff';
+        const icon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[attr])
+          ? '<img src="' + TYPE_ICONS[attr] + '" alt="" class="type-tag-icon" loading="lazy" onerror="this.remove()">'
+          : '';
         html += '<div class="dropdown-group-header" data-attr="' + attr + '" style="padding:4px 12px 2px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none">' +
-          '<span class="type-tag" style="background:' + bg + ';color:' + tc + ';font-size:11px">' + attr + '</span>' +
+          icon +
           '<span style="font-size:11px;color:var(--text2)">' + groups[attr].length + ' 只</span>' +
-          '<span style="font-size:10px;color:var(--text2);margin-left:auto" class="group-arrow">▶</span>' +
+          '<span class="type-tag" style="background:' + (TYPE_COLORS[attr] || '#888') + ';color:' + (TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff') + ';font-size:11px;margin-left:auto">' + attr + '</span>' +
+          '<span style="font-size:10px;color:var(--text2)" class="group-arrow">▶</span>' +
         '</div>' +
         '<div class="dropdown-group-body" data-attr="' + attr + '" style="display:none">' +
           groups[attr].map(s => makeSpiritItem(s)).join('') +
@@ -2297,8 +2379,8 @@ function setupSearch(side) {
     const thumb = s.img
       ? `<img src="${s.img}" alt="${s.n}" loading="lazy" style="width:28px;height:28px;object-fit:contain;border-radius:5px;vertical-align:middle" onerror="this.replaceWith(document.createTextNode('${getEmoji(s.a1)}'))">`
       : getEmoji(s.a1);
-    const tag1 = `<span class="type-tag" style="background:${TYPE_COLORS[s.a1]||'#888'};color:${TYPE_TEXT_DARK.has(s.a1)?'#333':'#fff'}">${s.a1}</span>`;
-    const tag2 = s.a2 ? `<span class="type-tag" style="background:${TYPE_COLORS[s.a2]||'#888'};color:${TYPE_TEXT_DARK.has(s.a2)?'#333':'#fff'}">${s.a2}</span>` : '';
+    const tag1 = typeTagHtml(s.a1);
+    const tag2 = s.a2 ? typeTagHtml(s.a2) : '';
     return `<div class="dropdown-item" data-name="${s.n}">
       <span class="dd-thumb">${thumb}</span>
       <span class="item-name">${s.n}</span>
@@ -2621,28 +2703,14 @@ function openFskDropdown(side, idx) {
       if (!groups[a]) groups[a] = [];
       groups[a].push(e.skill);
     });
-    Object.keys(groups).sort().forEach(attr => {
-      const bg = TYPE_COLORS[attr] || '#888';
-      const tc = TYPE_TEXT_DARK.has(attr) ? '#333' : '#fff';
-      html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
-        '<span class="type-tag" style="background:' + bg + ';color:' + tc + ';font-size:11px">' + attr + '</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + groups[attr].length + ' 个</span>' +
-        '</div>';
-      groups[attr].sort((a, b) => b.p - a.p).forEach(s => { html += makeSkillItem(s); });
-    });
-    if (statusSkills.length) {
-      html += '<div class="skill-lib-separator" style="text-align:left;padding:4px 12px 2px">' +
-        '<span style="font-size:11px;color:#80cbc4;font-weight:600">状态技能</span>' +
-        '<span style="font-size:11px;color:var(--text2);margin-left:6px">' + statusSkills.length + ' 个</span>' +
-        '</div>';
-      statusSkills.sort((a, b) => a.n.localeCompare(b.n, 'zh')).forEach(s => { html += makeSkillItem(s); });
-    }
+    html = buildSkillGroupHtml(groups, statusSkills);
   } else {
     // 有输入：扁平列表
     filtered.forEach(e => { html += makeSkillItem(e.skill); });
   }
 
   drop.innerHTML = html;
+  bindSkillGroupToggle(drop);
   drop.querySelectorAll('.skill-lib-item').forEach(item => {
     item.addEventListener('mousedown', e => {
       e.preventDefault();
@@ -3351,7 +3419,7 @@ function renderFavoriteGroup() {
         ${bgHtml}
         <div class="fav-item-body">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-            <span class="fav-item-name" style="font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${label}</span>
+            <span class="fav-item-name" title="${label}" style="font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${label}</span>
             <button class="fav-item-del" data-del-id="${f.id}" title="删除">✕</button>
           </div>
           <div style="display:flex;gap:6px">

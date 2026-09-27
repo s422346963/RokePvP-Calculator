@@ -34,4 +34,26 @@ const TYPE_COLORS = {
 };
 const TYPE_TEXT_DARK = new Set(['光','冰','电','武','翼','萌','幽','幻']);
 
+// 属性图标（来源：https://wiki.biligame.com/nrc/ ，BWiki patchwiki 图床原图，约 55×56）
+const TYPE_ICONS = {
+  '普通': 'https://patchwiki.biligame.com/images/nrc/3/35/b0gigz0reegycqg40ik3jayo5vhi4m1.png',
+  '草':   'https://patchwiki.biligame.com/images/nrc/b/b8/8fh2oym6ldwadc3qr2ynh2d8ramdqwp.png',
+  '火':   'https://patchwiki.biligame.com/images/nrc/5/56/0nfa46urnn7qjjhanyjvj1hq3n6ady6.png',
+  '水':   'https://patchwiki.biligame.com/images/nrc/7/73/43q0k2tn3u1qow3unucnvwx4p3ruycu.png',
+  '光':   'https://patchwiki.biligame.com/images/nrc/e/eb/5d81xmmo6mwavqvbdhp1xevcp5e2rrq.png',
+  '地':   'https://patchwiki.biligame.com/images/nrc/c/cf/sydcj72coawh39cyebnb8wiadq4d7a1.png',
+  '冰':   'https://patchwiki.biligame.com/images/nrc/5/54/tw7z68vd0r2fivv5i72y80wicgfifxk.png',
+  '龙':   'https://patchwiki.biligame.com/images/nrc/c/c9/07lk3hkjg5585rpbxjev3864e7zz4vj.png',
+  '电':   'https://patchwiki.biligame.com/images/nrc/0/05/74v3mn737sst6nyhu1qx0f9nx9z7cnf.png',
+  '毒':   'https://patchwiki.biligame.com/images/nrc/a/a5/nsgv1ypvaylyeg7pj3b4zsht16j5i0l.png',
+  '虫':   'https://patchwiki.biligame.com/images/nrc/8/8b/1f6jbb1cq4gkas862yg5xzoupu21vgh.png',
+  '武':   'https://patchwiki.biligame.com/images/nrc/a/a7/pr4f0yt60heec1o0ghwex1ov91obz9s.png',
+  '翼':   'https://patchwiki.biligame.com/images/nrc/8/82/3izgedbios6n3xaui4whtwp5oytikf2.png',
+  '萌':   'https://patchwiki.biligame.com/images/nrc/6/6a/mj0letus7ogg5un813ogfg8egg7lmt5.png',
+  '幽':   'https://patchwiki.biligame.com/images/nrc/7/7f/hws03uwn2esdbipchpb495tolpedud9.png',
+  '恶':   'https://patchwiki.biligame.com/images/nrc/4/47/sqaucq4ijmrt8zb5wpl5btbqzvg9rkb.png',
+  '机械': 'https://patchwiki.biligame.com/images/nrc/b/b0/ectmfcsmc17y6gc9f9jpjrusme2zzo4.png',
+  '幻':   'https://patchwiki.biligame.com/images/nrc/a/a7/1regqkg6b5skl52c69w2rz48biu158j.png',
+};
+
 const ALL_TYPES = ['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'];
