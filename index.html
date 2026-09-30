@@ -2327,9 +2327,14 @@ function setupSearch(side) {
       const attrOrder = ['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'];
       attrOrder.forEach(a => { groups[a] = []; });
       SORTED_SPIRITS.forEach(s => {
-        const key = s.a1 || '其他';
-        if (!groups[key]) groups[key] = [];
-        groups[key].push(s);
+        const k1 = s.a1 || '其他';
+        if (!groups[k1]) groups[k1] = [];
+        groups[k1].push(s);
+        // 双属性精灵同时归入副属性分组（a1 === a2 时不重复）
+        if (s.a2 && s.a2 !== s.a1) {
+          if (!groups[s.a2]) groups[s.a2] = [];
+          groups[s.a2].push(s);
+        }
       });
       let html = '';
       const sortedKeys = Object.keys(groups).filter(k => groups[k].length > 0);
