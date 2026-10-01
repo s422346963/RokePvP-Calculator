@@ -475,11 +475,11 @@
           </div>
           <div class="mult-box">
             <div class="mult-box-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">攻击能力等级倍率（自动同步）</div>
-            <input class="mult-box-input" type="number" id="atk-level-mult-b" value="1.0" min="0.1" max="5" step="0.05" oninput="calc()" style="color:var(--accent)">
+            <input class="mult-box-input" type="number" id="atk-level-mult-b" value="1.0" readonly style="color:var(--accent)" title="随攻击能力等级自动同步，请调整上方能力等级">
           </div>
           <div class="mult-box">
             <div class="mult-box-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">防御能力等级倍率（自动同步）</div>
-            <input class="mult-box-input" type="number" id="def-level-mult-b" value="1.0" min="0.1" max="5" step="0.05" oninput="calc()" style="color:var(--def-color)">
+            <input class="mult-box-input" type="number" id="def-level-mult-b" value="1.0" readonly style="color:var(--def-color)" title="随防御能力等级自动同步，请调整上方能力等级">
           </div>
         </div>
         <div style="font-size:11px;color:#9aa0be;margin-top:6px">
@@ -566,7 +566,7 @@ function matchQuery(name, q){
 
 
 // 愿力冲击（全属性，每属性一条，k="双攻"表示取较高攻）
-['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'].forEach(t => SKILLS.push({"n":"愿力冲击("+t+")","a":t,"p":80,"k":"双攻","c":3}));
+['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'].forEach(t => SKILLS.push({"n":"愿力冲击("+t+")","a":t,"p":80,"k":"双攻","c":2}));
 
 
 const SORTED_SPIRITS = SPIRITS;
@@ -997,7 +997,6 @@ function calc() {
     const singleDmgA = (atkFinal / defFinal) * (37/41) * power * stabMult * extraMult * reduceMult;
     dmg = Math.floor(singleDmgA * hits);
     formulaStr = `(${f1(atkFinal)} / ${f1(defFinal)}) × 37/41 × ${power}` +
-      (stabMult > 1 ? ` × 1.25(本系)` : '') +
       (extraMult !== 1 ? ` × ${extraMult}(其他)` : '') +
       (reduceMult < 1 ? ` × ${f2(reduceMult)}(减伤)` : '') +
       (hits > 1 ? ` × ${hits}连击` : '') +
@@ -1011,8 +1010,6 @@ function calc() {
     const hitsB = Math.max(1, parseInt(document.getElementById('hits-input-b').value) || 1);
     typeEff    = parseFloat(document.getElementById('type-eff-b').value) || 1;
     stabMult   = parseFloat(document.getElementById('stab-mult-b').value) || 1;
-    const atkLvB = parseFloat(document.getElementById('atk-level-mult-b').value) || 1;
-    const defLvB = parseFloat(document.getElementById('def-level-mult-b').value) || 1;
     atkTraitMult = parseFloat(document.getElementById('trait-mult-b').value) || 1;
     defTraitMult = parseFloat(document.getElementById('trait-def-mult-b') ? document.getElementById('trait-def-mult-b').value : 1) || 1;
     traitMult  = atkTraitMult * defTraitMult;
@@ -1070,6 +1067,15 @@ function calc() {
     ? '<span style="font-size:11px;background:rgba(124,107,255,.25);color:#a89fff;border:1px solid rgba(124,107,255,.4);padding:1px 8px;border-radius:8px;margin-left:6px">模式A</span>'
     : '<span style="font-size:11px;background:rgba(255,107,157,.25);color:#ff9bbf;border:1px solid rgba(255,107,157,.4);padding:1px 8px;border-radius:8px;margin-left:6px">模式B</span>';
 
+  // 攻防属性行：模式A不吃能力等级（atkFinal===atkBase），不显示 "× 1.00 =" 这类未参与运算的倍率；
+  // 模式B仅当倍率实际生效（≠1）时才展开 "基础 × 倍率 = 最终"
+  const atkLvActive = state.mode === 'B' && atkMult !== 1;
+  const defLvActive = state.mode === 'B' && defMult !== 1;
+  const atkBreak = atkLvActive ? `${atkBase} × ${f2(atkMult)} = ${f1(atkFinal)}` : `${f1(atkFinal)}`;
+  const defBreak = defLvActive ? `${defBase} × ${f2(defMult)} = ${f1(defFinal)}` : `${f1(defFinal)}`;
+  const atkLvSuffix = atkLvActive ? `（等级${alStr}）` : '';
+  const defLvSuffix = defLvActive ? `（等级${dlStr}）` : '';
+
   rp.innerHTML = `
     <div style="margin-bottom:16px">
       <div style="font-size:11px;color:var(--text2);margin-bottom:4px;display:flex;align-items:center">
@@ -1100,8 +1106,8 @@ function calc() {
 
     <div class="breakdown">
       ${(()=>{ const hId = state.mode==='B' ? 'hits-input-b' : 'hits-input'; const h=parseInt(document.getElementById(hId).value)||1; return h>1?`<div class="breakdown-item"><span class="bi-label">连击</span><span class="bi-val highlight">×${h}次（单次 ${f1(dmg/h)}）</span></div>`:''; })()}
-      <div class="breakdown-item"><span class="bi-label">${asLabel}（等级${alStr}）</span><span class="bi-val highlight">${atkBase} × ${f2(atkMult)} = ${f1(atkFinal)}</span></div>
-      <div class="breakdown-item"><span class="bi-label">${dsLabel}（等级${dlStr}）</span><span class="bi-val highlight">${defBase} × ${f2(defMult)} = ${f1(defFinal)}</span></div>
+      <div class="breakdown-item"><span class="bi-label">${asLabel}${atkLvSuffix}</span><span class="bi-val highlight">${atkBreak}</span></div>
+      <div class="breakdown-item"><span class="bi-label">${dsLabel}${defLvSuffix}</span><span class="bi-val highlight">${defBreak}</span></div>
       <div class="breakdown-item"><span class="bi-label">威力</span><span class="bi-val">${power}</span></div>
       <div class="breakdown-item"><span class="bi-label">攻防比 × 37/41</span><span class="bi-val">${f3(atkFinal/defFinal*(37/41))}</span></div>
       ${state.mode==='B' ? `
@@ -2635,7 +2641,7 @@ function buildFullSkillRows(side) {
       background: '#444', color: '#fff', fontSize: '12px',
       fontWeight: '700', lineHeight: '1', cursor: 'pointer', position: 'relative'
     });
-    const isYuanli = skillObj && skillObj.n === '愿力冲击';
+    const isYuanli = skillObj && skillObj.n.startsWith('愿力冲击');
     const fskTipHtml = skillObj ? getFskPowerTipHTML(skillObj.n) : null;
     if (isYuanli) {
       const boost = slotData && slotData.yuanliBoost;
@@ -2747,6 +2753,7 @@ function selectFskSkill(side, idx, sk) {
 
 function selectFullSkill(side, idx) {
   fullState[side + 'Sel'] = idx;  // 始终选中，不 toggle
+  updateStarMarksFullState();
   buildFullSkillRows(side);
   buildFullSkillRows(side === 'atk' ? 'def' : 'atk');
   renderFullResult();
@@ -2772,8 +2779,8 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
     ? ((atkSpirit.patk || atkSpirit.pa || 0) >= (atkSpirit.matk || atkSpirit.ma || 0))
     : sk.k === '物攻';
   // 愿力冲击：对方使用状态技能时威力×2.5（150%提升）
-  const isYuanliSkill = sk.n === '愿力冲击';
-  const basePowerOverride = isYuanliSkill ? sk.p : undefined;
+  // 技能名带属性后缀（如 愿力冲击(火)），需用前缀匹配识别
+  const isYuanliSkill = sk.n.startsWith('愿力冲击');
   const atkBaseRaw = atkSpirit[isPhys ? 'patk' : 'matk'] || atkSpirit.pa || atkSpirit.ma;
   const defBaseRaw = defSpirit[isPhys ? 'pdef' : 'mdef'] || defSpirit.pd || defSpirit.md;
   // 能级倍率：按精灵身份 × 当前角色（攻/防）分别取对应等级
@@ -2845,14 +2852,32 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   if (starMarks > 0) {
     starPower = starMarks * starMarks + 24 * starMarks - 24;
     const starTypeEff = getTypeEff('幻', defSpirit.a1, defSpirit.a2 || '');
-    starDmg = Math.floor((atkBase / defBase) * (37/41) * starPower * starTypeEff * reduceMult * traitMult * extraMult);
+    // 星陨为独立追加伤害：不吃攻防特性与额外倍率（与 A/B 公式对齐）
+    starDmg = Math.floor((atkBase / defBase) * (37/41) * starPower * starTypeEff * reduceMult);
   }
   const totalDmg = dmg + starDmg;
   const totalPct = defHp > 0 ? totalDmg / defHp * 100 : 0;
 
-  return { dmg, pct, totalDmg, totalPct, typeEff, stabMult, reduceMult, power: yuanliPower, hits, isPhys,
+  return { dmg, pct, totalDmg, totalPct, typeEff, stabMult, reduceMult, extraMult, power: yuanliPower, hits, isPhys,
            starMarks, starPower, starDmg, starPct: defHp > 0 ? starDmg / defHp * 100 : 0,
            isYuanliSkill, yuanliBoost: !!(isYuanliSkill && skillSlot.yuanliBoost), atkTrMult: _atkTrMultFinal, defTrMult: _defTrMultFinal };
+}
+
+// FULL 模式：按当前攻方选中技能禁用/恢复星陨印记输入框（与 A/B 行为对齐，仅 UI 状态，不影响数值）
+function updateStarMarksFullState() {
+  const el = document.getElementById('star-marks-full');
+  if (!el) return;
+  let skill = null;
+  if (typeof fullState !== 'undefined') {
+    const selIdx = fullState.atkSel >= 0 ? fullState.atkSel : 0;
+    for (let i = selIdx; i < 4; i++) {
+      if (fullState.atk[i] && fullState.atk[i].skill) { skill = fullState.atk[i].skill; break; }
+    }
+  }
+  const isPhantom = !!(skill && (skill.a || '') === '幻');
+  el.disabled = isPhantom;
+  el.title = isPhantom ? '幻系技能不触发星陨印记' : '';
+  el.style.opacity = isPhantom ? '0.4' : '';
 }
 
 function calcFull() {
@@ -2863,6 +2888,7 @@ function calcFull() {
     autoUpdateTraitUI();
     calcFull._updating = false;
   }
+  updateStarMarksFullState();
 
   // 更新精灵名
   const atkNameEl = document.getElementById('full-atk-name');
@@ -2986,6 +3012,7 @@ function renderFullResult() {
         + (res.stabMult > 1 ? ` × 1.25(本系)` : '')
         + (res.atkTrMult && res.atkTrMult !== 1 ? ` × ${f2(res.atkTrMult)}(攻方特性)` : '')
         + (res.defTrMult && res.defTrMult !== 1 ? ` × ${f2(res.defTrMult)}(防方特性)` : '')
+        + (res.extraMult && res.extraMult !== 1 ? ` × ${res.extraMult}(其他)` : '')
         + (res.reduceMult < 1 ? ` × ${f2(res.reduceMult)}(减伤)` : '')
         + (res.hits > 1 ? ` × ${res.hits}连击` : '')
         + ` = ${f1(res.dmg)}`;

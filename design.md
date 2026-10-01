@@ -53,7 +53,6 @@
 | 页面 | 文件 | 职责 |
 |------|------|------|
 | 计算器主页 | `index.html` | 全部核心 UI 与计算 |
-| 讨论区 | `discus.html` | Giscus 评论 + 返回主页 |
 
 ---
 
@@ -514,7 +513,6 @@ theme → localStorage['theme']
 | `css/head.css` | 主题 token、布局、组件样式、响应式 |
 | `index.html` | 结构、内联提示样式、结果 DOM 模板 |
 | `data/type.js` | `TYPE_COLORS` / 属性色源 |
-| `discus.html` | 讨论区独立页（更轻的 header + Giscus） |
 
 ---
 

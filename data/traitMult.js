@@ -36,12 +36,6 @@ defineAtkTraitRule(['挺起胸脯', '“国王”的威严'], () => [],
 defineAtkTraitRule(['勇敢'], () => [],
   ctx => ctx.skCost > 3 ? { f: 1.4, d: '能耗>3→威力×1.4' } : null);
 
-defineAtkTraitRule(['鼓气'], () => [],
-  ctx => ctx.skCost === 3 && ctx.opts.activated ? { f: 1.2, d: '能耗3→攻防×1.2' } : null);
-
-defineAtkTraitRule(['水翼飞升'], () => [],
-  ctx => ctx.skCost === 0 ? { f: 1.3, d: '能耗0→威力×1.3' } : null);
-
 // ------------------------------------------------------------
 // 出手先后类（需勾选：是否先手）
 // ------------------------------------------------------------
@@ -61,21 +55,41 @@ defineAtkTraitRule(['涂鸦'], () => [],
   ctx => ctx.skAttr && ctx.skAttr !== ctx.atkA1 && ctx.skAttr !== ctx.atkA2
     ? { f: 1.5, d: '非本系→威力×1.5' } : null);
 
-defineAtkTraitRule(['不移'], () => [],
-  ctx => ctx.opts.noEffect !== false ? { f: 1.3, d: '无额外效果→威力×1.3' } : null);
-
 // ------------------------------------------------------------
 // “激活”开关类（需勾选）
 // ------------------------------------------------------------
 defineAtkTraitRule(['圣火骑士'], () => [ck('activated', '条件已触发', false)],
   ctx => ctx.opts.activated ? { f: 2.0, d: '应对成功后→威力×2.0' } : null);
 
-defineAtkTraitRule(['最好的伙伴'], () => [ck('activated', '条件已触发', false)],
-  ctx => ctx.opts.activated ? { f: 1.2, d: '克制触发后→攻防速×1.2' } : null);
-
 defineAtkTraitRule(['专注力'], () => [ck('activated', '特性激活（首回合）', true)],
   ctx => ctx.opts.activated ? { f: 2.0, d: '入场首回合→物攻×2.0' } : null);
 
+defineAtkTraitRule(['不移'], () => [ck('activated', '本次技能无额外效果', true)],
+  ctx => ctx.opts.activated !== false ? { f: 1.3, d: '无额外效果→威力×1.3' } : null);
+
+defineAtkTraitRule(['水翼飞升'], () => [ck('activated', '本次技能能耗为0', true)],
+  ctx => ctx.opts.activated !== false ? { f: 1.3, d: '能耗0→威力×1.3' } : null);
+  
+defineAtkTraitRule(['壮胆'], () => [ck('activated', '队伍存在虫系精灵', true)],
+  ctx => ctx.opts.activated ? { f: 1.5, d: '队伍有虫系→双攻×1.5' } : null);
+
+defineAtkTraitRule(['得寸进尺'], () => [ck('rainy', '天气为雨天', false)],
+  ctx => ctx.opts.rainy ? { f: 2.0, d: '雨天→双攻×2.0' } : null);
+
+defineAtkTraitRule(['天通地明'], () => [ck('enemyIsPolluted', '敌方是污染血脉', false)],
+  ctx => ctx.opts.enemyIsPolluted ? { f: 2.0, d: '敌污染血脉→威力×2.0' } : null);
+
+// ------------------------------------------------------------
+// 叠加类（需填写）
+// ------------------------------------------------------------
+defineAtkTraitRule(['最好的伙伴'],
+  () => [num('stackCount', '克制触发次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.2 * n;
+    return { f: m, d: '克制触发' + n + '次→攻防速+20%×' + n + '（×' + m.toFixed(2) + '）' };
+  });
 // 助燃 / 爆燃：己方每用1次火系技能，双攻分别 +20%/+30%/层，线性叠加（f=1+0.2N / 1+0.3N，非乘性）
 defineAtkTraitRule(['助燃'],
   () => [num('stackCount', '己方已使用火系技能次数', 0, 0, 999)],
@@ -95,14 +109,14 @@ defineAtkTraitRule(['爆燃'],
     return { f: m, d: '火系技能' + n + '次→双攻+30%×' + n + '（×' + m.toFixed(2) + '）' };
   });
 
-defineAtkTraitRule(['壮胆'], () => [ck('activated', '队伍存在虫系精灵', true)],
-  ctx => ctx.opts.activated ? { f: 1.5, d: '队伍有虫系→双攻×1.5' } : null);
-
-defineAtkTraitRule(['得寸进尺'], () => [ck('rainy', '天气为雨天', false)],
-  ctx => ctx.opts.rainy ? { f: 2.0, d: '雨天→双攻×2.0' } : null);
-
-defineAtkTraitRule(['天通地明'], () => [ck('enemyIsPolluted', '敌方是污染血脉', false)],
-  ctx => ctx.opts.enemyIsPolluted ? { f: 2.0, d: '敌污染血脉→威力×2.0' } : null);
+defineAtkTraitRule(['鼓气'],
+  () => [num('stackCount', '已累积触发次数', 0, 0, 999)],
+  ctx => {
+    const n = ctx.opts.stackCount || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.2 * n;
+    return { f: m, d: '能耗3技能' + n + '次→双攻+20%×' + n + '（×' + m.toFixed(2) + '）' };
+  });
 
 // ------------------------------------------------------------
 // 观星 / 坠星：敌印记层数叠加（需输入层数）
@@ -223,7 +237,7 @@ defineAtkTraitRule(['指挥家'], () => [num('stackCount', '已累积触发次�
 
 defineAtkTraitRule(['三鼓作气'], () => [num('stackCount', '已累积触发次数', 0, 0, 10)],
   ctx => {
-    if (ctx.skCost === 3 && (ctx.opts.stackCount || 0) > 0) {
+    if ((ctx.opts.stackCount || 0) > 0) {
       const m = 1 + 0.2 * ctx.opts.stackCount;
       return { f: m, d: '三鼓' + ctx.opts.stackCount + '次→攻防×' + m.toFixed(2) };
     }
