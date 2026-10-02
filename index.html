@@ -543,6 +543,7 @@
 <script src="data/type.js"></script>
 <script src="data/traitMult.js"></script>
 <script src="data/pinyin.js"></script>
+<script src="data/spiritsPvP.js"></script>
 
 <script>
 
@@ -2305,6 +2306,27 @@ function applySpirit_global(side, spirit) {
   if (input) input.value = spirit.n;
   if (dd) dd.classList.remove('open');
   if (arrow) arrow.textContent = '▼';
+
+  // 选中精灵后自动套用 PVP 推荐（性格 + 个体值）
+  const pvp = (typeof SPIRITS_PVP !== 'undefined' && SPIRITS_PVP[spirit.n]) ? SPIRITS_PVP[spirit.n] : null;
+
+  // 性格：取第一个推荐；无记录则保持普通
+  const natSel = document.getElementById(side + '-nature');
+  if (natSel) {
+    const recNat = (pvp && pvp.n && pvp.n[0]) || null;
+    natSel.value = (recNat && NATURE_TABLE[recNat]) ? recNat : 'neutral';
+  }
+
+  // 个体值：推荐 v 中的属性设为 60，其余设为 0
+  if (pvp && Array.isArray(pvp.v)) {
+    // 数据缩写 pa/ma/pd/md/sp/hp → 个体值按钮 id 后缀 patk/matk/pdef/mdef/spd/hp
+    const IV_MAP = { hp:'hp', pa:'patk', ma:'matk', pd:'pdef', md:'mdef', sp:'spd' };
+    const recIv = pvp.v.map(x => IV_MAP[x]).filter(Boolean);
+    ['hp','patk','matk','pdef','mdef','spd'].forEach(k => {
+      setIv(side + '-iv-' + k, recIv.includes(k) ? 60 : 0);
+    });
+  }
+
   renderCard(side, side === 'atk' ? state.atk : state.def);
   if (side === 'atk') setAtkStat(state.skillType === 'physical' ? 'patk' : 'matk', false);
   if (side === 'def') setDefStat(state.skillType === 'physical' ? 'pdef' : 'mdef', false);
