@@ -16,10 +16,6 @@
     --result-bg: linear-gradient(135deg, var(--card) 0%, #2a1a5e 100%);
     --skill-lib-bg: #1e2038;
   }
-  [data-theme="light"] .power-tip-box {
-    background: rgba(180,130,0,.08) !important;
-    border-color: rgba(180,130,0,.4) !important;
-  }
   [data-theme="light"] .trait-desc-box {
     background: rgba(30,120,50,.07) !important;
     border-color: rgba(30,120,50,.35) !important;
@@ -279,6 +275,24 @@
   .skill-lib-item .sli-name { flex: 1; }
   .skill-lib-item .sli-power { font-weight: 700; color: var(--atk-color); font-size: 13px; }
   .skill-lib-item .sli-kind { font-size: 11px; color: var(--text2); }
+  /* 模式 B「已选：XX」后的技能说明图标：圆圈感叹号，悬停展示、移开即隐藏 */
+  .skill-tip-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 15px; height: 15px; margin-left: 5px; flex-shrink: 0;
+    border-radius: 50%; border: 1px solid var(--border); background: var(--card2);
+    color: var(--text2); font-size: 10px; font-weight: 700; line-height: 1;
+    cursor: help; position: relative; vertical-align: middle;
+  }
+  .skill-tip-icon:hover { color: var(--atk-color); border-color: var(--atk-color); }
+  .skill-tip-icon .skill-tooltip {
+    display: none; position: absolute; bottom: calc(100% + 6px); left: -4px;
+    min-width: 200px; max-width: 280px; padding: 10px 12px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    font-size: 11px; font-weight: 400; color: var(--text); line-height: 1.5;
+    text-align: left; z-index: 400;
+    box-shadow: 0 6px 18px rgba(0,0,0,.28);
+  }
+  .skill-tip-icon:hover .skill-tooltip { display: block; }
   .mult-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 10px; }
   .mult-box { background: var(--bg); border-radius: 8px; padding: 8px 10px; border: 1px solid var(--border); }
   .mult-box-label { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
@@ -316,9 +330,12 @@
   .full-skill-side-title { font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
   /* ── fsk 技能表格：独立 header + row，统一 grid 列宽 ── */
   .fsk-grid-container { display: block; } /* 回退，不用大grid */
-  .fsk-header-row { display: grid; grid-template-columns: 1fr 50px 50px 44px 52px 56px 28px; gap: 6px; padding: 3px 11px 4px 11px; /* 与 fsk-row-bg 的 padding+border 对齐 */ }
+  /* 8 列：技能 / 类型 / 属性 / 能耗 / 连击 / 威力 / 修正威力 / 备注
+     ⚠️ 行内共有 8 个格子 + 修正栏（独占一行）。此前模板只写了 7 列，
+        行内最后一个「备注 ?」被挤到第二个网格行，导致每行凭空多出一行高度 */
+  .fsk-header-row { display: grid; grid-template-columns: 1fr 46px 44px 38px 46px 50px 46px 22px; gap: 6px; padding: 3px 11px 4px 11px; /* 与 fsk-row-bg 的 padding+border 对齐 */ }
   .fsk-header-cell { font-size: 10px; color: var(--text2); text-align: center; white-space: nowrap; }
-  .fsk-row-bg { display: grid; grid-template-columns: 1fr 50px 50px 44px 52px 56px 28px; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; transition: background .12s; position: relative; }
+  .fsk-row-bg { display: grid; grid-template-columns: 1fr 46px 44px 38px 46px 50px 46px 22px; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; transition: background .12s; position: relative; }
   .fsk-row-bg:hover { background: var(--card2); }
   .fsk-row-bg.selected { border-color: var(--accent); background: rgba(124,107,255,.12); }
   .fsk-row { display: contents; } /* 兼容旧引用，不破坏 JS 逻辑 */
@@ -327,6 +344,10 @@
   .fsk-combo-wrap { display: flex; align-items: center; position: relative; min-width: 0; }
   .fsk-combo-input { flex: 1; min-width: 0; padding: 5px 22px 5px 8px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; cursor: pointer; box-sizing: border-box; }
   .fsk-combo-input:focus { outline: none; border-color: var(--accent); }
+  /* 已选项在框内只作「占位显示」（灰字）：点击即回到未选择状态，不按该名字过滤 */
+  .search-input.is-placeholder,
+  .skill-lib-search.is-placeholder,
+  .fsk-combo-input.is-placeholder { color: var(--text2); }
   .fsk-combo-arrow { position: absolute; right: 7px; top: 50%; transform: translateY(-50%); font-size: 9px; opacity: .5; pointer-events: none; }
   .fsk-combo-dropdown { display: none; position: absolute; z-index: 300; width: 220px; background: var(--skill-lib-bg); border: 1px solid var(--border); border-radius: 8px; max-height: 180px; overflow-y: auto; top: calc(100% + 2px); left: 0; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
   .fsk-combo-dropdown.open { display: block; }
@@ -481,7 +502,10 @@
   .t-normal{background:#9e9e9e;color:#fff}.t-grass{background:#66bb6a;color:#fff}
   .t-普通{background:#9e9e9e;color:#fff}.t-草{background:#66bb6a;color:#fff}.t-火{background:#ef5350;color:#fff}.t-水{background:#42a5f5;color:#fff}.t-光{background:#ffcc02;color:#333}.t-地{background:#a1887f;color:#fff}.t-冰{background:#80deea;color:#333}.t-龙{background:#7c4dff;color:#fff}.t-电{background:#ffca28;color:#333}.t-毒{background:#ab47bc;color:#fff}.t-虫{background:#9ccc65;color:#fff}.t-武{background:#ef9a9a;color:#333}.t-翼{background:#81d4fa;color:#333}.t-萌{background:#f48fb1;color:#fff}.t-幽{background:#5c6bc0;color:#fff}.t-恶{background:#4e342e;color:#fff}.t-机械{background:#78909c;color:#fff}.t-幻{background:#ce93d8;color:#333}
   /* ===== 特性双面板 ===== */
-  .trait-panels-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+  /* align-items:start —— 两个面板各自贴合内容高度。
+     默认的 stretch 会把内容少的一侧（如「宇宙之眼」当攻方：无生效条件、只有一条输入）
+     拉伸到与另一侧等高，面板底部出现一大块空白。 */
+  .trait-panels-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; align-items:start; }
   .trait-panel { border-radius:10px; overflow:hidden; border:1px solid var(--border); }
   .trait-panel-header { padding:6px 12px; font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px; }
   .trait-panel-atk .trait-panel-header { background:rgba(255,112,67,.18); color:var(--atk-color); border-bottom:1px solid rgba(255,112,67,.25); }
@@ -586,16 +610,16 @@
     /* 公式行 */
     .formula-row { font-size: 10px; word-break: break-all; }
 
-    /* 浮动威力框和威力输入框纵向排列 */
-    div[style*="display:flex;align-items:flex-start;gap:14px"] {
+    /* 模式B 手动输入行（基础威力 / 连击次数 / 威力修正）→ 纵向排列 */
+    .mode-param-row {
       flex-direction: column;
       gap: 8px;
     }
-    div[style*="display:flex;align-items:flex-start;gap:14px"] .mult-box {
+    .mode-param-row .mult-box {
       flex: 1 1 100% !important;
       max-width: 100% !important;
     }
-    #power-tip-b { width: 100%; }
+
 
     /* 特性说明框 */
     #trait-desc-b { width: 100%; }
@@ -657,6 +681,108 @@
     transform: translateX(-50%) !important;
     border: 5px solid transparent !important;
     border-top-color: #1f2937 !important;
+  }
+
+  /* ==========================================================
+     伤害公式升级（四层拆解 + 技能威力修正 + 特性攻防加成）
+     新增组件，沿用既有 CSS 变量与「攻橙防蓝」语义
+     ========================================================== */
+
+  /* ── 四层拆解分组 ── */
+  .breakdown-group { margin-bottom: 10px; }
+  .breakdown-group:last-child { margin-bottom: 0; }
+  .breakdown-group-title {
+    font-size: 11px; font-weight: 700; margin-bottom: 5px;
+    padding: 3px 9px; border-radius: 6px; display: inline-block;
+    border: 1px solid transparent;
+  }
+  .breakdown-group-title.layer-atk { color: var(--atk-color); background: rgba(255,167,38,.10); border-color: rgba(255,167,38,.28); }
+  .breakdown-group-title.layer-def { color: #42a5f5; background: rgba(66,165,245,.10); border-color: rgba(66,165,245,.28); }
+  .breakdown-group-title.layer-pw  { color: #ce93d8; background: rgba(206,147,216,.10); border-color: rgba(206,147,216,.28); }
+  .breakdown-group-title.layer-st  { color: var(--accent); background: rgba(124,107,255,.10); border-color: rgba(124,107,255,.28); }
+  .breakdown-group .breakdown-item { margin-bottom: 3px; }
+
+  /* ── 技能威力修正块（模式 B / FULL 技能槽共用）── */
+  /* 模式 B：该栏与「基础威力 / 连击次数」同一行（flex 项），空内容时不占位 */
+  #power-mod-b:empty { display: none; }
+  #power-mod-b .power-mod-box { margin-top: 0; }
+  .power-mod-box {
+    background: rgba(124,107,255,.05); border: 1px dashed rgba(124,107,255,.22);
+    border-radius: 8px; padding: 8px 10px; margin-top: 6px;
+  }
+  .power-mod-title { font-size: 10px; font-weight: 700; color: var(--atk-color); margin-bottom: 5px; }
+  .power-cond-row { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 6px; }
+  .power-cond-ck {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; cursor: pointer; white-space: nowrap; color: var(--text);
+  }
+  .power-cond-num { display: flex; align-items: center; gap: 4px; font-size: 11px; white-space: nowrap; color: var(--text2); }
+  .power-cond-num input {
+    width: 56px; padding: 2px 4px; background: var(--card2);
+    border: 1px solid var(--border); border-radius: 5px;
+    color: var(--atk-color); text-align: center; font-size: 11px; font-weight: 700;
+  }
+  .power-cond-num input:focus { outline: none; border-color: var(--atk-color); }
+  .power-mod-warn {
+    font-size: 10px; color: #ffa726; background: rgba(255,167,38,.10);
+    border: 1px solid rgba(255,167,38,.30); border-radius: 6px;
+    padding: 4px 8px; margin-bottom: 6px;
+  }
+
+  /* 修正链路：基础 → 修正 → 基数 → ×百分比 → ×倍率 → 终值 */
+  .power-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  .pc-item {
+    display: inline-flex; align-items: baseline; gap: 4px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 2px 7px; font-size: 11px;
+  }
+  .pc-item .pc-k { color: var(--text2); font-size: 10px; }
+  .pc-item .pc-v { color: var(--text); font-weight: 700; font-family: monospace; }
+  .pc-item.pc-final { border-color: rgba(124,107,255,.45); background: rgba(124,107,255,.08); }
+  .pc-item.pc-final .pc-v { color: var(--accent); }
+  .pc-arrow { color: var(--text2); font-size: 11px; }
+  /* 运算符号（乘法段 × / 加法段 +）与段落标签 */
+  .pc-op { color: var(--accent); font-size: 12px; font-weight: 700; }
+  .pc-seg-label {
+    width: 100%; font-size: 9px; font-weight: 700; letter-spacing: .5px;
+    color: var(--text2); opacity: .8; margin: 3px 0 1px;
+  }
+  .pc-note { width: 100%; font-size: 10px; color: var(--text2); margin-top: 3px; }
+
+  /* ── FULL 技能行：修正后威力只读列 + 内嵌条件区 ── */
+  .fsk-power-eff {
+    font-size: 11px; font-weight: 700; color: var(--text2);
+    text-align: center; font-family: monospace; min-width: 34px;
+  }
+  .fsk-power-eff.is-effected { color: #ce93d8; }
+  .fsk-cond-box { grid-column: 1 / -1; width: 100%; }
+  .fsk-cond-box .power-mod-box { margin-top: 2px; }
+  .fsk-cond-box .power-chain { margin-top: 2px; }
+  /* 空的修正栏不占网格行，避免多出 6px 行间距 */
+  .fsk-cond-box:empty { display: none; }
+  /* ── 威力修正栏的展开/收起（仅作用于修正栏本身）──
+     图标表示「点击后的动作」：收起时 ▲（点击展开）/ 展开时 ▼（点击收起）
+     位置：靠右，与「备注」列（第 8 列）中心对齐 —— 行/表头的右侧内边距都是 11px，
+     备注列宽 22px，因此 22px 宽 + margin-right:11px 即与之中心对齐 */
+  .cond-toggle {
+    cursor: pointer; color: var(--text2); font-size: 10px; line-height: 1;
+    padding: 2px 5px; margin-left: auto; margin-right: 11px;
+    min-width: 22px; box-sizing: border-box; text-align: center;
+    border: 1px solid var(--border); border-radius: 4px; user-select: none;
+  }
+  .cond-toggle:hover { color: var(--accent); border-color: var(--accent); }
+  .full-skill-side:not(.cond-open) .fsk-cond-box { display: none; }
+
+  /* 移动端 ≤700px：单列堆叠 */
+  @media (max-width: 700px) {
+    .breakdown-group-title { font-size: 10px; }
+    .power-chain { gap: 3px; }
+    .pc-item { padding: 2px 5px; font-size: 10px; }
+    .pc-arrow { font-size: 10px; }
+    .pc-op { font-size: 11px; }
+    .pc-seg-label { font-size: 8px; }
+    .power-cond-row { gap: 4px 8px; }
+    .fsk-power-eff { font-size: 10px; min-width: 28px; }
   }
   
   
