@@ -103,6 +103,7 @@
 
 - 所有用户可见文案为**简体中文**；文件编码 UTF-8（部分 CRLF 行尾）。终端输出中文出现乱码通常是显示端解码问题，文件本身有效，**不要"修复"编码**。
 - UI 遵循"攻橙防蓝"语义：攻击方暖色、防御方冷色，始终成对出现（详见 design.md）；**默认日间主题且刷新后不保留**切换结果。
+- 「其他额外倍率 / 星陨印记层数 / 防御方减伤」三组输入框是 `.num-combo` 数值下拉（A/B/FULL 各一份，共 9 个）：预设值由 input 的 `data-num-opts` 声明，`initNumCombos()`（`DOMContentLoaded` 调用）构建选项；点选项后写值并派发 `input` 事件以复用各模式原有的 `oninput`（`calc` / `calcFull`），仍允许自由输入，失焦时空/非数字回填 `defaultValue`。**布局约束**：`.mult-box` 是 `flex:0 0 auto`，宽度由内容（label + input 固有宽度）撑开，故这些 input 在 `head.css` 中固定为 `width:0; min-width:100%` —— 否则 `type=text` 的固有宽度会把整行撑宽（110px → 229px）；同时不要给它们加左右 padding。
 - `data/*.js` 不能移回 `<head>` 或加 `defer`：行内脚本在解析期立即执行并依赖这些全局常量，执行顺序颠倒会直接 ReferenceError 崩掉整个脚本。
 - 模式 A 不计算克制/本系/能级（威力已包含），不要"顺手补齐"；模式 B 的倍率框可手动覆盖自动值，`syncModeBAutoFields()` 只在切精灵/切属性时重填。
 - `st` 是特殊形态/阶段文本（如「首领」）而非进化阶段；`SORTED_SPIRITS` 只是 `SPIRITS` 的别名，不要假设它已排序。

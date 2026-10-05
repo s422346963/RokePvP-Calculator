@@ -345,17 +345,29 @@
         </div>
         <!-- 底部倍率行 -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">其他额外倍率</div>
-            <input class="mult-box-input" type="number" id="extra-mult-full" value="1.0" min="0.1" max="10" step="0.05" oninput="calcFull()">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-full" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calcFull()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">⭐ 星陨印记层数</div>
-            <input class="mult-box-input" type="number" id="star-marks-full" min="0" max="100" value="0" oninput="calcFull()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="star-marks-full" value="0" placeholder="0" autocomplete="off" data-num-opts="0,2,4,6,8,10" oninput="calcFull()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">🛡️ 防御方减伤 %</div>
-            <input class="mult-box-input" type="number" id="def-reduce-full" min="0" max="99" value="0" oninput="calcFull()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="def-reduce-full" value="0" placeholder="0" autocomplete="off" data-num-opts="0,50,70,80,90" oninput="calcFull()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
           <div class="trait-hint-box" style="flex:1;min-width:160px">
             <b>💡</b> 特性倍率自动计算，无需手动输入。<br>
@@ -399,17 +411,29 @@
         </div>
         <!-- 底部倍率行（与 FULL 模式一致） -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">其他额外倍率</div>
-            <input class="mult-box-input" type="number" id="extra-mult-a" value="1.0" min="0.1" max="10" step="0.05" oninput="calc()">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-a" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">⭐ 星陨印记层数</div>
-            <input class="mult-box-input" type="number" id="star-marks-a" min="0" max="100" value="0" oninput="calc()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="star-marks-a" value="0" placeholder="0" autocomplete="off" data-num-opts="0,2,4,6,8,10" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">🛡️ 防御方减伤 %</div>
-            <input class="mult-box-input" type="number" id="def-reduce" min="0" max="99" value="0" oninput="calc()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="def-reduce" value="0" placeholder="0" autocomplete="off" data-num-opts="0,50,70,80,90" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -534,17 +558,29 @@
         </div>
         <!-- 底部倍率行（与 FULL 模式一致：左参数 / 右提示） -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">其他额外倍率</div>
-            <input class="mult-box-input" type="number" id="extra-mult-b" value="1.0" min="0.1" max="10" step="0.05" oninput="calc()">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-b" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">⭐ 星陨印记层数</div>
-            <input class="mult-box-input" type="number" id="star-marks-b" min="0" max="100" value="0" oninput="calc()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="star-marks-b" value="0" placeholder="0" autocomplete="off" data-num-opts="0,2,4,6,8,10" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">🛡️ 防御方减伤 %</div>
-            <input class="mult-box-input" type="number" id="def-reduce-b" min="0" max="99" value="0" oninput="calc()" placeholder="0">
+            <div class="num-combo">
+              <input class="mult-box-input" type="text" inputmode="numeric" id="def-reduce-b" value="0" placeholder="0" autocomplete="off" data-num-opts="0,50,70,80,90" oninput="calc()">
+              <span class="num-combo-arrow">▼</span>
+              <div class="num-combo-dropdown"></div>
+            </div>
           </div>
           <div class="trait-hint-box" style="flex:1;min-width:160px">
             <b>💡</b> 基础威力、连击次数为手动输入；属性克制、本系与能力等级倍率自动计算（双重克制 ×3）。<br>
@@ -1153,16 +1189,7 @@ function switchMode(m) {
   if (rp) rp.style.display = m === 'FULL' ? 'none' : '';
   if (m === 'FULL') calcFull();
   else {
-    // 切换到 Tab2 时，同步 FULL 模式当前选中的攻击技能
-    if (m === 'B') {
-      const selIdx = fullState.atkSel;
-      if (selIdx >= 0) {
-        const slot = fullState.atk[selIdx];
-        if (slot && slot.skill && slot.skill.k !== '状态') {
-          applyQuickSkill(slot.skill);
-        }
-      }
-    }
+    // FULL 模式选择的技能不回填 Tab2：B 模式保持自己在 B 里选的技能，两侧互不影响
     calc();
   }
 }
@@ -3165,6 +3192,93 @@ function bindPickerTypeReset(el) {
   });
 }
 
+// ============================================================
+// 数值下拉（可自由输入）：其他额外倍率 / 星陨印记层数 / 防御方减伤
+//   · 点击输入框展开预设选项（data-num-opts 声明），点选项写回并触发原有
+//     oninput（calc / calcFull），各模式重算入口不变
+//   · 也可直接键入任意数值；失焦时为空或非数字则恢复默认值
+//   · 下拉下方空间不足时自动向上展开；A/B/FULL 三模式共用同一套实现
+// ============================================================
+function numComboRefs(input) {
+  const wrap = input && input.closest ? input.closest('.num-combo') : null;
+  if (!wrap) return null;
+  return { wrap, drop: wrap.querySelector('.num-combo-dropdown') };
+}
+
+function closeAllNumCombos(except) {
+  document.querySelectorAll('.num-combo-dropdown.open').forEach(d => {
+    if (d !== except) d.classList.remove('open');
+  });
+}
+
+function openNumCombo(input) {
+  if (!input || input.disabled) return;
+  const refs = numComboRefs(input);
+  if (!refs || !refs.drop) return;
+  closeAllNumCombos(refs.drop);
+  // 高亮与当前输入值一致的选项（自由输入的值不在预设中时无高亮）
+  const cur = input.value.trim();
+  refs.drop.querySelectorAll('.num-combo-option').forEach(o => {
+    o.classList.toggle('selected', o.getAttribute('data-val') === cur);
+  });
+  refs.drop.classList.add('open');
+  // 智能翻转：下方空间不足以完整展示时向上展开
+  refs.drop.style.top = 'calc(100% + 3px)';
+  refs.drop.style.bottom = 'auto';
+  const r = refs.wrap.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - r.bottom;
+  if (spaceBelow < refs.drop.offsetHeight + 8 && r.top > spaceBelow) {
+    refs.drop.style.top = 'auto';
+    refs.drop.style.bottom = 'calc(100% + 3px)';
+  }
+}
+
+function closeNumCombo(input) {
+  const refs = numComboRefs(input);
+  if (refs && refs.drop) refs.drop.classList.remove('open');
+}
+
+function pickNumComboOption(input, val) {
+  input.value = val;
+  closeNumCombo(input);
+  input.dispatchEvent(new Event('input'));   // 复用输入框原有的 oninput 重算
+  input.blur();
+}
+
+function initNumCombos() {
+  document.querySelectorAll('.num-combo').forEach(wrap => {
+    const input = wrap.querySelector('input');
+    const drop  = wrap.querySelector('.num-combo-dropdown');
+    if (!input || !drop || drop.dataset.built) return;
+    drop.dataset.built = '1';
+    const opts = (input.getAttribute('data-num-opts') || '').split(',').map(s => s.trim()).filter(Boolean);
+    drop.innerHTML = opts.map(v => '<div class="num-combo-option" data-val="' + v + '">' + v + '</div>').join('');
+    drop.querySelectorAll('.num-combo-option').forEach(opt => {
+      opt.addEventListener('mousedown', e => {
+        e.preventDefault();   // 保持焦点，避免 blur 抢先收起下拉
+        pickNumComboOption(input, opt.getAttribute('data-val'));
+      });
+    });
+    // 用 mousedown 而非仅 focus：已聚焦时再次点击也能重新展开
+    input.addEventListener('mousedown', () => openNumCombo(input));
+    input.addEventListener('focus', () => openNumCombo(input));
+    input.addEventListener('blur', () => {
+      closeNumCombo(input);
+      const v = input.value.trim();
+      if (v === '' || isNaN(parseFloat(v))) input.value = input.defaultValue;   // 空 / 非数字 → 恢复默认
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeNumCombo(input); input.blur(); }
+    });
+  });
+}
+
+// 点击组件外部关闭（组件内部点击由各自处理，这里直接放行）
+document.addEventListener('mousedown', e => {
+  if (e.target && e.target.closest && e.target.closest('.num-combo')) return;
+  closeAllNumCombos();
+});
+
 // ── 全局版：应用精灵到指定侧（供 loadFavConfig 等外部调用）──
 function applySpirit_global(side, spirit) {
   if (side === 'atk') state.atk = Object.assign({}, spirit);
@@ -3751,14 +3865,6 @@ function selectFullSkill(side, idx) {
   buildFullSkillRows(side);
   buildFullSkillRows(side === 'atk' ? 'def' : 'atk');
   renderFullResult();
-
-  // 同步攻击方选中技能到 Tab2
-  if (side === 'atk') {
-    const slot = fullState.atk[idx];
-    if (slot && slot.skill && slot.skill.k !== '状态') {
-      applyQuickSkill(slot.skill);
-    }
-  }
 }
 
 // 计算单个技能伤害（完整模式）
@@ -4583,6 +4689,7 @@ function renderFavoriteGroup() {
 // FULL MODE 初始化
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  initNumCombos();             // 数值下拉（其他额外倍率 / 星陨印记 / 减伤）
   buildFullSkillRows('atk');
   buildFullSkillRows('def');
   applyFullCondState('atk');   // 威力修正栏默认收起（▼）

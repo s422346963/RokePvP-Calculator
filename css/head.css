@@ -298,6 +298,22 @@
   .mult-box-label { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
   .mult-box-input { width: 100%; padding: 5px 8px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; font-weight: 700; text-align: center; }
   .mult-box-input:focus { outline: none; border-color: var(--accent); }
+  /* ── 数值下拉（可自由输入）：其他额外倍率 / 星陨印记层数 / 防御方减伤 ── */
+  .num-combo { position: relative; }
+  /* ⚠️ width:0 + min-width:100%：不让 input 的「固有宽度」参与 .mult-box（flex:0 0 auto）的宽度计算。
+     原实现是 type=number，固有宽度小；换成 type=text 后固有宽度变大，会把整行撑宽（110px → 229px）。
+     也不要加左右 padding（同样会撑宽，箭头落在 padding 区本就不会压住居中数字）。
+     渲染宽度由 min-width:100% 撑满容器，输入与居中显示不受影响。*/
+  .num-combo .mult-box-input { width: 0; min-width: 100%; cursor: pointer; }
+  .num-combo .mult-box-input:disabled { cursor: not-allowed; }
+  .num-combo-arrow { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 9px; opacity: .5; pointer-events: none; }
+  /* 下拉背景与输入框一致：input 自身 transparent，视觉底色来自 .mult-box 的 var(--bg) */
+  .num-combo-dropdown { display: none; position: absolute; z-index: 300; left: 0; right: 0; top: calc(100% + 3px); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; max-height: 180px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+  .num-combo-dropdown.open { display: block; }
+  .num-combo-option { padding: 6px 10px; font-size: 13px; font-weight: 700; text-align: center; color: var(--text); cursor: pointer; }
+  /* hover/选中用 --card（比 --bg 亮/暗一档），在下拉底色上仍可辨识 */
+  .num-combo-option:hover { background: var(--card); }
+  .num-combo-option.selected { color: var(--accent); }
   .result-panel { background: var(--result-bg); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-top: 16px; }
   .hp-section { margin-bottom: 16px; }
   .hp-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
