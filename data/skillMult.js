@@ -545,14 +545,22 @@ defineSkillPowerRule(['试飞'], F_STACKS('每次使用后威力永久+10 的次
   return n > 0 ? { powerAdd: 10 * n, label: '已使用' + n + '次→威力+' + (10 * n) } : null;
 });
 
-// 友谊满溢：分支一 每次使用后威力永久 +20；分支二 应对状态时本次威力 +100%
+// 友谊满溢：两个分支可同时生效 ——
+//   分支一（应对状态）：本次威力 +100%，进乘法段（吃应对倍率的「基础段」）
+//   分支二（每次使用后永久 +20）：进加法段，不被 +100% 放大
 defineSkillPowerRule(['友谊满溢'],
-  () => [F_COUNTERED()[0], spNum('stacks', '每次使用后威力永久+20 的次数', 0, 0, 99)],
+  () => [...F_COUNTERED(), spNum('stacks', '每次使用后威力永久+20 的次数', 0, 0, 99)],
   ctx => {
-    if (ctx.opts.countered) return { powerPct: 1.0, label: '应对状态→本次威力+100%' };
+    const res = {};
+    const labels = [];
+    if (ctx.opts.countered) { res.powerPct = 1.0; labels.push('应对状态→本次威力+100%'); }
     const n = clampInt(ctx.opts.stacks, 0, 99);
-    return n > 0 ? { powerAdd: 20 * n, label: '已使用' + n + '次→威力+' + (20 * n) } : null;
+    if (n > 0) { res.powerAdd = 20 * n; labels.push('已使用' + n + '次→威力+' + (20 * n)); }
+    if (labels.length === 0) return null;      // 两个分支都没触发 → 无加成
+    res.label = labels.join(' · ');            // 多条说明共用标题行（`.power-mod-notes` 用 · 拼接，可换行）
+    return res;
   });
+
 
 // 驱赶：默认分支 本次威力 +20；应对状态 → +140
 defineSkillPowerRule(['驱赶'], F_COUNTERED, ctx =>

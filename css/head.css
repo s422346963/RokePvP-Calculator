@@ -728,6 +728,11 @@
   }
   .power-mod-title { font-size: 10px; font-weight: 700; color: var(--atk-color); margin-bottom: 5px; }
   .power-cond-row { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 6px; }
+  /* 标题行：标题 + 条件选项 + 规则说明同处一行（说明由 updatePowerChain 动态写入，不再占用链路一行） */
+  .power-mod-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-bottom: 5px; }
+  .power-mod-head .power-mod-title { margin-bottom: 0; }
+  .power-mod-head .power-cond-row { margin-bottom: 0; }
+  .power-mod-notes { font-size: 10px; color: var(--text2); }
   .power-cond-ck {
     display: flex; align-items: center; gap: 4px;
     font-size: 11px; cursor: pointer; white-space: nowrap; color: var(--text);
@@ -763,7 +768,7 @@
     width: 100%; font-size: 9px; font-weight: 700; letter-spacing: .5px;
     color: var(--text2); opacity: .8; margin: 3px 0 1px;
   }
-  .pc-note { width: 100%; font-size: 10px; color: var(--text2); margin-top: 3px; }
+
 
   /* ── FULL 技能行：修正后威力只读列 + 内嵌条件区 ── */
   .fsk-power-eff {

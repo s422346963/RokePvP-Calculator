@@ -470,11 +470,12 @@
         </div>
         <!-- 基础威力 / 连击次数 / 本次威力修正 同一行（与 FULL 模式一致的 mult-box 样式） -->
         <div class="mode-param-row" style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;margin-top:8px">
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <!-- 宽度与模式 A 对应栏一致：威力 140px / 连击 130px（A 的连击栏 flex:0 0 120px 被内容最小宽度撑到 130） -->
+          <div class="mult-box" style="min-width:140px;flex:0 0 auto">
             <div class="mult-box-label">基础威力（技能库）</div>
             <input class="mult-box-input" type="number" id="base-power-b" value="100" min="1" max="9999" oninput="calc()" style="color:var(--atk-color)">
           </div>
-          <div class="mult-box" style="min-width:110px;flex:0 0 auto">
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
             <div class="mult-box-label">连击次数</div>
             <input class="mult-box-input" type="number" id="hits-input-b" value="1" min="1" max="10" oninput="calc()" style="color:#ffca28">
           </div>
@@ -2216,7 +2217,9 @@ function renderPowerCond(skill, mode, slot, container) {
   const sideColor = isAtkSide ? 'var(--atk-color)' : '#42a5f5';
 
   let html = `<div class="power-mod-box">`;
-  html += `<div class="power-mod-title" style="color:${sideColor}">⚡ 本次威力修正</div>`;
+  // 标题行：标题 + 条件选项 + 规则说明（说明文本由 updatePowerChain 写入 #pwr-notes-*）
+  html += `<div class="power-mod-head">`;
+  html += `<span class="power-mod-title" style="color:${sideColor}">⚡ 本次威力修正</span>`;
 
   if (fields.length > 0) {
     html += `<div class="power-cond-row">`;
@@ -2234,6 +2237,8 @@ function renderPowerCond(skill, mode, slot, container) {
     });
     html += `</div>`;
   }
+  html += `<span class="power-mod-notes" id="pwr-notes-${mode}-${slot}" style="display:none"></span>`;
+  html += `</div>`;   // power-mod-head 结束
 
   // 未实现规则的显式提示 —— 严禁静默按 0 处理
   if (unimplemented) {
@@ -2282,9 +2287,17 @@ function updatePowerChain(skill, mode, slot) {
   // ── 特性威力倍率：对基础段 + 加成段整体生效 ──
   if (traitPowerMult !== 1) html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">特性威力倍率(整段)</span><span class="pc-v" style="color:#a5d6a7">${f2(traitPowerMult)}</span></span>`;
   html += `<span class="pc-op">→</span><span class="pc-item pc-final"><span class="pc-k">威力</span><span class="pc-v">${f1(finalP)}</span></span>`;
-  if (r.label) html += `<div class="pc-note">${r.label}</div>`;
-  if (r.hitsSet) html += `<div class="pc-note">连击数 → ${r.hitsSet}（自动应用）</div>`;
   box.innerHTML = html;
+
+  // 规则说明 / 自动连击提示 → 标题行（与条件选项同一行），不再单独占链路下方一行
+  const noteEl = document.getElementById(`pwr-notes-${mode}-${slot}`);
+  if (noteEl) {
+    const notes = [];
+    if (r.label) notes.push(r.label);
+    if (r.hitsSet) notes.push(`连击数 → ${r.hitsSet}（自动应用）`);
+    noteEl.textContent = notes.join(' · ');
+    noteEl.style.display = notes.length ? '' : 'none';
+  }
 }
 
 // 技能威力条件变更 → 重算
