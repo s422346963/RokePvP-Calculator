@@ -824,7 +824,8 @@ function calcDefTraitMult(atk, def, skill, opts) {
 
   return {
     mult,
-    desc: desc.length>0 ? desc.join('\uff1b') : (defTr ? '\u7279\u6027\u5bf9\u6b64\u6280\u80fd\u65e0\u76f4\u63a5\u51cf\u4f24' : '\u65e0\u7279\u6027'),
+    // 无加成说明时 desc 置空：UI 只显示特性原始描述，不再输出「特性对此技能无直接减伤」提示
+    desc: desc.length>0 ? desc.join('\uff1b') : (defTr ? '' : '\u65e0\u7279\u6027'),
     needsInput: getDefTraitNeedsInput(defTr, skill),
     stat,
   };
@@ -1802,7 +1803,7 @@ function updateTraitPanelForMode(mode, skill) {
   const defBuffs = collectStatBuffs(defResult.stat, state.atkStat === 'patk', 'def');
   updateTraitInputVisibility(mode, 'def', defTr, defResult, defBuffs);
   if (defCondEl) renderTraitCond(defResult.needsInput, defCondEl, mode, 'def');
-  if (defDescEl && defResult.desc && defResult.desc !== '特性对此技能无直接伤害加成' && defResult.desc !== '无特性') {
+  if (defDescEl && defResult.desc && defResult.desc !== '无特性') {
     defDescEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span>` +
       `<div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${defResult.desc}</div>`;
   } else if (defDescEl) {
@@ -2072,7 +2073,7 @@ function onTraitCondChange(mode, side) {
     updateTraitInputVisibility(mode, 'def', state.def ? state.def.tr : null, r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'def'));
     const descEl = document.getElementById(`trait-def-desc-${mode}`);
     const defTr = state.def ? state.def.tr : null;
-    if (descEl && r.desc && r.desc !== '特性对此技能无直接伤害加成' && r.desc !== '无特性') {
+    if (descEl && r.desc && r.desc !== '无特性') {
       descEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span><div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${r.desc}</div>`;
     } else if (descEl) {
       descEl.textContent = (state.def && state.def.tr_desc) || '';

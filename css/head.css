@@ -530,7 +530,7 @@
   .trait-name-row { font-size:14px; font-weight:700; margin-bottom:3px; }
   .trait-name-row.atk-color { color:var(--atk-color); }
   .trait-name-row.def-color { color:#42a5f5; }
-  .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; min-height:32px; }
+  .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; }
   .trait-mult-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
   .trait-mult-group { display:inline-flex; align-items:center; gap:6px; }
   .trait-mult-group + .trait-mult-group { margin-left:2px; padding-left:10px; border-left:1px solid var(--border); }
