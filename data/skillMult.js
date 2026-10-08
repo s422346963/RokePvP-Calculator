@@ -40,7 +40,7 @@ const spCk = (key, label, def) => ({ id: 'pwr-opt-' + key, label, type: 'checkbo
 const spNum = (key, label, def, min, max) => ({ id: 'pwr-opt-' + key, label, type: 'number', key, def, min, max });
 
 // 常用条件字段（多处复用，避免重复字面量）
-const F_COUNTERED = () => [spCk('countered', '本次被应对（应对状态）', false)];
+const F_COUNTERED = () => [spCk('countered', '应对成功', false)];
 const F_FOE_SWITCH = () => [spCk('foeSwitched', '敌方本回合更换精灵', false)];
 const F_HP_PCT = () => [spNum('hpPct', '自身当前生命%', 100, 0, 100)];
 

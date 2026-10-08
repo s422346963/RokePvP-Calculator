@@ -531,6 +531,10 @@
   .trait-name-row.atk-color { color:var(--atk-color); }
   .trait-name-row.def-color { color:#42a5f5; }
   .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; }
+  /* 规则提示：跟在特性名称后同行显示（攻橙防蓝，颜色随 name-row 主题类） */
+  .trait-name-note { margin-left:6px; font-size:11px; font-weight:600; }
+  .trait-name-row.atk-color .trait-name-note { color:var(--atk-color); }
+  .trait-name-row.def-color .trait-name-note { color:#42a5f5; }
   .trait-mult-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
   .trait-mult-group { display:inline-flex; align-items:center; gap:6px; }
   .trait-mult-group + .trait-mult-group { margin-left:2px; padding-left:10px; border-left:1px solid var(--border); }
@@ -744,11 +748,6 @@
     color: var(--atk-color); text-align: center; font-size: 11px; font-weight: 700;
   }
   .power-cond-num input:focus { outline: none; border-color: var(--atk-color); }
-  .power-mod-warn {
-    font-size: 10px; color: #ffa726; background: rgba(255,167,38,.10);
-    border: 1px solid rgba(255,167,38,.30); border-radius: 6px;
-    padding: 4px 8px; margin-bottom: 6px;
-  }
 
   /* 修正链路：基础 → 修正 → 基数 → ×百分比 → ×倍率 → 终值 */
   .power-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }

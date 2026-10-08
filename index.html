@@ -1566,7 +1566,6 @@ function renderLayersHtml(o) {
   if (res.powerBonusAll !== 0) pwRows += item('＝ 加成段合计', (res.powerBonusAll > 0 ? '+' : '') + f1(res.powerBonusAll), 'highlight');
   if (res.powerTraitM !== 1) pwRows += item('　特性威力倍率', '×' + f2(res.powerTraitM), '', 'color:#a5d6a7');
   pwRows += item('＝ 威力终值', f1(res.powerFinal), 'highlight');
-  if (pw.unimplemented) pwRows += item('　└ 规则状态', '⚠ 待补全，请手动填写', '', 'color:#ffa726;font-size:10px');
 
   // ── 结算层 ──
   let stRows = '';
@@ -1747,6 +1746,19 @@ function autoUpdateTraitUI() {
   updateTraitPanelForMode('full', skillFull);
 }
 
+// 特性规则提示（如「✨ 火系技能2次→全技能威力+20」）跟在特性名称后同行显示。
+//   占位文案（无特性 / 无直接伤害加成）不显示；每次调用重置名称文本以清掉旧提示。
+const TRAIT_DESC_PLACEHOLDERS = ['无特性', '特性对此技能无直接伤害加成'];
+function renderTraitNameWithNote(nameEl, name, desc, icon) {
+  if (!nameEl) return;
+  nameEl.textContent = name || '暂无特性';
+  if (!desc || TRAIT_DESC_PLACEHOLDERS.indexOf(desc) >= 0) return;
+  const note = document.createElement('span');
+  note.className = 'trait-name-note';
+  note.textContent = `${icon} ${desc}`;
+  nameEl.appendChild(note);
+}
+
 // 更新某个 mode（'b' 或 'full'）的攻防特性面板
 function updateTraitPanelForMode(mode, skill) {
   const atkTr = state.atk ? state.atk.tr : null;
@@ -1791,24 +1803,16 @@ function updateTraitPanelForMode(mode, skill) {
   const atkBuffs = collectStatBuffs(atkResult.stat, state.atkStat === 'patk', 'atk');
   updateTraitInputVisibility(mode, 'atk', atkTr, atkResult, atkBuffs);
   if (atkCondEl) renderTraitCond(atkResult.needsInput, atkCondEl, mode, 'atk');
-  // 倍率提示
-  if (atkDescEl && atkResult.desc && atkResult.desc !== '特性对此技能无直接伤害加成' && atkResult.desc !== '无特性') {
-    atkDescEl.innerHTML = `<span>${(state.atk && state.atk.tr_desc) || ''}</span>` +
-      `<div style="margin-top:4px;font-weight:600;color:var(--atk-color)">✨ ${atkResult.desc}</div>`;
-  } else if (atkDescEl) {
-    atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
-  }
+  // 规则提示 → 跟在特性名称后同行；描述栏只留特性原始文本
+  renderTraitNameWithNote(atkNameEl, atkTr, atkResult.desc, '✨');
+  if (atkDescEl) atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
 
   // 更新防方倍率（同上，动态显隐）
   const defBuffs = collectStatBuffs(defResult.stat, state.atkStat === 'patk', 'def');
   updateTraitInputVisibility(mode, 'def', defTr, defResult, defBuffs);
   if (defCondEl) renderTraitCond(defResult.needsInput, defCondEl, mode, 'def');
-  if (defDescEl && defResult.desc && defResult.desc !== '无特性') {
-    defDescEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span>` +
-      `<div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${defResult.desc}</div>`;
-  } else if (defDescEl) {
-    defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
-  }
+  renderTraitNameWithNote(defNameEl, defTr, defResult.desc, '🛡️');
+  if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
 }
 
 // ================================================================
@@ -2061,23 +2065,19 @@ function onTraitCondChange(mode, side) {
   if (side === 'atk') {
     const r = calcAtkTraitMult(state.atk, state.def, skill, opts);
     updateTraitInputVisibility(mode, 'atk', state.atk ? state.atk.tr : null, r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'atk'));
+    const nameEl = document.getElementById(`trait-atk-name-${mode}`);
     const descEl = document.getElementById(`trait-atk-desc-${mode}`);
     const atkTr = state.atk ? state.atk.tr : null;
-    if (descEl && r.desc && r.desc !== '特性对此技能无直接伤害加成' && r.desc !== '无特性') {
-      descEl.innerHTML = `<span>${(state.atk && state.atk.tr_desc) || ''}</span><div style="margin-top:4px;font-weight:600;color:var(--atk-color)">✨ ${r.desc}</div>`;
-    } else if (descEl) {
-      descEl.textContent = (state.atk && state.atk.tr_desc) || '';
-    }
+    renderTraitNameWithNote(nameEl, atkTr, r.desc, '✨');
+    if (descEl) descEl.textContent = (state.atk && state.atk.tr_desc) || '';
   } else {
     const r = calcDefTraitMult(state.atk, state.def, skill, opts);
     updateTraitInputVisibility(mode, 'def', state.def ? state.def.tr : null, r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'def'));
+    const nameEl = document.getElementById(`trait-def-name-${mode}`);
     const descEl = document.getElementById(`trait-def-desc-${mode}`);
     const defTr = state.def ? state.def.tr : null;
-    if (descEl && r.desc && r.desc !== '无特性') {
-      descEl.innerHTML = `<span>${(state.def && state.def.tr_desc) || ''}</span><div style="margin-top:4px;font-weight:600;color:#42a5f5">🛡️ ${r.desc}</div>`;
-    } else if (descEl) {
-      descEl.textContent = (state.def && state.def.tr_desc) || '';
-    }
+    renderTraitNameWithNote(nameEl, defTr, r.desc, '🛡️');
+    if (descEl) descEl.textContent = (state.def && state.def.tr_desc) || '';
   }
   // 触发重算
   if (mode === 'b') calc(); else calcFull();
@@ -2194,15 +2194,14 @@ function renderPowerCond(skill, mode, slot, container) {
   if (!skill) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
 
   const fields = getSkillPowerFields(skill);
-  const unimplemented = isSkillPowerUnimplemented(skill);
   // 威力修正栏在「技能有威力修正」或「特性影响威力」任一成立时展示
   const side = (mode === 'b') ? 'atk' : (String(slot).indexOf('def') === 0 ? 'def' : 'atk');
   const tp = traitPowerFor(mode, side, skill);
-  if (fields.length === 0 && !unimplemented && !tp.affectsPower) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
+  if (fields.length === 0 && !tp.affectsPower) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
 
   // 结构签名：技能 / 字段列表 / 提示状态。结构没变就只刷新链路，不重建输入框 DOM
   //   ⚠️ 模式 B 的 calc() 每次都会调这里；此前无条件重建会让正在输入的输入框被销毁 → 光标丢失
-  const sig = [mode, slot, skill.n, unimplemented ? 1 : 0, tp.affectsPower ? 1 : 0,
+  const sig = [mode, slot, skill.n, tp.affectsPower ? 1 : 0,
     fields.map(f => f.id + ':' + f.type + ':' + (f.def === undefined ? '' : f.def)).join(',')].join('|');
   if (container.dataset.pwrSig === sig && container.firstChild) {
     updatePowerChain(skill, mode, slot);
@@ -2240,11 +2239,6 @@ function renderPowerCond(skill, mode, slot, container) {
   }
   html += `<span class="power-mod-notes" id="pwr-notes-${mode}-${slot}" style="display:none"></span>`;
   html += `</div>`;   // power-mod-head 结束
-
-  // 未实现规则的显式提示 —— 严禁静默按 0 处理
-  if (unimplemented) {
-    html += `<div class="power-mod-warn">⚠️ 该技能有条件威力变动，规则待补全，请手动填写威力与连击</div>`;
-  }
 
   // 修正链路：技能威力 ×（应对倍率 / 威力%）→ 基础段 ＋ 各项加成 → × 特性威力倍率(整段) → 威力
   html += `<div class="power-chain" id="pwr-chain-${mode}-${slot}"></div>`;
@@ -2514,6 +2508,8 @@ function onSkillComboFocus() {
   input.removeAttribute('readonly');
   renderComboPanel(input.value.trim());
   dd.classList.add('open');
+  // 每次展开都回到顶部：不保留上次的滚动位置（display:none 时写 scrollTop 无效，必须在 open 之后）
+  dd.scrollTop = 0;
   const arrow = document.getElementById('skill-combo-arrow');
   if (arrow) arrow.textContent = '▲';
 
@@ -3433,6 +3429,8 @@ function setupSearch(side) {
     if (isPickedDisplay(input)) setPickerValue(input, '');
     renderDropdown(input.value.trim());
     dd.classList.add('open');
+    // 每次展开都回到顶部：不保留上次的滚动位置（display:none 时写 scrollTop 无效，必须在 open 之后）
+    dd.scrollTop = 0;
     if (arrow) arrow.textContent = '▲';
     bindClose();
   });
@@ -3857,6 +3855,8 @@ function openFskDropdown(side, idx) {
     });
   });
   drop.classList.add('open');
+  // 每次展开都回到顶部：不保留上次的滚动位置
+  drop.scrollTop = 0;
 }
 
 function closeFskDropdown(side, idx) {
