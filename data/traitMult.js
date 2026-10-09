@@ -308,7 +308,7 @@ defineAtkTraitRule(['变形活画'], () => [num('enemyBuff', '敌方当前增益
 // ------------------------------------------------------------
 // 悲悯 / 悼亡：力竭精灵数叠加 —— 「双攻+N%」→ stat 通道
 // ------------------------------------------------------------
-defineAtkTraitRule(['悲悯'], () => [num('stackCount', '己方力竭精灵数量(0-5)', 0, 0, 5)],
+defineAtkTraitRule(['悲悯'], () => [num('stackCount', '己方力竭精灵数量(0-10)', 0, 0, 10)],
   ctx => {
     const n = ctx.opts.stackCount || 0;
     if (n <= 0) return null;
@@ -319,7 +319,7 @@ defineAtkTraitRule(['悲悯'], () => [num('stackCount', '己方力竭精灵数�
     };
   });
 
-defineAtkTraitRule(['悼亡'], () => [num('stackCount', '双方力竭精灵数量(0-5)', 0, 0, 5)],
+defineAtkTraitRule(['悼亡'], () => [num('stackCount', '双方力竭精灵数量(0-10)', 0, 0, 10)],
   ctx => {
     const n = ctx.opts.stackCount || 0;
     if (n <= 0) return null;
