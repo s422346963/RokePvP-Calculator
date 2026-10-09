@@ -8,9 +8,12 @@
 //   - 本文件只描述「技能的威力修正」，不涉及特性（特性见 traitMult.js），
 //     也不涉及攻防属性加成（见 traitMult.js 的 stat 通道）。
 //   - 修正严格遵循「先加减、后乘除」（见 AGENTS.md「伤害公式：四层拆分」）：
-//       powerBase  = 基础威力 + powerAdd（+ 特性 powerBonus，由 index.html 合并）
-//       powerFinal = powerBase × (1 + powerPct) × powerMult
-//     因此「变为 N 倍」用 powerMult（进乘除段），「+N / +N%」用 powerAdd / powerPct。
+//       基础威力区     = 基础威力 × powerMult（应对倍率「×N / 威力翻倍」这类描述）
+//       固定威力提升区 = powerAdd + 特性 powerBonus（由 index.html 合并，求和）
+//       技能威力乘区   = 1 + powerPct + 特性 powerMult 的增量（跨来源求和）
+//       powerFinal     = (基础威力区 + 固定威力提升区) × 技能威力乘区
+//     因此「变为 N 倍」用 powerMult（进基础威力区），「+N」用 powerAdd（进固定提升区），
+//     「+N%」用 powerPct（进技能威力乘区，与其他百分比来源相加）。
 //   - 本文件是纯数据 + 纯函数，不做任何 DOM 操作。所有面板值、查表函数
 //     由 index.html 通过 ctx.util 注入，避免与 index.html 行内脚本产生加载期耦合。
 //   - 必须保持全局常量（const），不得加 defer、不得移回 <head>。

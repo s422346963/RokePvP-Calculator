@@ -284,7 +284,7 @@
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
                   <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','atk','powerMult')" title="特性带来的威力倍率（威力层乘法段）">
+                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','atk','powerMult')" title="特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）">
                   <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','powerMult')">重置</button>
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
@@ -320,7 +320,7 @@
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
                   <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','def','powerMult')" title="防方特性带来的威力倍率">
+                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','def','powerMult')" title="防方特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）">
                   <button class="trait-reset-btn" onclick="resetTraitInput('full','def','powerMult')">重置</button>
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
@@ -498,7 +498,7 @@
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
                   <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','atk','powerMult')" title="特性带来的威力倍率（威力层乘法段）；可手动改">
+                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','atk','powerMult')" title="特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）；可手动改">
                   <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','powerMult')">重置</button>
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
@@ -534,7 +534,7 @@
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
                   <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','def','powerMult')" title="防方特性带来的威力倍率；可手动改">
+                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','def','powerMult')" title="防方特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）；可手动改">
                   <button class="trait-reset-btn" onclick="resetTraitInput('b','def','powerMult')">重置</button>
                 </span>
                 <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
@@ -923,8 +923,10 @@ const STAT_LABELS = { patk: '物攻', matk: '魔攻', pdef: '物防', mdef: '魔
 //
 //   攻击层 attackValue  = (面板攻击 + Σ固定加成) × (1 + Σ特性百分比加成 + (能力等级倍率 − 1))
 //   防御层 defenseValue = (面板防御 + Σ固定加成) × (1 + Σ特性百分比加成 + (能力等级倍率 − 1))
-//   威力层 powerFinal   = (技能威力 × 应对倍率 × (1 + 本次威力%)
-//                          + 技能威力加成 + 特性威力加成) × 特性威力倍率
+//   威力层 powerFinal   = (基础威力区 + 固定威力提升区) × 技能威力乘区
+//      基础威力区       = 技能威力 × 应对倍率（「应对成功威力×N」「威力翻倍」这类描述）
+//      固定威力提升区   = 技能威力加成 + 特性威力加成（求和）
+//      技能威力乘区     = 1 + Σ（技能威力+N% 与 特性威力倍率 的增量，求和）
 //   结算层 单次伤害 = floor( attackValue / defenseValue × 37/41
 //                          × powerFinal × 克制 × 本系 × 特性乘算 × 额外倍率 × 减伤 )
 //         总伤害   = 单次伤害 × 连击数
@@ -954,22 +956,24 @@ function computeDamage(o) {
   const defenseValue = (o.defBase + defFlat) * (1 + defPctBonus + defLevelBonus);
 
   // ── 威力层 ──
-  //   威力 = (技能威力 × 应对倍率 × 本次威力+N%) × 特性威力倍率
-  //        + (技能威力加成 + 特性威力加成) × 特性威力倍率
-  //   等价写法：(基础威力段 + 加成段) × 特性威力倍率
-  //   ⚠️ 两个要点（用户定义，勿改）：
-  //     1) 应对倍率只放大基础威力，**不放大**「加上去的威力」（技能/特性威力加成）
-  //     2) 特性威力倍率对基础段与加成段都生效（旧口径「加成裸加在最后」已废弃）
-  const powerSkill   = o.powerBase || 0;                            // 技能威力
+  //   ⚠️ 三区口径（用户定义，勿改）：
+  //     1) 基础威力区   = 技能威力 × 应对倍率 —— 应对倍率只放大基础威力，
+  //        不放大「加上去的威力」（固定威力提升区）
+  //     2) 固定威力提升区 = 技能威力加成 + 特性威力加成，两者**求和**
+  //     3) 技能威力乘区   = 1 + Σ（技能威力+N% 的 N% + 特性威力倍率的增量），
+  //        跨来源**相加**而不是连乘；对「基础威力区 + 固定威力提升区」整体生效
+  //     例：75 基础、技能威力+50%、特性威力倍率 1.50 → (75 + 0) × (1 + 0.5 + 0.5) = 150
+  const powerSkill   = o.powerBase || 0;                            // 技能威力（基础威力）
   const powerCounter = (o.powerMult === undefined || o.powerMult === null) ? 1 : o.powerMult;  // 应对倍率（技能侧）
   const powerTraitM  = (o.powerTraitMult === undefined || o.powerTraitMult === null) ? 1 : o.powerTraitMult; // 特性威力倍率
-  const powerPctMult = 1 + (o.powerPct || 0);                       // 本次威力 +N%（技能侧百分比修正）
+  const powerPct     = o.powerPct || 0;                             // 本次威力 +N%（技能侧百分比修正）
   const powerAdd     = o.powerAdd || 0;                             // 技能威力加成
   const powerTraitAdd = o.powerTraitBonus || 0;                     // 特性威力加成
-  const powerBaseSeg = powerSkill * powerCounter * powerPctMult;     // 基础威力段（吃应对倍率与本次威力%）
-  const powerBonusAll = powerAdd + powerTraitAdd;                   // 加成段（不吃应对倍率）
-  const powerMultAll = powerCounter * powerPctMult;                  // 基础段总倍率（不含特性威力倍率）；拆解展示用 powerBaseSeg
-  const powerFinal = (powerBaseSeg + powerBonusAll) * powerTraitM;
+  const powerBaseSeg = powerSkill * powerCounter;                   // 基础威力区（只吃应对倍率）
+  const powerFlatAll = powerAdd + powerTraitAdd;                    // 固定威力提升区（技能与特性求和）
+  const powerPctSum  = powerPct + (powerTraitM - 1);                // 技能威力乘区的增量总和
+  const powerMultAll = 1 + powerPctSum;                             // 技能威力乘区
+  const powerFinal = (powerBaseSeg + powerFlatAll) * powerMultAll;
 
   // ── 结算层 ──
   const typeEff = (o.typeEff === undefined || o.typeEff === null) ? 1 : o.typeEff;
@@ -986,8 +990,10 @@ function computeDamage(o) {
   return {
     attackValue, defenseValue, ratio,
     atkPctBonus, atkLevelBonus, defPctBonus, defLevelBonus,
-    powerSkill, powerBaseSeg, powerCounter, powerTraitM, powerPctMult, powerMultAll,
-    powerAdd, powerTraitAdd, powerBonusAll, powerFinal,
+    powerSkill, powerBaseSeg, powerCounter, powerTraitM, powerPct, powerPctSum, powerMultAll,
+    powerAdd, powerTraitAdd, powerFlatAll, powerFinal,
+    // 兼容旧字段名：固定威力提升区 == 旧「加成段」
+    powerBonusAll: powerFlatAll,
     singleDmg: single, dmg, hits,
     typeEff, stab, traitMult, extraMult, reduceMult,
   };
@@ -1342,7 +1348,7 @@ function calc() {
     const atkChain = `${f1(res.attackValue)}`;
     const defChain = `${f1(res.defenseValue)}`;
     // 威力处直接填「最终威力」(powerFinal)：公式与游戏口径一致，可直接对数字。
-    //   (技能威力 × 应对倍率 × 本次威力% + 威力加成) × 特性威力倍率 的分解见拆解面板的「威力层」。
+    //   (基础威力区 + 固定威力提升区) × 技能威力乘区 的分解见拆解面板的「威力层」。
     formulaStr = `(${atkChain} / ${defChain}) × 37/41 × ${f1(res.powerFinal)}` +
       (typeEff  !== 1 ? ` × ${typeEff}(克制)` : '') +
       (stabMult !== 1 ? ` × ${stabMult}(本系)` : '') +
@@ -1553,18 +1559,25 @@ function renderLayersHtml(o) {
     o.defPctMult, o.defFlat, '特性防御');
 
   // ── 威力层 ──
-  //   威力 = (技能威力 × 应对倍率 × 本次威力% + 技能/特性威力加成) × 特性威力倍率
-  //   应对倍率与本次威力% 只放大基础段；特性威力倍率对「基础段 + 加成段」整体生效
+  //   威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
+  //     基础威力区     = 技能威力 × 应对倍率
+  //     固定威力提升区 = 技能威力加成 + 特性威力加成（求和）
+  //     技能威力乘区   = 1 + Σ（技能威力% + 特性威力倍率增量），对前两者之和整体生效
   const pw = o.pw || {};
   let pwRows = '';
   pwRows += item('技能威力', f1(res.powerSkill), '');
-  if (res.powerCounter !== 1) pwRows += item('　应对倍率', '×' + f2(res.powerCounter), '', 'color:#66bb6a');
-  if (res.powerPctMult !== 1) pwRows += item('　威力百分比', '×' + f2(res.powerPctMult), '', 'color:#66bb6a');
-  if (res.powerCounter !== 1 || res.powerPctMult !== 1) pwRows += item('＝ 基础威力段', f1(res.powerBaseSeg), 'highlight');
+  if (res.powerCounter !== 1) {
+    pwRows += item('　应对倍率', '×' + f2(res.powerCounter), '', 'color:#66bb6a');
+    pwRows += item('＝ 基础威力区', f1(res.powerBaseSeg), 'highlight');
+  }
   if (pw.powerAdd) pwRows += item('＋ 技能威力加成', (pw.powerAdd > 0 ? '+' : '') + f1(pw.powerAdd), '', 'color:#66bb6a');
   if (o.traitPowerShown) pwRows += item('＋ 特性威力加成', '+' + f1(o.traitPowerShown), '', 'color:#a5d6a7');
-  if (res.powerBonusAll !== 0) pwRows += item('＝ 加成段合计', (res.powerBonusAll > 0 ? '+' : '') + f1(res.powerBonusAll), 'highlight');
-  if (res.powerTraitM !== 1) pwRows += item('　特性威力倍率', '×' + f2(res.powerTraitM), '', 'color:#a5d6a7');
+  if (res.powerFlatAll !== 0) pwRows += item('＝ 固定威力提升区', (res.powerFlatAll > 0 ? '+' : '') + f1(res.powerFlatAll), 'highlight');
+  if (res.powerMultAll !== 1) {
+    if (res.powerPct) pwRows += item('　└ 技能威力', pctStr(res.powerPct), '', 'color:#66bb6a;opacity:.85');
+    if (res.powerTraitM !== 1) pwRows += item('　└ 特性威力倍率', pctStr(res.powerTraitM - 1), '', 'color:#a5d6a7;opacity:.85');
+    pwRows += item('＝ 技能威力乘区', '×' + f2(res.powerMultAll), 'highlight');
+  }
   pwRows += item('＝ 威力终值', f1(res.powerFinal), 'highlight');
 
   // ── 结算层 ──
@@ -2240,7 +2253,7 @@ function renderPowerCond(skill, mode, slot, container) {
   html += `<span class="power-mod-notes" id="pwr-notes-${mode}-${slot}" style="display:none"></span>`;
   html += `</div>`;   // power-mod-head 结束
 
-  // 修正链路：技能威力 ×（应对倍率 / 威力%）→ 基础段 ＋ 各项加成 → × 特性威力倍率(整段) → 威力
+  // 修正链路：技能威力 × 应对倍率 → 基础威力区 ＋ 各项加成 → × 技能威力乘区(整段) → 威力
   html += `<div class="power-chain" id="pwr-chain-${mode}-${slot}"></div>`;
   html += `</div>`;
   container.innerHTML = html;
@@ -2249,7 +2262,7 @@ function renderPowerCond(skill, mode, slot, container) {
 }
 
 // 刷新修正链路只读行
-//   链路严格对应公式：威力 = (技能威力 × 应对倍率 × 本次威力% + 技能/特性威力加成) × 特性威力倍率
+//   链路严格对应公式：威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
 function updatePowerChain(skill, mode, slot) {
   const box = document.getElementById(`pwr-chain-${mode}-${slot}`);
   if (!box) return;
@@ -2261,26 +2274,36 @@ function updatePowerChain(skill, mode, slot) {
   const traitPowerMult = tp.powerMult;
   const traitPowerAdd = tp.powerAdd;
 
-  // 口径：威力 = (基础威力 × 应对倍率 × 本次威力% + 技能/特性威力加成) × 特性威力倍率
-  //   应对倍率与本次威力% 只放大基础段；特性威力倍率对整段（基础+加成）生效
-  const baseSeg = basePower * r.powerMult * (1 + r.powerPct);
-  const powerBonusAll = r.powerAdd + traitPowerAdd;
-  const finalP = (baseSeg + powerBonusAll) * traitPowerMult;
+  // 口径：威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
+  //   基础威力区     = 基础威力 × 应对倍率（只放大基础威力）
+  //   固定威力提升区 = 技能威力加成 + 特性威力加成（求和）
+  //   技能威力乘区   = 1 + Σ（技能威力% + 特性威力倍率增量），对前两者之和整体生效
+  const baseSeg = basePower * r.powerMult;
+  const flatAll = r.powerAdd + traitPowerAdd;
+  // 乘区增量：技能「威力+N%」与「特性威力倍率 1.5」都折算成增量后求和
+  const pctNames = [];
+  if (r.powerPct) pctNames.push(`威力${r.powerPct > 0 ? '+' : ''}${(r.powerPct * 100).toFixed(0)}%`);
+  if (traitPowerMult !== 1) pctNames.push(`特性${(traitPowerMult - 1) > 0 ? '+' : ''}${((traitPowerMult - 1) * 100).toFixed(0)}%`);
+  const multAll = 1 + r.powerPct + (traitPowerMult - 1);
+  const finalP = (baseSeg + flatAll) * multAll;
 
   let html = '';
-  // ── 基础段（吃应对倍率 / 本次威力%）──
+  // ── 基础威力区（只吃应对倍率）──
   html += `<span class="pc-item"><span class="pc-k">技能威力</span><span class="pc-v">${f1(basePower)}</span></span>`;
-  if (r.powerMult !== 1) html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">应对倍率</span><span class="pc-v">${f2(r.powerMult)}</span></span>`;
-  if (r.powerPct) html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">威力+${(r.powerPct * 100).toFixed(0)}%</span><span class="pc-v">${f2(1 + r.powerPct)}</span></span>`;
-  if (r.powerMult !== 1 || r.powerPct) html += `<span class="pc-op">→</span><span class="pc-item"><span class="pc-k">基础段</span><span class="pc-v">${f1(baseSeg)}</span></span>`;
-  // ── 加成段（不吃应对倍率）──
-  if (powerBonusAll !== 0) {
+  if (r.powerMult !== 1) {
+    html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">应对倍率</span><span class="pc-v">${f2(r.powerMult)}</span></span>`;
+    html += `<span class="pc-op">→</span><span class="pc-item"><span class="pc-k">基础威力区</span><span class="pc-v">${f1(baseSeg)}</span></span>`;
+  }
+  // ── 固定威力提升区（技能 + 特性求和）──
+  if (flatAll !== 0) {
     html += `<span class="pc-op">+</span>`;
     if (r.powerAdd) html += `<span class="pc-item"><span class="pc-k">技能加成</span><span class="pc-v" style="color:${r.powerAdd > 0 ? '#66bb6a' : '#ef5350'}">${r.powerAdd > 0 ? '+' : ''}${f1(r.powerAdd)}</span></span>`;
     if (traitPowerAdd) html += `<span class="pc-item"><span class="pc-k">特性威力加成</span><span class="pc-v" style="color:#a5d6a7">+${f1(traitPowerAdd)}</span></span>`;
   }
-  // ── 特性威力倍率：对基础段 + 加成段整体生效 ──
-  if (traitPowerMult !== 1) html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">特性威力倍率(整段)</span><span class="pc-v" style="color:#a5d6a7">${f2(traitPowerMult)}</span></span>`;
+  // ── 技能威力乘区：对「基础威力区 + 固定威力提升区」整体生效 ──
+  if (multAll !== 1) {
+    html += `<span class="pc-op">×</span><span class="pc-item"><span class="pc-k">技能威力乘区${pctNames.length ? '(' + pctNames.join(' ') + ')' : ''}</span><span class="pc-v" style="color:#a5d6a7">${f2(multAll)}</span></span>`;
+  }
   html += `<span class="pc-op">→</span><span class="pc-item pc-final"><span class="pc-k">威力</span><span class="pc-v">${f1(finalP)}</span></span>`;
   box.innerHTML = html;
 
@@ -4077,19 +4100,17 @@ function calcFull() {
       if (peEl) {
         if (!res || res.isStatus) { peEl.textContent = ''; peEl.className = 'fsk-power-eff'; }
         else {
-          // 口径：威力 = (技能威力 × 应对倍率 × 本次威力% + 技能/特性威力加成) × 特性威力倍率
-          //   应对倍率不放大加成段；特性威力倍率对两段都生效
+          // 口径：威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
           const _pr = res.layers.res;
-          const _pCore = _pr.powerSkill * _pr.powerCounter * _pr.powerPctMult;   // 基础段
-          const _pBase = _pr.powerSkill + _pr.powerBonusAll;                     // 无任何倍率时的威力
+          const _pCore = _pr.powerSkill * _pr.powerCounter;                      // 基础威力区
+          const _pBase = _pr.powerSkill + _pr.powerFlatAll;                      // 无任何倍率时的威力
           peEl.textContent = f1(_pr.powerFinal);
           peEl.className = 'fsk-power-eff' + (_pr.powerFinal !== _pBase ? ' is-effected' : '');
           peEl.title = '技能威力 ' + f1(_pr.powerSkill)
             + (_pr.powerCounter !== 1 ? ' ×应对' + f2(_pr.powerCounter) : '')
-            + (_pr.powerPctMult !== 1 ? ' ×本次威力%' + f2(_pr.powerPctMult) : '')
-            + (_pr.powerBonusAll !== 0 ? ' + 加成' + (_pr.powerBonusAll > 0 ? '+' : '') + f1(_pr.powerBonusAll) : '')
-            + ' → ' + f1(_pCore + _pr.powerBonusAll)
-            + (_pr.powerTraitM !== 1 ? ' ×特性威力' + f2(_pr.powerTraitM) : '')
+            + (_pr.powerFlatAll !== 0 ? ' +固定提升' + (_pr.powerFlatAll > 0 ? '+' : '') + f1(_pr.powerFlatAll) : '')
+            + ' → ' + f1(_pCore + _pr.powerFlatAll)
+            + (_pr.powerMultAll !== 1 ? ' ×乘区' + f2(_pr.powerMultAll) : '')
             + ' = ' + f1(_pr.powerFinal)
             + (res.layers.pw && res.layers.pw.label ? '\n' + res.layers.pw.label : '');
         }
@@ -4208,7 +4229,7 @@ function renderFullResult() {
       const atkLvStr = atkLv >= 0 ? '+' + atkLv : '' + atkLv;
       const defLvStr = defLv >= 0 ? '+' + defLv : '' + defLv;
       // 公式串：威力处直接填「最终威力」(powerFinal)，与游戏口径一致；
-      //   (技能威力 × 应对倍率 × 本次威力% + 威力加成) × 特性威力倍率 的分解见拆解面板的「威力层」。
+      //   (基础威力区 + 固定威力提升区) × 技能威力乘区 的分解见拆解面板的「威力层」。
       const L = res.layers;
       const formulaStr = `(${f1(L.res.attackValue)} / ${f1(L.res.defenseValue)}) × 37/41 × ${f1(L.res.powerFinal)}`
         + (res.typeEff !== 1 ? ` × ${res.typeEff}(克制)` : '')
