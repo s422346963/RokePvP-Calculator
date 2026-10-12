@@ -1904,7 +1904,9 @@ function updateTraitInputVisibility(mode, side, traitName, res, buffs) {
   };
   kinds.forEach(k => {
     const el = document.getElementById(traitInputId(k, mode, side));
-    if (el && !el.dataset.userEdited) el.value = auto[k];
+    // 规则浮点值（如 1 + 0.1×7 = 1.7000000000000002）直接赋给 number 输入框会显示一长串尾噪，
+    // 这里四舍五入到 4 位小数再回填，既不改计算结果，又能正常显示 1.7 / 1.70。
+    if (el && !el.dataset.userEdited) el.value = Math.round((+auto[k] + Number.EPSILON) * 1e4) / 1e4;
   });
 }
 
@@ -1961,6 +1963,32 @@ function resetTraitInput(mode, side, kind) {
   } else {
     calcFull();
   }
+}
+
+// 切换精灵时重置该侧特性面板：清掉手动覆盖标记、作废签名缓存、把条件输入框恢复规则默认值。
+// 否则旧精灵的手动填入值/条件会沿用给新精灵（同名特性时签名不变 → 不清除 → 填写框未重置）；
+// 旧精灵编辑过但新精灵隐藏的通道输入框连带其「重置」按钮一并不可见。
+function resetTraitPanelForSide(side) {
+  ['b', 'full'].forEach(mode => {
+    const trName = side === 'atk' ? (state.atk && state.atk.tr) : (state.def && state.def.tr);
+    const skill = traitSkillFor(mode, side);
+    const table = side === 'atk' ? ATK_TRAIT_RULES : DEF_TRAIT_RULES;
+    const rule = trName ? table[trName] : null;
+    if (rule && rule.fields && skill) {
+      rule.fields(skill).forEach(f => {
+        const ce = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
+        if (!ce) return;
+        if (ce.type === 'checkbox') ce.checked = !!f.def;
+        else ce.value = (f.def === undefined ? 0 : f.def);
+      });
+    }
+    TRAIT_INPUT_KINDS.forEach(k => {
+      const el = document.getElementById(traitInputId(k, mode, side));
+      if (el) delete el.dataset.userEdited;
+    });
+    const row = document.getElementById(`trait-inputs-${mode}-${side}`);
+    if (row) delete row.dataset.sig;
+  });
 }
 
 // 读取某一侧生效的特性输入值；隐藏的项回退到规则计算值
@@ -2997,8 +3025,7 @@ function getFskPowerTipHTML(n) {
       tipInfo('若先于敌方攻击，威力 <b>+50%</b>（×1.5）') +
       tipTable(['情况','威力'],[
         [['后攻或同速', 75], false], [['先于敌方行动', 112], false],
-      ]) +
-      tipNote('若先手，建议在「其他额外倍率」填入 1.5')
+      ])
     );
   }
 
@@ -3324,6 +3351,13 @@ function applySpirit_global(side, spirit) {
   if (input) input.blur();
   if (dd) dd.classList.remove('open');
   if (arrow) arrow.textContent = '▼';
+
+  // 更换精灵后重置该侧能力等级（攻/防各两级）
+  state[side + 'AtkLevel'] = 0;
+  state[side + 'DefLevel'] = 0;
+  refreshLevelUI(side);
+  // 更换精灵后重置该侧特性面板（清手动覆盖 + 条件回默认 + 作废签名缓存），避免沿用旧精灵的特性值
+  resetTraitPanelForSide(side);
 
   // 选中精灵后自动套用 PVP 推荐（性格 + 个体值）
   const pvp = (typeof SPIRITS_PVP !== 'undefined' && SPIRITS_PVP[spirit.n]) ? SPIRITS_PVP[spirit.n] : null;
@@ -4462,6 +4496,13 @@ function loadFavConfig(fav, side) {
   if (dd) dd.classList.remove('open');
   if (arrow) arrow.textContent = '▼';
 
+  // 更换精灵后重置该侧能力等级（攻/防各两级）
+  state[side + 'AtkLevel'] = 0;
+  state[side + 'DefLevel'] = 0;
+  refreshLevelUI(side);
+  // 更换精灵后重置该侧特性面板（清手动覆盖 + 条件回默认 + 作废签名缓存），避免沿用旧精灵的特性值
+  resetTraitPanelForSide(side);
+
   // ── 2. 性格 ──
   const natureSel = document.getElementById(side + '-nature');
   if (natureSel && fav.nature) natureSel.value = fav.nature;
@@ -4507,6 +4548,9 @@ function loadFavConfig(fav, side) {
   }
 
   // ── 7. 刷新计算 ──
+  // 切换精灵已清掉特性签名缓存与手动覆盖，这里再统一刷新一次特性面板，
+  // 让 B / FULL 两侧都按新精灵的技能槽与技能重新填回自动值。
+  autoUpdateTraitUI();
   calcFull();
   calc();
 }
