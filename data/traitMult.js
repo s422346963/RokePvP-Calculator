@@ -429,19 +429,14 @@ defineAtkTraitRule(['全神贯注'],
   });
 
 // ------------------------------------------------------------
-// 敌方血脉判定类（月光审判 / 绒粉星光，无需用户输入）
+// 敌方血脉判定类（月光审判 / 绒粉星光，需用户勾选）
 // ------------------------------------------------------------
 // 月光审判 / 绒粉星光：「威力×2.0」→ powerMult 通道
-defineAtkTraitRule(['月光审判'], () => [],
-  ctx => (ctx.def && ctx.def.st && ctx.def.st.includes('首领'))
-    ? { f: 1, powerMult: 2.0, d: '敌方首领血脉→威力×2.0' } : null);
+defineAtkTraitRule(['月光审判'], () => [ck('enemyIsBoss', '敌方为首领血脉', false)],
+  ctx => ctx.opts.enemyIsBoss ? { f: 1, powerMult: 2.0, d: '敌方首领血脉→威力×2.0' } : null);
 
-defineAtkTraitRule(['绒粉星光'], () => [],
-  ctx => {
-    const st = (ctx.defA1 === ctx.atkA1 || ctx.defA1 === ctx.atkA2 ||
-                ctx.defA2 === ctx.atkA1 || ctx.defA2 === ctx.atkA2);
-    return (ctx.def && !st) ? { f: 1, powerMult: 2.0, d: '敌非本系血脉→威力×2.0' } : null;
-  });
+defineAtkTraitRule(['绒粉星光'], () => [ck('enemyIsHeterotype', '敌方非本系血脉', false)],
+  ctx => ctx.opts.enemyIsHeterotype ? { f: 1, powerMult: 2.0, d: '敌非本系血脉→威力×2.0' } : null);
 
 // ------------------------------------------------------------
 // 渗透 / 蒸汽膨胀：按己方已使用某类技能的累计次数叠加
