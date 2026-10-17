@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-洛克王国 PVP 伤害计算器 —— 纯前端静态网页工具，**无构建系统、无 package.json、无依赖、无测试/lint**。
+洛克王国 PVP 伤害计算器 —— 纯前端静态网页工具，**无构建系统、无 package.json、无依赖、无 lint**（开发期校验脚本见 `.tmp/`，已 gitignore）。
 
 - 数据来源：[BWiki 精灵图鉴](https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4) / [技能图鉴](https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4)（`nrc` 域；旧 `rocom` 域已下线）
 - 现有数据规模：精灵 622 条（含不同形态/首领）、技能 358 条 + 运行时注入的 18 条「愿力冲击」
@@ -12,25 +12,40 @@
 - 直接用浏览器打开 `index.html` 即可。数据以 `<script src>` 全局常量形式加载，不发网络请求（精灵缩略图走 BWiki 外链，失败时降级为属性 emoji）
 - 如需本地服务器：`python -m http.server 8080`
 - 验证改动：打开页面 → 选攻击/防御精灵 → 调参数 → 核对结果数字、拆解项与 UI；FULL 模式需先选齐双方并配置技能，再点技能行查看明细
+- 回归基线（拆分期建立，`.tmp/` 内）：`node .tmp/verify_formula.js`（公式断言 + 拆分护栏）、`node .tmp/smoke_load.js`（加载期冒烟）；浏览器级用 `.tmp/browser_eval.js` 在改动页与 `.tmp/index.html.*.bak` 基线页上跑同一段 JS 并逐位比对输出（覆盖模式 A/B/FULL、特性显隐、条件框、四层拆解）
 
 ## 结构与架构边界
 
-- `index.html` — 巨型单文件（约 175KB / 约 3280 行）：全部 UI 标记 + 全部计算逻辑都在行内 `<script>`（位于 body 末尾、数据脚本之后），入口为文件底部 `DOMContentLoaded`。
+- `index.html` — **约 517 行纯 HTML**（head / header / 精灵卡 / 模式面板 / 收藏浮层 / 弹窗）+ body 末尾的 `<script src>` 标签；**已无行内 `<script>`**（2026-10 拆分，原约 4784 行单文件 → `js/01`~`08`，原位置留「已搬迁至」指针注释）。
 - `css/head.css` — 唯一样式表（主题变量、卡片、布局）。
-- `data/*.js` — 游戏数据，均为全局常量，在 body 末尾、行内脚本之前**按序**加载：`spirits.js → skills.js → type.js → traitMult.js → skillMult.js → pinyin.js → spiritsPvP.js`
+- `js/01-core.js` ~ `js/08-fav-init.js` — 经典脚本（**禁 `type="module"`、禁 `defer`**，原因同 `data/*.js`：`file://` 下 module 被 CORS 拦掉白屏；解析期依赖全局常量），共享同一全局作用域，**加载顺序即依赖顺序**，在 body 末尾、`data/*.js` 之后按序加载：
+
+  | 文件 | 职责 | 关键内容 |
+  | --- | --- | --- |
+  | `js/01-core.js` | 纯逻辑 1 | `toPinyin`/`toInitials`/`matchQuery`、愿力冲击运行时注入（顶层 `SKILLS.push`，唯一允许的数据注入类顶层语句）、`state`、`calcRealStat`/`readIV`/`setIv`/`toggleIV`、性格表、`f1`/`f2`/`f3`、`diffTableLookup`/`levelMult`/`getTypeEff`/`hasStab`、`SPEED_DIFF_TABLE`/`PDEF_DIFF_TABLE`/`MANA_BURST_TABLE`、搜索索引 `filterSpiritsByQuery` |
+  | `js/02-damage.js` | 公式层 | **`computeDamage`（唯一实现点）**、`collectStatBuffs`、`applyStatBuff`、`buildPowerUtil`、`mergeBuffSourcesList`、`renderLayersHtml`（纯字符串）。**禁止出现 DOM 引用**（`verify_formula.js` 有断言） |
+  | `js/03-trait.js` | 特性层 | `calcAtkTraitMult`/`calcDefTraitMult`/`checkDefCarriesAttr`/`getTraitNeedsInput` 等计算 + 特性面板 UI（`updateTraitInputVisibility`/`renderTraitCond`/`readTraitInputs`/`traitInputId`/条件签名缓存） |
+  | `js/04-power.js` | 威力桥接层 | `renderPowerCond`/`readPowerOptsByMode`/`buildPowerCtx`/`buildFullPowerCtx`/`resolveAutoPowerForSlot`/`getFskPowerTipHTML`/`updatePowerTip`/`traitPowerFor` |
+  | `js/05-card.js` | 卡片交互层 | `renderCard`/`setupSearch`/`recalcStats`/能力等级/IV/交换/num-combo/`traitPanelHTML`+`renderTraitPanels`（特性面板模板）、`SORTED_SPIRITS` 别名 |
+  | `js/06-calc-ab.js` | 模式 A/B | `switchMode`/`calc`/技能下拉 picker/`buildTypeSelector`（B 模式活调用） |
+  | `js/07-full.js` | FULL 模式 | `fullState`/`buildFullSkillRows`/`openFskDropdown`/`selectFskSkill`/`calcOneFskDmg`/`calcFull`/`renderFullResult` |
+  | `js/08-fav-init.js` | 收尾层 | 收藏/`loadFavorites`·`saveFavorites`/拖动浮层/`toggleTheme`/通用弹窗/**全部事件绑定**/顶层 INIT/`DOMContentLoaded` 入口 |
+
+  ⚠️ **顶层可执行语句只允许出现在 `js/08-fav-init.js`**（唯一例外：`js/01-core.js` 的愿力冲击数据注入，必须晚于 `data/skills.js`）。跨文件函数调用只在调用期解析，合法；但**跨文件重名顶层 `const/let` 会 SyntaxError 整页白屏**（`function` 重名则是后者静默覆盖，曾是 `readTraitOpts` 真隐患），`verify_formula.js` 有重名断言。
+- `data/*.js` — 游戏数据，均为全局常量，在 body 末尾、`js/*.js` 之前**按序**加载：`spirits.js → skills.js → type.js → traitMult.js → skillMult.js → pinyin.js → spiritsPvP.js`
   - `spirits.js` → `const SPIRITS`：622 条。字段：`no`(3 位补零编号，同一编号可有多个形态) `n`(名称) `hp/pa/ma/pd/md/sp`(六项种族值) `a1/a2`(主/副属性) `tr`(特性名) `tr_desc`(特性描述) `st`(特殊形态/阶段文本，如「首领」，普通精灵为空串) `img`(wiki 图片 URL)。
   - `skills.js` → `const SKILLS`：358 条，当前只有 `k` 为 `物攻`(199) / `魔攻`(159) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。另有 `const SORTED_SPIRITS = SPIRITS` 别名（仅命名保留，并非已排序数组）。
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
-  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表，用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 index.html。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。
+  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表，用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。
   - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 97 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。
   - `pinyin.js` → `const PINYIN_MAP`：汉字 → 全拼，供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
 - `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。
-- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本,**改公式后必须重跑**：`node .tmp/verify_formula.js`（`.tmp` 已 gitignore，脚本可按需重建）。
+- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 150 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
 - `analytics.js` — 百度统计，勿动。
 - `.tmp/` — 数据同步的中间产物与缓存（已在 `.gitignore`）。
 
-## 核心计算逻辑（均在 index.html 行内脚本中）
+## 核心计算逻辑（按层分布于 `js/01`~`08`，见上方职责表）
 
 - 三种模式：`switchMode()` 切换 A（快捷）/ B（参数）/ FULL（配招），互斥显示：
   - **A**：威力按「游戏内显示值」处理 —— 已含特性/克制/能级/本系，因此 `calc()` 内**不乘**克制、本系、能级倍率，也不套能力等级、不吃特性攻防加成；属性选择器已隐藏（`buildTypeSelector('skill-type-selector-a')` 被注释掉）。
@@ -87,7 +102,7 @@
 - 特性倍率：`calcAtkTraitMult` / `calcDefTraitMult`（现返回 `powerBonus`/`powerPct`/`stat`）；条件输入用 `getTraitNeedsInput` / `getDefTraitNeedsInput` + `renderTraitCond()`，`onTraitCondChange()` / `readTraitOptsByMode()` 读写（后者改为**按 id 前缀全量扫描**，新增 key 无需改代码）。
 - 属性克制：`getTypeEff`（含免疫判定）；本系加成判定 `hasStab`。
 - 属性折算：`calcRealStat()`（含性格 `getNature()`、个体值）、`readIV()` / `setIv()`（个体值只有 **0 / 60** 两档）、`levelMult()`（能级倍率 = 1 + 0.1 × 等级，负级取倒数）。
-- 搜索：`matchQuery()` 支持中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`；精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤取前 40 条。
+- 搜索：`matchQuery()` 支持中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`；精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤取前 40 条 —— 过滤走 `filterSpiritsByQuery()`（`js/01-core.js` 懒建拼音索引，语义与 `matchQuery` 一致），输入经 `requestAnimationFrame` 节流。
 - 持久化：收藏夹用 `localStorage`（键 `roko_favorites` / `roko_fav_panel_open` / `roko_fav_panel_pos`，`loadFavorites`/`saveFavorites`，浮层可拖动 `setupFavPanelDrag`/`applyFavPanelPos`）；主题 `toggleTheme()` 切 `data-theme="light"`，**默认日间且不持久化**。
 
 ## 更新游戏数据（常见任务）
@@ -107,15 +122,15 @@
 - 所有用户可见文案为**简体中文**；文件编码 UTF-8（部分 CRLF 行尾）。终端输出中文出现乱码通常是显示端解码问题，文件本身有效，**不要"修复"编码**。
 - UI 遵循"攻橙防蓝"语义：攻击方暖色、防御方冷色，始终成对出现（详见 design.md）；**默认日间主题且刷新后不保留**切换结果。
 - 「其他额外倍率 / 星陨印记层数 / 防御方减伤」三组输入框是 `.num-combo` 数值下拉（A/B/FULL 各一份，共 9 个）：预设值由 input 的 `data-num-opts` 声明，`initNumCombos()`（`DOMContentLoaded` 调用）构建选项；点选项后写值并派发 `input` 事件以复用各模式原有的 `oninput`（`calc` / `calcFull`），仍允许自由输入，失焦时空/非数字回填 `defaultValue`。**布局约束**：`.mult-box` 是 `flex:0 0 auto`，宽度由内容（label + input 固有宽度）撑开，故这些 input 在 `head.css` 中固定为 `width:0; min-width:100%` —— 否则 `type=text` 的固有宽度会把整行撑宽（110px → 229px）；同时不要给它们加左右 padding。
-- `data/*.js` 不能移回 `<head>` 或加 `defer`：行内脚本在解析期立即执行并依赖这些全局常量，执行顺序颠倒会直接 ReferenceError 崩掉整个脚本。
+- `data/*.js` 与 `js/*.js` 都不能移回 `<head>` 或加 `defer`、禁 `type="module"`：经典脚本在解析期立即执行并依赖全局常量，`file://` 下 module 还会被 CORS 拦掉整页白屏；执行顺序颠倒会直接 ReferenceError 崩掉整个脚本。`js/` 内部顺序同样不可重排（愿力冲击注入依赖 `data/skills.js`；08 的 init 依赖 01~07 全部声明）。
 - 模式 A 不计算克制/本系/能级（威力已包含），不要"顺手补齐"；模式 B 的倍率框可手动覆盖自动值，`syncModeBAutoFields()` 只在切精灵/切属性时重填。
-- `st` 是特殊形态/阶段文本（如「首领」）而非进化阶段；`SORTED_SPIRITS` 只是 `SPIRITS` 的别名，不要假设它已排序。
+- `st` 是特殊形态/阶段文本（如「首领」）而非进化阶段；`SORTED_SPIRITS` 只是 `SPIRITS` 的别名（定义在 `js/05-card.js`，被搜索分组与索引使用，**不是死代码**），不要假设它已排序。
 - FULL 模式下 `calcFull()` 在攻防双方未选齐时提前返回，两侧技能面板标题保持「未选择精灵」——这是现有约定，不是 bug。
 - 技能库当前没有 `k === '状态'` 的数据，但下拉渲染与 FULL 计算仍保留该分支（单独分组、"不造成直接伤害"提示），删数据分支前请先确认同步侧不会再加回。
-- `index.html` 体量大，编辑时用精确锚点定位替换，避免整文件重写。
+- `index.html` 现在只有约 517 行 HTML；改逻辑去对应的 `js/*.js`（职责表见上），改数据去 `data/*.js`。编辑 `js/*.js` 后跑 `node .tmp/verify_formula.js` + `node .tmp/smoke_load.js`。
 - 公式**只有** `computeDamage()` 一个实现点。看到别处出现 `* (37/41) *` 之类的字面量即为分叉，必须收敛回 `computeDamage()`。
 - 新增特性攻防规则时：若特性语义是「改攻防属性」而非「改伤害倍率」，用 `stat` 通道并把 `f` 置 1，**不要**两者都写。
 - 新增技能威力规则时：在 `data/skillMult.js` 用 `defineSkillPowerRule` 注册；「变为 N 倍」用 `powerMult`（乘除段），「+N / +N%」用 `powerAdd` / `powerPct`（`powerAdd` 进加减段）。字段构造器用 `spCk` / `spNum`（**不要**用 `ck` / `num`，那是 `traitMult.js` 的全局名，重复声明会崩）。
-- `data/skillMult.js` 与 `data/traitMult.js` 都**不得**引用 `SPEED_DIFF_TABLE` / `MANA_BURST_TABLE` / `diffTableLookup` 等 index.html 内的绑定（加载期它们还不存在）；一律通过 `ctx.util` 注入。
+- `data/skillMult.js` 与 `data/traitMult.js` 都**不得**引用 `SPEED_DIFF_TABLE` / `MANA_BURST_TABLE` / `diffTableLookup` 等 `js/01-core.js` 内的绑定（加载期它们还不存在）；一律通过 `ctx.util` 注入。
 - 特性输入框的自动回填靠「输入源签名」（特性名 + 条件输入）判断：条件一变就清手动标记并回填规则值。若在 `calc()` 的重算路径里无条件回填，会把用户手填值冲掉。
 - 特性规则未覆盖但 `tr_desc` 含攻防关键词时，需给用户「规则待补全」提示，不要静默按无加成处理（与技能侧 `isSkillPowerUnimplemented` 同理）。

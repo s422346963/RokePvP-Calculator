@@ -246,8 +246,6 @@
   .level-multiplier { font-size: 12px; color: var(--text2); }
   .reduce-row { display: flex; align-items: center; gap: 10px; background: var(--bg); border-radius: 8px; padding: 8px 12px; border: 1px solid var(--border); margin-top: 8px; }
   .reduce-label { font-size: 12px; color: var(--text2); flex: 1; }
-  .reduce-input { width: 68px; padding: 5px 8px; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; color: #ff6b6b; font-size: 15px; font-weight: 700; text-align: center; }
-  .reduce-input:focus { outline: none; border-color: #ff6b6b; }
   .mode-tabs { display: flex; gap: 0; margin-bottom: 14px; background: var(--bg); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
   .mode-tab { flex: 1; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; text-align: center; }
   .mode-tab.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(124,107,255,.4); }
@@ -545,8 +543,6 @@
   .trait-mult-input.def { color:#90caf9; border-color:rgba(144,202,249,.4); }
   .trait-reset-btn { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text2); cursor:pointer; white-space:nowrap; }
   .trait-reset-btn:hover { background:var(--card); color:var(--text); }
-  .quick-mult-btn { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--card); color:color-mix(in srgb, var(--text2) 65%, transparent); cursor:pointer; white-space:nowrap; }
-  .quick-mult-btn:hover { background:var(--bg); color:var(--text2); }
   .trait-cond-area { margin-top:8px; }
   .trait-cond-area:empty { display:none; }
   .trait-hint-box { font-size:11px; color:var(--text2); line-height:1.7; padding:8px 10px; background:rgba(255,220,50,.07); border-radius:8px; border:1px solid rgba(255,220,50,.2); }
@@ -641,12 +637,9 @@
     }
 
 
-    /* 特性说明框 */
-    #trait-desc-b { width: 100%; }
-
     /* 输入框触控友好 */
     .search-input, .niv-select, .niv-input, .field-input,
-    .skill-lib-search, .mult-box-input, .reduce-input { font-size: 16px; }
+    .skill-lib-search, .mult-box-input { font-size: 16px; }
 
   }
 
