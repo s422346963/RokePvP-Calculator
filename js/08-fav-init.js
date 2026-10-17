@@ -10,6 +10,8 @@ document.addEventListener('mousedown', e => {
 // ============================================================
 // INIT
 // ============================================================
+// 特性面板模板注入（Phase 4）：必须早于 DOMContentLoaded 里的 updateTraitInputVisibility
+renderTraitPanels();
 // buildTypeSelector('skill-type-selector-a'); // A 模式属性选择已隐藏（如需恢复取消注释）
 buildTypeSelector('skill-type-selector-b');
 setupSearch('atk');

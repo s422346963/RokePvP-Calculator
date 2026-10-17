@@ -273,74 +273,12 @@
           <!-- 攻方特性 -->
           <div class="trait-panel trait-panel-atk">
             <div class="trait-panel-header">⚡ 攻方特性（自动判断）</div>
-            <div class="trait-panel-body">
-              <div class="trait-name-row atk-color" id="trait-atk-name-full">暂无特性</div>
-              <div class="trait-desc-text" id="trait-atk-desc-full">选择攻击方精灵后自动显示</div>
-              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-full-atk">
-                <span class="trait-mult-group" data-trait-input="mult">
-                  <span class="trait-mult-label">特性倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','atk','mult')">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','mult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
-                  <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','atk','powerMult')" title="特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','powerMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
-                  <span class="trait-mult-label">特性威力</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-full" value="0" min="-10000" max="10000" step="10" oninput="onTraitInputEdit('full','atk','powerAdd')" title="特性带来的威力加成（威力层加法段）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','powerAdd')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkMult" style="display:none">
-                  <span class="trait-mult-label">特性攻击倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-atk-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','atk','atkMult')" title="特性带来的攻击百分比加成（攻击层）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','atkMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkAdd" style="display:none">
-                  <span class="trait-mult-label">特性攻击</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-atk-add-full" value="0" min="-10000" max="10000" step="1" oninput="onTraitInputEdit('full','atk','atkAdd')" title="特性带来的攻击固定点数加成（攻击层）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','atk','atkAdd')">重置</button>
-                </span>
-              </div>
-              <div class="trait-cond-area" id="trait-atk-cond-full"></div>
-            </div>
+            <div class="trait-panel-body" id="trait-panel-body-full-atk"></div>
           </div>
           <!-- 防方特性 -->
           <div class="trait-panel trait-panel-def">
             <div class="trait-panel-header">🛡️ 防方特性（自动判断）</div>
-            <div class="trait-panel-body">
-              <div class="trait-name-row def-color" id="trait-def-name-full">暂无特性</div>
-              <div class="trait-desc-text" id="trait-def-desc-full">选择防御方精灵后自动显示</div>
-              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-full-def">
-                <span class="trait-mult-group" data-trait-input="mult">
-                  <span class="trait-mult-label">特性倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','def','mult')">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','def','mult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
-                  <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','def','powerMult')" title="防方特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','def','powerMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
-                  <span class="trait-mult-label">特性威力</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-full" value="0" min="-10000" max="10000" step="10" oninput="onTraitInputEdit('full','def','powerAdd')" title="防方特性带来的威力加成">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','def','powerAdd')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkMult" style="display:none">
-                  <span class="trait-mult-label">特性防御倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-atk-mult-full" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('full','def','atkMult')" title="防方特性带来的防御百分比加成（防御层）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','def','atkMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkAdd" style="display:none">
-                  <span class="trait-mult-label">特性防御</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-atk-add-full" value="0" min="-10000" max="10000" step="1" oninput="onTraitInputEdit('full','def','atkAdd')" title="防方特性带来的防御固定点数加成（防御层）">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('full','def','atkAdd')">重置</button>
-                </span>
-              </div>
-              <div class="trait-cond-area" id="trait-def-cond-full"></div>
-            </div>
+            <div class="trait-panel-body" id="trait-panel-body-full-def"></div>
           </div>
         </div>
         <!-- 底部倍率行 -->
@@ -487,74 +425,12 @@
           <!-- 攻方特性 -->
           <div class="trait-panel trait-panel-atk">
             <div class="trait-panel-header">⚡ 攻方特性（自动判断）</div>
-            <div class="trait-panel-body">
-              <div class="trait-name-row atk-color" id="trait-atk-name-b">暂无特性</div>
-              <div class="trait-desc-text" id="trait-atk-desc-b">选择攻击方精灵后自动显示</div>
-              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-b-atk">
-                <span class="trait-mult-group" data-trait-input="mult">
-                  <span class="trait-mult-label">特性倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','atk','mult')">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','mult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
-                  <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','atk','powerMult')" title="特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','powerMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
-                  <span class="trait-mult-label">特性威力</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-power-b" value="0" min="-10000" max="10000" step="10" oninput="onTraitInputEdit('b','atk','powerAdd')" title="特性带来的威力加成（威力层加法段，如蒸汽膨胀 +10/次）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','powerAdd')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkMult" style="display:none">
-                  <span class="trait-mult-label">特性攻击倍率</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-atk-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','atk','atkMult')" title="特性带来的攻击百分比加成（攻击层）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','atkMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkAdd" style="display:none">
-                  <span class="trait-mult-label">特性攻击</span>
-                  <input class="trait-mult-input atk" type="number" id="trait-atk-add-b" value="0" min="-10000" max="10000" step="1" oninput="onTraitInputEdit('b','atk','atkAdd')" title="特性带来的攻击固定点数加成（攻击层）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','atk','atkAdd')">重置</button>
-                </span>
-              </div>
-              <div class="trait-cond-area" id="trait-atk-cond-b"></div>
-            </div>
+            <div class="trait-panel-body" id="trait-panel-body-b-atk"></div>
           </div>
           <!-- 防方特性 -->
           <div class="trait-panel trait-panel-def">
             <div class="trait-panel-header">🛡️ 防方特性（自动判断）</div>
-            <div class="trait-panel-body">
-              <div class="trait-name-row def-color" id="trait-def-name-b">暂无特性</div>
-              <div class="trait-desc-text" id="trait-def-desc-b">选择防御方精灵后自动显示</div>
-              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-b-def">
-                <span class="trait-mult-group" data-trait-input="mult">
-                  <span class="trait-mult-label">特性倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','def','mult')">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','def','mult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerMult" style="display:none">
-                  <span class="trait-mult-label">特性威力倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','def','powerMult')" title="防方特性带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','def','powerMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="powerAdd" style="display:none">
-                  <span class="trait-mult-label">特性威力</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-power-b" value="0" min="-10000" max="10000" step="10" oninput="onTraitInputEdit('b','def','powerAdd')" title="防方特性带来的威力加成">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','def','powerAdd')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkMult" style="display:none">
-                  <span class="trait-mult-label">特性防御倍率</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-atk-mult-b" value="1.0" min="0" max="10" step="0.05" oninput="onTraitInputEdit('b','def','atkMult')" title="防方特性带来的防御百分比加成（防御层）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','def','atkMult')">重置</button>
-                </span>
-                <span class="trait-mult-group" data-trait-input="atkAdd" style="display:none">
-                  <span class="trait-mult-label">特性防御</span>
-                  <input class="trait-mult-input def" type="number" id="trait-def-atk-add-b" value="0" min="-10000" max="10000" step="1" oninput="onTraitInputEdit('b','def','atkAdd')" title="防方特性带来的防御固定点数加成（防御层）；可手动改">
-                  <button class="trait-reset-btn" onclick="resetTraitInput('b','def','atkAdd')">重置</button>
-                </span>
-              </div>
-              <div class="trait-cond-area" id="trait-def-cond-b"></div>
-            </div>
+            <div class="trait-panel-body" id="trait-panel-body-b-def"></div>
           </div>
         </div>
         <!-- 底部倍率行（与 FULL 模式一致：左参数 / 右提示） -->

@@ -554,3 +554,56 @@ function setupSearch(side) {
     setTimeout(() => document.addEventListener('click', handler), 0);
   }
 }
+
+// ================================================================
+// 特性输入面板模板（Phase 4：消除 b/full × atk/def 四份复制 markup）
+//   id 规则不变：traitInputId(kind, mode, side)（js/03 单一来源）与 trait-{side}-cond-{mode}，
+//   readTraitOptsByMode 的前缀扫描逻辑因此不用改。
+//   改通道输入框只需改这里的 K 表，四份面板同时生效。
+// ================================================================
+function traitPanelHTML(side, mode) {
+  const isAtk = side === 'atk';
+  const cls = isAtk ? 'atk' : 'def';
+  const statWord = isAtk ? '攻击' : '防御';
+  const manual = mode === 'b' ? '；可手动改' : '';
+  const K = [
+    { kind: 'mult',      label: '特性倍率',                      v: '1.0', min: '0',     max: '10',    step: '0.05', title: '' },
+    { kind: 'powerMult', label: '特性威力倍率',                  v: '1.0', min: '0',     max: '10',    step: '0.05',
+      title: (isAtk ? '特性' : '防方特性') + '带来的威力倍率（以「倍率−1」的增量并入威力层技能威力乘区）' + manual },
+    { kind: 'powerAdd',  label: '特性威力',                      v: '0',   min: '-10000', max: '10000', step: '10',
+      title: isAtk
+        ? '特性带来的威力加成（威力层加法段' + (mode === 'b' ? '，如蒸汽膨胀 +10/次' : '') + '）' + manual
+        : '防方特性带来的威力加成' },
+    { kind: 'atkMult',   label: '特性' + statWord + '倍率',      v: '1.0', min: '0',     max: '10',    step: '0.05',
+      title: (isAtk ? '特性' : '防方特性') + '带来的' + statWord + '百分比加成（' + statWord + '层）' + manual },
+    { kind: 'atkAdd',    label: '特性' + statWord,               v: '0',   min: '-10000', max: '10000', step: '1',
+      title: (isAtk ? '特性' : '防方特性') + '带来的' + statWord + '固定点数加成（' + statWord + '层）' + manual },
+  ];
+  const groups = K.map(k => {
+    const hidden = k.kind === 'mult' ? '' : ' style="display:none"';
+    const titleAttr = k.title ? ' title="' + k.title + '"' : '';
+    return '                <span class="trait-mult-group" data-trait-input="' + k.kind + '"' + hidden + '>\n' +
+      '                  <span class="trait-mult-label">' + k.label + '</span>\n' +
+      '                  <input class="trait-mult-input ' + cls + '" type="number" id="' + traitInputId(k.kind, mode, side) + '" value="' + k.v + '" min="' + k.min + '" max="' + k.max + '" step="' + k.step + '" oninput="onTraitInputEdit(\'' + mode + '\',\'' + side + '\',\'' + k.kind + '\')"' + titleAttr + '>\n' +
+      '                  <button class="trait-reset-btn" onclick="resetTraitInput(\'' + mode + '\',\'' + side + '\',\'' + k.kind + '\')">重置</button>\n' +
+      '                </span>';
+  }).join('\n');
+  return '              <div class="trait-name-row ' + (isAtk ? 'atk-color' : 'def-color') + '" id="trait-' + side + '-name-' + mode + '">暂无特性</div>\n' +
+    '              <div class="trait-desc-text" id="trait-' + side + '-desc-' + mode + '">选择' + (isAtk ? '攻击' : '防御') + '方精灵后自动显示</div>\n' +
+    '              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-' + mode + '-' + side + '">\n' +
+    groups + '\n' +
+    '              </div>\n' +
+    '              <div class="trait-cond-area" id="trait-' + side + '-cond-' + mode + '"></div>';
+}
+
+// 首次渲染时把 4 个特性面板（b/full × atk/def）注入各自容器。
+// 调用点：js/08-fav-init.js 顶层 INIT（必须早于 DOMContentLoaded 里的
+// updateTraitInputVisibility —— 后者要读这些输入框）。
+function renderTraitPanels() {
+  ['b', 'full'].forEach(mode => {
+    ['atk', 'def'].forEach(side => {
+      const body = document.getElementById('trait-panel-body-' + mode + '-' + side);
+      if (body) body.innerHTML = traitPanelHTML(side, mode);
+    });
+  });
+}
