@@ -43,15 +43,26 @@
 
 ```
 RokePvP-Calculator/
-├── index.html          # 主页面：UI 标记 + 全部计算逻辑（单文件行内脚本）
+├── index.html          # 主页面：约 520 行纯 HTML + 末尾的脚本引用（无行内脚本）
 ├── css/
 │   └── head.css        # 唯一样式表（主题变量、卡片、布局）
-├── data/               # 游戏数据（全局常量，在 index.html 末尾按序加载）
+├── js/                 # 计算与交互逻辑（经典脚本，按序加载，共享全局作用域）
+│   ├── 01-core.js      #   搜索匹配 / 愿力冲击注入 / state / 面板值 / 性格 / 克制 / 查表
+│   ├── 02-damage.js    #   伤害公式（computeDamage 唯一实现点）/ 四层拆解渲染
+│   ├── 03-trait.js     #   特性倍率计算与特性面板（显隐 / 条件框 / 输入读写）
+│   ├── 04-power.js     #   技能威力条件渲染 / 变动威力解析 / 威力提示
+│   ├── 05-card.js      #   精灵卡片 / 搜索下拉 / 能力等级 / IV / 数值下拉
+│   ├── 06-calc-ab.js   #   模式 A/B：switchMode / calc / 技能下拉
+│   ├── 07-full.js      #   FULL 模式：双方 4 技能配置与对比计算
+│   └── 08-fav-init.js  #   收藏夹 / 主题 / 弹窗 / 事件绑定 / 初始化入口
+├── data/               # 游戏数据（全局常量，在 js/ 之前按序加载）
 │   ├── spirits.js      # 精灵数据：编号/名称/六项种族值/属性/特性/形态/图片
 │   ├── skills.js       # 技能数据：名称/属性/威力/类型/能耗/描述
 │   ├── type.js         # 属性克制数据
 │   ├── traitMult.js    # 攻/防特殊特性规则表（条件输入与倍率计算）
-│   └── pinyin.js       # 拼音搜索映射
+│   ├── skillMult.js    # 技能威力修正规则表
+│   ├── pinyin.js       # 拼音搜索映射
+│   └── spiritsPvP.js   # PvP 专用精灵数据
 ├── gen_pinyin.py       # 拼音映射生成脚本（从精灵/技能名生成 data/pinyin.js）
 ├── design.md           # 视觉与交互设计规范
 ├── AGENTS.md           # AI 协作与数据更新约定
@@ -64,10 +75,13 @@ RokePvP-Calculator/
         └── update-spirit/  # 更新精灵资质
 ```
 
+> ⚠️ `data/` 与 `js/` 均为经典脚本（禁 `type="module"`、禁 `defer`），加载顺序即依赖顺序，调整前请读 [`AGENTS.md`](./AGENTS.md) 的架构约束。
+
 ## 🛠️ 开发约定
 
 - 无构建系统、无依赖、无 package.json：改完直接刷新页面即可验证
-- 改 UI 前先读 [`design.md`](./design.md)；AI 协作与数据更新约定见 [`AGENTS.md`](./AGENTS.md)
+- 计算逻辑按层分布在 `js/01-core.js` ~ `js/08-fav-init.js`（职责见上方结构）；改逻辑去对应的 `js/*.js`，改数据去 `data/*.js`
+- 改 UI 前先读 [`design.md`](./design.md)；AI 协作、脚本加载约束与回归验证方法见 [`AGENTS.md`](./AGENTS.md)
 - 精灵/技能数据请通过 `.codebuddy/skills/` 下的 AI 技能从 BWiki 同步，不要凭记忆手写数值
 - 新增或修改精灵/技能名后，运行 `python gen_pinyin.py` 重新生成 `data/pinyin.js`（需 `pip install pypinyin`，脚本会自动备份原文件）
 

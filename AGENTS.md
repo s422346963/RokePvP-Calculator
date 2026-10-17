@@ -12,7 +12,7 @@
 - 直接用浏览器打开 `index.html` 即可。数据以 `<script src>` 全局常量形式加载，不发网络请求（精灵缩略图走 BWiki 外链，失败时降级为属性 emoji）
 - 如需本地服务器：`python -m http.server 8080`
 - 验证改动：打开页面 → 选攻击/防御精灵 → 调参数 → 核对结果数字、拆解项与 UI；FULL 模式需先选齐双方并配置技能，再点技能行查看明细
-- 回归基线（拆分期建立，`.tmp/` 内）：`node .tmp/verify_formula.js`（公式断言 + 拆分护栏）、`node .tmp/smoke_load.js`（加载期冒烟）；浏览器级用 `.tmp/browser_eval.js` 在改动页与 `.tmp/index.html.*.bak` 基线页上跑同一段 JS 并逐位比对输出（覆盖模式 A/B/FULL、特性显隐、条件框、四层拆解）
+- 回归基线（`.tmp/` 内，已 gitignore）：`node .tmp/verify_formula.js`（公式断言 + 拆分护栏）、`node .tmp/smoke_load.js`（加载期冒烟，带 DOM 桩按浏览器顺序加载全部来源）
 
 ## 结构与架构边界
 

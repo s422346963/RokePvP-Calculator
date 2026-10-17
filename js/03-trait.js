@@ -295,7 +295,7 @@ function bumpTraitOptsVersion(mode, side) {
   // ⚠️ 必须同时失效两侧：readTraitOptsByMode 的旧前缀兜底（prefixOld 全量扫描）
   //    会把另一侧的条件输入读进来——实测 readTraitOptsByMode('b','def') 在攻方
   //    有 stackCount 输入时返回 {"atk-stackCount":0}。任一侧 DOM 变化都可能
-  //    改变另一侧的序列化结果，按侧独立失效会产生脏签名（曾导致双页比对 DIFFERENT）。
+  //    改变另一侧的序列化结果，按侧独立失效会产生脏签名（拆分期实测踩过）。
   ['atk', 'def'].forEach(s => {
     const k = mode + '|' + s;
     _traitOptsVer[k] = (_traitOptsVer[k] || 0) + 1;
