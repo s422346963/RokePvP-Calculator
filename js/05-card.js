@@ -424,8 +424,8 @@ function setupSearch(side) {
   // ── 渲染下拉内容 ──────────────────────────────────────────
   function renderDropdown(q) {
     if (q) {
-      // 有输入：过滤模式，扁平列表，最多 40 条
-      const res = SORTED_SPIRITS.filter(s => matchQuery(s.n, q)).slice(0, 40);
+      // 有输入：过滤模式，扁平列表，最多 40 条（走拼音索引，见 js/01-core.js）
+      const res = filterSpiritsByQuery(q).slice(0, 40);
       if (!res.length) {
         dd.innerHTML = '<div style="padding:10px 14px;font-size:12px;color:var(--text2)">无匹配精灵</div>';
         return;
@@ -522,13 +522,20 @@ function setupSearch(side) {
     bindClose();
   });
 
+  let _searchRaf = 0;
   input.addEventListener('input', () => {
     clearPickerPlaceholder(input);       // 开始输入 → 名称不再是占位符
-    renderDropdown(input.value.trim());
-    if (!dd.classList.contains('open')) {
-      dd.classList.add('open');
-      if (arrow) arrow.textContent = '▲';
-    }
+    // rAF 节流（Phase 5）：连续按键只渲染最后一帧，占位符清理保持同步
+    const q = input.value.trim();
+    if (_searchRaf) cancelAnimationFrame(_searchRaf);
+    _searchRaf = requestAnimationFrame(() => {
+      _searchRaf = 0;
+      renderDropdown(q);
+      if (!dd.classList.contains('open')) {
+        dd.classList.add('open');
+        if (arrow) arrow.textContent = '▲';
+      }
+    });
   });
 
   bindPickerTypeReset(input);

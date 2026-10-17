@@ -283,6 +283,33 @@ function traitInputKinds(traitName, side) {
   return traitChannelsToKinds(getTraitChannelsForSide(traitName, side));
 }
 
+// ── 条件输入签名缓存（Phase 5）────────────────────────────────────
+// updateTraitInputVisibility 每次重算都要序列化该侧全部条件输入作签名；
+// readTraitOptsByMode 是 DOM 前缀扫描 + JSON.stringify，4 个面板 × 每次按键不便宜。
+// 改为按 (mode, side) 缓存序列化结果，只在条件 DOM 实际变化时失效：
+//   onTraitCondChange（用户输入）/ resetTraitInput / resetTraitPanelForSide（恢复默认）/
+//   renderTraitCond 真正重写（结构或值变化）—— 即全部写入点。
+const _traitOptsCache = {};
+const _traitOptsVer = {};
+function bumpTraitOptsVersion(mode, side) {
+  // ⚠️ 必须同时失效两侧：readTraitOptsByMode 的旧前缀兜底（prefixOld 全量扫描）
+  //    会把另一侧的条件输入读进来——实测 readTraitOptsByMode('b','def') 在攻方
+  //    有 stackCount 输入时返回 {"atk-stackCount":0}。任一侧 DOM 变化都可能
+  //    改变另一侧的序列化结果，按侧独立失效会产生脏签名（曾导致双页比对 DIFFERENT）。
+  ['atk', 'def'].forEach(s => {
+    const k = mode + '|' + s;
+    _traitOptsVer[k] = (_traitOptsVer[k] || 0) + 1;
+  });
+}
+function traitOptsSignature(mode, side) {
+  const k = mode + '|' + side;
+  const ver = _traitOptsVer[k] || 0;
+  if (!_traitOptsCache[k] || _traitOptsCache[k].v !== ver) {
+    _traitOptsCache[k] = { v: ver, s: JSON.stringify(readTraitOptsByMode(mode, side)) };
+  }
+  return _traitOptsCache[k].s;
+}
+
 // 更新某一侧输入框的显隐（并把规则算出的值自动填入）
 function updateTraitInputVisibility(mode, side, traitName, res, buffs) {
   const kinds = traitInputKinds(traitName, side);
@@ -296,7 +323,7 @@ function updateTraitInputVisibility(mode, side, traitName, res, buffs) {
     // 签名变化 = 规则的数据来源变了（换精灵/ 换技能 / 改条件）→ 手动覆盖作废，
     // 回到条件生成的自动值。签名不变（仅普通重算）→ 保留用户手动填写的值。
     // 例：次数 2 → 1.4，手动改 1.5 生效；再把次数改成 4 → 签名变化 → 恢复 1.8。
-    const sig = (traitName || '') + '|' + JSON.stringify(readTraitOptsByMode(mode, side));
+    const sig = (traitName || '') + '|' + traitOptsSignature(mode, side);
     if (row.dataset.sig !== sig) {
       row.dataset.sig = sig;
       // ⚠️ 手动标记 data-user-edited 打在 <input> 上，而 [data-trait-input] 在分组 <span> 上，
@@ -367,6 +394,7 @@ function resetTraitInput(mode, side, kind) {
       else ce.value = (f.def === undefined ? 0 : f.def);
     });
   }
+  bumpTraitOptsVersion(mode, side);   // 条件输入恢复默认值 → 签名缓存失效
 
   // 3) 重跑规则 → 自动回填基线值
   if (mode === 'b') {
@@ -394,6 +422,7 @@ function resetTraitPanelForSide(side) {
         else ce.value = (f.def === undefined ? 0 : f.def);
       });
     }
+    bumpTraitOptsVersion(mode, side);   // 切精灵重置条件输入 → 签名缓存失效
     TRAIT_INPUT_KINDS.forEach(k => {
       const el = document.getElementById(traitInputId(k, mode, side));
       if (el) delete el.dataset.userEdited;
@@ -463,7 +492,7 @@ function refreshStatAreas(mode, skill) {
 // 渲染特性条件选项到指定容器（side: 'atk'|'def'）
 function renderTraitCond(fields, container, mode, side) {
   if (!container) return;
-  if (!fields || fields.length === 0) { container.innerHTML = ''; return; }
+  if (!fields || fields.length === 0) { container.innerHTML = ''; delete container.dataset.traitCondSig; return; }
 
   // 过滤 onlyIfNoAuto
   const skill = state.selectedSkillName ? SKILLS.find(s => s.n === state.selectedSkillName) : null;
@@ -473,7 +502,22 @@ function renderTraitCond(fields, container, mode, side) {
     const autoVal = checkDefCarriesAttr(state.def, skAttr);
     return autoVal === null; // 只有无法自动判断时才显示
   });
-  if (visibleFields.length === 0) { container.innerHTML = ''; return; }
+  if (visibleFields.length === 0) { container.innerHTML = ''; delete container.dataset.traitCondSig; return; }
+
+  // 结构 + 值签名（Phase 5）：字段集合与将要渲染的值都没变就不重建 DOM。
+  // 此前每次重算都无条件销毁/重建条件框（4 个面板 × 每次按键），白付 DOM 代价。
+  // ⚠️ 值部分必须与下方渲染逻辑同口径：元素已存在 → 读当前值；不存在 → 回退 f.def。
+  //    否则「首渲前（无元素）」与「首渲后（读回默认值）」签名不一致，守卫永不命中。
+  const condSig = visibleFields.map(f => f.key + ':' + f.type + ':' + (f.def === undefined ? '' : f.def)).join(',')
+    + '#' + visibleFields.map(f => {
+        const el = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
+        if (el) return f.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value;
+        if (f.type === 'checkbox') return f.def ? 1 : 0;
+        return (f.def === undefined ? '' : f.def);
+      }).join(',');
+  if (container.dataset.traitCondSig === condSig && container.firstChild) return;
+  container.dataset.traitCondSig = condSig;
+  bumpTraitOptsVersion(mode, side);   // 条件 DOM 被重写 → 签名缓存失效
 
   ﻿const accentColor = side === 'atk' ? 'var(--atk-color)' : '#42a5f5';
 
@@ -510,6 +554,7 @@ function renderTraitCond(fields, container, mode, side) {
 // 条件变更时重算
 function onTraitCondChange(mode, side) {
   // skill 可能为 null（尚未选技能）：仍要让条件变化立即反映到输入框与说明文字
+  bumpTraitOptsVersion(mode, side);   // 用户改了条件输入 → 签名缓存失效
   const skill = state.selectedSkillName ? SKILLS.find(s => s.n === state.selectedSkillName) : null;
   const opts = readTraitOptsByMode(mode, side);
 

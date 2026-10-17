@@ -209,3 +209,30 @@ function diffTableLookup(table, atk, def) {
 const MANA_BURST_TABLE = [
   [0,45],[1,70],[2,90],[3,110],[4,135],[5,155],[6,165],[7,180],[8,190],[9,200],[10,210]
 ];
+
+// ================================================================
+// 搜索索引（Phase 5）：懒建一次，避免每次按键对 622 只精灵现算拼音
+//   语义与 matchQuery 完全一致：中文子串（原始大小写）/ 全拼 / 首字母（均转小写）
+//   懒建原因：SORTED_SPIRITS 定义在 js/05-card.js（本文件之后加载），
+//   首次搜索输入时所有脚本已加载完毕，此时建索引安全。
+// ================================================================
+let _spiritSearchIndex = null;
+function getSpiritSearchIndex() {
+  if (_spiritSearchIndex) return _spiritSearchIndex;
+  const list = (typeof SORTED_SPIRITS !== 'undefined') ? SORTED_SPIRITS : SPIRITS;
+  _spiritSearchIndex = list.map(s => ({
+    s: s,
+    py: toPinyin(s.n).toLowerCase(),
+    ini: toInitials(s.n).toLowerCase(),
+  }));
+  return _spiritSearchIndex;
+}
+function filterSpiritsByQuery(q) {
+  if (!q) return [];
+  const ql = q.toLowerCase();
+  const out = [];
+  getSpiritSearchIndex().forEach(e => {
+    if (e.s.n.indexOf(q) !== -1 || e.py.indexOf(ql) !== -1 || e.ini.indexOf(ql) !== -1) out.push(e.s);
+  });
+  return out;
+}
