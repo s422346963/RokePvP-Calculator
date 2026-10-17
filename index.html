@@ -626,96 +626,15 @@
 <script src="data/skillMult.js"></script>
 <script src="data/pinyin.js"></script>
 <script src="data/spiritsPvP.js"></script>
+<script src="js/01-core.js"></script>
+<script src="js/02-damage.js"></script>
 
 <script>
 
-function toPinyin(str){
-  return Array.from(str).map(function(c){return PINYIN_MAP[c]||c;}).join("");
-}
-function toInitials(str){
-  return Array.from(str).map(function(c){return PINYIN_MAP[c]?PINYIN_MAP[c][0]:c;}).join("");
-}
-function matchQuery(name, q){
-  if(!q) return false;
-  var ql = q.toLowerCase();
-  if(name.indexOf(q)!==-1) return true;
-  var py = toPinyin(name).toLowerCase();
-  if(py.indexOf(ql)!==-1) return true;
-  var ini = toInitials(name).toLowerCase();
-  if(ini.indexOf(ql)!==-1) return true;
-  return false;
-}
-
-
-
-// 愿力冲击（全属性，每属性一条，k="双攻"表示取较高攻）
-['普通','草','火','水','光','地','冰','龙','电','毒','虫','武','翼','萌','幽','恶','机械','幻'].forEach(t => SKILLS.push({"n":"愿力冲击("+t+")","a":t,"p":80,"k":"双攻","c":2,"desc":"应对状态：本次技能威力变为2.5倍。"}));
-
-
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 const SORTED_SPIRITS = SPIRITS;
 
-// ============================================================
-// STATE
-// ============================================================
-let state = {
-  atk: null, def: null,
-  atkStat: 'patk', defStat: 'pdef',
-  atkAtkLevel: 0, atkDefLevel: 0,
-  defAtkLevel: 0, defDefLevel: 0,
-  skillType: 'physical',
-  skillAttr: '普通',
-  mode: 'A',
-  selectedSkillName: '',
-};
-
-// ============================================================
-// STAT CALCULATION  (species value → real stat)
-// HP:    (sv*1.7 + iv*0.85 + 70) * nature + 100
-// Other: (sv*1.1 + iv*0.55 + 10) * nature + 50
-// IV range: 0–100
-// 验证: 针叶巡林(HP:348),水灵(HP:501),迪莫(防御:175)
-// ============================================================
-function calcRealStat(sv, iv, nature, isHp) {
-  iv = Math.max(0, Math.min(100, iv));
-  // 种族值=105、无个体(iv=0)、无性格加成(nature=1.0) 时，中间值向下取整
-  const baseRounder = (sv === 105 && iv === 0 && nature === 1.0) ? Math.floor : Math.round;
-  if (isHp) {
-    const base = baseRounder(sv * 1.7 + iv * 0.85 + 70);
-    return Math.round(base * nature + 100);
-  }
-  const base = baseRounder(sv * 1.1 + iv * 0.55 + 10);
-  return Math.round(base * nature + 50);
-}
-
-function readIV(id) {
-  // 修复：0 是有效值，不能用 || fallback，需单独判断空字符串
-  const raw = document.getElementById(id).value;
-  if (raw === '' || raw === null) return 50; // 空时默认50
-  return Math.max(0, Math.min(100, parseInt(raw, 10) || 0));
-}
-
-// 设置个体值按钮的显示值与内部 value（按钮用 value 属性存储，textContent 显示）
-function setIv(id, v) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  v = Math.max(0, Math.min(100, parseInt(v, 10) || 0));
-  el.value = v;
-  el.textContent = v;
-}
-
-// 点击个体值按钮：当前为 0 则切到 60，否则（含 60）切回 0
-function toggleIV(id, side) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const cur = parseInt(el.value, 10) || 0;
-  setIv(id, cur === 0 ? 60 : 0);
-  recalcStats(side);
-  calc();
-}
-
-
-
-
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 // ============================================================
 // TRAIT MULTIPLIER AUTO-CALC  特性倍率自动计算 v3.0
 // ============================================================
@@ -867,162 +786,7 @@ function getTraitNeedsInput(atkTr, defTr, skill) {
   return [];
 }
 
-// ================================================================
-// 特性「攻防属性加成」收集（stat 通道）
-// ================================================================
-// 只算「攻方攻击力 + 防方防御力」：
-//   · stat 只表达当前精灵自身的攻防被修改，不做跨方联动
-//   · 物攻技能只吃 patk / pdef；魔攻技能只吃 matk / mdef（双攻取较高者那一侧）
-// 叠加口径：固定点数跨来源相加；**百分比跨来源也相加**（2 个 +20% = +40%，不是 ×1.44）
-//
-// 返回 { pctSum, pctMult, flatSum, sources: [{label, pct, flat, color}] }
-//   pctSum  —— Σ 各来源 pct
-//   pctMult —— 1 + pctSum。与 computeDamage 的加成乘区同口径：
-//              攻击 = (面板 + Σ固定) × (1 + Σ特性% + (等级倍率 − 1))
-//   flatSum —— 各来源 flat 之和
-//   sources —— 供 UI 逐项展示来源
-// role: 'atk' | 'def' —— 该侧在当前这一击里扮演的角色（默认 'atk'，兼容旧调用）
-//   ⚠️ 必须按角色取键：曾经把 patk + pdef（或 matk + mdef）一起收进同一个 bundle，
-//      于是「攻方的物防加成」被乘进了攻击层、「防方的魔攻加成」被乘进了防御层 ——
-//      宇宙之眼/守护之心这类「防方物防」特性因此在攻方手里凭空放大伤害。
-//      stat 通道的语义是「当前精灵自身攻防被修改」，但只有对位那个键才参与本次伤害。
-function collectStatBuffs(stat, isPhys, role) {
-  const out = { pctSum: 0, pctMult: 1, flatSum: 0, sources: [] };
-  if (!stat) return out;
-  const isAtkRole = role !== 'def';
-  const key = isAtkRole ? (isPhys ? 'patk' : 'matk')   // 攻方只吃自己的攻击键
-    : (isPhys ? 'pdef' : 'mdef');                      // 防方只吃自己的防御键
-  const v = stat[key];
-  if (v) {
-    if (v.flat) {
-      out.flatSum += v.flat;
-      out.sources.push({ key, label: key.toUpperCase(), pct: 0, flat: v.flat });
-    }
-    if (v.pct) {
-      // 百分比累加（不连乘）：多来源与能力等级同处一个加成乘区
-      out.pctSum += v.pct;
-      out.pctMult = 1 + out.pctSum;
-      out.sources.push({ key, label: key.toUpperCase(), pct: v.pct, flat: 0 });
-    }
-  }
-  return out;
-}
-
-// 把 stat buff 应用到面板值：attackValue = (面板 + 固定点数) × (1 + Σ百分比加成)
-function applyStatBuff(baseVal, buffs) {
-  return (baseVal + (buffs ? buffs.flatSum : 0)) * (buffs ? buffs.pctMult : 1);
-}
-
-// 特性 stat 通道的语义说明（用于 UI「攻防属性加成」区分项显示）
-const STAT_LABELS = { patk: '物攻', matk: '魔攻', pdef: '物防', mdef: '魔防', spd: '速度' };
-
-// ================================================================
-// computeDamage —— A / B / FULL 三模式唯一的伤害公式实现
-// ================================================================
-// 严格遵循「先加减、后乘除」。四层结构：
-//
-//   攻击层 attackValue  = (面板攻击 + Σ固定加成) × (1 + Σ特性百分比加成 + (能力等级倍率 − 1))
-//   防御层 defenseValue = (面板防御 + Σ固定加成) × (1 + Σ特性百分比加成 + (能力等级倍率 − 1))
-//   威力层 powerFinal   = (基础威力区 + 固定威力提升区) × 技能威力乘区
-//      基础威力区       = 技能威力 × 应对倍率（「应对成功威力×N」「威力翻倍」这类描述）
-//      固定威力提升区   = 技能威力加成 + 特性威力加成（求和）
-//      技能威力乘区     = 1 + Σ（技能威力+N% 与 特性威力倍率 的增量，求和）
-//   结算层 单次伤害 = floor( attackValue / defenseValue × 37/41
-//                          × powerFinal × 克制 × 本系 × 特性乘算 × 额外倍率 × 减伤 )
-//         总伤害   = 单次伤害 × 连击数
-//
-// ⚠️ 模式 A（威力按游戏内显示值输入）走同一条路径：传 useLevel:false /
-//    typeEff:1 / stab:1 / 无特性 buff，即可精确复现原有语义。
-// ⚠️ calc() 与 calcOneFskDmg() 都只能调用本函数，本函数之外不得出现连乘公式字面量。
-function computeDamage(o) {
-  // ── 攻击层 ──
-  //   ⚠️ 百分比加成（特性/道具等）与「能力等级倍率」同处一个加成乘区 —— **相加**，不是相乘：
-  //      攻击 = (面板攻击 + Σ固定点数) × (1 + Σ百分比加成 + (能力等级倍率 − 1))
-  //      例：246 ×（1 + 0.40 + 1.00）= 590.4，而不是 246 × 1.40 × 2.00 = 688.8
-  //      （等级 +10 → 等级倍率 2.0，对加成的贡献是增量 +1.00）
-  const atkFlat = o.atkFlat || 0;
-  const atkPctMult = o.atkPctMult || 1;
-  const atkLevelMult = o.useLevel === false ? 1 : (o.atkLevelMult || 1);
-  const atkPctBonus = atkPctMult - 1;        // 百分比加成（如特性物攻 +40% → 0.4）
-  const atkLevelBonus = atkLevelMult - 1;    // 能力等级增量（等级+10 → +1.0）
-  const attackValue = (o.atkBase + atkFlat) * (1 + atkPctBonus + atkLevelBonus);
-
-  // ── 防御层 —— 同一口径 ──
-  const defFlat = o.defFlat || 0;
-  const defPctMult = o.defPctMult || 1;
-  const defLevelMult = o.useLevel === false ? 1 : (o.defLevelMult || 1);
-  const defPctBonus = defPctMult - 1;
-  const defLevelBonus = defLevelMult - 1;
-  const defenseValue = (o.defBase + defFlat) * (1 + defPctBonus + defLevelBonus);
-
-  // ── 威力层 ──
-  //   ⚠️ 三区口径（用户定义，勿改）：
-  //     1) 基础威力区   = 技能威力 × 应对倍率 —— 应对倍率只放大基础威力，
-  //        不放大「加上去的威力」（固定威力提升区）
-  //     2) 固定威力提升区 = 技能威力加成 + 特性威力加成，两者**求和**
-  //     3) 技能威力乘区   = 1 + Σ（技能威力+N% 的 N% + 特性威力倍率的增量），
-  //        跨来源**相加**而不是连乘；对「基础威力区 + 固定威力提升区」整体生效
-  //     例：75 基础、技能威力+50%、特性威力倍率 1.50 → (75 + 0) × (1 + 0.5 + 0.5) = 150
-  const powerSkill   = o.powerBase || 0;                            // 技能威力（基础威力）
-  const powerCounter = (o.powerMult === undefined || o.powerMult === null) ? 1 : o.powerMult;  // 应对倍率（技能侧）
-  const powerTraitM  = (o.powerTraitMult === undefined || o.powerTraitMult === null) ? 1 : o.powerTraitMult; // 特性威力倍率
-  const powerPct     = o.powerPct || 0;                             // 本次威力 +N%（技能侧百分比修正）
-  const powerAdd     = o.powerAdd || 0;                             // 技能威力加成
-  const powerTraitAdd = o.powerTraitBonus || 0;                     // 特性威力加成
-  const powerBaseSeg = powerSkill * powerCounter;                   // 基础威力区（只吃应对倍率）
-  const powerFlatAll = powerAdd + powerTraitAdd;                    // 固定威力提升区（技能与特性求和）
-  const powerPctSum  = powerPct + (powerTraitM - 1);                // 技能威力乘区的增量总和
-  const powerMultAll = 1 + powerPctSum;                             // 技能威力乘区
-  const powerFinal = (powerBaseSeg + powerFlatAll) * powerMultAll;
-
-  // ── 结算层 ──
-  const typeEff = (o.typeEff === undefined || o.typeEff === null) ? 1 : o.typeEff;
-  const stab = (o.stab === undefined || o.stab === null) ? 1 : o.stab;
-  const traitMult = o.traitMult || 1;              // 攻方特性 × 防方特性（纯乘算残留通道）
-  const extraMult = o.extraMult || 1;
-  const reduceMult = o.reduceMult === undefined ? 1 : o.reduceMult;
-  const hits = Math.max(1, o.hits || 1);
-
-  const ratio = defenseValue > 0 ? attackValue / defenseValue : 0;
-  const single = ratio * (37 / 41) * powerFinal * typeEff * stab * traitMult * extraMult * reduceMult;
-  const dmg = Math.floor(single) * hits;
-
-  return {
-    attackValue, defenseValue, ratio,
-    atkPctBonus, atkLevelBonus, defPctBonus, defLevelBonus,
-    powerSkill, powerBaseSeg, powerCounter, powerTraitM, powerPct, powerPctSum, powerMultAll,
-    powerAdd, powerTraitAdd, powerFlatAll, powerFinal,
-    // 兼容旧字段名：固定威力提升区 == 旧「加成段」
-    powerBonusAll: powerFlatAll,
-    singleDmg: single, dmg, hits,
-    typeEff, stab, traitMult, extraMult, reduceMult,
-  };
-}
-
-// 组装 computeDamage 需要的 util：查表函数 + 面板值（FULL 模式技能侧威力/能耗等）
-// 技能规则表（data/skillMult.js）不碰 DOM，全部通过这里注入
-function buildPowerUtil(opt) {
-  opt = opt || {};
-  return {
-    diffTableLookup: diffTableLookup,
-    speedDiffTable: SPEED_DIFF_TABLE,
-    pdefDiffTable: PDEF_DIFF_TABLE,
-    manaBurstTable: MANA_BURST_TABLE,
-    spdAtk: opt.spdAtk || 0,
-    spdDef: opt.spdDef || 0,
-    pdefAtk: opt.pdefAtk || 0,
-    pdefDef: opt.pdefDef || 0,
-    // 敌方（对手）技能槽总能耗
-    foeTotalCost: () => (typeof opt.foeCost === 'function' ? opt.foeCost() : 0),
-    // 本方左右邻槽威力（钢钻等「两侧技能」公式型用）
-    sidePower: (ctx, side) => {
-      if (typeof opt.sidePower === 'function') return opt.sidePower(ctx, side);
-      return 0;
-    },
-  };
-}
-
-
+// ── 已搬迁至 js/02-damage.js（computeDamage 等公式层，唯一实现点）──
 function readTraitOpts() {
   const opts = {};
   ['faster','activated','rainy','enemyIsPolluted'].forEach(k => {
@@ -1038,53 +802,7 @@ function readTraitOpts() {
   return opts;
 }
 
-// 性格映射表：每种性格对各属性的倍率
-// 格式：{patk, matk, pdef, mdef, spd, hp} 值为 1.2/0.9/1.0
-// ============================================================
-const NATURE_TABLE = {
-  neutral: {patk:1.0, matk:1.0, pdef:1.0, mdef:1.0, spd:1.0, hp:1.0},
-  // +生命
-  '沉默':   {patk:0.9, matk:1.0, pdef:1.0, mdef:1.0, spd:1.0, hp:1.2},
-  '平和':   {patk:1.0, matk:0.9, pdef:1.0, mdef:1.0, spd:1.0, hp:1.2},
-  '忧郁':   {patk:1.0, matk:1.0, pdef:0.9, mdef:1.0, spd:1.0, hp:1.2},
-  '粗心':   {patk:1.0, matk:1.0, pdef:1.0, mdef:0.9, spd:1.0, hp:1.2},
-  '踏实':   {patk:1.0, matk:1.0, pdef:1.0, mdef:1.0, spd:0.9, hp:1.2},
-  // +物攻
-  '大胆':   {patk:1.2, matk:1.0, pdef:0.9, mdef:1.0, spd:1.0, hp:1.0},
-  '调皮':   {patk:1.2, matk:1.0, pdef:1.0, mdef:0.9, spd:1.0, hp:1.0},
-  '勇敢':   {patk:1.2, matk:1.0, pdef:1.0, mdef:1.0, spd:0.9, hp:1.0},
-  '逞强':   {patk:1.2, matk:1.0, pdef:1.0, mdef:1.0, spd:1.0, hp:0.9},
-  '固执':   {patk:1.2, matk:0.9, pdef:1.0, mdef:1.0, spd:1.0, hp:1.0},
-  // +魔攻
-  '聪明':   {patk:0.9, matk:1.2, pdef:1.0, mdef:1.0, spd:1.0, hp:1.0},
-  '专注':   {patk:1.0, matk:1.2, pdef:0.9, mdef:1.0, spd:1.0, hp:1.0},
-  '偏执':   {patk:1.0, matk:1.2, pdef:1.0, mdef:0.9, spd:1.0, hp:1.0},
-  '冷静':   {patk:1.0, matk:1.2, pdef:1.0, mdef:1.0, spd:0.9, hp:1.0},
-  '理性':   {patk:1.0, matk:1.2, pdef:1.0, mdef:1.0, spd:1.0, hp:0.9},
-  // +速度
-  '胆小':   {patk:0.9, matk:1.0, pdef:1.0, mdef:1.0, spd:1.2, hp:1.0},
-  '开朗':   {patk:1.0, matk:0.9, pdef:1.0, mdef:1.0, spd:1.2, hp:1.0},
-  '急躁':   {patk:1.0, matk:1.0, pdef:0.9, mdef:1.0, spd:1.2, hp:1.0},
-  '莽撞':   {patk:1.0, matk:1.0, pdef:1.0, mdef:0.9, spd:1.2, hp:1.0},
-  '热情':   {patk:1.0, matk:1.0, pdef:1.0, mdef:1.0, spd:1.2, hp:0.9},
-  // +物防
-  '稳重':   {patk:0.9, matk:1.0, pdef:1.2, mdef:1.0, spd:1.0, hp:1.0},
-  '天真':   {patk:1.0, matk:0.9, pdef:1.2, mdef:1.0, spd:1.0, hp:1.0},
-  '悠闲':   {patk:1.0, matk:1.0, pdef:1.2, mdef:1.0, spd:0.9, hp:1.0},
-  '懒散':   {patk:1.0, matk:1.0, pdef:1.2, mdef:0.9, spd:1.0, hp:1.0},
-  '坦率':   {patk:1.0, matk:1.0, pdef:1.2, mdef:1.0, spd:1.0, hp:0.9},
-  // +魔防
-  '警惕':   {patk:0.9, matk:1.0, pdef:1.0, mdef:1.2, spd:1.0, hp:1.0},
-  '害羞':   {patk:1.0, matk:0.9, pdef:1.0, mdef:1.2, spd:1.0, hp:1.0},
-  '温顺':   {patk:1.0, matk:1.0, pdef:0.9, mdef:1.2, spd:1.0, hp:1.0},
-  '慎重':   {patk:1.0, matk:1.0, pdef:1.0, mdef:1.2, spd:0.9, hp:1.0},
-  '焦虑':   {patk:1.0, matk:1.0, pdef:1.0, mdef:1.2, spd:1.0, hp:0.9},
-};
-
-function getNature(side) {
-  const key = document.getElementById(side + '-nature').value;
-  return NATURE_TABLE[key] || NATURE_TABLE.neutral;
-}
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 
 function recalcStats(side) {
   const spirit = side === 'atk' ? state.atk : state.def;
@@ -1133,53 +851,7 @@ function recalcStats(side) {
   // 速度变化时同步刷新浮动威力提示
   if (typeof updatePowerTip === 'function') updatePowerTip();
 }
-
-
-// ============================================================
-// HELPERS
-// ============================================================
-function levelMult(lv) {
-  return lv >= 0 ? 1 + lv * 0.1 : 1 / (1 + Math.abs(lv) * 0.1);
-}
-
-function getTypeEff(atkType, d1, d2) {
-  const ac = TYPE_CHART[atkType];
-  if (!ac) return 1;
-
-  // Wiki 字段语义（来自 wiki.biligame.com/rocom/克制计算器）：
-  //   攻击方字段：
-  //     strong  = 造成伤害增加 → 攻击这些防御属性时 ×2
-  //     resist  = 造成伤害降低 → 攻击这些防御属性时 ×0.5
-  //   防御方字段：
-  //     weak       = 受到伤害增加 → 被这些攻击属性打时 ×2
-  //     vulnerable = 受到伤害降低 → 被这些攻击属性打时 ×0.5
-  // 优先级：攻击方 strong/resist 先查，防御方 weak/vulnerable 补充
-  function singleEff(dt) {
-    if (!dt) return 1;
-    const dc = TYPE_CHART[dt];
-    // 攻击方视角优先
-    if (ac.strong?.includes(dt)) return 2;
-    if (ac.resist?.includes(dt)) return 0.5;
-    // 防御方视角补充
-    if (dc?.weak?.includes(atkType)) return 2;
-    if (dc?.vulnerable?.includes(atkType)) return 0.5;
-    return 1;
-  }
-
-  const r1 = singleEff(d1);
-  if (r1 === 0) return 0;
-  const r2 = d2 ? singleEff(d2) : 1;
-  if (r2 === 0) return 0;
-
-  const raw = r1 * r2;
-  if (raw >= 4) return 3;           // 双重克制上限 ×3
-  if (raw > 0 && raw <= 0.25) return 0.25; // 双重抵抗下限 ×0.25
-  return raw;
-}
-
-function hasStab(spirit, attr) {
-  return spirit && (spirit.a1 === attr || (spirit.a2 && spirit.a2 === attr));
-}
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 
 // ============================================================
 // MODE SWITCH
@@ -1483,127 +1155,9 @@ function calc() {
   `;
 }
 
-const f1 = v => String(Math.floor(v));
-const f2 = v => v.toFixed(2);
-const f3 = v => v.toFixed(3);
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 
-// ================================================================
-// 四层拆解渲染（攻击层 / 防御层 / 威力层 / 结算层）
-// ================================================================
-// 攻橙防蓝：攻击侧用 var(--atk-color)，防御侧用 #42a5f5
-// 每个乘算/加算项都标注来源（特性名 / 技能规则 label），便于追溯
-// 合并「规则算出的 stat 来源」与「界面手动输入的倍率/固定值」为统一来源列表（供calc / calcOneFskDmg 共用）
-// finalPctMult 是最终生效的攻击/防御倍率（含界面覆盖），与规则值之差额即手动增量
-// 合并「规则算出的 stat 来源」与「界面手动输入的倍率/固定值」为统一来源列表（供calc / calcOneFskDmg 共用）
-// finalPctMult 是最终生效的攻击/防御倍率（含界面覆盖），与规则值之差额即手动增量
-function mergeBuffSourcesList(buffs) {
-  // 只输出规则表声明的来源。不为「手动覆盖」合成额外行——那会显示成
-  // 「手动 ×1.06」这类由除法反推出来的噪音值，对理解结果毫无帮助。
-  // 手动覆盖后的最终数值由「＝ 物攻终值」那一行如实体现。
-  return (buffs && buffs.sources) ? buffs.sources.slice() : [];
-}
-
-function renderLayersHtml(o) {
-  const res = o.res;
-  if (!res) return '';
-  const isB = o.mode === 'B';
-  const grp = (title, tagCls, inner) =>
-    `<div class="breakdown-group"><div class="breakdown-group-title ${tagCls}">${title}</div>${inner}</div>`;
-  const item = (label, val, cls, style) =>
-    `<div class="breakdown-item"><span class="bi-label">${label}</span><span class="bi-val ${cls || ''}"${style ? ' style="' + style + '"' : ''}>${val}</span></div>`;
-
-  // ── 攻防层：基础面板值 → 各项加成明细 → 终值 ──
-  // levelName/levelSuffix 形如 「攻击能力等级」/「（等级+2）」，仅当倍率≠1 时展开一行
-  // effPct/effFlat：该层最终生效的百分比倍率与固定点数（含特性面板的手动覆盖）。
-  //   与规则算出的合计不一致 => 用户手动改过输入框，此时输入框是权威值（整体替代规则值），
-  //   必须显示生效值，否则明细行与终值对不上。
-  // traitTag：该层「特性来源」的名称前缀——攻击层『特性攻击』/ 防御层『特性防御』。
-  // ⚠️ 百分比与能力等级同乘区相加（见 computeDamage）：明细行一律显示 **加成百分比**，
-  //   如「特性攻击倍率 +40%」「攻击能力等级（等级+10）+100%」，
-  //   终值 = 基础 ×（1 + Σ百分比），而不是把几行相乘。
-  const pctStr = v => (v > 0 ? '+' : '') + (Math.round(v * 1000) / 10).toString().replace(/\.0$/, '') + '%';
-  const sideChain = (baseLabel, baseVal, finalVal, buffs, lvMult, lvLabel, lvSuffix, color, effPct, effFlat, traitTag) => {
-    let r = '';
-    const srcs = buffs.sources || [];
-    // 与 collectStatBuffs / computeDamage 同口径：百分比跨来源相加
-    const rulePct  = 1 + srcs.reduce((a, s) => a + (s.pct || 0), 0);
-    const ruleFlat = srcs.reduce((a, s) => a + (s.flat || 0), 0);
-    const manual = Math.abs((effPct === undefined ? rulePct : effPct) - rulePct) > 1e-9
-                || Math.abs((effFlat === undefined ? ruleFlat : effFlat) - ruleFlat) > 1e-9;
-    r += item(baseLabel, f1(baseVal), '', color);
-    if (manual) {
-      const pctV = (effPct === undefined ? rulePct : effPct);
-      const flatV = (effFlat === undefined ? ruleFlat : effFlat);
-      if (flatV !== 0) r += item('　└ ' + traitTag + '（手动覆盖）', (flatV > 0 ? '+' : '') + f1(flatV), '', color + ';opacity:.85');
-      if (pctV !== 1)  r += item('　└ ' + traitTag + '倍率（手动覆盖）', pctStr(pctV - 1), '', color + ';opacity:.85');
-    } else {
-      srcs.forEach(s => {
-        const v = s.flat ? ('+' + s.flat + ' 固定点数') : pctStr(s.pct);
-        r += item('　└ ' + (s.flat ? traitTag : traitTag + '倍率'), v, '', color + ';opacity:.85');
-      });
-    }
-    if (isB && lvMult !== 1) r += item('　└ ' + lvLabel + lvSuffix, pctStr(lvMult - 1), '', color + ';opacity:.85');
-    r += item('＝ ' + baseLabel + '终值', f1(finalVal), 'highlight', color);
-    return r;
-  };
-
-  const atkRows = sideChain(
-    o.asLabel, o.atkBase, res.attackValue,
-    { sources: mergeBuffSourcesList(o.atkBuffs) },
-    o.atkMult, '攻击能力等级', o.atkLvSuffix || '', 'color:var(--atk-color)',
-    o.atkPctMult, o.atkFlat, '特性攻击');
-  const defRows = sideChain(
-    o.dsLabel, o.defBase, res.defenseValue,
-    { sources: mergeBuffSourcesList(o.defBuffs) },
-    o.defMult, '防御能力等级', o.defLvSuffix || '', 'color:#42a5f5',
-    o.defPctMult, o.defFlat, '特性防御');
-
-  // ── 威力层 ──
-  //   威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
-  //     基础威力区     = 技能威力 × 应对倍率
-  //     固定威力提升区 = 技能威力加成 + 特性威力加成（求和）
-  //     技能威力乘区   = 1 + Σ（技能威力% + 特性威力倍率增量），对前两者之和整体生效
-  const pw = o.pw || {};
-  let pwRows = '';
-  pwRows += item('技能威力', f1(res.powerSkill), '');
-  if (res.powerCounter !== 1) {
-    pwRows += item('　应对倍率', '×' + f2(res.powerCounter), '', 'color:#66bb6a');
-    pwRows += item('＝ 基础威力区', f1(res.powerBaseSeg), 'highlight');
-  }
-  if (pw.powerAdd) pwRows += item('＋ 技能威力加成', (pw.powerAdd > 0 ? '+' : '') + f1(pw.powerAdd), '', 'color:#66bb6a');
-  if (o.traitPowerShown) pwRows += item('＋ 特性威力加成', '+' + f1(o.traitPowerShown), '', 'color:#a5d6a7');
-  if (res.powerFlatAll !== 0) pwRows += item('＝ 固定威力提升区', (res.powerFlatAll > 0 ? '+' : '') + f1(res.powerFlatAll), 'highlight');
-  if (res.powerMultAll !== 1) {
-    if (res.powerPct) pwRows += item('　└ 技能威力', pctStr(res.powerPct), '', 'color:#66bb6a;opacity:.85');
-    if (res.powerTraitM !== 1) pwRows += item('　└ 特性威力倍率', pctStr(res.powerTraitM - 1), '', 'color:#a5d6a7;opacity:.85');
-    pwRows += item('＝ 技能威力乘区', '×' + f2(res.powerMultAll), 'highlight');
-  }
-  pwRows += item('＝ 威力终值', f1(res.powerFinal), 'highlight');
-
-  // ── 结算层 ──
-  let stRows = '';
-  stRows += item('攻防比 × 37/41', '', '');
-  stRows += item('属性克制', o.typeEff === 0 ? '免疫' : '×' + o.typeEff, o.typeEff !== 1 ? 'highlight' : '', 'color:#ff6464');
-  if (isB) {
-    if (o.stabMult !== 1) stRows += item('本系加成 STAB', '×' + o.stabMult, 'highlight', 'color:#ffd700');
-    if (o.atkTraitMult !== 1) stRows += item('攻方特性', '×' + f2(o.atkTraitMult), 'highlight', 'color:#a5d6a7');
-    if (o.defTraitMult !== 1) stRows += item('防方特性', '×' + f2(o.defTraitMult), 'highlight', 'color:#90caf9');
-  } else if (o.stabMult > 1) {
-    stRows += item('本系加成 STAB', '×1.25', 'highlight', 'color:#ffd700');
-  }
-  if (o.extraMult !== 1) stRows += item('其他倍率', '×' + o.extraMult, 'highlight');
-  if (o.reducePct > 0) stRows += item('减伤', '×' + f2(o.reduceMult) + `（-${o.reducePct}%）`, '', 'color:#80e080');
-  stRows += item('＝ 单次伤害', f1(res.singleDmg), 'highlight');
-  if (o.hits > 1) stRows += item('× 连击', o.hits + ' 次（单次 ' + f1(res.singleDmg) + '）', 'highlight', 'color:#ffca28');
-  stRows += item('＝ 最终伤害', f1(o.dmg), 'highlight');
-
-  return grp('⚔️ 攻击层', 'layer-atk', atkRows)
-       + grp('🛡️ 防御层', 'layer-def', defRows)
-       + grp('✨ 威力层', 'layer-pw', pwRows)
-       + grp('🎯 结算层', 'layer-st', stRows);
-}
-
-
+// ── 已搬迁至 js/02-damage.js（computeDamage 等公式层，唯一实现点）──
 // ============================================================
 // LEVEL CONTROLS
 // ============================================================
@@ -2095,8 +1649,6 @@ function renderTraitCond(fields, container, mode, side) {
   html += '</div>';
   container.innerHTML = html;
 }
-
-
 // 条件变更时重算
 function onTraitCondChange(mode, side) {
   // skill 可能为 null（尚未选技能）：仍要让条件变化立即反映到输入框与说明文字
@@ -2171,8 +1723,6 @@ function readTraitOpts() {
   // 兼容旧代码，优先读mode-b的选项
   return readTraitOptsByMode('b');
 }
-
-
 // ================================================================
 // 技能威力条件（data/skillMult.js）的输入 / 渲染 / 读取
 // ================================================================
@@ -2409,10 +1959,6 @@ function readBasePower(mode, slot) {
   const el = document.getElementById(`fsk-power-${slot.replace(/^([a-z]+)(\d+)$/, '$1-$2')}`);
   return el ? (parseFloat(el.value) || 0) : 0;
 }
-
-
-
-
 // ============================================================
 // SKILL COMBO  合并输入+下拉
 // ============================================================
@@ -2642,35 +2188,7 @@ function applyQuickSkill(skill) {
 // VARIABLE POWER TIP  （浮动威力提示）
 // ============================================================
 
-// 闪击：速度差→威力查表（攻方速度 - 防方速度）
-const SPEED_DIFF_TABLE = [
-  { min: -Infinity, max: 0,   p: 60,  label: '≤ 0（不快于对方）' },
-  { min: 1,   max: 30,  p: 80,  label: '1 ~ 30'   },
-  { min: 31,  max: 60,  p: 100, label: '31 ~ 60'  },
-  { min: 61,  max: 90,  p: 120, label: '61 ~ 90'  },
-  { min: 91,  max: 120, p: 140, label: '91 ~ 120' },
-  { min: 121, max: 150, p: 150, label: '121 ~ 150' },
-  { min: 151, max: 180, p: 160, label: '151 ~ 180' },
-  { min: 181, max: 210, p: 170, label: '181 ~ 210' },
-  { min: 211, max: 240, p: 180, label: '211 ~ 240' },
-  { min: 241, max: 270, p: 190, label: '241 ~ 270' },
-  { min: 271, max: Infinity, p: 200, label: '≥ 271' }
-];
-// 鸣沙陷阱：物防差→威力查表（攻方物防 - 防方物防），区间与闪击相同
-const PDEF_DIFF_TABLE = SPEED_DIFF_TABLE;
-
-function diffTableLookup(table, atk, def) {
-  const diff = atk - def;
-  for (const row of table) {
-    if (diff >= row.min && diff <= row.max) return { p: row.p, diff };
-  }
-  return { p: table[table.length - 1].p, diff };
-}
-
-// 魔能爆：能量→威力表
-const MANA_BURST_TABLE = [
-  [0,45],[1,70],[2,90],[3,110],[4,135],[5,155],[6,165],[7,180],[8,190],[9,200],[10,210]
-];
+// ── 已搬迁至 js/01-core.js（搜索匹配/愿力冲击/state/面板值/IV/性格/克制/查表）──
 
 // 统一样式助手
 function tipWrap(icon, title, body) {
