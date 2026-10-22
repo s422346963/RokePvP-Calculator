@@ -22,7 +22,7 @@
 
   | 文件 | 职责 | 关键内容 |
   | --- | --- | --- |
-  | `js/01-core.js` | 纯逻辑 1 | `toPinyin`/`toInitials`/`matchQuery`、愿力冲击运行时注入（顶层 `SKILLS.push`，唯一允许的数据注入类顶层语句）、`state`、`calcRealStat`/`readIV`/`setIv`/`toggleIV`、性格表、`f1`/`f2`/`f3`、`diffTableLookup`/`levelMult`/`getTypeEff`/`hasStab`、`SPEED_DIFF_TABLE`/`PDEF_DIFF_TABLE`/`MANA_BURST_TABLE`、搜索索引 `filterSpiritsByQuery` |
+  | `js/01-core.js` | 纯逻辑 1 | `toPinyin`/`toInitials`/`matchQuery`、愿力冲击运行时注入（顶层 `SKILLS.push`，唯一允许的数据注入类顶层语句）、`state`、`calcRealStat`/`readIV`/`setIv`/`toggleIV`、性格表、`f1`/`f2`/`f3`、`diffTableLookup`/`levelMult`/`getTypeEff`/`hasStab`、`SPEED_DIFF_TABLE`/`PDEF_DIFF_TABLE`/`MANA_BURST_TABLE`、搜索索引 `filterSpiritsByQuery`/`filterSkillsByQuery`/`searchScore`/`pinyinSegmentMatch` |
   | `js/02-damage.js` | 公式层 | **`computeDamage`（唯一实现点）**、`collectStatBuffs`、`applyStatBuff`、`buildPowerUtil`、`mergeBuffSourcesList`、`renderLayersHtml`（纯字符串）。**禁止出现 DOM 引用**（`verify_formula.js` 有断言） |
   | `js/03-trait.js` | 特性层 | `calcAtkTraitMult`/`calcDefTraitMult`/`checkDefCarriesAttr`/`getTraitNeedsInput` 等计算 + 特性面板 UI（`updateTraitInputVisibility`/`renderTraitCond`/`readTraitInputs`/`traitInputId`/条件签名缓存） |
   | `js/04-power.js` | 威力桥接层 | `renderPowerCond`/`readPowerOptsByMode`/`buildPowerCtx`/`buildFullPowerCtx`/`resolveAutoPowerForSlot`/`getFskPowerTipHTML`/`updatePowerTip`/`traitPowerFor` |
@@ -102,7 +102,7 @@
 - 特性倍率：`calcAtkTraitMult` / `calcDefTraitMult`（现返回 `powerBonus`/`powerPct`/`stat`）；条件输入用 `getTraitNeedsInput` / `getDefTraitNeedsInput` + `renderTraitCond()`，`onTraitCondChange()` / `readTraitOptsByMode()` 读写（后者改为**按 id 前缀全量扫描**，新增 key 无需改代码）。
 - 属性克制：`getTypeEff`（含免疫判定）；本系加成判定 `hasStab`。
 - 属性折算：`calcRealStat()`（含性格 `getNature()`、个体值）、`readIV()` / `setIv()`（个体值只有 **0 / 60** 两档）、`levelMult()`（能级倍率 = 1 + 0.1 × 等级，负级取倒数）。
-- 搜索：`matchQuery()` 支持中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`；精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤取前 40 条 —— 过滤走 `filterSpiritsByQuery()`（`js/01-core.js` 懒建拼音索引，语义与 `matchQuery` 一致），输入经 `requestAnimationFrame` 节流。
+- 搜索：`matchQuery()` 是基础匹配（中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`），实际列表过滤已改走带相关度排序的 `filterSpiritsByQuery()` / `filterSkillsByQuery()`（`js/01-core.js` 懒建索引，匹配集合与 `matchQuery` 一致；索引存逐字音节 `syl`，`pinyinSegmentMatch()` 让 `hu` 命中 `九尾狐`(jiu-wei-hu) 而非 `shui` 的跨音节串，`searchScore()` 排序为「名称 > 拼音前缀 > 整音节 > 音节前缀 > 跨音节子串 > 首字母」）。精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤，**最多渲染 100 条**（超出显示「共 N 条匹配」提示）；技能下拉（B 模式 `renderComboPanel` / FULL `openFskDropdown`）同样按相关度排序但**全量渲染不截断**。输入经 `requestAnimationFrame` 节流。
 - 持久化：收藏夹用 `localStorage`（键 `roko_favorites` / `roko_fav_panel_open` / `roko_fav_panel_pos`，`loadFavorites`/`saveFavorites`，浮层可拖动 `setupFavPanelDrag`/`applyFavPanelPos`）；主题 `toggleTheme()` 切 `data-theme="light"`，**默认日间且不持久化**。
 
 ## 更新游戏数据（常见任务）

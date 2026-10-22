@@ -393,7 +393,7 @@ function renderComboPanel(q) {
   if (!dd) return;
 
   const filtered = q
-    ? _comboAllSkills.filter(e => matchQuery(e.skill.n, q))
+    ? filterSkillsByQuery(q).map(sk => ({ skill: sk }))   // 相关度排序，见 js/01-core.js
     : _comboAllSkills;
 
   if (!filtered.length) {

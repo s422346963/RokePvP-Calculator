@@ -9,6 +9,7 @@ function toPinyin(str){
 function toInitials(str){
   return Array.from(str).map(function(c){return PINYIN_MAP[c]?PINYIN_MAP[c][0]:c;}).join("");
 }
+// 基础匹配（不含排序/索引）。列表过滤请用 filterSpiritsByQuery / filterSkillsByQuery（匹配集合与此函数一致）
 function matchQuery(name, q){
   if(!q) return false;
   var ql = q.toLowerCase();
@@ -212,7 +213,8 @@ const MANA_BURST_TABLE = [
 
 // ================================================================
 // 搜索索引（Phase 5）：懒建一次，避免每次按键对 622 只精灵现算拼音
-//   语义与 matchQuery 完全一致：中文子串（原始大小写）/ 全拼 / 首字母（均转小写）
+//   匹配集合与 matchQuery 一致：中文子串（原始大小写）/ 全拼 / 首字母（均转小写）
+//   额外按音节边界提升相关度排序：hu 命中 九尾狐(jiu-wei-hu)，且不再让 shui 等跨音节串抢占前排
 //   懒建原因：SORTED_SPIRITS 定义在 js/05-card.js（本文件之后加载），
 //   首次搜索输入时所有脚本已加载完毕，此时建索引安全。
 // ================================================================
@@ -222,17 +224,80 @@ function getSpiritSearchIndex() {
   const list = (typeof SORTED_SPIRITS !== 'undefined') ? SORTED_SPIRITS : SPIRITS;
   _spiritSearchIndex = list.map(s => ({
     s: s,
+    name: s.n,
     py: toPinyin(s.n).toLowerCase(),
     ini: toInitials(s.n).toLowerCase(),
+    // 逐字音节：用于「某字读音完全等于查询」，让 hu 命中 九尾狐(jiu-wei-hu)
+    syl: Array.from(s.n).map(c => (PINYIN_MAP[c] || c).toLowerCase()),
   }));
   return _spiritSearchIndex;
+}
+// 音节序列匹配：查询须从某个字的读音开头对齐，最后一段可只匹配读音前缀
+//   hu  → 九尾狐(jiu-wei-hu)、火花(huo-hua) 命中；水蓝蓝(shui-lan-lan) 不命中（跨音节噪音）
+//   jiuwei → 九尾狐 命中（连续多音节）
+function pinyinSegmentMatch(syl, ql) {
+  if (!ql) return false;
+  for (let i = 0; i < syl.length; i++) {
+    let qi = 0;
+    for (let j = i; j < syl.length && qi < ql.length; j++) {
+      const seg = syl[j];
+      if (!seg) continue;
+      if (ql.startsWith(seg, qi)) { qi += seg.length; continue; }   // 整音节推进
+      if (seg.startsWith(ql.slice(qi))) qi = ql.length;             // 末段是读音前缀
+      break;
+    }
+    if (qi === ql.length) return true;
+  }
+  return false;
+}
+// 相关度分级（0 最相关）：只影响排序，匹配集合仍与 matchQuery 一致（中文/全拼/首字母子串）
+//   入参 e 为搜索索引项（name/py/ini/syl），精灵与技能共用
+function searchScore(e, q, ql, segHit) {
+  if (e.name === q) return 0;                             // 名称完全相同
+  if (e.name.indexOf(q) === 0) return 1;                  // 名称前缀
+  if (e.name.indexOf(q) !== -1) return 2;                 // 名称子串
+  if (segHit) {
+    if (e.syl.indexOf(ql) !== -1) return 3;               // 某字读音完全相等（九尾狐 → hu）
+    if (e.py.indexOf(ql) === 0) return 4;                 // 拼音前缀（首字读音，火花 → hu-o）
+    return 5;                                             // 某字读音前缀 / 多音节中段（焰火 → yan-huo）
+  }
+  if (e.py.indexOf(ql) !== -1) return 6;                  // 跨音节子串（兜底，噪音大）
+  if (e.ini.indexOf(ql) === 0) return 7;                  // 首字母前缀
+  return 8;                                               // 首字母子串
 }
 function filterSpiritsByQuery(q) {
   if (!q) return [];
   const ql = q.toLowerCase();
-  const out = [];
-  getSpiritSearchIndex().forEach(e => {
-    if (e.s.n.indexOf(q) !== -1 || e.py.indexOf(ql) !== -1 || e.ini.indexOf(ql) !== -1) out.push(e.s);
+  const hit = [];
+  getSpiritSearchIndex().forEach((e, i) => {
+    if (e.name.indexOf(q) === -1 && e.py.indexOf(ql) === -1 && e.ini.indexOf(ql) === -1) return;
+    hit.push({ e, i, score: searchScore(e, q, ql, pinyinSegmentMatch(e.syl, ql)) });
   });
-  return out;
+  // 相关度优先，同级保持数据原顺序（进化链顺序）
+  hit.sort((a, b) => a.score - b.score || a.i - b.i);
+  return hit.map(x => x.e.s);
+}
+// 技能搜索（B 模式技能下拉 / FULL 技能槽）：与精灵同一套评分，全量返回（不做条数截断）
+let _skillSearchIndex = null;
+function getSkillSearchIndex() {
+  if (_skillSearchIndex) return _skillSearchIndex;
+  _skillSearchIndex = SKILLS.map(s => ({
+    item: s,
+    name: s.n,
+    py: toPinyin(s.n).toLowerCase(),
+    ini: toInitials(s.n).toLowerCase(),
+    syl: Array.from(s.n).map(c => (PINYIN_MAP[c] || c).toLowerCase()),
+  }));
+  return _skillSearchIndex;
+}
+function filterSkillsByQuery(q) {
+  if (!q) return [];
+  const ql = q.toLowerCase();
+  const hit = [];
+  getSkillSearchIndex().forEach((e, i) => {
+    if (e.name.indexOf(q) === -1 && e.py.indexOf(ql) === -1 && e.ini.indexOf(ql) === -1) return;
+    hit.push({ e, i, score: searchScore(e, q, ql, pinyinSegmentMatch(e.syl, ql)) });
+  });
+  hit.sort((a, b) => a.score - b.score || a.i - b.i);
+  return hit.map(x => x.e.item);
 }

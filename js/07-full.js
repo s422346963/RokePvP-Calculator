@@ -265,7 +265,7 @@ function openFskDropdown(side, idx) {
 
   // 过滤
   const filtered = q
-    ? allSkills.filter(e => matchQuery(e.skill.n, q))
+    ? filterSkillsByQuery(q).map(sk => ({ skill: sk }))   // 相关度排序，见 js/01-core.js
     : allSkills;
 
   if (!filtered.length) {

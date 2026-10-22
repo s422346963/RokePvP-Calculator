@@ -429,13 +429,19 @@ function setupSearch(side) {
   // ── 渲染下拉内容 ──────────────────────────────────────────
   function renderDropdown(q) {
     if (q) {
-      // 有输入：过滤模式，扁平列表，最多 40 条（走拼音索引，见 js/01-core.js）
-      const res = filterSpiritsByQuery(q).slice(0, 40);
+      // 有输入：过滤模式，扁平列表按相关度排序（见 js/01-core.js），最多渲染 100 条
+      const all = filterSpiritsByQuery(q);
+      const res = all.slice(0, 100);
       if (!res.length) {
         dd.innerHTML = '<div style="padding:10px 14px;font-size:12px;color:var(--text2)">无匹配精灵</div>';
         return;
       }
-      dd.innerHTML = res.map(s => makeSpiritItem(s)).join('');
+      let html = res.map(s => makeSpiritItem(s)).join('');
+      if (all.length > res.length) {
+        html += '<div style="padding:8px 14px;font-size:11px;color:var(--text2);border-top:1px solid var(--border)">共 ' +
+          all.length + ' 条匹配，仅显示前 100 条，继续输入可缩小范围</div>';
+      }
+      dd.innerHTML = html;
     } else {
       // 无输入：全量按属性分组展示，组内保持 SORTED_SPIRITS 的进化链顺序
       const groups = {};
