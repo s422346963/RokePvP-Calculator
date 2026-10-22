@@ -360,10 +360,11 @@ defineSkillPowerRule(['远行'], F_STACKS('先于敌方行动次数'), ctx => {
   return n > 0 ? { powerAdd: 25 * n, label: '先手' + n + '次→威力+' + (25 * n) } : null;
 });
 
-// 绵里藏针：上回合未使用攻击技能 → 永久 +20（无「每」字，按单次触发）
-defineSkillPowerRule(['绵里藏针'],
-  () => [spCk('lastNoAttack', '上回合未使用攻击技能', false)],
-  ctx => ctx.opts.lastNoAttack ? { powerAdd: 20, label: '上回合未用攻击技→威力+20' } : null);
+// 绵里藏针：上回合未使用攻击技能 → 本技能威力永久 +20，可叠加次数
+defineSkillPowerRule(['绵里藏针'], F_STACKS('未使用攻击技能的次数'), ctx => {
+  const n = clampInt(ctx.opts.stacks, 0, 99);
+  return n > 0 ? { powerAdd: 20 * n, label: '叠加' + n + '次→威力+' + (20 * n) } : null;
+});
 
 // ------------------------------------------------------------
 // 2) 敌我状态计数：层数 / 能量 / 生命 / 力竭

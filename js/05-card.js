@@ -3,6 +3,11 @@
 // 本文件只有声明 + 数据常量；DOM 绑定与 init 统一在 js/08-fav-init.js。
 const SORTED_SPIRITS = SPIRITS;
 
+// 精灵名称 → BWiki 图鉴页（标题即精灵名，需按 URL 规则编码）
+function spiritWikiUrl(name) {
+  return 'https://wiki.biligame.com/nrc/' + encodeURIComponent(name);
+}
+
 function recalcStats(side) {
   const spirit = side === 'atk' ? state.atk : state.def;
   if (!spirit) return;
@@ -211,7 +216,7 @@ function renderCard(side, spirit) {
     <div class="spirit-info">
       <div class="spirit-title-row">
         <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>
-        <span class="spirit-name">${spirit.n}</span>
+        <a class="spirit-name" href="${spiritWikiUrl(spirit.n)}" target="_blank" rel="noopener noreferrer" title="在 BWiki 查看「${spirit.n}」图鉴">${spirit.n}</a>
         ${stText ? `<span class="spirit-meta">${stText}</span>` : ''}
       </div>
       ${spirit.tr ? `<div class="spirit-trait">特性：${spirit.tr}</div>` : ''}
