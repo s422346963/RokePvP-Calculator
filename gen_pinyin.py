@@ -39,6 +39,18 @@ PINYIN_FILE = os.path.join(DATA_DIR, "pinyin.js")
 SKILLS_FILE = os.path.join(DATA_DIR, "skills.js")
 SPIRITS_FILE = os.path.join(DATA_DIR, "spirits.js")
 
+# 单字读音覆盖：pypinyin 默认读音与游戏名称常用读音不符时使用
+CHAR_PINYIN_OVERRIDES = {
+    "长": "chang",   # 默认 zhang；长尾/长绒/长江/长颈鹿 均读 chang（船长由词组表兜底）
+}
+# 词组读音覆盖：用于一字多音，键为连续词组（>=2 字），值按字拆分
+WORD_PINYIN_OVERRIDES = {
+    "船长": ["chuan", "zhang"],
+    "重启": ["chong", "qi"],
+    "恐吓": ["kong", "he"],
+    "宝藏": ["bao", "zang"],
+}
+
 # skills.js 中裸键写法：{ n: "抓挠", ... }
 SKILLS_NAME_RE = re.compile(r"\bn\s*:\s*\"([^\"]+)\"")
 # spirits.js 中带引号键写法："n": "迪莫"（不会误匹配 "no"）
@@ -58,6 +70,16 @@ def main():
     for p in (SKILLS_FILE, SPIRITS_FILE, PINYIN_FILE):
         if not os.path.exists(p):
             sys.stderr.write("未找到文件: %s\n" % p)
+            return 1
+
+    # 0) 覆盖表自检：词组至少 2 字，且拼音个数与字数一致
+    for w, pys in WORD_PINYIN_OVERRIDES.items():
+        if len(w) < 2 or len(w) != len(pys):
+            sys.stderr.write("词组覆盖表配置错误: %s -> %s\n" % (w, pys))
+            return 1
+    for ch, py in CHAR_PINYIN_OVERRIDES.items():
+        if len(ch) != 1 or not py.isalpha():
+            sys.stderr.write("单字覆盖表配置错误: %s -> %s\n" % (ch, py))
             return 1
 
     # 1) 备份现有 pinyin.js
@@ -80,8 +102,9 @@ def main():
         sys.stderr.write("未提取到任何汉字，已终止，原文件保持不变。\n")
         return 1
 
-    # 3) 汉字 -> 全拼
+    # 3) 汉字 -> 全拼（先应用单字读音覆盖）
     pinyins = lazy_pinyin(chars)
+    pinyins = [CHAR_PINYIN_OVERRIDES.get(ch, py) for ch, py in zip(chars, pinyins)]
     entries = ['"%s":"%s"' % (ch, py) for ch, py in zip(chars, pinyins)]
 
     # 4) 保留原文件对象外的历史注释行（如 //const SPIRITS_ORDER = ...;）
@@ -96,12 +119,21 @@ def main():
         out.append("  " + ",".join(entries[i:i + per_line]) + ",")
     out[-1] = out[-1].rstrip(",")  # 去掉尾逗号
     out.append("};")
+
+    # 6) 词组覆盖表（多音字）：运行时优先匹配，见 js/01-core.js toPinyinSyllables
+    word_items = ['"%s":["%s"]' % (w, '","'.join(pys)) for w, pys in WORD_PINYIN_OVERRIDES.items()]
+    out.append("const PINYIN_WORDS={")
+    for i in range(0, len(word_items), per_line):
+        line = "  " + ",".join(word_items[i:i + per_line])
+        out.append(line + ("" if i + per_line >= len(word_items) else ","))
+    out.append("};")
+
     out.extend(tail)
     content = "\n".join(out) + "\n"
 
     with io.open(PINYIN_FILE, "w", encoding="utf-8", newline="\n") as f:
         f.write(content)
-    print("已写入 %s (%d 个汉字)" % (PINYIN_FILE, len(chars)))
+    print("已写入 %s (%d 个汉字, %d 条词组)" % (PINYIN_FILE, len(chars), len(WORD_PINYIN_OVERRIDES)))
     return 0
 
 

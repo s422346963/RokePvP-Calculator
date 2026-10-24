@@ -1,13 +1,36 @@
 // js/01-core.js — 纯逻辑层 1：搜索匹配 / 愿力冲击注入 / state / 面板值计算 / IV / 性格 / 属性克制 / 查表
 // 加载顺序位次 1：必须排在 data/*.js 之后（愿力冲击注入依赖 SKILLS），js/02 之前。
-// 依赖：PINYIN_MAP(data/pinyin.js)、SKILLS(data/skills.js)、TYPE_CHART(data/type.js)。
+// 依赖：PINYIN_MAP / PINYIN_WORDS(data/pinyin.js)、SKILLS(data/skills.js)、TYPE_CHART(data/type.js)。
 // ⚠️ 本文件含顶层可执行语句（愿力冲击 SKILLS.push）——这是拆分约定的唯一例外（数据注入类）。
 // ⚠️ readIV/setIv/toggleIV 读写 DOM，属既有事实；后续可随 UI 层（js/05+）再迁。
+// 名称 → 逐字拼音数组：PINYIN_WORDS 词组读取优先（最长 4 字），未命中逐字查 PINYIN_MAP
+//   多音字靠词组消歧：长江豚 → chang-jiang-tun，海豹船长 → hai-bao-chuan-zhang
+function toPinyinSyllables(str){
+  var chars = Array.from(str);
+  var out = [];
+  for (var i = 0; i < chars.length; ) {
+    var hit = null;
+    if (typeof PINYIN_WORDS !== 'undefined') {
+      for (var len = Math.min(4, chars.length - i); len >= 2; len--) {
+        var py = PINYIN_WORDS[chars.slice(i, i + len).join('')];
+        if (py) { hit = py; break; }
+      }
+    }
+    if (hit) {
+      for (var k = 0; k < hit.length; k++) out.push(hit[k]);
+      i += hit.length;
+    } else {
+      out.push(PINYIN_MAP[chars[i]] || chars[i]);
+      i++;
+    }
+  }
+  return out;
+}
 function toPinyin(str){
-  return Array.from(str).map(function(c){return PINYIN_MAP[c]||c;}).join("");
+  return toPinyinSyllables(str).join("");
 }
 function toInitials(str){
-  return Array.from(str).map(function(c){return PINYIN_MAP[c]?PINYIN_MAP[c][0]:c;}).join("");
+  return toPinyinSyllables(str).map(function(p){return p[0];}).join("");
 }
 // 基础匹配（不含排序/索引）。列表过滤请用 filterSpiritsByQuery / filterSkillsByQuery（匹配集合与此函数一致）
 function matchQuery(name, q){
@@ -228,7 +251,7 @@ function getSpiritSearchIndex() {
     py: toPinyin(s.n).toLowerCase(),
     ini: toInitials(s.n).toLowerCase(),
     // 逐字音节：用于「某字读音完全等于查询」，让 hu 命中 九尾狐(jiu-wei-hu)
-    syl: Array.from(s.n).map(c => (PINYIN_MAP[c] || c).toLowerCase()),
+    syl: toPinyinSyllables(s.n).map(x => x.toLowerCase()),
   }));
   return _spiritSearchIndex;
 }
@@ -286,7 +309,7 @@ function getSkillSearchIndex() {
     name: s.n,
     py: toPinyin(s.n).toLowerCase(),
     ini: toInitials(s.n).toLowerCase(),
-    syl: Array.from(s.n).map(c => (PINYIN_MAP[c] || c).toLowerCase()),
+    syl: toPinyinSyllables(s.n).map(x => x.toLowerCase()),
   }));
   return _skillSearchIndex;
 }

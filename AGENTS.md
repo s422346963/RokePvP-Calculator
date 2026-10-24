@@ -38,9 +38,9 @@
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
   - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表，用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。
   - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 97 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。
-  - `pinyin.js` → `const PINYIN_MAP`：汉字 → 全拼，供搜索用；由 `gen_pinyin.py` 生成，勿手改。
+  - `pinyin.js` → `const PINYIN_MAP`（汉字 → 全拼）+ `const PINYIN_WORDS`（多音字词组 → 逐字拼音数组），供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
-- `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。
+- `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
 - `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 150 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
 - `analytics.js` — 百度统计，勿动。
 - `.tmp/` — 数据同步的中间产物与缓存（已在 `.gitignore`）。
@@ -102,7 +102,7 @@
 - 特性倍率：`calcAtkTraitMult` / `calcDefTraitMult`（现返回 `powerBonus`/`powerPct`/`stat`）；条件输入用 `getTraitNeedsInput` / `getDefTraitNeedsInput` + `renderTraitCond()`，`onTraitCondChange()` / `readTraitOptsByMode()` 读写（后者改为**按 id 前缀全量扫描**，新增 key 无需改代码）。
 - 属性克制：`getTypeEff`（含免疫判定）；本系加成判定 `hasStab`。
 - 属性折算：`calcRealStat()`（含性格 `getNature()`、个体值）、`readIV()` / `setIv()`（个体值只有 **0 / 60** 两档）、`levelMult()`（能级倍率 = 1 + 0.1 × 等级，负级取倒数）。
-- 搜索：`matchQuery()` 是基础匹配（中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`），实际列表过滤已改走带相关度排序的 `filterSpiritsByQuery()` / `filterSkillsByQuery()`（`js/01-core.js` 懒建索引，匹配集合与 `matchQuery` 一致；索引存逐字音节 `syl`，`pinyinSegmentMatch()` 让 `hu` 命中 `九尾狐`(jiu-wei-hu) 而非 `shui` 的跨音节串，`searchScore()` 排序为「名称 > 拼音前缀 > 整音节 > 音节前缀 > 跨音节子串 > 首字母」）。精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤，**最多渲染 100 条**（超出显示「共 N 条匹配」提示）；技能下拉（B 模式 `renderComboPanel` / FULL `openFskDropdown`）同样按相关度排序但**全量渲染不截断**。输入经 `requestAnimationFrame` 节流。
+- 搜索：`matchQuery()` 是基础匹配（中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`），实际列表过滤已改走带相关度排序的 `filterSpiritsByQuery()` / `filterSkillsByQuery()`（`js/01-core.js` 懒建索引，匹配集合与 `matchQuery` 一致；`toPinyin()`/`toInitials()` 都基于 `toPinyinSyllables()`——先按 `PINYIN_WORDS` 词组覆盖表做最长 4 字匹配，再逐字查 `PINYIN_MAP`，多音字如「长江豚」(chang-…)、「海豹船长」(…-zhang) 按词取音；索引存逐字音节 `syl`，`pinyinSegmentMatch()` 让 `hu` 命中 `九尾狐`(jiu-wei-hu) 而非 `shui` 的跨音节串，`searchScore()` 排序为「名称 > 拼音前缀 > 整音节 > 音节前缀 > 跨音节子串 > 首字母」）。精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤，**最多渲染 100 条**（超出显示「共 N 条匹配」提示）；技能下拉（B 模式 `renderComboPanel` / FULL `openFskDropdown`）同样按相关度排序但**全量渲染不截断**。输入经 `requestAnimationFrame` 节流。
 - 持久化：收藏夹用 `localStorage`（键 `roko_favorites` / `roko_fav_panel_open` / `roko_fav_panel_pos`，`loadFavorites`/`saveFavorites`，浮层可拖动 `setupFavPanelDrag`/`applyFavPanelPos`）；主题 `toggleTheme()` 切 `data-theme="light"`，**默认日间且不持久化**。
 
 ## 更新游戏数据（常见任务）

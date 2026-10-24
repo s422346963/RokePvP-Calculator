@@ -71,7 +71,7 @@ const PINYIN_MAP={
   "獠":"liao","封":"feng","帽":"mao","兜":"dou","权":"quan","杖":"zhang","狐":"hu","九":"jiu","尖":"jian","嘴":"zui",
   "奥":"ao","勇":"yong","士":"shi","仔":"zai","巡":"xun","林":"lin","炽":"chi","滴":"di","蛇":"she","鸽":"ge",
   "怂":"song","怒":"nu","目":"mu","鹫":"jiu","崖":"ya","皇":"huang","家":"jia","圆":"yuan","蜘":"zhi","蛛":"zhu",
-  "芋":"yu","螺":"luo","嗜":"shi","被":"bei","污":"wu","斑":"ban","枭":"xiao","豹":"bao","船":"chuan","长":"zhang",
+  "芋":"yu","螺":"luo","嗜":"shi","被":"bei","污":"wu","斑":"ban","枭":"xiao","豹":"bao","船":"chuan","长":"chang",
   "号":"hao","鱼":"yu","田":"tian","乙":"yi","洛":"luo","棋":"qi","骑":"qi","陛":"bi","支":"zhi","齐":"qi",
   "垒":"lei","祈":"qi","督":"du","绮":"qi","呆":"dai","路":"lu","舞":"wu","逗":"dou","想":"xiang","三":"san",
   "咪":"mi","鳗":"man","箱":"xiang","怪":"guai","钟":"zhong","矮":"ai","红":"hong","狂":"kuang","鳐":"yao","珊":"shan",
@@ -94,5 +94,9 @@ const PINYIN_MAP={
   "足":"zu","元":"yuan","件":"jian","蝴":"hu","陶":"tao","铆":"mao","钉":"ding","徘":"pai","徊":"huai","苞":"bao",
   "蚪":"dou","烛":"zhu","明":"ming","坎":"kan","骸":"hai","半":"ban","朽":"xiu","稻":"dao","栗":"li","诅":"zu",
   "咒":"zhou","新":"xin","银":"yin","鹭":"lu","纳":"na","凯":"kai","章":"zhang","脑":"nao","丸":"wan","未":"wei",
-  "完":"wan","玳":"dai","龟":"gui","碗":"wan","测":"ce","蝉":"chan","浣":"huan","蛋":"dan","摇":"yao"
+  "完":"wan","玳":"dai","龟":"gui","碗":"wan","测":"ce","蝉":"chan","浣":"huan","蛋":"dan","摇":"yao","豚":"tun",
+  "江":"jiang"
+};
+const PINYIN_WORDS={
+  "船长":["chuan","zhang"],"重启":["chong","qi"],"恐吓":["kong","he"],"宝藏":["bao","zang"]
 };

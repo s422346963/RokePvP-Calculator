@@ -9951,5 +9951,37 @@ const SPIRITS =
         "st": "",
         "img": "https://patchwiki.biligame.com/images/nrc/d/d1/dl65qh8nz5t0geu66tkveepbylm4qf8.png",
         "tr_desc": "处于草系环境中时，机械系技能威力+50%。"
+    },
+    {
+        "no": "467",
+        "n": "云梦豚",
+        "hp": 77,
+        "pa": 37,
+        "ma": 101,
+        "pd": 87,
+        "md": 94,
+        "sp": 84,
+        "a1": "水",
+        "a2": "",
+        "tr": "吐水",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/b/b4/r2nfkbcq0yhy48tpth456ztup3bc23f.png",
+        "tr_desc": "使用技能水弹后，敌方获得双攻+10%，双防-10%。"
+    },
+    {
+        "no": "468",
+        "n": "长江豚",
+        "hp": 96,
+        "pa": 46,
+        "ma": 126,
+        "pd": 109,
+        "md": 117,
+        "sp": 105,
+        "a1": "水",
+        "a2": "",
+        "tr": "吐水",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/2/22/fmp2c9y1knur9nfah33hpznoxkvuwaq.png",
+        "tr_desc": "使用技能水弹后，敌方获得双攻+10%，双防-10%。"
     }
 ]
