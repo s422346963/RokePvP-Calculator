@@ -305,7 +305,7 @@ defineSkillPowerRule(['吹火'], F_STACKS('本技能已使用次数'), ctx => {
 
 defineSkillPowerRule(['暖阳'], F_STACKS('已使用其他火系技能次数'), ctx => {
   const n = clampInt(ctx.opts.stacks, 0, 99);
-  return n > 0 ? { powerAdd: 40 * n, label: '火系技能' + n + '次→威力+' + (40 * n) + '（使用本技能后重置）' } : null;
+  return n > 0 ? { powerAdd: 60 * n, label: '火系技能' + n + '次→威力+' + (60 * n) + '（使用本技能后重置）' } : null;
 });
 
 defineSkillPowerRule(['光能聚集'], F_STACKS('已使用其他草系技能次数'), ctx => {
