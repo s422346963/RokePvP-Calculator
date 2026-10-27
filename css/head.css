@@ -1,3 +1,11 @@
+  /* 顶栏字体走系统圆体栈（macOS 圆体-简 / Windows 幼圆），见 :root 的 --nav-font */
+
+  /* Font Awesome 6 Free（Solid，本地自托管，与 wiki 站同版本 6.0.0） */
+  @font-face { font-family: "Font Awesome 6 Free"; font-style: normal; font-weight: 900; font-display: block; src: url("../fonts/fa-solid-900.woff2") format("woff2"); }
+  .fa-solid { display: inline-block; font-family: "Font Awesome 6 Free"; font-weight: 900; font-style: normal; font-variant: normal; line-height: 1; text-rendering: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  .fa-book-open::before { content: "\f518"; }
+  .fa-bolt::before { content: "\f0e7"; }
+  .fa-egg::before { content: "\f7fb"; }
 
   :root {
     --bg: #1a1c2e;
@@ -10,8 +18,11 @@
     --border: #3a3d5c;
     --atk-color: #ff7043;
     --def-color: #42a5f5;
-    --header-bg: linear-gradient(135deg, #2d1b69 0%, #1a1c2e 100%);
-    --header-text: #fff;
+    --header-bg: #292521;
+    --header-text: #f4eee1;
+    /* 顶栏字体：优先系统自带圆体（macOS「圆体-简」/ Windows「幼圆」），无则回退到无衬线 */
+    --nav-font: "Yuanti SC", "圆体-简", "YouYuan", "幼圆", "SimYou", "方正兰亭圆", "FZLanTingYuan", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --nav-accent: #ffc65f;
     --dropdown-bg: #1e2038;
     --result-bg: linear-gradient(135deg, var(--card) 0%, #2a1a5e 100%);
     --skill-lib-bg: #1e2038;
@@ -35,23 +46,32 @@
     --border: #c8cde0;
     --atk-color: #d44a20;
     --def-color: #1a7ac8;
-    --header-bg: linear-gradient(135deg, #4a2fa0 0%, #5b4de8 100%);
-    --header-text: #fff;
+    --header-bg: #292521;
+    --header-text: #f4eee1;
     --dropdown-bg: #ffffff;
     --result-bg: linear-gradient(135deg, #ffffff 0%, #ede8ff 100%);
     --skill-lib-bg: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; }
-  header { background: var(--header-bg); padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-  header h1 { font-size: 20px; font-weight: 700; color: var(--header-text); }
-  header span { font-size: 13px; color: rgba(255,255,255,.65); }
+  /* ===== 顶栏：对齐 BWiki nrc 站点导航的结构与配色 ===== */
+  header { background-color: var(--header-bg); background-image: radial-gradient(140% 180% at 12% -40%, rgba(124,104,78,.38) 0%, rgba(41,37,33,0) 62%); color: var(--header-text); border-bottom: 1px solid rgba(255,198,95,.18); padding: 0; display: block; font-family: var(--nav-font); }
+  .site-header-inner { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); max-width: 1160px; height: 64px; margin: 0 auto; }
+  .site-brand { display: flex; align-items: center; flex: 0 0 auto; height: 56px; margin-right: 6px; text-decoration: none; }
+  .site-brand-logo { display: block; width: auto; height: 36px; max-width: 100%; object-fit: contain; }
+  .site-nav { display: flex; align-items: stretch; justify-content: flex-start; align-self: stretch; flex: 1 1 auto; min-width: 0; gap: 4px; }
+  .site-nav-link { display: flex; align-items: center; gap: 8px; padding: 10px 20px; font-size: 16px; font-weight: 700; line-height: 1.4; color: var(--header-text); text-decoration: none; border-radius: 4px; white-space: nowrap; transition: color .16s ease, background-color .16s ease; }
+  .site-nav-link .fa-solid { font-size: 14px; opacity: .9; }
+  .site-nav-link:hover { color: var(--nav-accent); background: rgba(255,255,255,.1); }
   .header-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .theme-toggle { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; padding: 5px 10px; cursor: pointer; color: #fff; font-size: 13px; white-space: nowrap; user-select: none; transition: background .2s, border-color .2s; }
-  .theme-toggle:hover { background: rgba(255,255,255,.22); }
-  .theme-toggle .tt-icon { font-size: 16px; }
-  .fav-toggle.is-active { background: rgba(255,213,79,.22); border-color: rgba(255,213,79,.55); }
-  .fav-toggle.is-active:hover { background: rgba(255,213,79,.32); }
+  .theme-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; background: transparent; border: 1px solid rgba(244,238,225,.26); border-radius: 4px; padding: 6px 14px; cursor: pointer; color: var(--header-text); font-family: var(--nav-font); font-size: 14px; line-height: 1.4; white-space: nowrap; user-select: none; transition: color .16s, background-color .16s, border-color .16s; }
+  .theme-toggle:hover { color: var(--nav-accent); background: rgba(255,255,255,.1); border-color: rgba(255,198,95,.5); }
+  .tt-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 15px; line-height: 1; }
+  /* 日夜切换：纯图标按钮，无边框 */
+  #theme-toggle-btn { padding: 7px 9px; border-color: transparent; }
+  #theme-toggle-btn:hover { border-color: rgba(255,198,95,.4); }
+  .fav-toggle.is-active { color: var(--nav-accent); background: rgba(255,198,95,.16); border-color: rgba(255,198,95,.55); }
+  .fav-toggle.is-active:hover { background: rgba(255,198,95,.24); }
   /* 主内容始终水平居中；收藏为可拖动浮动面板 */
   .main { max-width: 1200px; margin: 0 auto; padding: 20px 16px; position: relative; }
   .main-layout { display: block; }
@@ -176,19 +196,30 @@
   .swap-btn { background: linear-gradient(135deg,#7c5cbf,#5b3fa0); border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 20px; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.4); transition: transform .2s, box-shadow .2s; }
   .swap-btn:hover { transform: rotate(180deg); box-shadow: 0 4px 14px rgba(0,0,0,.5); }
   .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-  .panel-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .panel-header .panel-fav-btn { margin-left: auto; flex-shrink: 0; padding: 4px 10px; font-size: 11px; }
+  .panel-header { display: flex; align-items: center; gap: 4px; margin-bottom: 12px; }
+  /* 面板头收藏按钮：纯图标，无边框无底色（悬停只做轻微放大） */
+  .panel-header .panel-fav-btn {
+    margin-left: auto; flex-shrink: 0;
+    padding: 2px 0; margin-right: -8px; font-size: 16px; line-height: 1;
+    border: none; background: none;
+    transition: transform .15s, opacity .15s;
+  }
+  .panel-header .panel-fav-btn:not(:disabled):hover { background: none; transform: scale(1.15); }
   .panel-header .panel-fav-btn:disabled {
-    opacity: .4;
+    opacity: .35;
     cursor: not-allowed;
     pointer-events: none;
   }
-  .panel-header .panel-fav-btn:disabled:hover { background: rgba(124,107,255,.15); }
-  .panel-badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .panel-header .panel-fav-btn:disabled:hover { background: none; }
+  .panel-badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
   .badge-atk { background: rgba(255,112,67,.25); color: #ff7043; border: 1px solid rgba(255,112,67,.4); }
   .badge-def { background: rgba(66,165,245,.25); color: #42a5f5; border: 1px solid rgba(66,165,245,.4); }
-  .panel-title { font-size: 14px; font-weight: 600; color: var(--text2); }
-  .search-wrap { position: relative; margin-bottom: 10px; }
+  /* 搜索栏内联在面板标题行：徽章 —— 搜索框 —— 收藏按钮 */
+  .panel-header .search-wrap { flex: 1 1 auto; min-width: 0; }
+  .panel-header .search-input { padding: 6px 26px 6px 30px; font-size: 13px; }
+  .panel-header .search-icon { left: 9px; font-size: 13px; }
+  .panel-header .search-arrow { right: 9px; }
+  .search-wrap { position: relative; }
   .search-input { width: 100%; padding: 8px 28px 8px 34px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; cursor: pointer; box-sizing: border-box; }
   .search-input:focus { outline: none; border-color: var(--accent); cursor: text; }
   .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text2); font-size: 15px; pointer-events: none; }
@@ -555,12 +586,13 @@
   /* ========== 移动端适配 ========== */
   @media (max-width: 700px) {
     /* Header */
-    header { padding: 10px 14px; gap: 8px; flex-wrap: nowrap; }
-    header h1 { font-size: 15px; }
-    header span { display: none; }
+    .site-header-inner { height: 56px; gap: 8px; }
+    .site-brand { height: 48px; margin-right: 4px; }
+    .site-brand-logo { height: 28px; }
+    .site-nav { gap: 0; }
+    .site-nav-link { padding: 8px; font-size: 14px; font-weight: 600; }
     .header-actions { gap: 6px; }
-    .theme-toggle { padding: 4px 8px; font-size: 12px; flex-shrink: 0; }
-    .theme-toggle .tt-icon { font-size: 14px; }
+    .theme-toggle { padding: 5px 9px; font-size: 13px; flex-shrink: 0; }
 
     /* Main 内边距 */
     .main { padding: 12px 10px; }
@@ -642,7 +674,18 @@
     /* 输入框触控友好 */
     .search-input, .niv-select, .niv-input, .field-input,
     .skill-lib-search, .mult-box-input { font-size: 16px; }
+    .panel-header .search-input { font-size: 16px; padding: 5px 24px 5px 28px; }
 
+  }
+
+  /* 窄屏两行：上排 logo + 操作，下排导航 */
+  @media (max-width: 520px) {
+    .site-header-inner { flex-wrap: wrap; height: auto; padding: 8px 0; row-gap: 2px; }
+    .site-brand { order: 1; height: 40px; margin-right: auto; }
+    .site-brand-logo { height: 24px; }
+    .header-actions { order: 2; }
+    .site-nav { order: 3; flex: 1 0 100%; align-self: auto; height: 38px; justify-content: flex-start; }
+    .site-nav-link { padding: 6px 10px; }
   }
 
     .skill-lib-separator { padding: 4px 12px; font-size: 11px; color: var(--text2); text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(128,128,128,0.06); }

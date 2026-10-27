@@ -42,6 +42,7 @@
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
 - `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
 - `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 154 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
+- `header.png` + `fonts/` — 顶栏 logo（606×109 透明 PNG，白色字 + 黄星）与顶栏专用字体。头部结构为 `.site-header > .site-header-inner`（左 logo / 中 `.site-nav` 两个 wiki 外链 / 右 `.header-actions` 日夜 + 收藏），样式在 `css/head.css` 顶部，颜色走 `--header-bg` / `--header-text` / `--nav-accent`，字体走 `--nav-font`（**仅 header 生效**，正文仍是微软雅黑）。**顶栏不再自托管中文字体**，`--nav-font` 只是系统圆体栈：`Yuanti SC` / `圆体-简`（macOS）→ `YouYuan` / 幼圆 / `SimYou`（Windows）→ 方正兰亭圆 → `PingFang SC` / 微软雅黑，缺失时逐级静默回退，因此**改头栏文案无需再重新子集化**（原「江城圆体」9 片 `nav-rounded-*.woff2` 子集及 `.tmp/build_navfont.py` 已移除）。图标用自托管的 Font Awesome 6 Free Solid（`fonts/fa-solid-900.woff2`，与 wiki 站同版本 6.0.0），`@font-face` 与 `.fa-solid` 基础类在 `css/head.css` 顶部，**需要的图标类必须手写 `::before` 码点**（当前只有 `.fa-book-open` `\f518`、`.fa-bolt` `\f0e7`、`.fa-egg` `\f7fb`），新增图标在 FA 的 all.css 里查到码点后补一条即可。
 - `analytics.js` — 百度统计，勿动。
 - `.tmp/` — 数据同步的中间产物与缓存（已在 `.gitignore`）。
 

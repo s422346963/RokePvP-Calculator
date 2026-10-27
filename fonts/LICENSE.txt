@@ -1,0 +1,14 @@
+图标字体 fa-solid-900.woff2
+============================
+
+Font Awesome Free 6.0.0 — Solid 字体文件，取自
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2
+
+许可（Font Awesome Free）：
+- 字体文件：SIL Open Font License 1.1
+- 图标设计：CC BY 4.0（署名 Font Awesome，https://fontawesome.com）
+- 相关代码：MIT
+
+当前仅使用 fa-book-open（精灵图鉴）、fa-bolt（技能图鉴）与 fa-egg（蛋组查询）三个图标。
+
+说明：顶栏中文字体已改为系统圆体栈（见 css/head.css 的 --nav-font），本目录不再包含中文字体文件。

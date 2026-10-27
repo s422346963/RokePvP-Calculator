@@ -35,11 +35,9 @@ function toggleTheme() {
   if (isLight) {
     document.documentElement.removeAttribute('data-theme');
     document.getElementById('theme-icon').textContent = '🌙';
-    document.getElementById('theme-label').textContent = '夜间';
   } else {
     document.documentElement.setAttribute('data-theme', 'light');
     document.getElementById('theme-icon').textContent = '☀️';
-    document.getElementById('theme-label').textContent = '日间';
   }
 }
 toggleTheme(); // 默认日间

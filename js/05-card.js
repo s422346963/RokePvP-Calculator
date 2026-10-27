@@ -191,7 +191,7 @@ function updatePanelFavBtn(side, enabled) {
   const btn = document.getElementById(side + '-fav-btn');
   if (!btn) return;
   btn.disabled = !enabled;
-  btn.title = enabled ? '收藏当前精灵配置' : '选择精灵后可收藏';
+  btn.title = enabled ? '收藏当前精灵' : '选择精灵后可收藏';
 }
 
 function renderCard(side, spirit) {
@@ -507,11 +507,13 @@ function setupSearch(side) {
       : getEmoji(s.a1);
     const tag1 = typeTagHtml(s.a1);
     const tag2 = s.a2 ? typeTagHtml(s.a2) : '';
+    // 形态词已在名称括号里出现过就不再重复（如「晶石蜗（西瓜碧玺的样子）」st=西瓜碧玺的样子）
+    const stText = s.st ? s.st.split('/').filter(p => p && !s.n.includes(p)).join('/') : '';
     return `<div class="dropdown-item" data-name="${s.n}">
       <span class="dd-thumb">${thumb}</span>
       <span class="item-name">${s.n}</span>
       ${tag1}${tag2}
-      <span class="item-stage">${s.st||''}</span>
+      ${stText ? `<span class="item-stage">${stText}</span>` : ''}
     </div>`;
   }
 

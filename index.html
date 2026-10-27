@@ -12,21 +12,24 @@
 </head>
 <body>
 
-<header>
-  <div style="font-size:24px">⚔️</div>
-  <div style="display:flex;flex-direction:column;gap:2px">
-    <a target="_blank" href="https://github.com/s422346963/RokePvP-Calculator"><h1>洛克王国 PVP 伤害计算器</h1></a>
-    <a target="_blank" href="https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4"><span>数据来源：BWiki 精灵图鉴</span></a>
-    <span style="font-size:12px;opacity:.6;margin-top:2px">玩家自制，请勿用于商业用途。问题反馈：QQ 397979472</span>
-  </div>
-  <div class="header-actions">
-    <div class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">
-      <span class="tt-icon" id="theme-icon">🌙</span>
-      <span id="theme-label">夜间</span>
-    </div>
-    <div class="theme-toggle fav-toggle" id="fav-toggle-btn" onclick="toggleFavPanel()" title="显示/隐藏收藏配置">
-      <span class="tt-icon" id="fav-toggle-icon">⭐</span>
-      <span id="fav-toggle-label">收藏夹</span>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-brand" target="_blank" rel="noopener" href="https://github.com/s422346963/RokePvP-Calculator" aria-label="洛克王国 世界 CALC · GitHub" title="GitHub 项目地址">
+      <img class="site-brand-logo" src="header.png" alt="洛克王国 世界 CALC">
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a class="site-nav-link" target="_blank" rel="noopener" title="数据来源：BWiki 精灵图鉴" href="https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>精灵图鉴</span></a>
+      <a class="site-nav-link" target="_blank" rel="noopener" href="https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>技能图鉴</span></a>
+      <a class="site-nav-link" target="_blank" rel="noopener" href="https://wiki.biligame.com/nrc/%E5%AD%B5%E8%9B%8B%E7%BB%84%E5%88%AB%E6%9F%A5%E8%AF%A2"><i class="fa-solid fa-egg" aria-hidden="true"></i><span>蛋组查询</span></a>
+    </nav>
+    <div class="header-actions">
+      <div class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="切换日间 / 夜间模式">
+        <span class="tt-icon" id="theme-icon">☀️</span>
+      </div>
+      <div class="theme-toggle fav-toggle" id="fav-toggle-btn" onclick="toggleFavPanel()" title="显示/隐藏收藏配置">
+        <span class="tt-icon" id="fav-toggle-icon">⭐</span>
+        <span id="fav-toggle-label">收藏夹</span>
+      </div>
     </div>
   </div>
 </header>
@@ -40,14 +43,13 @@
     <div class="panel" id="atk-panel">
       <div class="panel-header">
         <span class="panel-badge badge-atk">攻击方</span>
-        <span class="panel-title">选择出招精灵</span>
-        <button class="fav-save-btn panel-fav-btn" id="atk-fav-btn" onclick="openSaveFavDialog('atk')" disabled title="选择精灵后可收藏">⭐ 收藏</button>
-      </div>
-      <div class="search-wrap" id="atk-search-wrap">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" id="atk-search" placeholder="点击展开 / 输入名称过滤…" autocomplete="off">
-        <span class="search-arrow" id="atk-search-arrow">▼</span>
-        <div class="dropdown" id="atk-dropdown"></div>
+        <div class="search-wrap" id="atk-search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="atk-search" placeholder="点击展开 / 输入名称过滤…" autocomplete="off">
+          <span class="search-arrow" id="atk-search-arrow">▼</span>
+          <div class="dropdown" id="atk-dropdown"></div>
+        </div>
+        <button class="fav-save-btn panel-fav-btn" id="atk-fav-btn" onclick="openSaveFavDialog('atk')" disabled title="选择精灵后可收藏">⭐</button>
       </div>
       <div class="spirit-card" id="atk-card">
         <div class="no-spirit">请搜索并选择攻击方精灵</div>
@@ -113,13 +115,13 @@
           <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-atk-spd">—</div><div class="stat-base" id="base-atk-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-spd" value="60" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-spd','atk')">60</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-hp" value="0" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-hp','atk')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
           <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value" id="val-atk-pdef">—</div><div class="stat-base" id="base-atk-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-pdef" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-pdef','atk')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
           <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value" id="val-atk-mdef">—</div><div class="stat-base" id="base-atk-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-mdef','atk')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-hp" value="0" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-hp','atk')">0</button></div>
         </div>
       </div>
       <div class="level-row" id="atk-level-row" style="display:none">
@@ -141,14 +143,13 @@
     <div class="panel" id="def-panel">
       <div class="panel-header">
         <span class="panel-badge badge-def">防御方</span>
-        <span class="panel-title">选择承受精灵</span>
-        <button class="fav-save-btn panel-fav-btn" id="def-fav-btn" onclick="openSaveFavDialog('def')" disabled title="选择精灵后可收藏">⭐ 收藏</button>
-      </div>
-      <div class="search-wrap" id="def-search-wrap">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" id="def-search" placeholder="点击展开 / 输入名称过滤…" autocomplete="off">
-        <span class="search-arrow" id="def-search-arrow">▼</span>
-        <div class="dropdown" id="def-dropdown"></div>
+        <div class="search-wrap" id="def-search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="def-search" placeholder="点击展开 / 输入名称过滤…" autocomplete="off">
+          <span class="search-arrow" id="def-search-arrow">▼</span>
+          <div class="dropdown" id="def-dropdown"></div>
+        </div>
+        <button class="fav-save-btn panel-fav-btn" id="def-fav-btn" onclick="openSaveFavDialog('def')" disabled title="选择精灵后可收藏">⭐</button>
       </div>
       <div class="spirit-card" id="def-card">
         <div class="no-spirit">请搜索并选择防御方精灵</div>
@@ -211,9 +212,6 @@
           <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value def-color" id="val-def-mdef">—</div><div class="stat-base" id="base-def-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-mdef','def')">0</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-spd" value="0" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-spd','def')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
           <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-def-hp">—</div><div class="stat-base" id="base-def-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-hp" value="60" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-hp','def')">60</button></div>
         </div>
         <div class="stat-box" style="cursor:default">
@@ -221,6 +219,9 @@
         </div>
         <div class="stat-box" style="cursor:default">
           <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value" id="val-def-matk">—</div><div class="stat-base" id="base-def-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-matk" value="0" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-matk','def')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-spd" value="0" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-spd','def')">0</button></div>
         </div>
       </div>
 
