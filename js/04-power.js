@@ -50,10 +50,15 @@ function renderPowerCond(skill, mode, slot, container) {
   if (!skill) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
 
   const fields = getSkillPowerFields(skill);
-  // 威力修正栏在「技能有威力修正」或「特性影响威力」任一成立时展示
+  // 威力修正栏只在「有规则条件要填」或「本次确实产生了威力修正」时展示。
+  // ⚠️ 特性仅静态声明了威力通道（pwM/pwA）但当前贡献为 0 时不再占位，
+  //    否则会留下一块只有「技能威力 100 → 威力 100」的空框（如蒸汽膨胀层数 0 时）。
   const side = (mode === 'b') ? 'atk' : (String(slot).indexOf('def') === 0 ? 'def' : 'atk');
   const tp = traitPowerFor(mode, side, skill);
-  if (fields.length === 0 && !tp.affectsPower) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
+  const probe = resolveSkillPower(skill, buildPowerCtx(mode, slot, skill));
+  const hasEffect = (probe.powerAdd !== 0) || (probe.powerPct !== 0) || (probe.powerMult !== 1)
+    || (tp.powerMult !== 1) || (tp.powerAdd !== 0);
+  if (fields.length === 0 && !hasEffect) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
 
   // 结构签名：技能 / 字段列表 / 提示状态。结构没变就只刷新链路，不重建输入框 DOM
   //   ⚠️ 模式 B 的 calc() 每次都会调这里；此前无条件重建会让正在输入的输入框被销毁 → 光标丢失
@@ -82,7 +87,7 @@ function renderPowerCond(skill, mode, slot, container) {
     fields.forEach(f => {
       const id = prefix + f.key;
       if (f.type === 'checkbox') {
-        const checked = saved.hasOwnProperty(f.key) ? (saved[f.key] ? 'checked' : '') : (f.def ? 'checked' : '');
+        const checked = saved.hasOwnProperty(f.key) ? (saved[f.key] ? 'checked' : '') : (weatherCondDefault(f.key, f.def) ? 'checked' : '');
     html += `<label class="power-cond-ck"><input type="checkbox" id="${id}" ${checked} onchange="onPowerCondChange('${mode}','${slot}')"> ${f.label}</label>`;
       } else {
       const v = saved.hasOwnProperty(f.key) ? saved[f.key] : (f.def === undefined ? 0 : f.def);
@@ -172,6 +177,48 @@ function onPowerCondChange(mode, slot) {
   }
 }
 
+// ============================================================
+// 天气（全局参数，模式 B / FULL）
+//   · 雨天：水系技能威力 +75% —— 在 resolveSkillPower 内并入技能威力乘区
+//   · 暴风雪：规则表里「天气为暴风雪」的条件勾选框默认勾选
+//     （雪原狩猎 = pwr-opt-* / 冰雪魂魄 = trait-opt-*），切换天气时同步已有勾选框
+//   · 模式 A 的威力是游戏内显示值（已含天气加成），不参与天气计算
+// ============================================================
+function syncWeatherSelects() {
+  ['weather-b', 'weather-full'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = getWeather();
+  });
+}
+
+// 把「天气为暴风雪」类条件勾选框同步到当前天气
+function applyWeatherToConds() {
+  const on = getWeather() === 'blizzard';
+  document.querySelectorAll('[id^="pwr-opt-"][id$="-blizzard"], [id^="trait-opt-"][id$="-blizzard"]')
+    .forEach(el => { el.checked = on; });
+  // FULL 槽位里保存的条件值也要同步，否则行重建后会用旧值盖回默认
+  if (typeof fullState !== 'undefined' && fullState) {
+    ['atk', 'def'].forEach(side => {
+      (fullState[side] || []).forEach(slot => {
+        if (slot && slot.pwrOpts) slot.pwrOpts.blizzard = on;
+      });
+    });
+  }
+}
+
+function onWeatherChange(value) {
+  state.weather = (value === 'rain' || value === 'blizzard') ? value : 'none';
+  syncWeatherSelects();
+  applyWeatherToConds();
+  // 条件值被改写 → 特性条件签名缓存失效，并按新天气重渲染条件框
+  ['b', 'full'].forEach(m => {
+    bumpTraitOptsVersion(m, 'atk');
+    bumpTraitOptsVersion(m, 'def');
+  });
+  autoUpdateTraitUI();
+  if (state.mode === 'FULL') calcFull(); else calc();
+}
+
 // FULL 槽位（slot 形如 'atk0' / 'def2'）→ 槽位数据对象；非 FULL 槽位返回 null
 function fullSlotBySlotName(slot) {
   const m = /^(atk|def)(\d)$/.exec(String(slot));
@@ -192,6 +239,7 @@ function buildPowerCtx(mode, slot, skill) {
     skAttr: skill ? (skill.a || '') : '',
     skCost: skill ? (skill.c || 0) : 0,
     skKind: skill ? (skill.k || '') : '',
+    weather: getWeather(),
     atk: atkS, def: defS,
     atkA1: atkS ? (atkS.a1 || '') : '',
     atkA2: atkS ? (atkS.a2 || '') : '',
@@ -690,6 +738,7 @@ function buildFullPowerCtx(side, idx, skillObj) {
     skAttr: skillObj ? (skillObj.a || '') : '',
     skCost: skillObj ? (skillObj.c || 0) : 0,
     skKind: skillObj ? (skillObj.k || '') : '',
+    weather: getWeather(),
     atk: atkS, def: defS,
     atkA1: atkS ? (atkS.a1 || '') : '',
     atkA2: atkS ? (atkS.a2 || '') : '',

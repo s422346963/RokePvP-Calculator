@@ -54,8 +54,29 @@
       <div class="spirit-card" id="atk-card">
         <div class="no-spirit">请搜索并选择攻击方精灵</div>
       </div>
+      <div class="stats-grid" id="atk-stats" style="display:none">
+        <div class="stat-box active-atk" id="atk-stat-patk" onclick="setAtkStat('patk')" title="使用物攻出招">
+          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value atk-color" id="val-atk-patk">—</div><div class="stat-base" id="base-atk-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-patk" value="60" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-patk','atk')">60</button></div>
+        </div>
+        <div class="stat-box" id="atk-stat-matk" onclick="setAtkStat('matk')" title="使用魔攻出招">
+          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value atk-color" id="val-atk-matk">—</div><div class="stat-base" id="base-atk-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-matk" value="60" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-matk','atk')">60</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-atk-spd">—</div><div class="stat-base" id="base-atk-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-spd" value="60" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-spd','atk')">60</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value" id="val-atk-pdef">—</div><div class="stat-base" id="base-atk-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-pdef" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-pdef','atk')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value" id="val-atk-mdef">—</div><div class="stat-base" id="base-atk-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-mdef','atk')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-hp" value="0" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-hp','atk')">0</button></div>
+        </div>
+      </div>
+
       <div class="nature-iv-row" id="atk-nature-row" style="display:none">
-        <div class="niv-field" style="flex:1;min-width:100%">
+        <div class="niv-field">
           <div class="niv-label">性格</div>
           <select class="niv-select" id="atk-nature" onchange="recalcStats('atk');calc()">
             <option value="neutral">普通（无修正）</option>
@@ -103,35 +124,16 @@
             </optgroup>
           </select>
         </div>
-      </div>
-      <div class="stats-grid" id="atk-stats" style="display:none">
-        <div class="stat-box active-atk" id="atk-stat-patk" onclick="setAtkStat('patk')" title="使用物攻出招">
-          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value atk-color" id="val-atk-patk">—</div><div class="stat-base" id="base-atk-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-patk" value="60" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-patk','atk')">60</button></div>
-        </div>
-        <div class="stat-box" id="atk-stat-matk" onclick="setAtkStat('matk')" title="使用魔攻出招">
-          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value atk-color" id="val-atk-matk">—</div><div class="stat-base" id="base-atk-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-matk" value="60" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-matk','atk')">60</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-atk-spd">—</div><div class="stat-base" id="base-atk-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-spd" value="60" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-spd','atk')">60</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value" id="val-atk-pdef">—</div><div class="stat-base" id="base-atk-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-pdef" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-pdef','atk')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value" id="val-atk-mdef">—</div><div class="stat-base" id="base-atk-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-mdef','atk')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-atk-hp">—</div><div class="stat-base" id="base-atk-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="atk-iv-hp" value="0" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('atk-iv-hp','atk')">0</button></div>
+        <div class="niv-field">
+          <div class="niv-label">攻击能力等级</div>
+          <div class="level-row" id="atk-level-row" style="display:none">
+            <button class="level-btn" onclick="changeLevel('atk','atk',-1)">−</button>
+            <input type="number" class="level-input" id="atk-atklevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改攻击能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('atk','atk',this)" onkeydown="if(event.key==='Enter')this.blur()">
+            <button class="level-btn" onclick="changeLevel('atk','atk',1)">+</button>
+            <span class="level-multiplier" id="atk-atklevel-mult">×1.00</span>
+          </div>
         </div>
       </div>
-      <div class="level-row" id="atk-level-row" style="display:none">
-        <span class="level-label">攻击能力等级</span>
-        <button class="level-btn" onclick="changeLevel('atk','atk',-1)">−</button>
-        <input type="number" class="level-input" id="atk-atklevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改攻击能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('atk','atk',this)" onkeydown="if(event.key==='Enter')this.blur()">
-        <button class="level-btn" onclick="changeLevel('atk','atk',1)">+</button>
-        <span class="level-multiplier" id="atk-atklevel-mult">×1.00</span>
-      </div>
-
     </div>
 
     <!-- Swap column -->
@@ -154,8 +156,29 @@
       <div class="spirit-card" id="def-card">
         <div class="no-spirit">请搜索并选择防御方精灵</div>
       </div>
+      <div class="stats-grid" id="def-stats" style="display:none">
+        <div class="stat-box active-def" id="def-stat-pdef" onclick="setDefStat('pdef')" title="使用物防承受">
+          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value def-color" id="val-def-pdef">—</div><div class="stat-base" id="base-def-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-def" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-def','def')">0</button></div>
+        </div>
+        <div class="stat-box" id="def-stat-mdef" onclick="setDefStat('mdef')" title="使用魔防承受">
+          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value def-color" id="val-def-mdef">—</div><div class="stat-base" id="base-def-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-mdef','def')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-def-hp">—</div><div class="stat-base" id="base-def-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-hp" value="60" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-hp','def')">60</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value" id="val-def-patk">—</div><div class="stat-base" id="base-def-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-patk" value="0" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-patk','def')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value" id="val-def-matk">—</div><div class="stat-base" id="base-def-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-matk" value="0" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-matk','def')">0</button></div>
+        </div>
+        <div class="stat-box" style="cursor:default">
+          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-spd" value="0" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-spd','def')">0</button></div>
+        </div>
+      </div>
+
       <div class="nature-iv-row" id="def-nature-row" style="display:none">
-        <div class="niv-field" style="flex:1;min-width:100%">
+        <div class="niv-field">
           <div class="niv-label">性格</div>
           <select class="niv-select" id="def-nature" onchange="recalcStats('def');calc()">
             <option value="neutral">普通（无修正）</option>
@@ -203,36 +226,16 @@
             </optgroup>
           </select>
         </div>
-      </div>
-      <div class="stats-grid" id="def-stats" style="display:none">
-        <div class="stat-box active-def" id="def-stat-pdef" onclick="setDefStat('pdef')" title="使用物防承受">
-          <div class="stat-left"><div class="stat-label">物防</div><div class="stat-value def-color" id="val-def-pdef">—</div><div class="stat-base" id="base-def-pdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-def" value="0" title="物防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-def','def')">0</button></div>
-        </div>
-        <div class="stat-box" id="def-stat-mdef" onclick="setDefStat('mdef')" title="使用魔防承受">
-          <div class="stat-left"><div class="stat-label">魔防</div><div class="stat-value def-color" id="val-def-mdef">—</div><div class="stat-base" id="base-def-mdef"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-mdef" value="0" title="魔防个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-mdef','def')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">HP</div><div class="stat-value" id="val-def-hp">—</div><div class="stat-base" id="base-def-hp"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-hp" value="60" title="HP个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-hp','def')">60</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">物攻</div><div class="stat-value" id="val-def-patk">—</div><div class="stat-base" id="base-def-patk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-patk" value="0" title="物攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-patk','def')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">魔攻</div><div class="stat-value" id="val-def-matk">—</div><div class="stat-base" id="base-def-matk"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-matk" value="0" title="魔攻个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-matk','def')">0</button></div>
-        </div>
-        <div class="stat-box" style="cursor:default">
-          <div class="stat-left"><div class="stat-label">速度</div><div class="stat-value" id="val-def-spd">—</div><div class="stat-base" id="base-def-spd"></div></div><div class="stat-iv-wrap"><div class="stat-iv-label">个体</div><button class="stat-iv-btn" id="def-iv-spd" value="0" title="速度个体值(0/60)，点击切换" onclick="event.stopPropagation();toggleIV('def-iv-spd','def')">0</button></div>
+        <div class="niv-field">
+          <div class="niv-label">防御能力等级</div>
+          <div class="level-row" id="def-level-row" style="display:none">
+            <button class="level-btn" onclick="changeLevel('def','def',-1)">−</button>
+            <input type="number" class="level-input" id="def-deflevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改防御能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('def','def',this)" onkeydown="if(event.key==='Enter')this.blur()">
+            <button class="level-btn" onclick="changeLevel('def','def',1)">+</button>
+            <span class="level-multiplier" id="def-deflevel-mult">×1.00</span>
+          </div>
         </div>
       </div>
-
-      <div class="level-row" id="def-level-row" style="display:none">
-        <span class="level-label">防御能力等级</span>
-        <button class="level-btn" onclick="changeLevel('def','def',-1)">−</button>
-        <input type="number" class="level-input" id="def-deflevel-val" value="0" min="-99" max="99" step="1" title="输入整数修改防御能力等级（-99~99）" onfocus="this.select()" onchange="onLevelInput('def','def',this)" onkeydown="if(event.key==='Enter')this.blur()">
-        <button class="level-btn" onclick="changeLevel('def','def',1)">+</button>
-        <span class="level-multiplier" id="def-deflevel-mult">×1.00</span>
-      </div>
-
     </div>
   </div>
 
@@ -285,7 +288,7 @@
         <!-- 底部倍率行 -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
           <div class="mult-box" style="min-width:130px;flex:0 0 auto">
-            <div class="mult-box-label">其他额外倍率</div>
+            <div class="mult-box-label">🔥 其他额外倍率</div>
             <div class="num-combo">
               <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-full" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calcFull()">
               <span class="num-combo-arrow">▼</span>
@@ -307,6 +310,14 @@
               <span class="num-combo-arrow">▼</span>
               <div class="num-combo-dropdown"></div>
             </div>
+          </div>
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
+            <div class="mult-box-label">🌦️ 天气</div>
+            <select class="mult-box-input weather-select" id="weather-full" onchange="onWeatherChange(this.value)">
+              <option value="none">无</option>
+              <option value="rain">雨天</option>
+              <option value="blizzard">暴风雪</option>
+            </select>
           </div>
           <div class="trait-hint-box" style="flex:1;min-width:160px">
             <b>💡</b> 特性倍率自动计算，无需手动输入。<br>
@@ -351,7 +362,7 @@
         <!-- 底部倍率行（与 FULL 模式一致） -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
           <div class="mult-box" style="min-width:130px;flex:0 0 auto">
-            <div class="mult-box-label">其他额外倍率</div>
+            <div class="mult-box-label">🔥 其他额外倍率</div>
             <div class="num-combo">
               <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-a" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calc()">
               <span class="num-combo-arrow">▼</span>
@@ -437,7 +448,7 @@
         <!-- 底部倍率行（与 FULL 模式一致：左参数 / 右提示） -->
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:flex-end">
           <div class="mult-box" style="min-width:130px;flex:0 0 auto">
-            <div class="mult-box-label">其他额外倍率</div>
+            <div class="mult-box-label">🔥 其他额外倍率</div>
             <div class="num-combo">
               <input class="mult-box-input" type="text" inputmode="decimal" id="extra-mult-b" value="1.0" autocomplete="off" data-num-opts="1.0,2.0,2.5,3" oninput="calc()">
               <span class="num-combo-arrow">▼</span>
@@ -459,6 +470,14 @@
               <span class="num-combo-arrow">▼</span>
               <div class="num-combo-dropdown"></div>
             </div>
+          </div>
+          <div class="mult-box" style="min-width:130px;flex:0 0 auto">
+            <div class="mult-box-label">🌦️ 天气</div>
+            <select class="mult-box-input weather-select" id="weather-b" onchange="onWeatherChange(this.value)">
+              <option value="none">无</option>
+              <option value="rain">雨天</option>
+              <option value="blizzard">暴风雪</option>
+            </select>
           </div>
           <div class="trait-hint-box" style="flex:1;min-width:160px">
             <b>💡</b> 基础威力、连击次数为手动输入；属性克制、本系与能力等级倍率自动计算（双重克制 ×3）。<br>

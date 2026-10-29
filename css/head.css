@@ -248,9 +248,11 @@
   .spirit-trait-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.5; }
   .type-chip { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .nature-iv-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 8px; flex-wrap: wrap; }
+  /* 该行现位于面板末尾（个体栏下方），去掉多余的下边距 */
+  .panel > .nature-iv-row:last-child { margin-bottom: 0; }
   .nature-iv-row .niv-field { flex: 1; min-width: 80px; }
   .niv-label { font-size: 10px; color: var(--text2); margin-bottom: 3px; }
-  .niv-select, .niv-input { width: 100%; padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-size: 13px; }
+  .niv-select, .niv-input { width: 100%; height: 32px; padding: 0 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-size: 13px; box-sizing: border-box; }
   .niv-select:focus, .niv-input:focus { outline: none; border-color: var(--accent); }
   .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
   .stat-box { background: var(--bg); border-radius: 8px; padding: 6px 8px; border: 1px solid transparent; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 6px; }
@@ -269,14 +271,14 @@
   .stat-iv-btn:hover { border-color: var(--accent); background: var(--bg); }
   .stat-iv-btn:active { transform: scale(.94); }
   .stat-iv-btn:focus { outline: none; border-color: var(--accent); }
-  .level-row { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 8px; padding: 7px 10px; margin-bottom: 0; }
-  .level-label { font-size: 12px; color: var(--text2); flex: 1; }
-  .level-btn { width: 26px; height: 26px; border-radius: 6px; background: var(--card2); border: 1px solid var(--border); color: var(--text); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .level-row { display: flex; align-items: center; gap: 4px; width: 100%; height: 32px; box-sizing: border-box; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 0 6px; }
+  .level-row:focus-within { border-color: var(--accent); }
+  .level-btn { width: 22px; height: 22px; flex-shrink: 0; border-radius: 5px; background: var(--card2); border: 1px solid var(--border); color: var(--text); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
   .level-btn:hover { background: var(--accent); border-color: var(--accent); }
-  .level-input { width: 44px; padding: 0; text-align: center; font-size: 15px; font-weight: 700; color: var(--accent); background: transparent; border: none; border-radius: 0; font-family: inherit; -moz-appearance: textfield; appearance: textfield; }
+  .level-input { flex: 1; min-width: 0; width: auto; padding: 0; text-align: center; font-size: 14px; font-weight: 700; color: var(--accent); background: transparent; border: none; border-radius: 0; font-family: inherit; -moz-appearance: textfield; appearance: textfield; }
   .level-input::-webkit-outer-spin-button, .level-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .level-input:focus { outline: none; }
-  .level-multiplier { font-size: 12px; color: var(--text2); }
+  .level-multiplier { font-size: 11px; color: var(--text2); flex-shrink: 0; white-space: nowrap; }
   .reduce-row { display: flex; align-items: center; gap: 10px; background: var(--bg); border-radius: 8px; padding: 8px 12px; border: 1px solid var(--border); margin-top: 8px; }
   .reduce-label { font-size: 12px; color: var(--text2); flex: 1; }
   .mode-tabs { display: flex; gap: 0; margin-bottom: 14px; background: var(--bg); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
@@ -329,6 +331,8 @@
   .mult-box-label { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
   .mult-box-input { width: 100%; padding: 5px 8px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; font-weight: 700; text-align: center; }
   .mult-box-input:focus { outline: none; border-color: var(--accent); }
+  /* 天气下拉：与数值输入框同高，文字左对齐 */
+  .weather-select { height: 29px; box-sizing: border-box; text-align: left; font-size: 13px; font-weight: 600; padding: 0 6px; cursor: pointer; }
   /* ── 数值下拉（可自由输入）：其他额外倍率 / 星陨印记层数 / 防御方减伤 ── */
   .num-combo { position: relative; }
   /* ⚠️ width:0 + min-width:100%：不让 input 的「固有宽度」参与 .mult-box（flex:0 0 auto）的宽度计算。
@@ -654,8 +658,7 @@
     .reduce-row { flex-wrap: wrap; gap: 6px; }
 
     /* 能力等级行字号 */
-    .level-label { font-size: 11px; }
-    .level-input { font-size: 14px; width: 40px; }
+    .level-input { font-size: 14px; }
 
     /* 公式行 */
     .formula-row { font-size: 10px; word-break: break-all; }

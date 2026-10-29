@@ -59,7 +59,18 @@ let state = {
   skillAttr: '普通',
   mode: 'A',
   selectedSkillName: '',
+  weather: 'none',      // 天气：'none' 无 / 'rain' 雨天 / 'blizzard' 暴风雪（模式 B、FULL 生效）
 };
+
+// 天气读取（全局参数，模式 A 的威力是游戏内显示值，不参与天气计算）
+function getWeather() {
+  return state.weather || 'none';
+}
+
+// 「天气为暴风雪」类条件勾选框的默认值：跟随天气选择（其它条件仍用规则默认值）
+function weatherCondDefault(key, def) {
+  return key === 'blizzard' ? getWeather() === 'blizzard' : def;
+}
 
 // ============================================================
 // STAT CALCULATION  (species value → real stat)

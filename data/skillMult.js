@@ -610,8 +610,11 @@ function isSkillPowerUnimplemented(skill) {
 // 解析技能威力修正（统一入口）
 //   返回 { powerAdd, powerPct, powerMult, hitsSet, label, implemented, hasRule }
 //   无规则时返回全零 + hasRule:false，由调用方决定是否提示「待补全」
+//   天气（ctx.weather）在此统一计入：雨天 → 水系技能威力 +75%，与技能规则同区相加
 function resolveSkillPower(skill, ctx) {
-  const zero = { powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false };
+  const weatherPct = (skill && ctx && ctx.weather === 'rain' && skill.a === '水') ? 0.75 : 0;
+  const weatherLabel = weatherPct ? '雨天→水系技能威力+75%' : '';
+  const zero = { powerAdd: 0, powerPct: weatherPct, powerMult: 1, hitsSet: null, label: weatherLabel, hasRule: false };
   if (!skill) return Object.assign(zero, { unimplemented: false });
   const rule = getSkillPowerRule(skill.n);
   if (!rule) return Object.assign(zero, { unimplemented: isSkillPowerUnimplemented(skill) });
@@ -621,10 +624,10 @@ function resolveSkillPower(skill, ctx) {
   const r = rule.eff(full) || {};
   return {
     powerAdd: r.powerAdd || 0,
-    powerPct: r.powerPct || 0,
+    powerPct: (r.powerPct || 0) + weatherPct,
     powerMult: (r.powerMult === undefined || r.powerMult === null) ? 1 : r.powerMult,
     hitsSet: (r.hitsSet === undefined) ? null : r.hitsSet,
-    label: r.label || '',
+    label: [r.label || '', weatherLabel].filter(Boolean).join(' · '),
     implemented: r.implemented !== false,
     hasRule: true,
     unimplemented: false,

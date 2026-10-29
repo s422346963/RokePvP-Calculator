@@ -107,6 +107,10 @@ function calc() {
     const trAtk = calcAtkTraitMult(state.atk, state.def, skillObj, traitOptsAtk);
     const trDef  = calcDefTraitMult(state.atk, state.def, skillObj, traitOptsDef);
 
+    // 威力条件框必须先渲染：它的默认勾选态可能来自全局条件（如天气=暴风雪 →「雪原狩猎 +50」），
+    // 否则首次计算读不到勾选框（renderPowerCond 末尾还会再刷一次链路，此处只保证 DOM 就位）
+    renderPowerCond(skillObj, 'b', 'b', document.getElementById('power-mod-b'));
+
     // 技能威力规则（先加减、后乘除的加减段与乘除段分离）
     pw = resolveSkillPower(skillObj, buildPowerCtx('b', 'b', skillObj));
 

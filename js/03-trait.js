@@ -390,7 +390,7 @@ function resetTraitInput(mode, side, kind) {
     rule.fields(skill).forEach(f => {
       const ce = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
       if (!ce) return;
-      if (ce.type === 'checkbox') ce.checked = !!f.def;
+      if (ce.type === 'checkbox') ce.checked = !!weatherCondDefault(f.key, f.def);
       else ce.value = (f.def === undefined ? 0 : f.def);
     });
   }
@@ -418,7 +418,7 @@ function resetTraitPanelForSide(side) {
       rule.fields(skill).forEach(f => {
         const ce = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
         if (!ce) return;
-        if (ce.type === 'checkbox') ce.checked = !!f.def;
+        if (ce.type === 'checkbox') ce.checked = !!weatherCondDefault(f.key, f.def);
         else ce.value = (f.def === undefined ? 0 : f.def);
       });
     }
@@ -512,7 +512,7 @@ function renderTraitCond(fields, container, mode, side) {
     + '#' + visibleFields.map(f => {
         const el = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
         if (el) return f.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value;
-        if (f.type === 'checkbox') return f.def ? 1 : 0;
+        if (f.type === 'checkbox') return weatherCondDefault(f.key, f.def) ? 1 : 0;
         return (f.def === undefined ? '' : f.def);
       }).join(',');
   if (container.dataset.traitCondSig === condSig && container.firstChild) return;
@@ -533,7 +533,7 @@ function renderTraitCond(fields, container, mode, side) {
 
   visibleFields.forEach(f => {
     const targetId = `trait-opt-${mode}-${side}-${f.key}`;
-    const savedVal = _savedVals.hasOwnProperty(f.key) ? _savedVals[f.key] : f.def;
+    const savedVal = _savedVals.hasOwnProperty(f.key) ? _savedVals[f.key] : weatherCondDefault(f.key, f.def);
     if (f.type === 'checkbox') {
       const checked = savedVal ? 'checked' : '';
       html += `<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;white-space:nowrap">

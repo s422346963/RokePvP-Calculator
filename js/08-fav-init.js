@@ -16,6 +16,7 @@ renderTraitPanels();
 buildTypeSelector('skill-type-selector-b');
 setupSearch('atk');
 setupSearch('def');
+syncWeatherSelects();   // 天气下拉与 state.weather 对齐（默认「无」）
 bindPickerTypeReset(document.getElementById('skill-combo-input'));   // 技能下拉：名称=占位显示，直接打字即清空重填
 bindPickerBlurRestore(document.getElementById('skill-combo-input'), 'skill-combo-wrap',
   () => state.selectedSkillName || '');                             // 失焦未修改 → 恢复已选技能名
