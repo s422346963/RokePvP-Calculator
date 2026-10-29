@@ -17,6 +17,7 @@ function switchMode(m) {
     // FULL 模式选择的技能不回填 Tab2：B 模式保持自己在 B 里选的技能，两侧互不影响
     calc();
   }
+  syncResultDockVisibility();
 }
 
 // ============================================================
@@ -29,6 +30,7 @@ function calc() {
   const rp = document.getElementById('result-panel');
   if (!state.atk || !state.def) {
     rp.innerHTML = '<div style="color:var(--text2);font-size:14px;text-align:center;padding:12px">请选择双方精灵并设置技能参数</div>';
+    clearResultDock();
     return;
   }
 
@@ -236,7 +238,7 @@ function calc() {
   const defLvSuffix = defLvActive ? `（等级${dlStr}）` : '';
 
   rp.innerHTML = `
-    <div style="margin-bottom:16px">
+    <div id="result-summary" style="margin-bottom:16px">
       <div style="font-size:11px;color:var(--text2);margin-bottom:4px;display:flex;align-items:center">
         ${state.atk.n} &#x2192; ${state.def.n} ${modeTag}
       </div>
@@ -303,6 +305,58 @@ function calc() {
       </div>
     </div>` : ''}
   `;
+
+  updateResultDock({
+    mode: state.mode,
+    atkName: state.atk.n,
+    defName: state.def.n,
+    dmg: f1(dmg),
+    pct: pct,
+  });
+}
+
+// ── 模式 A/B 吸底结果条 ──
+// 伤害栏（#result-summary）滚出视口时，在底部固定一行摘要；点整条回到伤害明细。
+// 显隐判定放在这里（纯读取 + 切 hidden），事件绑定在 js/08-fav-init.js。
+function updateResultDock(info) {
+  const dock = document.getElementById('result-dock');
+  if (!dock) return;
+  if (!info) { clearResultDock(); return; }
+  const modeEl = document.getElementById('result-dock-mode');
+  if (modeEl) {
+    modeEl.textContent = '模式' + info.mode;
+    modeEl.className = 'result-dock-mode ' + (info.mode === 'A' ? 'is-a' : 'is-b');
+  }
+  const pairEl = document.getElementById('result-dock-pair');
+  if (pairEl) pairEl.textContent = info.atkName + ' → ' + info.defName;
+  const dmgEl = document.getElementById('result-dock-dmg');
+  if (dmgEl) dmgEl.textContent = info.dmg;
+  const pctEl = document.getElementById('result-dock-pct');
+  if (pctEl) pctEl.textContent = info.pct > 0 ? info.pct.toFixed(1) + '%' : '';
+  dock.dataset.ready = '1';
+  syncResultDockVisibility();
+}
+
+function clearResultDock() {
+  const dock = document.getElementById('result-dock');
+  if (!dock) return;
+  dock.dataset.ready = '';
+  dock.hidden = true;
+}
+
+function syncResultDockVisibility() {
+  const dock = document.getElementById('result-dock');
+  if (!dock) return;
+  const rp = document.getElementById('result-panel');
+  const summary = document.getElementById('result-summary');
+  if (dock.dataset.ready !== '1' || state.mode === 'FULL' ||
+      !rp || rp.style.display === 'none' || !summary) {
+    dock.hidden = true;
+    return;
+  }
+  const rect = summary.getBoundingClientRect();
+  const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+  dock.hidden = inView;
 }
 
 // ============================================================

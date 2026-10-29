@@ -359,6 +359,33 @@
   .num-combo-option:hover { background: var(--card); }
   .num-combo-option.selected { color: var(--accent); }
   .result-panel { background: var(--result-bg); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  /* 模式 A/B 吸底结果条：伤害栏滚出视口时固定在底部（点击回滚） */
+  .result-dock {
+    position: fixed; left: 50%; bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 150; display: flex; align-items: center; gap: 10px;
+    max-width: calc(100vw - 24px); padding: 8px 14px;
+    background: var(--card); color: var(--text);
+    border: 1px solid var(--accent); border-radius: 999px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.32);
+    font-family: inherit; font-size: 13px; white-space: nowrap; cursor: pointer;
+    animation: resultDockIn .16s ease-out;
+  }
+  .result-dock[hidden] { display: none; }
+  .result-dock:hover { border-color: var(--accent2); }
+  .result-dock:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
+  .result-dock-mode { flex: 0 0 auto; font-size: 11px; padding: 1px 8px; border-radius: 8px; }
+  .result-dock-mode.is-a { color: #a89fff; background: rgba(124,107,255,.25); border: 1px solid rgba(124,107,255,.4); }
+  .result-dock-mode.is-b { color: #ff9bbf; background: rgba(255,107,157,.25); border: 1px solid rgba(255,107,157,.4); }
+  [data-theme="light"] .result-dock-mode.is-a { color: #4a3bd6; background: rgba(124,107,255,.14); border-color: rgba(124,107,255,.45); }
+  [data-theme="light"] .result-dock-mode.is-b { color: #c0246a; background: rgba(255,107,157,.14); border-color: rgba(255,107,157,.45); }
+  .result-dock-pair { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text2); }
+  .result-dock-dmg { flex: 0 0 auto; margin-left: auto; color: var(--text); }
+  .result-dock-dmg b { font-size: 20px; font-weight: 900; color: var(--accent); }
+  .result-dock-pct { flex: 0 0 auto; font-size: 12px; color: var(--text2); }
+  .result-dock-jump { flex: 0 0 auto; font-size: 11px; color: var(--text2); }
+  @keyframes resultDockIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   .hp-section { margin-bottom: 16px; }
   .hp-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
   .hp-bar-track { width: 100%; height: 18px; background: var(--bg); border-radius: 9px; overflow: hidden; position: relative; }

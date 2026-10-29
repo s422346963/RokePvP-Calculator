@@ -518,6 +518,15 @@
 <!-- 收藏配置：可拖动浮动面板（默认右侧，默认隐藏） -->
 <aside id="fav-panel" class="fav-sidebar"></aside>
 
+<!-- 模式 A/B 吸底结果条：伤害栏滚出视口时固定在底部，点击回滚 -->
+<button type="button" id="result-dock" class="result-dock" hidden title="点击回到伤害明细">
+  <span class="result-dock-mode is-a" id="result-dock-mode">模式A</span>
+  <span class="result-dock-pair" id="result-dock-pair"></span>
+  <span class="result-dock-dmg"><b id="result-dock-dmg">0</b> 伤害</span>
+  <span class="result-dock-pct" id="result-dock-pct"></span>
+  <span class="result-dock-jump">↑</span>
+</button>
+
 <!-- 通用弹窗：收藏保存 / 删除确认 -->
 <div id="app-modal-overlay" class="app-modal-overlay" hidden>
   <div class="app-modal" role="dialog" aria-modal="true" aria-labelledby="app-modal-title">

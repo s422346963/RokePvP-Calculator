@@ -382,6 +382,28 @@ function setupFavPanelDrag() {
   });
 }
 
+// ── 模式 A/B 吸底结果条：滚动/缩放时重判显隐，点击回到伤害明细 ──
+function initResultDock() {
+  const dock = document.getElementById('result-dock');
+  if (!dock) return;
+  dock.addEventListener('click', () => {
+    const rp = document.getElementById('result-panel');
+    if (rp) rp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  let ticking = false;
+  const onViewportChange = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      syncResultDockVisibility();
+    });
+  };
+  window.addEventListener('scroll', onViewportChange, { passive: true });
+  window.addEventListener('resize', onViewportChange);
+  syncResultDockVisibility();
+}
+
 function renderFavoriteGroup() {
   const panel = document.getElementById('fav-panel');
   if (!panel) return;
@@ -466,6 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
   applyFullCondState('atk');   // 威力修正栏默认收起（▼）
   applyFullCondState('def');
   renderFavoriteGroup();
+  initResultDock();            // 吸底结果条（模式 A/B）
   // 未选精灵时：特性输入区只显示「特性倍率」（结算层），其余按规则显隐的输入框全部隐藏
   ['b', 'full'].forEach(m => {
     updateTraitInputVisibility(m, 'atk', null, null, null);
