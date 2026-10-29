@@ -60,6 +60,9 @@ let state = {
   mode: 'A',
   selectedSkillName: '',
   weather: 'none',      // 天气：'none' 无 / 'rain' 雨天 / 'blizzard' 暴风雪（模式 B、FULL 生效）
+  // 进攻方正面印记：游戏内可多种并存，故用数组（每项 { key, stacks }）；
+  // 当前页面只提供 1 种印记的编辑入口，多选 UI 未实现。
+  marks: [],
 };
 
 // 天气读取（全局参数，模式 A 的威力是游戏内显示值，不参与天气计算）
@@ -70,6 +73,40 @@ function getWeather() {
 // 「天气为暴风雪」类条件勾选框的默认值：跟随天气选择（其它条件仍用规则默认值）
 function weatherCondDefault(key, def) {
   return key === 'blizzard' ? getWeather() === 'blizzard' : def;
+}
+
+// ============================================================
+// 进攻方印记（正面）
+//   一方同时只能存在 1 种正面印记，同种印记叠层；每层按百分比并入技能威力乘区。
+//   本计算器只收录物攻/魔攻/双攻技能（均为攻击技能），故三种印记统一作用于技能威力。
+// ============================================================
+const MARK_TABLE = {
+  charge:   { name: '蓄势', pct: 0.30 },
+  tailwind: { name: '风起', pct: 0.20 },
+  attack:   { name: '攻击', pct: 0.10 },
+};
+
+// 当前生效的印记列表：支持多种印记并存（层数 0 或未登记的项不计入）
+function getActiveMarks() {
+  const list = Array.isArray(state.marks) ? state.marks : [];
+  return list.map(m => {
+    const def = MARK_TABLE[m && m.key];
+    const stacks = Math.max(0, Math.min(99, parseInt(m && m.stacks, 10) || 0));
+    return (def && stacks > 0) ? { key: m.key, name: def.name, stacks, pct: def.pct * stacks } : null;
+  }).filter(Boolean);
+}
+
+// 汇总所有生效印记：总百分比（跨印记相加，进技能威力乘区）+ 说明文字
+function getMarkInfo() {
+  const entries = getActiveMarks();
+  if (!entries.length) return null;
+  const pct = entries.reduce((s, e) => s + e.pct, 0);
+  return {
+    entries,
+    pct,
+    label: entries.map(e => e.name + '印记 ' + e.stacks + '层').join(' + ')
+      + '→技能威力+' + Math.round(pct * 100) + '%',
+  };
 }
 
 // ============================================================

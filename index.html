@@ -319,10 +319,19 @@
               <option value="blizzard">暴风雪</option>
             </select>
           </div>
-          <div class="trait-hint-box" style="flex:1;min-width:160px">
-            <b>💡</b> 特性倍率自动计算，无需手动输入。<br>
-            需要参数的特性会在上方出现输入框。<br>
-            不涉及伤害的特性（离场/能耗类）显示说明但不参与计算。
+          <div class="mult-box" style="width:160px;min-width:160px;flex:0 0 auto;box-sizing:border-box">
+            <div class="mult-box-label">🎯 进攻方印记<span class="skill-tip-icon">!<span class="skill-tooltip"><div style="font-weight:700;margin-bottom:4px;color:var(--text)">进攻方正面印记</div><div>蓄势：每层攻击技能威力 +30%</div><div>风起：先攻时每层技能威力 +20%</div><div>攻击：每层技能威力 +10%</div></span></span></div>
+            <div class="mark-row">
+              <select class="mult-box-input mark-select" id="mark-full" onchange="onMarkChange(this.value)">
+                <option value="none">无</option>
+                <option value="charge">蓄势</option>
+                <option value="tailwind">风起</option>
+                <option value="attack">攻击</option>
+              </select>
+              <label class="mark-stack"><span>层</span>
+                <input class="mult-box-input mark-stack-input" type="number" id="mark-stacks-full" min="0" max="99" step="1" value="1" oninput="onMarkStacksChange(this.value)">
+              </label>
+            </div>
           </div>
         </div>
         <!-- FULL 模式专属结果面板 -->
@@ -479,9 +488,19 @@
               <option value="blizzard">暴风雪</option>
             </select>
           </div>
-          <div class="trait-hint-box" style="flex:1;min-width:160px">
-            <b>💡</b> 基础威力、连击次数为手动输入；属性克制、本系与能力等级倍率自动计算（双重克制 ×3）。<br>
-            特性倍率自动计算，需要参数的特性会在上方出现输入框。
+          <div class="mult-box" style="width:160px;min-width:160px;flex:0 0 auto;box-sizing:border-box">
+            <div class="mult-box-label">🎯 进攻方印记<span class="skill-tip-icon">!<span class="skill-tooltip"><div style="font-weight:700;margin-bottom:4px;color:var(--text)">进攻方正面印记</div><div>蓄势：每层攻击技能威力 +30%</div><div>风起：先攻时每层技能威力 +20%</div><div>攻击：每层技能威力 +10%</div></span></span></div>
+            <div class="mark-row">
+              <select class="mult-box-input mark-select" id="mark-b" onchange="onMarkChange(this.value)">
+                <option value="none">无</option>
+                <option value="charge">蓄势</option>
+                <option value="tailwind">风起</option>
+                <option value="attack">攻击</option>
+              </select>
+              <label class="mark-stack"><span>层</span>
+                <input class="mult-box-input mark-stack-input" type="number" id="mark-stacks-b" min="0" max="99" step="1" value="1" oninput="onMarkStacksChange(this.value)">
+              </label>
+            </div>
           </div>
         </div>
       </div>

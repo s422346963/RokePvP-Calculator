@@ -219,6 +219,51 @@ function onWeatherChange(value) {
   if (state.mode === 'FULL') calcFull(); else calc();
 }
 
+// ============================================================
+// 进攻方印记（正面，全局参数，模式 B / FULL）
+//   · 数据层用 state.marks 数组，天然支持多种印记并存（每项 { key, stacks }）；
+//     当前页面只实现「1 种印记」的编辑入口，所以 UI 永远只读写数组里的第 1 项。
+//   · 每层按百分比并入技能威力乘区，多种印记的百分比相加（见 getMarkInfo）。
+//   · FULL 模式只有攻击方技能槽吃加成（防御方技能槽 = 对手出手，见 buildFullPowerCtx）
+// ============================================================
+function syncMarkUI() {
+  const list = Array.isArray(state.marks) ? state.marks : [];
+  const first = list[0] || null;
+  const key = (first && MARK_TABLE[first.key]) ? first.key : 'none';
+  const stacks = first ? Math.max(0, Math.min(99, parseInt(first.stacks, 10) || 0)) : 0;
+  ['mark-b', 'mark-full'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value !== key) el.value = key;
+  });
+  ['mark-stacks-b', 'mark-stacks-full'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.disabled = (key === 'none');   // 无印记时层数不可填
+    // 正在输入的那个框不要回写，避免光标跳到末尾
+    if (document.activeElement !== el && el.value !== String(stacks)) el.value = stacks;
+  });
+}
+
+// 选择印记：当前 UI 只维护 1 种（无 / 蓄势 / 风起 / 攻击）
+//   选中印记后默认 1 层；只有「同一种印记」才沿用已填层数（改选别的印记回到 1 层）
+function onMarkChange(value) {
+  const key = MARK_TABLE[value] ? value : 'none';
+  const cur = (Array.isArray(state.marks) && state.marks[0]) ? state.marks[0] : null;
+  const keepStacks = (cur && cur.key === key && (parseInt(cur.stacks, 10) || 0) > 0) ? (parseInt(cur.stacks, 10) || 0) : 1;
+  state.marks = (key === 'none') ? [] : [{ key, stacks: keepStacks }];
+  syncMarkUI();
+  if (state.mode === 'FULL') calcFull(); else calc();
+}
+
+function onMarkStacksChange(value) {
+  const v = parseInt(value, 10);
+  const stacks = isNaN(v) ? 0 : Math.max(0, Math.min(99, v));
+  if (!Array.isArray(state.marks) || !state.marks.length) state.marks = [];
+  else state.marks[0].stacks = stacks;   // 当前 UI 只编辑第一种印记
+  syncMarkUI();
+  if (state.mode === 'FULL') calcFull(); else calc();
+}
+
 // FULL 槽位（slot 形如 'atk0' / 'def2'）→ 槽位数据对象；非 FULL 槽位返回 null
 function fullSlotBySlotName(slot) {
   const m = /^(atk|def)(\d)$/.exec(String(slot));
@@ -240,6 +285,8 @@ function buildPowerCtx(mode, slot, skill) {
     skCost: skill ? (skill.c || 0) : 0,
     skKind: skill ? (skill.k || '') : '',
     weather: getWeather(),
+    // 印记属于「进攻方」：FULL 模式的防御方技能槽 = 对手出手，不吃我方印记
+    mark: (mode === 'full' && String(slot).indexOf('def') === 0) ? null : getMarkInfo(),
     atk: atkS, def: defS,
     atkA1: atkS ? (atkS.a1 || '') : '',
     atkA2: atkS ? (atkS.a2 || '') : '',
@@ -739,6 +786,7 @@ function buildFullPowerCtx(side, idx, skillObj) {
     skCost: skillObj ? (skillObj.c || 0) : 0,
     skKind: skillObj ? (skillObj.k || '') : '',
     weather: getWeather(),
+    mark: side === 'atk' ? getMarkInfo() : null,
     atk: atkS, def: defS,
     atkA1: atkS ? (atkS.a1 || '') : '',
     atkA2: atkS ? (atkS.a2 || '') : '',

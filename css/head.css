@@ -333,6 +333,15 @@
   .mult-box-input:focus { outline: none; border-color: var(--accent); }
   /* 天气下拉：与数值输入框同高，文字左对齐 */
   .weather-select { height: 29px; box-sizing: border-box; text-align: left; font-size: 13px; font-weight: 600; padding: 0 6px; cursor: pointer; }
+  /* ── 进攻方印记：印记下拉 + 层数 + 说明（在天气之后） ── */
+  .mark-row { display: flex; align-items: center; gap: 6px; }
+  .mark-select { flex: 1 1 auto; min-width: 0; height: 29px; box-sizing: border-box; text-align: left; font-size: 13px; font-weight: 600; padding: 0 6px; cursor: pointer; }
+  .mark-stack { display: flex; align-items: center; gap: 3px; flex: 0 0 auto; font-size: 11px; color: var(--text2); }
+  .mark-stack-input { width: 46px; flex: 0 0 46px; height: 29px; box-sizing: border-box; padding: 0 2px; font-size: 13px; }
+  .mark-stack-input:disabled { opacity: .45; cursor: not-allowed; }
+  /* 印记标题后的「圆圈感叹号」提示图标：比技能说明图标略小；浮层向左展开，避免撑出页面 */
+  .mult-box-label .skill-tip-icon { width: 13px; height: 13px; font-size: 9px; margin-left: 4px; }
+  .mult-box-label .skill-tip-icon .skill-tooltip { left: auto; right: -4px; }
   /* ── 数值下拉（可自由输入）：其他额外倍率 / 星陨印记层数 / 防御方减伤 ── */
   .num-combo { position: relative; }
   /* ⚠️ width:0 + min-width:100%：不让 input 的「固有宽度」参与 .mult-box（flex:0 0 auto）的宽度计算。
@@ -582,8 +591,6 @@
   .trait-reset-btn:hover { background:var(--card); color:var(--text); }
   .trait-cond-area { margin-top:8px; }
   .trait-cond-area:empty { display:none; }
-  .trait-hint-box { font-size:11px; color:var(--text2); line-height:1.7; padding:8px 10px; background:rgba(255,220,50,.07); border-radius:8px; border:1px solid rgba(255,220,50,.2); }
-  .trait-hint-box b { color:#ffca28; }
   @media(max-width:700px){ .trait-panels-row{ grid-template-columns:1fr; } }
   ::-webkit-scrollbar{width:4px}.dropdown::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
