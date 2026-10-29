@@ -582,6 +582,14 @@ defineSkillPowerRule(['透镜实验'],
   () => [spCk('foeLight', '敌方携带光系技能', false)],
   ctx => ctx.opts.foeLight ? { powerAdd: 50, label: '敌方带光系技能→威力+50' } : null);
 
+// 色散：「对混血精灵造成伤害+50%」
+//   「混血」无法从数据判定（SPIRITS 的 a1/a2 是属性而非血统标记），故由用户勾选。
+//   伤害 +50% 与威力 ×1.5 在公式里等价（两者都在单次伤害 floor 之前相乘），
+//   按本文件约定走 powerPct（进技能威力乘区，与特性威力倍率相加）。
+defineSkillPowerRule(['色散'],
+  () => [spCk('mixedBlood', '敌方为混血精灵', false)],
+  ctx => ctx.opts.mixedBlood ? { powerPct: 0.5, label: '敌方为混血精灵→伤害+50%' } : null);
+
 // ============================================================
 // 查询helper（供 index.html 调用，避免各处重复写判定逻辑）
 // ============================================================

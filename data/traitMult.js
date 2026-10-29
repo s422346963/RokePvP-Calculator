@@ -572,11 +572,11 @@ defineAtkTraitRule(['贪得无厌'],
   });
 
 // 合拍：与敌方技能每有1项相同，回合结束时物攻和物防永久+10%
-// 相同项数由用户填写（系别/类型/能耗，0-3）→ 双侧登记
+// 相同项数由用户填写（系别/类型/能耗，单回合最多 3 项，但跨回合永久累积，故上限 99）→ 双侧登记
 defineBothTraitRule(['合拍'],
-  () => [num('sameCount', '累计相同项数(系别/类型/能耗)', 0, 0, 3)],
+  () => [num('sameCount', '累计相同项数(系别/类型/能耗)', 0, 0, 99)],
   ctx => {
-    const n = Math.max(0, Math.min(3, ctx.opts.sameCount || 0));
+    const n = Math.max(0, Math.min(99, ctx.opts.sameCount || 0));
     if (n === 0) return null;
     const p = 0.1 * n;
     return {

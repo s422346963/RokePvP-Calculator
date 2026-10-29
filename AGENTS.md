@@ -37,11 +37,11 @@
   - `skills.js` → `const SKILLS`：358 条，当前只有 `k` 为 `物攻`(199) / `魔攻`(159) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。另有 `const SORTED_SPIRITS = SPIRITS` 别名（仅命名保留，并非已排序数组）。
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
   - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表，用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。
-  - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 97 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。
+  - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 98 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。
   - `pinyin.js` → `const PINYIN_MAP`（汉字 → 全拼）+ `const PINYIN_WORDS`（多音字词组 → 逐字拼音数组），供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
 - `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
-- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 150 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
+- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 154 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
 - `analytics.js` — 百度统计，勿动。
 - `.tmp/` — 数据同步的中间产物与缓存（已在 `.gitignore`）。
 
