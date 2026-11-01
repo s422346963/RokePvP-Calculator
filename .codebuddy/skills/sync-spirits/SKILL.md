@@ -7,7 +7,7 @@ description: 从 wiki 精灵图鉴页面（https://wiki.biligame.com/nrc/精灵�
 
 从 `https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4`（精灵图鉴）同步精灵数据到 `data/spirits.js`。
 
-> 旧源 `rocom` 已下线，数据迁移到 `nrc` 域。**图鉴页结构完全重写**（`npc-card` 卡片），但**详情页复用了旧 `roco-` 结构**（资质/特性），所以采用两步法：图鉴页拿基础信息 + 详情链接，再逐个访问详情页取完整字段。
+> 旧源 `rocom` 已下线，数据迁移到 `nrc` 域。图鉴页是 `npc-card` 卡片；**详情页在 2026-11 也换成了新结构 `sd-p-*`**（此前是复用的 `roco-*`）。仍采用两步法：图鉴页拿基础信息 + 详情链接，再逐个访问详情页取完整字段。解析器同时兼容新旧两套结构。
 
 ## 触发方式
 
@@ -41,23 +41,36 @@ description: 从 wiki 精灵图鉴页面（https://wiki.biligame.com/nrc/精灵�
 - `.npc-art-normal img` → 图片（立绘，回退到 `.npc-art-head img`）
 - `.npc-card-target a` → 详情页链接（相对路径，需拼 `https://wiki.biligame.com`）
 - 注意：形态精灵（如 圣光迪莫 / 圣草迪莫）是**独立卡片**，拥有各自的 `no`（常与本体相同）与详情页，按 `no + 名称` 去重，均视为不同精灵
-- 图鉴总数 622 张卡（含形态，实测于 2026-09）
+- 图鉴总数 660 张卡（含形态，实测于 2026-11；精灵编号到 492）
 
 ### Step 2 · 精灵详情页（`/nrc/<名称>`）
 
-示例 `https://wiki.biligame.com/nrc/%E8%BF%AA%E8%8E%AB`，复用旧 `roco-` 结构：
+示例 `https://wiki.biligame.com/nrc/%E5%B0%8F%E5%86%A5%E9%BE%99`，**新结构 `sd-p-*`**（2026-11 起）：
 
 ```html
-<div class="roco-stat-list">
-  <div class="roco-stat"><span class="roco-stat-name">生命</span>
-    <span class="roco-stat-val" data-val="120">0</span></div>   <!-- 真实数值在 data-val，文本是占位 0 -->
-  ...（攻击/魔攻/物防/魔防/速度）
+<div class="sd-p-trait">                            <!-- 特性 -->
+  <div class="sd-p-trait-copy">
+    <div class="sd-p-trait-name">恶龙的奢望</div>
+    <div class="sd-p-trait-description">初始等级+39，回合结束时等级-10，…</div>
+  </div>
 </div>
-<div class="roco-feature">
-  <span class="roco-feature-name">最好的伙伴</span>
-  <div class="roco-feature-desc">造成克制伤害后，获得攻防速+20%，并回复2能量。</div>
+<div class="sd-p-stats">                            <!-- 种族资质 -->
+  <div class="sd-p-stat-list">
+    <div class="sd-p-stat">
+      <div class="sd-p-stat-name"><img alt="生命"/><div class="sd-p-stat-text">
+        <div class="sd-p-stat-label">生命</div>
+        <div class="sd-p-stat-rune" data-rune="HP"></div>
+      </div></div>
+      <div class="sd-p-stat-track">…</div>
+      <div class="sd-p-stat-number">94</div>          <!-- 真实数值（文本） -->
+    </div>
+    …（物攻 ATK / 魔攻 MATK / 物防 DEF / 魔防 MDEF / 速度 SPD）
+  </div>
 </div>
-<span class="roco-type">光</span>   <!-- 可能多个，裸属性 -->
+<div class="sd-p-header-types">                      <!-- 属性 -->
+  <span class="sd-type"><img alt="幽系"/><span>幽系</span></span>
+  <span class="sd-type"><img alt="龙系"/><span>龙系</span></span>
+</div>
 ```
 
 字段映射（写入 `data/spirits.js`）：
@@ -65,15 +78,17 @@ description: 从 wiki 精灵图鉴页面（https://wiki.biligame.com/nrc/精灵�
 | 字段 | 来源 |
 |---|---|
 | `no` | 图鉴 `data-number`（3 位补零） |
-| `n` | 图鉴 `.npc-name` |
-| `hp/pa/ma/pd/md/sp` | 详情 `.roco-stat`：按 `.roco-stat-name` 对应，数值取 `.roco-stat-val` 的 `data-val`（文本固定为 0，不可用） |
-| `a1`/`a2` | 详情 `.roco-type`（首个/次个，裸属性）；详情为空时回退到图鉴属性 |
-| `tr` | 详情 `.roco-feature-name` |
-| `tr_desc` | 详情 `.roco-feature-desc` |
+| `n` | 图鉴 `.npc-card-target a[title]`（完整形态名），回退 `.npc-name` |
+| `hp/pa/ma/pd/md/sp` | 详情 `.sd-p-stat`：优先 `.sd-p-stat-rune[data-rune]`（HP/ATK/MATK/DEF/MDEF/SPD → hp/pa/ma/pd/md/sp），回退 `.sd-p-stat-label`（生命/物攻/魔攻/物防/魔防/速度）；数值取 `.sd-p-stat-number` 文本 |
+| `a1`/`a2` | 详情 `.sd-p-header-types .sd-type`（首个/次个，去「系」字）；详情为空时回退到图鉴属性 |
+| `tr` | 详情 `.sd-p-trait-name` |
+| `tr_desc` | 详情 `.sd-p-trait-description` |
 | `st` | 图鉴的特殊形态/阶段文本（`.npc-form` 显示文本 + `.npc-stage` 拼接，中性值如「一阶」「首领形态」「本来的样子」不记录，实际值如「首领」「蓬松的样子」「急急急鸭/首领」；普通精灵为空 `""`） |
 | `img` | 图鉴 `.npc-art-normal img` src |
 
-> **抓取方式（统一 requests）**：详情页用 `requests` 抓取（快，~0.x s/页），wiki 偶发 `567` 由指数退避重试吸收；个别页面持续被拦截（567 / 请求已被拦截）时稍后重跑即可（已缓存的秒过，只补抓失败的）。解析逻辑用 BeautifulSoup 取 `roco-stat-val[data-val]` 等。详情页 HTML 缓存到 `.tmp/spirit_details/`，重跑复用、便于排查。
+> **旧结构兼容**：页面若仍是 `roco-*`（`.roco-stat` + `.roco-stat-val[data-val]` / `.roco-feature-name` / `.roco-type`），`parse_detail()` 自动回退解析，无需改代码。
+
+> **抓取方式（requests Session + Referer）**：详情页用 `requests.Session` 抓取（复用连接，`Referer` 指向图鉴页），wiki 偶发的 `567`（WAF）由指数退避重试吸收；个别页面持续被拦截时稍后重跑即可（已缓存的秒过，只补抓失败的）。**不带 Referer 的裸请求极易整批 567**（2026-11 实测）。有效性判定：`200` 且响应内含 `sd-p-stat` 或 `roco-stat-val`，否则重试。详情页 HTML 缓存到 `.tmp/spirit_details/`，重跑复用、便于排查。
 >
 > 图鉴页同样用 `requests` 下载（`sync_spirits.download_gallery`，内置指数退避重试）。
 
@@ -145,8 +160,9 @@ node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb
 ## 注意事项
 
 - **只追加新精灵**：`--merge` 按 `no + 名称` 去重，已存在的精灵不会被覆盖或重复添加；若需更新某精灵数值，需手动编辑 `data/spirits.js`
-- **详情页数值取 `data-val`**：`.roco-stat-val` 文本固定为 `0`，必须用其 `data-val` 属性，否则六项资质全变成 0
-- **属性去「系」字**：图鉴 `.npc-type` 的 `title` 是「光系」之类，写入 `a1/a2` 时要去掉「系」
+- **新旧结构数值取法不同**：新结构取 `.sd-p-stat-number` **文本**；旧结构 `.roco-stat-val` 文本固定是 `0`，必须用其 `data-val` 属性，否则六项资质全变成 0
+- **属性去「系」字**：图鉴 `.npc-type` 的 `title`、详情 `.sd-type` 的文本都是「光系」/「幽系」之类，写入 `a1/a2` 时要去掉「系」
+- **新增精灵后补拼音**：名称出现新汉字时跑 `python gen_pinyin.py` 重新生成 `data/pinyin.js`，否则这些名字的拼音搜索失效（会自动备份 `.bak`，可删除）
 - 所有用户可见文案为简体中文；文件 UTF-8 编码。终端乱码是显示端解码问题，不要"修复"编码（避免把中文塞进 `python -c` 内联脚本；必要中文放脚本文件内，脚本已用 `sys.stdout.reconfigure(encoding="utf-8")`）
 - `data/spirits.js` 被 `index.html` 在 body 末尾按序加载，不能移回 `<head>` 或加 `defer`
 - 详情页 HTML 缓存于 `.tmp/spirit_details/`，重跑复用；排查异常精灵可直接读取对应缓存文件

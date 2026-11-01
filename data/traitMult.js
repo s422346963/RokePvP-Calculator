@@ -919,6 +919,73 @@ defineDefTraitRule(['展翅'],
     : null);
 
 // ============================================================
+// 批次新增（2026-11）—— 新精灵特性（469-492 / 245 琉璃君主 / 254 圣冠布鲁斯）
+// ============================================================
+// 说明：下列特性无伤害影响，**不登记规则**（UI 只显示「特性倍率」，用户可手填）：
+//   深层侵蚀（中毒层数）、沙滩节拍（能耗）、环天顶弧（星陨印记）、
+//   高吹雪（天气）、虫草多糖（奉献/寄生）、游戏的本质（随机点数）、
+//   恶龙的奢望（等级自增自减，暂不实现）
+// ------------------------------------------------------------
+
+// 烈冰钻（圣冠布鲁斯）：敌方携带技能总能耗每 1 点 → 攻击威力 +10%；敌方总能耗 >15 时自己获得速度+75
+defineAtkTraitRule(['烈冰钻'], () => [num('enemyTotalCost', '敌方携带技能总能耗', 0, 0, 20)],
+  ctx => {
+    const n = ctx.opts.enemyTotalCost || 0;
+    if (n <= 0) return null;
+    const m = 1 + 0.1 * n;
+    const out = { f: 1, powerMult: m, d: '烈冰钻(敌总能耗' + n + ')→威力×' + m.toFixed(2) };
+    if (n > 15) {
+      out.d += '、速度+75';
+      out.stat = st({ spd: { flat: 75 } });
+    }
+    return out;
+  });
+
+// 银头寸（地银链/地底银鳞/地绡银龙）：自己每消耗 1 点能量，回合结束时获得魔攻+10%
+defineBothTraitRule(['银头寸'], () => [num('energySpent', '已消耗能量点数', 0, 0, 30)],
+  ctx => {
+    const n = Math.max(0, Math.min(30, ctx.opts.energySpent || 0));
+    if (n <= 0) return null;
+    const p = 0.1 * n;
+    return {
+      f: 1, d: '消耗' + n + '点能量→魔攻+' + (n * 10) + '%',
+      stat: st({ matk: { pct: p } }),
+    };
+  });
+
+// 储备金（沉金兽/龙头金/龙嵴金脉）：自己每使用 1 次聚能，回合结束时获得物攻+50%
+defineBothTraitRule(['储备金'], () => [num('chargeUses', '已使用聚能次数', 0, 0, 10)],
+  ctx => {
+    const n = Math.max(0, Math.min(10, ctx.opts.chargeUses || 0));
+    if (n <= 0) return null;
+    const p = 0.5 * n;
+    return {
+      f: 1, d: '聚能' + n + '次→物攻+' + (n * 50) + '%',
+      stat: st({ patk: { pct: p } }),
+    };
+  });
+
+// 换牙（乐乐鲨/阿瓦鲨）：驱散 1 次自身减益后，物攻永久+50%（最多触发 1 次）
+defineBothTraitRule(['换牙'], () => [ck('cleansed', '已驱散过自身减益', false)],
+  ctx => ctx.opts.cleansed
+    ? { f: 1, d: '驱散减益→物攻永久+50%', stat: st({ patk: { pct: 0.5 } }) }
+    : null);
+
+// 护犊（蛋包蛋/鸡麻麻）：队伍中存在被萌化的精灵时，自己获得双防+50%（纯防御 → 仅防方表）
+defineDefTraitRule(['护犊'], () => [ck('charmedAlly', '队伍中存在被萌化的精灵', false)],
+  ctx => ctx.opts.charmedAlly
+    ? { f: 1, d: '队伍有萌化精灵→双防+50%', stat: st({ pdef: { pct: 0.5 }, mdef: { pct: 0.5 } }) }
+    : null);
+
+// 剪影（小剪影/影子剪纸）：敌方精灵离场时，自己获得技能威力+20（可累积）
+defineAtkTraitRule(['剪影'], () => [num('stackCount', '敌方精灵离场次数', 0, 0, 10)],
+  ctx => {
+    const n = Math.max(0, Math.min(10, ctx.opts.stackCount || 0));
+    if (n <= 0) return null;
+    return { f: 1, powerBonus: 20 * n, d: '敌方离场' + n + '次→技能威力+' + (n * 20) };
+  });
+
+// ============================================================
 // 通道声明表（静态）—— 决定 UI 显示哪些输入框
 // ============================================================
 // 为什么需要这张表：
@@ -1041,6 +1108,14 @@ const TRAIT_CHANNELS = {
   '图书守卫者': CH_ATKM,
   '淬炼火': CH_ATKM,
   '旧玩具': CH_ATKM,
+
+  // ── 2026-11 批次：新精灵（245 琉璃君主 / 254 圣冠布鲁斯 / 469-492）──
+  '烈冰钻': CH_PWM,
+  '银头寸': CH_ATKM,
+  '储备金': CH_ATKM,
+  '换牙': CH_ATKM,
+  '护犊': CH_ATKM,
+  '剪影': CH_PWA,
 };
 
 // 取某特性声明的通道；未登记返回 null（UI 退化为只显示「特性倍率」）

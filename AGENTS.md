@@ -5,7 +5,7 @@
 洛克王国 PVP 伤害计算器 —— 纯前端静态网页工具，**无构建系统、无 package.json、无依赖、无 lint**（开发期校验脚本见 `.tmp/`，已 gitignore）。
 
 - 数据来源：[BWiki 精灵图鉴](https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4) / [技能图鉴](https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4)（`nrc` 域；旧 `rocom` 域已下线）
-- 现有数据规模：精灵 624 条（含不同形态/首领）、技能 358 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 92 个特性名（攻 70 / 防 22）、技能威力规则 98 条（均按名称计）
+- 现有数据规模：精灵 651 条（含不同形态/首领）、技能 358 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 101 条（攻 75 / 防 26）、技能威力规则 98 条（均按名称计）
 
 ## 运行与验证
 
@@ -34,10 +34,10 @@
 
   ⚠️ **顶层可执行语句只允许出现在 `js/08-fav-init.js`**（唯一例外：`js/01-core.js` 的愿力冲击数据注入，必须晚于 `data/skills.js`）。跨文件函数调用只在调用期解析，合法；但**跨文件重名顶层 `const/let` 会 SyntaxError 整页白屏**（`function` 重名则是后者静默覆盖，曾是 `readTraitOpts` 真隐患），`verify_formula.js` 有重名断言。
 - `data/*.js` — 游戏数据，均为全局常量，在 body 末尾、`js/*.js` 之前**按序**加载：`spirits.js → skills.js → type.js → traitMult.js → skillMult.js → pinyin.js → spiritsPvP.js`
-  - `spirits.js` → `const SPIRITS`：624 条。字段：`no`(3 位补零编号，同一编号可有多个形态) `n`(名称) `hp/pa/ma/pd/md/sp`(六项种族值) `a1/a2`(主/副属性) `tr`(特性名) `tr_desc`(特性描述) `st`(特殊形态/阶段文本，如「首领」，普通精灵为空串) `img`(wiki 图片 URL)。
+  - `spirits.js` → `const SPIRITS`：651 条。字段：`no`(3 位补零编号，同一编号可有多个形态) `n`(名称) `hp/pa/ma/pd/md/sp`(六项种族值) `a1/a2`(主/副属性) `tr`(特性名) `tr_desc`(特性描述) `st`(特殊形态/阶段文本，如「首领」，普通精灵为空串) `img`(wiki 图片 URL)。
   - `skills.js` → `const SKILLS`：358 条，当前只有 `k` 为 `物攻`(199) / `魔攻`(159) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
-  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表（注册 70 / 22 个特性名），用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`，共 81 条），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。条件字段构造器为 `ck`（复选框）/ `num`；`key === 'blizzard'`（天气为暴风雪）的勾选框默认值由天气联动，见下文天气系统。
+  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表（注册 75 / 26 个特性名），用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`，共 87 条），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。条件字段构造器为 `ck`（复选框）/ `num`；`key === 'blizzard'`（天气为暴风雪）的勾选框默认值由天气联动，见下文天气系统。
   - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 98 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。⚠️ `resolveSkillPower()` 是**全局威力修正的唯一汇聚点**：天气（雨天→水系 +75%）与进攻方印记在此与技能规则 `powerPct` **同区相加**，无规则时也照常生效。
   - `pinyin.js` → `const PINYIN_MAP`（汉字 → 全拼）+ `const PINYIN_WORDS`（多音字词组 → 逐字拼音数组），供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。

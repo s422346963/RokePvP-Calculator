@@ -2,11 +2,16 @@
 """
 解析单个精灵详情页（nrc 域），提取资质、特性、属性。
 
-详情页复用旧 rocom 的 `roco-` 结构：
-  - 资质：`.roco-stat` 列表，每项 `.roco-stat-name`（生命/攻击/魔攻/物防/魔防/速度）
-          + `.roco-stat-val[data-val=真实数值]`（文本是占位 0）
-  - 特性：`.roco-feature-name`（名称）、`.roco-feature-desc`（描述）
-  - 属性：`.roco-type`（可能多个，裸属性）
+详情页结构有两套，parse_detail 都支持：
+  新结构（nrc 站 2026-11 起）：
+    - 资质：`.sd-p-stat` 列表，`.sd-p-stat-rune[data-rune=HP/ATK/MATK/DEF/MDEF/SPD]`
+            + `.sd-p-stat-number`（数值文本）
+    - 特性：`.sd-p-trait-name`（名称）、`.sd-p-trait-description`（描述）
+    - 属性：`.sd-p-header-types .sd-type`（文本「幽系」，去「系」字）
+  旧结构（rocom 遗留，仍兼容）：
+    - 资质：`.roco-stat`，`.roco-stat-val[data-val=真实数值]`（文本是占位 0）
+    - 特性：`.roco-feature-name` / `.roco-feature-desc`
+    - 属性：`.roco-type`
 
 抓取统一用 `requests`（快，~0.x s/页）；wiki 偶发的 567 由指数退避重试吸收，
 个别页面持续被拦截时稍后重跑即可（已缓存的秒过，只补抓失败的）。
@@ -30,30 +35,53 @@ try:
 except Exception:
     pass
 
+# Referer 指向图鉴页：nrc 域对「无来源的直接详情页请求」更容易返回 567（WAF 拦截）
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+                  "(KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+    "Referer": "https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4",
 }
 
-# 详情页资质字段映射
+# 详情页资质字段映射（新结构 sd-p-* 用「物攻/魔攻」，旧结构 roco-* 用「攻击」）
 STAT_KEYS = {
     "生命": "hp",
     "攻击": "pa",
+    "物攻": "pa",
     "魔攻": "ma",
     "物防": "pd",
     "魔防": "md",
     "速度": "sp",
 }
 
+# 新结构更稳的取法：资质行图标上的 data-rune
+RUNE_KEYS = {
+    "HP": "hp",
+    "ATK": "pa",
+    "MATK": "ma",
+    "DEF": "pd",
+    "MDEF": "md",
+    "SPD": "sp",
+}
 
-def parse_detail(html: str):
-    """从详情页 HTML 解析出 stats / trait / attrs。"""
-    soup = BeautifulSoup(html, "html.parser")
-    out = {k: None for k in STAT_KEYS.values()}
-    out["tr"] = ""
-    out["tr_desc"] = ""
-    out["a1"] = ""
-    out["a2"] = ""
+
+def _parse_stats(soup):
+    """资质：新结构 .sd-p-stat（数值在 .sd-p-stat-number 文本里），旧结构 .roco-stat。"""
+    out = {}
+    for stat in soup.select(".sd-p-stat"):
+        rune = stat.select_one(".sd-p-stat-rune")
+        label = stat.select_one(".sd-p-stat-label")
+        num = stat.select_one(".sd-p-stat-number")
+        key = RUNE_KEYS.get((rune.get("data-rune") or "").strip()) if rune else None
+        if not key and label:
+            key = STAT_KEYS.get(label.get_text(strip=True))
+        if not key or not num:
+            continue
+        try:
+            out[key] = int(num.get_text(strip=True))
+        except (ValueError, TypeError):
+            pass
+    if out:
+        return out
 
     for stat in soup.select(".roco-stat"):
         name_el = stat.select_one(".roco-stat-name")
@@ -68,15 +96,35 @@ def parse_detail(html: str):
             out[key] = int(dv) if dv is not None else None
         except (ValueError, TypeError):
             out[key] = None
+    return out
 
-    feat_name = soup.select_one(".roco-feature-name")
-    feat_desc = soup.select_one(".roco-feature-desc")
+
+def parse_detail(html: str):
+    """从详情页 HTML 解析出 stats / trait / attrs。
+
+    兼容两套结构：
+      - 新（2026-11 起，nrc 详情页）：`.sd-p-stat` / `.sd-p-trait-name` /
+        `.sd-p-trait-description` / `.sd-p-header-types .sd-type`
+      - 旧（rocom 遗留）：`.roco-stat`(data-val) / `.roco-feature-*` / `.roco-type`
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    out = {k: None for k in STAT_KEYS.values()}
+    out["tr"] = ""
+    out["tr_desc"] = ""
+    out["a1"] = ""
+    out["a2"] = ""
+
+    out.update(_parse_stats(soup))
+
+    feat_name = soup.select_one(".sd-p-trait-name") or soup.select_one(".roco-feature-name")
+    feat_desc = soup.select_one(".sd-p-trait-description") or soup.select_one(".roco-feature-desc")
     if feat_name:
         out["tr"] = feat_name.get_text(strip=True)
     if feat_desc:
         out["tr_desc"] = feat_desc.get_text(strip=True)
 
-    types = [t.get_text(strip=True) for t in soup.select(".roco-type")]
+    type_els = soup.select(".sd-p-header-types .sd-type") or soup.select(".roco-type")
+    types = [t.get_text(strip=True) for t in type_els]
     types = [t.replace("系", "").strip() for t in types if t]
     if len(types) > 0:
         out["a1"] = types[0]
@@ -86,14 +134,21 @@ def parse_detail(html: str):
     return out
 
 
+_SESSION = requests.Session()
+_SESSION.headers.update(HEADERS)
+
+
 def _fetch_via_requests(url: str, retries=3):
-    """用 requests 抓取详情页 HTML；非 200 或缺资质节点则按指数退避重试，耗尽后抛异常。"""
+    """用 requests 抓取详情页 HTML；非 200 或缺资质节点则按指数退避重试，耗尽后抛异常。
+
+    复用同一个 Session：详情页偶发 567（WAF），带 Referer + 复用连接后成功率明显更高。
+    """
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(url, headers=HEADERS, timeout=30)
-            if r.status_code == 200 and "roco-stat-val" in r.text:
-                r.encoding = "utf-8"
+            r = _SESSION.get(url, timeout=30)
+            r.encoding = "utf-8"
+            if r.status_code == 200 and ("sd-p-stat" in r.text or "roco-stat-val" in r.text):
                 return r.text
             last = r.status_code
         except Exception as e:
