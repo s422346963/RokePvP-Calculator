@@ -31,12 +31,14 @@ function recalcStats(side) {
     ivMdef = readIV('def-iv-mdef');
   }
 
-  spirit.real_hp   = calcRealStat(spirit.hp, ivHp,   nat.hp,   true);
-  spirit.real_patk = calcRealStat(spirit.pa, ivPatk,  nat.patk, false);
-  spirit.real_matk = calcRealStat(spirit.ma, ivMatk,  nat.matk, false);
-  spirit.real_pdef = calcRealStat(spirit.pd, ivDef,   nat.pdef, false);
-  spirit.real_mdef = calcRealStat(spirit.md, ivMdef,  nat.mdef, false);
-  spirit.real_spd  = calcRealStat(spirit.sp, ivSpd,   nat.spd,  false);
+  // 该侧精灵生效等级 = 隐藏属性基础等级（默认 60）+ 等级类特性增量（如「恶龙的奢望」）
+  const charLv = getEffectiveLevel(side);
+  spirit.real_hp   = calcRealStat(spirit.hp, ivHp,   nat.hp,   true,  charLv);
+  spirit.real_patk = calcRealStat(spirit.pa, ivPatk,  nat.patk, false, charLv);
+  spirit.real_matk = calcRealStat(spirit.ma, ivMatk,  nat.matk, false, charLv);
+  spirit.real_pdef = calcRealStat(spirit.pd, ivDef,   nat.pdef, false, charLv);
+  spirit.real_mdef = calcRealStat(spirit.md, ivMdef,  nat.mdef, false, charLv);
+  spirit.real_spd  = calcRealStat(spirit.sp, ivSpd,   nat.spd,  false, charLv);
 
   const map   = {hp: spirit.real_hp, patk: spirit.real_patk, matk: spirit.real_matk,
                  pdef: spirit.real_pdef, mdef: spirit.real_mdef, spd: spirit.real_spd};
@@ -52,6 +54,12 @@ function recalcStats(side) {
   spirit.matk = spirit.real_matk;
   spirit.pdef = spirit.real_pdef;
   spirit.mdef = spirit.real_mdef;
+  // 卡片上的「Lv.等级」徽标：默认 60 级不展示，等级类特性（恶龙的奢望）改回合数时随之刷新
+  const lvEl = document.getElementById('spirit-level-' + side);
+  if (lvEl) {
+    lvEl.textContent = 'Lv.' + charLv;
+    lvEl.style.display = (charLv === SPIRIT_LEVEL_DEFAULT) ? 'none' : '';
+  }
   // 速度变化时同步刷新浮动威力提示
   if (typeof updatePowerTip === 'function') updatePowerTip();
 }
@@ -71,6 +79,10 @@ function swapSpirits() {
   const tmp = state.atk;
   state.atk = state.def;
   state.def = tmp;
+
+  // 等级类特性（恶龙的奢望）的等级属于「该侧的精灵」，交换后回到各自默认等级
+  resetTraitLevelState('atk');
+  resetTraitLevelState('def');
 
   // 交换搜索框显示文字（走 setPickerValue，保持「名称=占位显示」状态）
   setPickerValue(document.getElementById('atk-search'), state.atk ? state.atk.n : '');
@@ -218,6 +230,7 @@ function renderCard(side, spirit) {
         <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>
         <a class="spirit-name" href="${spiritWikiUrl(spirit.n)}" target="_blank" rel="noopener noreferrer" title="在 BWiki 查看「${spirit.n}」图鉴">${spirit.n}</a>
         ${stText ? `<span class="spirit-meta">${stText}</span>` : ''}
+        <span class="spirit-meta spirit-level" id="spirit-level-${side}" style="display:none">Lv.${getEffectiveLevel(side)}</span>
       </div>
       ${spirit.tr ? `<div class="spirit-trait">特性：${spirit.tr}</div>` : ''}
       ${spirit.tr_desc ? `<div class="spirit-trait-desc">${spirit.tr_desc}</div>` : ''}

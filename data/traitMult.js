@@ -104,9 +104,9 @@ function defineBothTraitRule(names, fieldsFn, effFn) {
   defineDefTraitRule(names, fieldsFn, effFn);
 }
 
-// 输入字段构造器：字段 id/type/def/min/max 与 index.html 的 readTraitOptsByMode 一致
+// 输入字段构造器：字段 id/type/def/min/max/step 与 js/03 renderTraitCond / readTraitOptsByMode 一致
 const ck = (key, label, def) => ({ id: 'trait-opt-' + key, label, type: 'checkbox', key, def });
-const num = (key, label, def, min, max) => ({ id: 'trait-opt-' + key, label, type: 'number', key, def, min, max });
+const num = (key, label, def, min, max, step) => ({ id: 'trait-opt-' + key, label, type: 'number', key, def, min, max, step });
 
 // ------------------------------------------------------------
 // 能耗类（无需用户输入）—— 均为「威力×N」→ powerMult 通道
@@ -923,8 +923,8 @@ defineDefTraitRule(['展翅'],
 // ============================================================
 // 说明：下列特性无伤害影响，**不登记规则**（UI 只显示「特性倍率」，用户可手填）：
 //   深层侵蚀（中毒层数）、沙滩节拍（能耗）、环天顶弧（星陨印记）、
-//   高吹雪（天气）、虫草多糖（奉献/寄生）、游戏的本质（随机点数）、
-//   恶龙的奢望（等级自增自减，暂不实现）
+//   高吹雪（天气）、虫草多糖（奉献/寄生）、游戏的本质（随机点数）
+//   （恶龙的奢望已实现，见下方「等级类特性」——等级增量 + 防方易伤）
 // ------------------------------------------------------------
 
 // 烈冰钻（圣冠布鲁斯）：敌方携带技能总能耗每 1 点 → 攻击威力 +10%；敌方总能耗 >15 时自己获得速度+75
@@ -983,6 +983,46 @@ defineAtkTraitRule(['剪影'], () => [num('stackCount', '敌方精灵离场次�
     const n = Math.max(0, Math.min(10, ctx.opts.stackCount || 0));
     if (n <= 0) return null;
     return { f: 1, powerBonus: 20 * n, d: '敌方离场' + n + '次→技能威力+' + (n * 20) };
+  });
+
+// ============================================================
+// 等级类特性（2026-11）—— 特性直接指定「当前等级」，等级再驱动面板值与等级判定
+// ============================================================
+// 等级口径（与 js/01 calcRealStat / js/03 getEffectiveLevel 同一套）：
+//   · 本表登记「哪些特性按等级结算」+ 等级输入框的范围（label/def/min/max/step）。
+//     持有这类特性时，生效等级 = 条件框里手填的等级（默认 99），而非隐藏基础等级 60
+//   · 等级决定面板值 → 条件变化时 js/03 会调 recalcStats(side) 重算
+//   · 规则内部直接用 ctx.level（当前生效等级），不要自己再算
+// ------------------------------------------------------------
+const TRAIT_LEVEL_RULES = {};   // 特性名 → { label, def, min, max, step }
+function defineTraitLevelRule(names, opts) {
+  names.forEach(n => { TRAIT_LEVEL_RULES[n] = opts; });
+}
+function getTraitLevelRule(traitName) {
+  return (traitName && TRAIT_LEVEL_RULES[traitName]) || null;
+}
+// 等级条件字段（按登记表生成，避免默认值写在两处）
+const levelField = (rule) => [num('level', rule.label, rule.def, rule.min, rule.max, rule.step)];
+
+// 恶龙的奢望（小冥龙 / 冥古龙）：初始等级+39（60+39=99），回合结束时等级-10，低于80级时受到伤害+40%
+//   · 回合衰减直接用「等级」输入框表达（默认 99，步进 10 → 99 / 89 / 79 …），等级同步折算面板值
+//   · 「低于80级时受伤+40%」只登记防方表（f=1.4）；攻方侧只显示等级，无增伤
+defineTraitLevelRule(['恶龙的奢望'], { label: '等级', def: 99, min: 9, max: 99, step: 10 });
+
+defineAtkTraitRule(['恶龙的奢望'],
+  () => levelField(getTraitLevelRule('恶龙的奢望')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 99;
+    return { f: 1, d: '当前等级' + lv + '（<80 时受到伤害+40%）' };
+  });
+
+defineDefTraitRule(['恶龙的奢望'],
+  () => levelField(getTraitLevelRule('恶龙的奢望')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 99;
+    return (lv < 80)
+      ? { f: 1.4, d: '当前等级' + lv + '（<80）→受到伤害+40%→×1.4' }
+      : { f: 1, d: '当前等级' + lv + '（≥80，无易伤）' };
   });
 
 // ============================================================
@@ -1071,6 +1111,7 @@ const TRAIT_CHANNELS = {
   '张弛有度': CH_ATKM,
 
   // ── 防方减伤（f 通道）──
+  '恶龙的奢望': CH_MULT,                 // 等级 <80 → 受到伤害 ×1.4（等级增量另走 TRAIT_LEVEL_RULES）
   '偏振': CH_MULT,
   '完全偏振': CH_MULT,
   '绝对秩序': CH_MULT,

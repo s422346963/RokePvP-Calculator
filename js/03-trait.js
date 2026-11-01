@@ -24,6 +24,70 @@ function calcDefTotalCost(defSpirit) {
   return total;
 }
 
+// ================================================================
+// 等级类特性：生效等级 = 条件框里手填的等级（默认 99）；其余特性用隐藏基础等级 60
+//   等级决定面板值（js/01 calcRealStat），故条件一变就要重算该侧面板。
+//   登记表在 data/traitMult.js（TRAIT_LEVEL_RULES），手填值存 state.{atk,def}TraitLevel（0 = 用默认）。
+// ================================================================
+function getTraitLevelValue(side) {
+  const spirit = side === 'atk' ? state.atk : state.def;
+  const rule = getTraitLevelRule(spirit ? spirit.tr : null);
+  if (!rule) return null;
+  const v = parseInt(state[side + 'TraitLevel'], 10);
+  if (!Number.isFinite(v) || v <= 0) return rule.def;
+  return Math.max(rule.min, Math.min(rule.max, v));
+}
+
+function getEffectiveLevel(side) {
+  const lv = getTraitLevelValue(side);
+  if (lv !== null) return lv;
+  return Math.max(SPIRIT_LEVEL_MIN, Math.min(SPIRIT_LEVEL_MAX, getSpiritLevel(side)));
+}
+
+// 把该侧等级输入框的值同步到两侧（B / FULL）同名输入框
+function syncTraitLevelInputs(side) {
+  const lv = getTraitLevelValue(side);
+  if (lv === null) return;
+  ['b', 'full'].forEach(m => {
+    const el = document.getElementById(`trait-opt-${m}-${side}-level`);
+    if (el) el.value = lv;
+  });
+}
+
+// 条件变化后：把「等级」写回 state，等级变了就重算面板值
+function syncTraitLevelState(mode, side) {
+  const spirit = side === 'atk' ? state.atk : state.def;
+  const rule = getTraitLevelRule(spirit ? spirit.tr : null);
+  if (!rule) return;
+  const opts = readTraitOptsByMode(mode, side);
+  const raw = parseInt(opts.level, 10);
+  const lv = Number.isFinite(raw) ? Math.max(rule.min, Math.min(rule.max, raw)) : rule.def;
+  const key = side + 'TraitLevel';
+  if ((state[key] || 0) === lv) return;
+  state[key] = lv;
+  syncTraitLevelInputs(side);
+  if (typeof recalcStats === 'function') recalcStats(side);
+}
+
+// 条件回默认（换精灵 / 点重置）：等级回到特性默认值（如 99）并重算面板
+function resetTraitLevelState(side) {
+  const key = side + 'TraitLevel';
+  const had = (state[key] || 0) !== 0;
+  state[key] = 0;                 // 0 = 未手填 → 取特性默认等级
+  syncTraitLevelInputs(side);
+  if (had && typeof recalcStats === 'function') recalcStats(side);
+}
+
+// 条件输入默认值：等级类特性的「等级」由 state 统一持有（跨模式一致），
+// 其余条件沿用天气联动默认值（暴风雪勾选框等）
+function traitCondDefault(side, key, def) {
+  if (key === 'level' && side) {
+    const lv = getTraitLevelValue(side);
+    if (lv !== null) return lv;
+  }
+  return weatherCondDefault(key, def);
+}
+
 function calcAtkTraitMult(atk, def, skill, opts) {
   opts = opts || {};
   const atkTr = atk ? atk.tr : null;
@@ -49,7 +113,8 @@ function calcAtkTraitMult(atk, def, skill, opts) {
   // 特殊特性规则已数据化到 data/traitMult.js（ATK_TRAIT_RULES）
   if (atkTr && ATK_TRAIT_RULES[atkTr]) {
     const rule = ATK_TRAIT_RULES[atkTr];
-    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff: skAttr ? getTypeEff(skAttr, defA1, defA2) : 1, opts });
+    // level：攻方当前生效等级（基础等级 + 等级类特性增量），供等级判定类规则使用
+    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff: skAttr ? getTypeEff(skAttr, defA1, defA2) : 1, level: getEffectiveLevel('atk'), opts });
     if (eff) {
       mult *= (eff.f === undefined ? 1 : eff.f);
       if (eff.d) desc.push(eff.d);
@@ -100,7 +165,8 @@ function calcDefTraitMult(atk, def, skill, opts) {
     const rule = DEF_TRAIT_RULES[defTr];
     // ⚠️ 防方 ctx 也补齐 skCost / skKind / skName / typeEff：防方规则可能需要按「来袭技能」判定
     //    （如 毒牙「只对物攻生效」、狂欢开始「受到的克制伤害+25%」）。字段与攻方 ctx 同名同义。
-    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff, opts });
+    // level：防方当前生效等级（基础等级 + 等级类特性增量），供「低于X级受伤+N%」类规则使用
+    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff, level: getEffectiveLevel('def'), opts });
     if (eff) {
       mult *= (eff.f === undefined ? 1 : eff.f);
       if (eff.d) desc.push(eff.d);
@@ -390,10 +456,11 @@ function resetTraitInput(mode, side, kind) {
     rule.fields(skill).forEach(f => {
       const ce = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
       if (!ce) return;
-      if (ce.type === 'checkbox') ce.checked = !!weatherCondDefault(f.key, f.def);
+      if (ce.type === 'checkbox') ce.checked = !!traitCondDefault(side, f.key, f.def);
       else ce.value = (f.def === undefined ? 0 : f.def);
     });
   }
+  resetTraitLevelState(side);         // 等级类特性：等级回默认（99）→ 面板值同步
   bumpTraitOptsVersion(mode, side);   // 条件输入恢复默认值 → 签名缓存失效
 
   // 3) 重跑规则 → 自动回填基线值
@@ -409,6 +476,7 @@ function resetTraitInput(mode, side, kind) {
 // 否则旧精灵的手动填入值/条件会沿用给新精灵（同名特性时签名不变 → 不清除 → 填写框未重置）；
 // 旧精灵编辑过但新精灵隐藏的通道输入框连带其「重置」按钮一并不可见。
 function resetTraitPanelForSide(side) {
+  resetTraitLevelState(side);   // 等级类特性：换精灵后等级回默认（面板值随之按默认等级重算）
   ['b', 'full'].forEach(mode => {
     const trName = side === 'atk' ? (state.atk && state.atk.tr) : (state.def && state.def.tr);
     const skill = traitSkillFor(mode, side);
@@ -418,7 +486,7 @@ function resetTraitPanelForSide(side) {
       rule.fields(skill).forEach(f => {
         const ce = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
         if (!ce) return;
-        if (ce.type === 'checkbox') ce.checked = !!weatherCondDefault(f.key, f.def);
+        if (ce.type === 'checkbox') ce.checked = !!traitCondDefault(side, f.key, f.def);
         else ce.value = (f.def === undefined ? 0 : f.def);
       });
     }
@@ -506,14 +574,14 @@ function renderTraitCond(fields, container, mode, side) {
 
   // 结构 + 值签名（Phase 5）：字段集合与将要渲染的值都没变就不重建 DOM。
   // 此前每次重算都无条件销毁/重建条件框（4 个面板 × 每次按键），白付 DOM 代价。
-  // ⚠️ 值部分必须与下方渲染逻辑同口径：元素已存在 → 读当前值；不存在 → 回退 f.def。
+  // ⚠️ 值部分必须与下方渲染逻辑同口径：元素已存在 → 读当前值；不存在 → 回退条件默认值。
   //    否则「首渲前（无元素）」与「首渲后（读回默认值）」签名不一致，守卫永不命中。
   const condSig = visibleFields.map(f => f.key + ':' + f.type + ':' + (f.def === undefined ? '' : f.def)).join(',')
     + '#' + visibleFields.map(f => {
         const el = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
         if (el) return f.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value;
-        if (f.type === 'checkbox') return weatherCondDefault(f.key, f.def) ? 1 : 0;
-        return (f.def === undefined ? '' : f.def);
+        if (f.type === 'checkbox') return traitCondDefault(side, f.key, f.def) ? 1 : 0;
+        return traitCondDefault(side, f.key, (f.def === undefined ? '' : f.def));
       }).join(',');
   if (container.dataset.traitCondSig === condSig && container.firstChild) return;
   container.dataset.traitCondSig = condSig;
@@ -533,7 +601,7 @@ function renderTraitCond(fields, container, mode, side) {
 
   visibleFields.forEach(f => {
     const targetId = `trait-opt-${mode}-${side}-${f.key}`;
-    const savedVal = _savedVals.hasOwnProperty(f.key) ? _savedVals[f.key] : weatherCondDefault(f.key, f.def);
+    const savedVal = _savedVals.hasOwnProperty(f.key) ? _savedVals[f.key] : traitCondDefault(side, f.key, f.def);
     if (f.type === 'checkbox') {
       const checked = savedVal ? 'checked' : '';
       html += `<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;white-space:nowrap">
@@ -542,7 +610,7 @@ function renderTraitCond(fields, container, mode, side) {
     } else {
       html += `<div style="display:flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap">
         <span>${f.label}：</span>
-        <input type="number" id="${targetId}" value="${savedVal}" min="${f.min||0}" max="${f.max||99}"
+        <input type="number" id="${targetId}" value="${savedVal}" min="${f.min||0}" max="${f.max||99}" step="${f.step||1}"
           style="width:52px;padding:2px 4px;background:var(--card2);border:1px solid var(--border);border-radius:5px;color:${accentColor};text-align:center;font-size:11px;font-weight:700"
           oninput="onTraitCondChange('${mode}','${side}')">
       </div>`;
@@ -553,6 +621,8 @@ function renderTraitCond(fields, container, mode, side) {
 }
 // 条件变更时重算
 function onTraitCondChange(mode, side) {
+  // 等级类特性：等级变化 → state → 该侧面板值重算（等级变了，面板值跟着变）
+  syncTraitLevelState(mode, side);
   // skill 可能为 null（尚未选技能）：仍要让条件变化立即反映到输入框与说明文字
   bumpTraitOptsVersion(mode, side);   // 用户改了条件输入 → 签名缓存失效
   const skill = state.selectedSkillName ? SKILLS.find(s => s.n === state.selectedSkillName) : null;

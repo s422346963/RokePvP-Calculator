@@ -5,7 +5,7 @@
 洛克王国 PVP 伤害计算器 —— 纯前端静态网页工具，**无构建系统、无 package.json、无依赖、无 lint**（开发期校验脚本见 `.tmp/`，已 gitignore）。
 
 - 数据来源：[BWiki 精灵图鉴](https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4) / [技能图鉴](https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4)（`nrc` 域；旧 `rocom` 域已下线）
-- 现有数据规模：精灵 651 条（含不同形态/首领）、技能 372 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 101 条（攻 75 / 防 26）、技能威力规则 101 条（均按名称计）
+- 现有数据规模：精灵 651 条（含不同形态/首领）、技能 372 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 103 条（攻 76 / 防 27，另 1 条等级类 `TRAIT_LEVEL_RULES`）、技能威力规则 101 条（均按名称计）
 
 ## 运行与验证
 
@@ -37,12 +37,13 @@
   - `spirits.js` → `const SPIRITS`：651 条。字段：`no`(3 位补零编号，同一编号可有多个形态) `n`(名称) `hp/pa/ma/pd/md/sp`(六项种族值) `a1/a2`(主/副属性) `tr`(特性名) `tr_desc`(特性描述) `st`(特殊形态/阶段文本，如「首领」，普通精灵为空串) `img`(wiki 图片 URL)。
   - `skills.js` → `const SKILLS`：372 条，当前只有 `k` 为 `物攻`(208) / `魔攻`(164) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
-  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表（注册 75 / 26 个特性名），用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`，共 87 条），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。条件字段构造器为 `ck`（复选框）/ `num`；`key === 'blizzard'`（天气为暴风雪）的勾选框默认值由天气联动，见下文天气系统。
+  - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表（注册 75 / 26 个特性名），用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`，共 88 条），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。条件字段构造器为 `ck`（复选框）/ `num`；`key === 'blizzard'`（天气为暴风雪）的勾选框默认值由天气联动，见下文天气系统；`key === 'level'`（等级类特性的当前等级）默认值取自 `state.{atk,def}TraitLevel`，B / FULL 共用一份。
+  - **等级类特性**：`TRAIT_LEVEL_RULES`（特性名 → `{ label, def, min, max, step }`，用 `defineTraitLevelRule(names, opts)` 登记，当前「恶龙的奢望」= 等级 `99` / `9–99` / 步进 `10`）。持有这类特性时生效等级**直接取条件框里手填的等级**（默认值来自上表），否则用隐藏基础等级 60；由 `js/03` 的 `getEffectiveLevel(side)` 统一给出，`recalcStats()` 用它折算面板值，规则内部**直接用 `ctx.level`**，不要自己再算。条件变化走 `syncTraitLevelState()` → 写回 `state.{atk,def}TraitLevel` → 重算面板。
   - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 101 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。⚠️ `resolveSkillPower()` 是**全局威力修正的唯一汇聚点**：天气（雨天→水系 +75%）与进攻方印记在此与技能规则 `powerPct` **同区相加**，无规则时也照常生效。
   - `pinyin.js` → `const PINYIN_MAP`（汉字 → 全拼）+ `const PINYIN_WORDS`（多音字词组 → 逐字拼音数组），供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
 - `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`重构`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
-- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 154 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
+- `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 160 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
 - `header.png` + `fonts/` — 顶栏 logo（606×109 透明 PNG，白色字 + 黄星）与顶栏专用字体。头部结构为 `.site-header > .site-header-inner`（左 logo / 中 `.site-nav` 两个 wiki 外链 / 右 `.header-actions` 日夜 + 收藏），样式在 `css/head.css` 顶部，颜色走 `--header-bg` / `--header-text` / `--nav-accent`，字体走 `--nav-font`（**仅 header 生效**，正文仍是微软雅黑）。**顶栏不再自托管中文字体**，`--nav-font` 只是系统圆体栈：`Yuanti SC` / `圆体-简`（macOS）→ `YouYuan` / 幼圆 / `SimYou`（Windows）→ 方正兰亭圆 → `PingFang SC` / 微软雅黑，缺失时逐级静默回退，因此**改头栏文案无需再重新子集化**（原「江城圆体」9 片 `nav-rounded-*.woff2` 子集及 `.tmp/build_navfont.py` 已移除）。图标用自托管的 Font Awesome 6 Free Solid（`fonts/fa-solid-900.woff2`，与 wiki 站同版本 6.0.0），`@font-face` 与 `.fa-solid` 基础类在 `css/head.css` 顶部，**需要的图标类必须手写 `::before` 码点**（当前只有 `.fa-book-open` `\f518`、`.fa-bolt` `\f0e7`、`.fa-egg` `\f7fb`），新增图标在 FA 的 all.css 里查到码点后补一条即可。
 - `analytics.js` — 百度统计，勿动。
 - `.tmp/` — 数据同步的中间产物、详情页缓存与本地校验脚本（已在 `.gitignore`）。
@@ -62,9 +63,11 @@
   powerFlatAll = 技能威力加成 + 特性威力加成                       ← 固定威力提升区（不吃应对倍率）
   powerMultAll = 1 + Σ(技能威力+N% 的 N% + 特性威力倍率的增量)      ← 技能威力乘区（跨来源相加）
   powerFinal   = (powerBaseSeg + powerFlatAll) × powerMultAll
-  单次伤害= floor( attackValue / defenseValue × 37/41 × powerFinal × 克制 × 本系 × 特性乘算 × 额外倍率 × 减伤 )
+  等级系数 = (攻击方等级 × 45/100 + 10) / 41            ← 60 级 = 37/41（旧口径）
+  单次伤害= floor( attackValue / defenseValue × 等级系数 × powerFinal × 克制 × 本系 × 特性乘算 × 额外倍率 × 减伤 )
   总伤害   = 单次伤害 × 连击数
   ```
+  - **等级系数与攻击方等级挂钩**：`damageLevelCoef(atkLevel)`（`js/02-damage.js`）唯一实现，`computeDamage` 的 `atkLevel` 入参由调用方传 `getEffectiveLevel('atk')`（FULL 按出手方 `_atkTraitSide`，模式 A 也传）；缺省 60 → 37/41，因此 60 级数值与旧口径完全一致。星陨追加伤害复用 `res.levelCoef`；公式串/拆解层文案由 `damageCoefLabel()` 输出（60 级仍显示 `37/41`）。
   - **攻防层加成同区相加（用户定义，勿改回连乘）**：百分比加成与「能力等级倍率」在**同一个加成乘区**里相加 ——
     `246 ×（1 + 0.40 + 1.00）= 590.4`，而不是 `246 × 1.40 × 2.00 = 688.8`（等级 +10 → 等级倍率 2.0，其贡献是增量 +1.00）。
     固定点数仍在括号内先相加；**多个特性来源之间也相加**（`collectStatBuffs().pctMult = 1 + Σpct`，2 个 +20% = +40% 而非 ×1.44）。
@@ -77,7 +80,7 @@
   - **通道归属**：`powerMult`（应对倍率「×N / 威力翻倍」）与 `powerPct`/`powerAdd` 来自 `data/skillMult.js`；`powerTraitMult`（特性威力倍率，以 `倍率−1` 的增量并入技能威力乘区）与 `powerTraitBonus`（特性威力加成，进固定威力提升区）来自 `data/traitMult.js`；愿力冲击「应对状态→×2.5」同样走 `powerMult`。`powerPct` 里还有两个非规则来源：天气（雨天→水系 +75%，`ctx.weather`）与进攻方印记（每层百分比，`ctx.mark`），三者与技能规则**同区相加**。
   - **取整位置**：`Math.floor(单次) × 连击`，即先对单次取整再乘连击（与改造前一致，勿改）。
   - 模式 A 走同一条路径：传 `useLevel:false, typeEff:1, stab:1` 且不吃特性 buff。
-  - `o` 入参关键字段：`atkBase/defBase`、`atkFlat/atkPctMult/atkLevelMult`、`defFlat/defPctMult/defLevelMult`、`powerBase`(技能威力)/`powerMult`(应对倍率)/`powerTraitMult`(特性威力倍率)/`powerPct`/`powerAdd`(技能加成)/`powerTraitBonus`(特性威力加成)`、`typeEff/stab/traitMult/extraMult/reduceMult/hits`。返回值含 `layers` 所需全部中间量（`attackValue/defenseValue/powerBase/powerFinal/singleDmg/dmg`）。
+  - `o` 入参关键字段：`atkBase/defBase`、`atkLevel`(攻击方等级，缺省 60 → 等级系数 37/41)、`atkFlat/atkPctMult/atkLevelMult`、`defFlat/defPctMult/defLevelMult`、`powerBase`(技能威力)/`powerMult`(应对倍率)/`powerTraitMult`(特性威力倍率)/`powerPct`/`powerAdd`(技能加成)/`powerTraitBonus`(特性威力加成)`、`typeEff/stab/traitMult/extraMult/reduceMult/hits`。返回值含 `layers` 所需全部中间量（`attackValue/defenseValue/powerBase/powerFinal/singleDmg/dmg`）。
 - **特性攻防加成（stat 通道）**：`collectStatBuffs(stat, isPhys)` 汇总 `stat:{patk,matk,pdef,mdef,spd:{pct,flat}}` → `{pctMult, flatSum, sources}`；`applyStatBuff()` 落值。口径：
   - **侧向生效**：物攻技能只吃 `patk`/`pdef`，魔攻技能只吃 `matk`/`mdef`（`双攻` 按取较高者那一侧）。速度 `spd` 不进伤害分式。
   - **叠加**：固定点数跨来源相加；百分比跨来源**也相加**（同特性内部按描述线性展开层数，不得写成幂）→ 合成出的 `pctMult = 1 + Σpct`，再与能力等级同区相加（见上文攻防层口径），全程不连乘。
@@ -112,7 +115,10 @@
 - **模式 A/B 吸底结果条**：`#result-dock`（`index.html` body 末尾，`position:fixed` 底部居中），伤害栏 `#result-summary`（`calc()` 渲染的第一块）滚出视口时显示，展示「模式徽标 + 攻→防 + 伤害 + 血量%」，点击 `scrollIntoView` 回到伤害栏。内容由 `calc()` 末尾的 `updateResultDock(info)` 写入（`dock.dataset.ready='1'` 表示有结果），显隐判定 `syncResultDockVisibility()` 读 `#result-summary` 的 `getBoundingClientRect()`（纯读取，无 DOM 写入）；`switchMode()` 与未选精灵分支分别刷新/清空。**FULL 模式下恒隐藏**；滚动/resize 监听与点击绑定在 `js/08-fav-init.js` 的 `initResultDock()`，用 `requestAnimationFrame` 节流。
 - 特性倍率：`calcAtkTraitMult` / `calcDefTraitMult`（现返回 `powerBonus`/`powerPct`/`stat`）；条件输入用 `getTraitNeedsInput` / `getDefTraitNeedsInput` + `renderTraitCond()`，`onTraitCondChange()` / `readTraitOptsByMode()` 读写（后者改为**按 id 前缀全量扫描**，新增 key 无需改代码）。
 - 属性克制：`getTypeEff`（含免疫判定）；本系加成判定 `hasStab`。
-- 属性折算：`calcRealStat()`（含性格 `getNature()`、个体值）、`readIV()` / `setIv()`（个体值只有 **0 / 60** 两档）、`levelMult()`（能级倍率 = 1 + 0.1 × 等级，负级取倒数）。
+- 属性折算：`calcRealStat(sv, iv, nature, isHp, level)`（含性格 `getNature()`、个体值、精灵等级）、`readIV()` / `setIv()`（个体值只有 **0 / 60** 两档）、`levelMult()`（能级倍率 = 1 + 0.1 × 等级，负级取倒数，与精灵等级无关）。
+  - **面板值公式（等级化）**：`每级加值 = 0.01 × 种族值 + 0.005 × 个体值`；生命 `= ((10 + 等级) + 每级加值 × (50 + 等级×2)) × 性格加成 + 100`；五维 `= (10 + 每级加值 × (50 + 等级)) × 性格加成 + 50`；每级加值以整数分子 `per200 = 2×种族值 + 个体值`（即 ×200）参与运算，避免浮点误差推过 `.5` 取整边界。
+  - **精灵等级是隐藏属性**：`state.atkCharLevel` / `state.defCharLevel`，默认 `SPIRIT_LEVEL_DEFAULT = 60`（1–100 钳制），UI 无入口；基础等级由 `getSpiritLevel(side)` 读取，**生效等级**由 `getEffectiveLevel(side)` 给出：持有等级类特性（`data/traitMult.js` 的 `TRAIT_LEVEL_RULES`，如「恶龙的奢望」= 手填等级，默认 99、步进 10）时取手填值，否则取基础等级 60；`recalcStats(side)` 逐项传入 `calcRealStat`。60 级时即旧口径：生命 `1.7×种族值 + 0.85×个体值 + 170`、五维 `1.1×种族值 + 0.55×个体值 + 60`。卡片标题行末尾显示 `Lv.生效等级` 徽标（`#spirit-level-{side}`，`renderCard` 生成、`recalcStats` 刷新）；**生效等级 = 60（默认）时隐藏**，非 60 才显示。
+  - ⚠️ **取整特例**：种族值 105 + 个体 0 + 无性格加成时，中间值 `.5` 向下取整（游戏内截断，针叶巡林 HP 348 / 迪莫防御 175），其余情况四舍五入；改造公式后须保持这三个验证值（另含 水灵 HP 501 = 种族 125 + 个体 60 + HP 性格）。
 - 搜索：`matchQuery()` 是基础匹配（中文子串 / 全拼 `toPinyin()` / 首字母 `toInitials()`），实际列表过滤已改走带相关度排序的 `filterSpiritsByQuery()` / `filterSkillsByQuery()`（`js/01-core.js` 懒建索引，匹配集合与 `matchQuery` 一致；`toPinyin()`/`toInitials()` 都基于 `toPinyinSyllables()`——先按 `PINYIN_WORDS` 词组覆盖表做最长 4 字匹配，再逐字查 `PINYIN_MAP`，多音字如「长江豚」(chang-…)、「海豹船长」(…-zhang) 按词取音；索引存逐字音节 `syl`，`pinyinSegmentMatch()` 让 `hu` 命中 `九尾狐`(jiu-wei-hu) 而非 `shui` 的跨音节串，`searchScore()` 排序为「名称 > 拼音前缀 > 整音节 > 音节前缀 > 跨音节子串 > 首字母」）。精灵下拉 `setupSearch()` 无输入时按 `a1` 属性分组（默认折叠、显示数量），有输入时扁平过滤，**最多渲染 100 条**（超出显示「共 N 条匹配」提示）；技能下拉（B 模式 `renderComboPanel` / FULL `openFskDropdown`）同样按相关度排序但**全量渲染不截断**。输入经 `requestAnimationFrame` 节流。
 - 持久化：收藏夹用 `localStorage`（键 `roko_favorites` / `roko_fav_panel_open` / `roko_fav_panel_pos`，`loadFavorites`/`saveFavorites`，浮层可拖动 `setupFavPanelDrag`/`applyFavPanelPos`）；主题 `toggleTheme()` 切 `data-theme="light"`，**默认日间且不持久化**。
 
@@ -141,7 +147,7 @@
 - FULL 模式下 `calcFull()` 在攻防双方未选齐时提前返回，两侧技能面板标题保持「未选择精灵」——这是现有约定，不是 bug。
 - 技能库当前没有 `k === '状态'` 的数据，但下拉渲染与 FULL 计算仍保留该分支（单独分组、"不造成直接伤害"提示），删数据分支前请先确认同步侧不会再加回。
 - `index.html` 现在只有约 546 行 HTML；改逻辑去对应的 `js/*.js`（职责表见上），改数据去 `data/*.js`。编辑 `js/*.js` 后跑 `node .tmp/verify_formula.js` + `node .tmp/smoke_load.js`。
-- 公式**只有** `computeDamage()` 一个实现点。看到别处出现 `* (37/41) *` 之类的字面量即为分叉，必须收敛回 `computeDamage()`。
+- 公式**只有** `computeDamage()` 一个实现点。看到别处出现 `* (37/41) *` / `levelCoef` 之类的字面量即为分叉，必须收敛回 `computeDamage()`（等级系数取 `damageLevelCoef()`）。
 - 新增特性攻防规则时：若特性语义是「改攻防属性」而非「改伤害倍率」，用 `stat` 通道并把 `f` 置 1，**不要**两者都写。
 - 新增技能威力规则时：在 `data/skillMult.js` 用 `defineSkillPowerRule` 注册；「变为 N 倍」用 `powerMult`（乘除段），「+N / +N%」用 `powerAdd` / `powerPct`（`powerAdd` 进加减段）。字段构造器用 `spCk` / `spNum`（**不要**用 `ck` / `num`，那是 `traitMult.js` 的全局名，重复声明会崩）。
 - `data/skillMult.js` 与 `data/traitMult.js` 都**不得**引用 `SPEED_DIFF_TABLE` / `MANA_BURST_TABLE` / `diffTableLookup` 等 `js/01-core.js` 内的绑定（加载期它们还不存在）；一律通过 `ctx.util` 注入。

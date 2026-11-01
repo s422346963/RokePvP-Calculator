@@ -425,6 +425,7 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   const res = computeDamage({
     atkBase: atkBaseRaw, defBase: defBaseRaw,
     useLevel: true,
+    atkLevel: getEffectiveLevel(_atkTraitSide),   // 结算层等级系数按攻击方（本槽出手方）等级
     atkFlat: atkBuffs.flatSum, atkPctMult: atkBuffs.pctMult, atkLevelMult: atkLvMult,
     defFlat: defBuffs.flatSum, defPctMult: defBuffs.pctMult, defLevelMult: defLvMult,
     powerBase,
@@ -447,7 +448,7 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
     starPower = starMarks * starMarks + 24 * starMarks - 24;
     const starTypeEff = getTypeEff('幻', defSpirit.a1, defSpirit.a2 || '');
     // 星陨为独立追加伤害：不吃攻防特性与额外倍率（与 A/B 公式对齐）
-    starDmg = Math.floor((res.attackValue / res.defenseValue) * (37/41) * starPower * starTypeEff * reduceMult);
+    starDmg = Math.floor((res.attackValue / res.defenseValue) * res.levelCoef * starPower * starTypeEff * reduceMult);
   }
   const totalDmg = dmg + starDmg;
   const totalPct = defHp > 0 ? totalDmg / defHp * 100 : 0;
@@ -654,7 +655,7 @@ function renderFullResult() {
       // 公式串：威力处直接填「最终威力」(powerFinal)，与游戏口径一致；
       //   (基础威力区 + 固定威力提升区) × 技能威力乘区 的分解见拆解面板的「威力层」。
       const L = res.layers;
-      const formulaStr = `(${f1(L.res.attackValue)} / ${f1(L.res.defenseValue)}) × 37/41 × ${f1(L.res.powerFinal)}`
+      const formulaStr = `(${f1(L.res.attackValue)} / ${f1(L.res.defenseValue)}) × ${damageCoefLabel(L.res.atkLevel)} × ${f1(L.res.powerFinal)}`
         + (res.typeEff !== 1 ? ` × ${res.typeEff}(克制)` : '')
         + (res.stabMult > 1 ? ` × 1.25(本系)` : '')
         + (res.atkTrMult && res.atkTrMult !== 1 ? ` × ${f2(res.atkTrMult)}(攻方特性)` : '')

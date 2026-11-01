@@ -55,6 +55,11 @@ let state = {
   atkStat: 'patk', defStat: 'pdef',
   atkAtkLevel: 0, atkDefLevel: 0,
   defAtkLevel: 0, defDefLevel: 0,
+  // 精灵等级（隐藏属性，UI 不提供入口）：攻/防各一份，默认 60，影响面板值折算
+  atkCharLevel: 60, defCharLevel: 60,
+  // 等级类特性（如「恶龙的奢望」）手填的「当前等级」；0 = 未手填 → 取特性默认等级。
+  // 存在 state 里而非各模式 DOM，保证模式 B / FULL 共用同一份（面板值只有一套）
+  atkTraitLevel: 0, defTraitLevel: 0,
   skillType: 'physical',
   skillAttr: '普通',
   mode: 'A',
@@ -110,22 +115,40 @@ function getMarkInfo() {
 }
 
 // ============================================================
-// STAT CALCULATION  (species value → real stat)
-// HP:    (sv*1.7 + iv*0.85 + 70) * nature + 100
-// Other: (sv*1.1 + iv*0.55 + 10) * nature + 50
+// STAT CALCULATION  (species value + iv + level → real stat)
+//   每级加值 = 0.01 × 种族值 + 0.005 × 个体值
+//   生命:  面板 = ((10 + 等级) + 每级加值 × (50 + 等级×2)) × 性格加成 + 成长值(100)
+//   五维:  面板 = (10 + 每级加值 × (50 + 等级)) × 性格加成 + 成长值(50)
+//   等级默认 60 —— 此时即旧口径：
+//     HP:    1.7×种族值 + 0.85×个体值 + 170
+//     五维:  1.1×种族值 + 0.55×个体值 + 60
 // IV range: 0–100
-// 验证: 针叶巡林(HP:348),水灵(HP:501),迪莫(防御:175)
+// 验证(60级): 针叶巡林(HP:348)、水灵(HP:501，个体60+ HP性格)、迪莫(防御:175)
 // ============================================================
-function calcRealStat(sv, iv, nature, isHp) {
+const SPIRIT_LEVEL_DEFAULT = 60;   // 隐藏属性：精灵等级默认值
+const SPIRIT_LEVEL_MIN = 1;
+const SPIRIT_LEVEL_MAX = 100;
+const STAT_GROWTH_HP = 100;        // 成长值（生命）
+const STAT_GROWTH = 50;            // 成长值（五维）
+
+// 某侧精灵等级（隐藏属性，state.atkCharLevel / state.defCharLevel）
+function getSpiritLevel(side) {
+  const raw = parseInt(state[side + 'CharLevel'], 10);
+  if (!Number.isFinite(raw)) return SPIRIT_LEVEL_DEFAULT;
+  return Math.max(SPIRIT_LEVEL_MIN, Math.min(SPIRIT_LEVEL_MAX, raw));
+}
+
+function calcRealStat(sv, iv, nature, isHp, level) {
   iv = Math.max(0, Math.min(100, iv));
-  // 种族值=105、无个体(iv=0)、无性格加成(nature=1.0) 时，中间值向下取整
-  const baseRounder = (sv === 105 && iv === 0 && nature === 1.0) ? Math.floor : Math.round;
-  if (isHp) {
-    const base = baseRounder(sv * 1.7 + iv * 0.85 + 70);
-    return Math.round(base * nature + 100);
-  }
-  const base = baseRounder(sv * 1.1 + iv * 0.55 + 10);
-  return Math.round(base * nature + 50);
+  const lv = Number.isFinite(level) ? level : SPIRIT_LEVEL_DEFAULT;
+  // 每级加值用整数分子 per200（= 每级加值 × 200）表示，避免浮点误差把 .5 推过取整边界
+  const per200 = sv * 2 + iv;
+  const base = isHp
+    ? (10 + lv) + per200 * (50 + lv * 2) / 200
+    : 10 + per200 * (50 + lv) / 200;
+  // 种族值=105、无个体(iv=0)、无性格加成(nature=1.0) 时，中间值向下取整（游戏内 .5 截断）
+  const mid = (sv === 105 && iv === 0 && nature === 1.0) ? Math.floor(base) : Math.round(base);
+  return Math.round(mid * nature + (isHp ? STAT_GROWTH_HP : STAT_GROWTH));
 }
 
 function readIV(id) {

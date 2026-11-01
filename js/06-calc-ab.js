@@ -86,13 +86,14 @@ function calc() {
     res = computeDamage({
       atkBase: atkBase, defBase: defBase,
       useLevel: false,                 // 模式 A 不套能力等级
+      atkLevel: getEffectiveLevel('atk'),   // 结算层等级系数按攻击方等级
       powerBase: powerA,
       powerMult: 1, powerTraitMult: 1, powerPct: 0, powerAdd: 0, powerTraitBonus: 0,
       typeEff: 1, stab: 1, traitMult: 1, extraMult, reduceMult, hits,
     });
     power = powerA;
     dmg = res.dmg;
-    formulaStr = `(${f1(res.attackValue)} / ${f1(res.defenseValue)}) × 37/41 × ${power}` +
+    formulaStr = `(${f1(res.attackValue)} / ${f1(res.defenseValue)}) × ${damageCoefLabel(res.atkLevel)} × ${power}` +
       (extraMult !== 1 ? ` × ${extraMult}(其他)` : '') +
       (reduceMult < 1 ? ` × ${f2(reduceMult)}(减伤)` : '') +
       (hits > 1 ? ` × ${hits}连击` : '') +
@@ -152,6 +153,7 @@ function calc() {
     res = computeDamage({
       atkBase, defBase,
       useLevel: true,
+      atkLevel: getEffectiveLevel('atk'),   // 结算层等级系数按攻击方等级
       atkFlat: atkFlatFinal, atkPctMult: atkPctMultFinal, atkLevelMult: atkMult,
       defFlat: defFlatFinal, defPctMult: defPctMultFinal, defLevelMult: defMult,
       powerBase: powerBaseB,
@@ -173,7 +175,7 @@ function calc() {
     const defChain = `${f1(res.defenseValue)}`;
     // 威力处直接填「最终威力」(powerFinal)：公式与游戏口径一致，可直接对数字。
     //   (基础威力区 + 固定威力提升区) × 技能威力乘区 的分解见拆解面板的「威力层」。
-    formulaStr = `(${atkChain} / ${defChain}) × 37/41 × ${f1(res.powerFinal)}` +
+    formulaStr = `(${atkChain} / ${defChain}) × ${damageCoefLabel(res.atkLevel)} × ${f1(res.powerFinal)}` +
       (typeEff  !== 1 ? ` × ${typeEff}(克制)` : '') +
       (stabMult !== 1 ? ` × ${stabMult}(本系)` : '') +
       (atkTraitMult !== 1 ? ` × ${f2(atkTraitMult)}(攻方特性)` : '') +
@@ -199,11 +201,11 @@ function calc() {
     const starTypeEff = getTypeEff('幻', state.def.a1, state.def.a2 || '');
     // 星陨不计入本系加成（幻系技能，攻击方一般不是幻系）
     // 套用相同攻防值和减伤
-    starDmg = Math.floor((atkFinal / defFinal) * (37/41) * starPower * starTypeEff * reduceMult);
+    starDmg = Math.floor((atkFinal / defFinal) * res.levelCoef * starPower * starTypeEff * reduceMult);
     const starEffStr = starTypeEff !== 1 ? ` × ${starTypeEff}(幻系克制)` : '';
     const starReduceStr = reduceMult < 1 ? ` × ${f2(reduceMult)}(减伤)` : '';
     starFormula = `威力(${starMarks}层) = ${starMarks}²+24×${starMarks}-24 = ${starPower}` +
-      `\n(${f1(atkFinal)} / ${f1(defFinal)}) × 37/41 × ${starPower}${starEffStr}${starReduceStr} = ${f1(starDmg)}`;
+      `\n(${f1(atkFinal)} / ${f1(defFinal)}) × ${damageCoefLabel(res.atkLevel)} × ${starPower}${starEffStr}${starReduceStr} = ${f1(starDmg)}`;
   }
 
   const pct = defHp > 0 ? dmg / defHp * 100 : 0;

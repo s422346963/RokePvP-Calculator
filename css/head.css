@@ -243,6 +243,8 @@
   a.spirit-name { cursor: pointer; transition: color .15s; }
   a.spirit-name:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
   .spirit-meta { font-size: 12px; color: var(--text2); }
+  /* 精灵等级徽标：默认 Lv.60，等级类特性（恶龙的奢望）改变回合数时随之刷新 */
+  .spirit-level { font-weight: 700; font-variant-numeric: tabular-nums; }
   .spirit-types { display: flex; gap: 4px; flex-shrink: 0; }
   .spirit-trait { font-size: 11px; font-weight: 600; color: var(--text2); margin-top: 4px; }
   .spirit-trait-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.5; }

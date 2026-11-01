@@ -62,13 +62,27 @@ const STAT_LABELS = { patk: '物攻', matk: '魔攻', pdef: '物防', mdef: '魔
 //      基础威力区       = 技能威力 × 应对倍率（「应对成功威力×N」「威力翻倍」这类描述）
 //      固定威力提升区   = 技能威力加成 + 特性威力加成（求和）
 //      技能威力乘区     = 1 + Σ（技能威力+N% 与 特性威力倍率 的增量，求和）
-//   结算层 单次伤害 = floor( attackValue / defenseValue × 37/41
+//   结算层 单次伤害 = floor( attackValue / defenseValue × 等级系数
 //                          × powerFinal × 克制 × 本系 × 特性乘算 × 额外倍率 × 减伤 )
 //         总伤害   = 单次伤害 × 连击数
+//   等级系数 = (攻击方等级 × 45/100 + 10) / 41  —— 60 级时恰为旧的 37/41
 //
 // ⚠️ 模式 A（威力按游戏内显示值输入）走同一条路径：传 useLevel:false /
 //    typeEff:1 / stab:1 / 无特性 buff，即可精确复现原有语义。
 // ⚠️ calc() 与 calcOneFskDmg() 都只能调用本函数，本函数之外不得出现连乘公式字面量。
+
+// ── 结算层等级系数（与攻击方等级挂钩）──
+//   (等级 × 45/100 + 10) / 41：60 级 = 37/41（旧口径完全不变），等级越高系数越大
+function damageLevelCoef(atkLevel) {
+  const lv = Number.isFinite(atkLevel) ? atkLevel : 60;   // 缺省 60 = js/01 SPIRIT_LEVEL_DEFAULT
+  return (lv * 45 / 100 + 10) / 41;
+}
+// 公式串/拆解层里的文案：60 级仍显示 37/41，其它等级显示折算值
+function damageCoefLabel(atkLevel) {
+  const lv = Number.isFinite(atkLevel) ? atkLevel : 60;
+  return lv === 60 ? '37/41' : f3(damageLevelCoef(lv));
+}
+
 function computeDamage(o) {
   // ── 攻击层 ──
   //   ⚠️ 百分比加成（特性/道具等）与「能力等级倍率」同处一个加成乘区 —— **相加**，不是相乘：
@@ -119,11 +133,14 @@ function computeDamage(o) {
   const hits = Math.max(1, o.hits || 1);
 
   const ratio = defenseValue > 0 ? attackValue / defenseValue : 0;
-  const single = ratio * (37 / 41) * powerFinal * typeEff * stab * traitMult * extraMult * reduceMult;
+  // 等级系数：(攻击方等级 × 45/100 + 10) / 41（60 级 = 37/41）
+  const atkLevel = Number.isFinite(o.atkLevel) ? o.atkLevel : 60;   // 缺省 60 = js/01 SPIRIT_LEVEL_DEFAULT
+  const levelCoef = damageLevelCoef(atkLevel);
+  const single = ratio * levelCoef * powerFinal * typeEff * stab * traitMult * extraMult * reduceMult;
   const dmg = Math.floor(single) * hits;
 
   return {
-    attackValue, defenseValue, ratio,
+    attackValue, defenseValue, ratio, atkLevel, levelCoef,
     atkPctBonus, atkLevelBonus, defPctBonus, defLevelBonus,
     powerSkill, powerBaseSeg, powerCounter, powerTraitM, powerPct, powerPctSum, powerMultAll,
     powerAdd, powerTraitAdd, powerFlatAll, powerFinal,
@@ -252,7 +269,7 @@ function renderLayersHtml(o) {
 
   // ── 结算层 ──
   let stRows = '';
-  stRows += item('攻防比 × 37/41', '', '');
+  stRows += item('攻防比 × ' + damageCoefLabel(res.atkLevel), '', '');
   stRows += item('属性克制', o.typeEff === 0 ? '免疫' : '×' + o.typeEff, o.typeEff !== 1 ? 'highlight' : '', 'color:#ff6464');
   if (isB) {
     if (o.stabMult !== 1) stRows += item('本系加成 STAB', '×' + o.stabMult, 'highlight', 'color:#ffd700');
