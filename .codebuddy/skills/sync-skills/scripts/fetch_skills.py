@@ -35,13 +35,27 @@ BASE = "https://wiki.biligame.com"
 GALLERY_URL = BASE + "/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+                  "(KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+    "Referer": GALLERY_URL,
 }
 DETAIL_DIR = pathlib.Path(".tmp/skill_details")
 # 默认只保留攻击类技能；None 表示保留全部
 KEEP_KINDS = ("物攻", "魔攻", "双攻")
-# 并发抓取详情页的线程数
-WORKERS = 16
+# 并发抓取详情页的线程数（调低可减少触发 WAF）
+WORKERS = 6
+
+# 请求复用一个 Session（连接复用 + 统一头），降低被限流的概率
+_SESSION = requests.Session()
+_SESSION.headers.update(HEADERS)
+
+# 有效页面标记：真实图鉴页含 nrc-skill-catalog，真实详情页含 nrc-skill-detail。
+# ⚠️ wiki 被限流时会返回 200 + 约 1KB 的 JS 反爬壳（不含任何标记），
+#    若不校验就会把壳页写进缓存，导致后续重跑永远解析失败（缓存自毒）。
+PAGE_MARKERS = ("nrc-skill-detail", "nrc-skill-catalog")
+
+
+def is_real_page(html):
+    return any(m in html for m in PAGE_MARKERS)
 
 
 def to_int(val):
@@ -58,22 +72,28 @@ def to_int(val):
         return None
 
 
-def get_with_retry(url, timeout=60, retries=3):
-    """带退避重试的 GET。wiki 偶发返回 567（限流），重试通常可恢复。"""
+def get_with_retry(url, timeout=60, retries=4):
+    """带退避重试的 GET。
+
+    只把「200 且确实是真实页面」视为成功：
+      - wiki 限流时先返回 567，之后可能升级为 200 + ~1KB 的 JS 反爬壳，
+        两者都要按失败处理（否则壳页会被写进缓存，造成缓存自毒）。
+    """
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(url, headers=HEADERS, timeout=timeout)
+            r = _SESSION.get(url, timeout=timeout)
             r.encoding = "utf-8"
-            if r.status_code == 200:
+            if r.status_code == 200 and is_real_page(r.text):
                 return r
             last = r
-            print(f"  [retry {attempt}/{retries}] {url} -> {r.status_code}")
+            why = r.status_code if r.status_code != 200 else "challenge(反爬壳)"
+            print(f"  [retry {attempt}/{retries}] {url} -> {why}")
         except Exception as e:
             last = e
             print(f"  [retry {attempt}/{retries}] {url} -> {e}")
         if attempt < retries:
-            time.sleep(2 ** attempt)  # 2s, 4s, 8s...
+            time.sleep(3 * attempt)  # 3s, 6s, 9s...
     return last
 
 
@@ -127,14 +147,19 @@ def fetch_detail(item):
     name = item["name"]
     cache = _cache_path(name)
     try:
-        if cache.exists():
-            html = cache.read_text(encoding="utf-8")
-        else:
+        html = cache.read_text(encoding="utf-8") if cache.exists() else ""
+        # 缓存自愈：旧版本可能把「200 + 反爬壳」写进缓存，这种页永远解析不出来
+        if html and not is_real_page(html):
+            cache.unlink(missing_ok=True)
+            html = ""
+        if not html:
             r = get_with_retry(item["url"], 60)
             if not (isinstance(r, requests.Response) and r.status_code == 200):
                 return {"name": name, "url": item["url"],
                         "error": f"status {getattr(r, 'status_code', r)}"}
             html = r.text
+            if not is_real_page(html):
+                return {"name": name, "url": item["url"], "error": "challenge page"}
             DETAIL_DIR.mkdir(parents=True, exist_ok=True)
             cache.write_text(html, encoding="utf-8")
     except Exception as e:
@@ -143,6 +168,8 @@ def fetch_detail(item):
     soup = BeautifulSoup(html, "html.parser")
     root = soup.select_one("div.nrc-skill-detail")
     if root is None:
+        # 结构不符说明这份缓存不可信，删掉以便下次重抓
+        cache.unlink(missing_ok=True)
         return {"name": name, "url": item["url"], "error": "no nrc-skill-detail"}
 
     attr = root.get("data-skill-type", "") or item.get("gallery_attr", "")

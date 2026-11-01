@@ -88,7 +88,7 @@ description: 从 wiki 精灵图鉴页面（https://wiki.biligame.com/nrc/精灵�
 
 > **旧结构兼容**：页面若仍是 `roco-*`（`.roco-stat` + `.roco-stat-val[data-val]` / `.roco-feature-name` / `.roco-type`），`parse_detail()` 自动回退解析，无需改代码。
 
-> **抓取方式（requests Session + Referer）**：详情页用 `requests.Session` 抓取（复用连接，`Referer` 指向图鉴页），wiki 偶发的 `567`（WAF）由指数退避重试吸收；个别页面持续被拦截时稍后重跑即可（已缓存的秒过，只补抓失败的）。**不带 Referer 的裸请求极易整批 567**（2026-11 实测）。有效性判定：`200` 且响应内含 `sd-p-stat` 或 `roco-stat-val`，否则重试。详情页 HTML 缓存到 `.tmp/spirit_details/`，重跑复用、便于排查。
+> **抓取方式（requests Session + Referer）**：详情页用 `requests.Session` 抓取（复用连接，`Referer` 指向图鉴页），wiki 偶发的 `567` 由指数退避重试吸收。`567` 是**间歇性限流**（短时间内连续抓大量页面后触发，页面变成 7KB 的空壳），**与 Referer / UA 无强相关**，等几分钟自行恢复；所以出现整批 ERR 时先停一会儿再重跑同一命令（已缓存的秒过，只补抓失败的）。有效性判定：`200` 且响应内含 `sd-p-stat` 或 `roco-stat-val`，否则重试。详情页 HTML 缓存到 `.tmp/spirit_details/`，重跑复用、便于排查。
 >
 > 图鉴页同样用 `requests` 下载（`sync_spirits.download_gallery`，内置指数退避重试）。
 

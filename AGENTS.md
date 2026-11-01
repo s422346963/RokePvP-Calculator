@@ -5,7 +5,7 @@
 洛克王国 PVP 伤害计算器 —— 纯前端静态网页工具，**无构建系统、无 package.json、无依赖、无 lint**（开发期校验脚本见 `.tmp/`，已 gitignore）。
 
 - 数据来源：[BWiki 精灵图鉴](https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4) / [技能图鉴](https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4)（`nrc` 域；旧 `rocom` 域已下线）
-- 现有数据规模：精灵 651 条（含不同形态/首领）、技能 358 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 101 条（攻 75 / 防 26）、技能威力规则 98 条（均按名称计）
+- 现有数据规模：精灵 651 条（含不同形态/首领）、技能 372 条 + 运行时注入的 18 条「愿力冲击」、特性规则覆盖 101 条（攻 75 / 防 26）、技能威力规则 101 条（均按名称计）
 
 ## 运行与验证
 
@@ -35,13 +35,13 @@
   ⚠️ **顶层可执行语句只允许出现在 `js/08-fav-init.js`**（唯一例外：`js/01-core.js` 的愿力冲击数据注入，必须晚于 `data/skills.js`）。跨文件函数调用只在调用期解析，合法；但**跨文件重名顶层 `const/let` 会 SyntaxError 整页白屏**（`function` 重名则是后者静默覆盖，曾是 `readTraitOpts` 真隐患），`verify_formula.js` 有重名断言。
 - `data/*.js` — 游戏数据，均为全局常量，在 body 末尾、`js/*.js` 之前**按序**加载：`spirits.js → skills.js → type.js → traitMult.js → skillMult.js → pinyin.js → spiritsPvP.js`
   - `spirits.js` → `const SPIRITS`：651 条。字段：`no`(3 位补零编号，同一编号可有多个形态) `n`(名称) `hp/pa/ma/pd/md/sp`(六项种族值) `a1/a2`(主/副属性) `tr`(特性名) `tr_desc`(特性描述) `st`(特殊形态/阶段文本，如「首领」，普通精灵为空串) `img`(wiki 图片 URL)。
-  - `skills.js` → `const SKILLS`：358 条，当前只有 `k` 为 `物攻`(199) / `魔攻`(159) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。
+  - `skills.js` → `const SKILLS`：372 条，当前只有 `k` 为 `物攻`(208) / `魔攻`(164) 两类（同步时已过滤状态/防御类技能）。字段：`n`(名称) `a`(属性) `p`(威力) `k`(类型) `c`(能耗) `cb`(连击数) `desc`(技能描述，随数据同步保留)。
   - `type.js` → `TYPE_CHART`(克制表 strong/weak/resist/vulnerable/immune)、`TYPE_COLORS`、`TYPE_TEXT_DARK`、`ALL_TYPES`。
   - `traitMult.js` → `ATK_TRAIT_RULES` / `DEF_TRAIT_RULES` 两张特性规则表（注册 75 / 26 个特性名），用 `defineAtkTraitRule(names, fieldsFn, effFn)` / `defineDefTraitRule(...)` 注册；**新增或修改特性伤害规则只改这里**，条件输入 UI 与计算在 `js/03-trait.js`。文件末尾另有 **`TRAIT_CHANNELS` 静态通道声明表**（`mult` / `pwM` / `pwA` / `atkM` / `atkA`，共 87 条），决定 UI 显示哪些输入框 —— **新增或修改规则时必须同步登记**，否则 UI 会退化为只显示「特性倍率」。查询：`getTraitChannels(name)` / `traitChannelsToKinds(ch)` / `getTraitChannelsForSide(name, side)`。显隐依据是「规则声明了哪些通道」而非「条件当前是否满足」。条件字段构造器为 `ck`（复选框）/ `num`；`key === 'blizzard'`（天气为暴风雪）的勾选框默认值由天气联动，见下文天气系统。
-  - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 98 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。⚠️ `resolveSkillPower()` 是**全局威力修正的唯一汇聚点**：天气（雨天→水系 +75%）与进攻方印记在此与技能规则 `powerPct` **同区相加**，无规则时也照常生效。
+  - `skillMult.js` → `SKILL_POWER_RULES` 技能威力规则表，用 `defineSkillPowerRule(names, fieldsFn, effFn)` 注册（当前 101 条，含 18 条按属性注册的愿力冲击）。**新增或修改技能威力修正规则只改这里**（连击修正规则已暂时移除：连击数一律取 `skills.js` 的 `cb`）。查询helper：`getSkillPowerRule` / `isSkillPowerUnimplemented` / `resolveSkillPower` / `getSkillPowerFields`。⚠️ `resolveSkillPower()` 是**全局威力修正的唯一汇聚点**：天气（雨天→水系 +75%）与进攻方印记在此与技能规则 `powerPct` **同区相加**，无规则时也照常生效。
   - `pinyin.js` → `const PINYIN_MAP`（汉字 → 全拼）+ `const PINYIN_WORDS`（多音字词组 → 逐字拼音数组），供搜索用；由 `gen_pinyin.py` 生成，勿手改。
   - `spiritsPvP.js` → PvP 专用精灵数据（在 pinyin 之后加载）。
-- `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
+- `gen_pinyin.py` — 从 `data/spirits.js`、`data/skills.js` 的 `n` 字段收集汉字生成 `data/pinyin.js`（需 `pip install pypinyin`，运行前自动备份为 `pinyin.js.<时间戳>.bak`）。多音字修正只改文件顶部的两个表：`CHAR_PINYIN_OVERRIDES`（单字默认读音，如「长」→`chang`）与 `WORD_PINYIN_OVERRIDES`（词组读音，如「船长」→`chuan zhang`、`重启`、`重构`、`恐吓`、`宝藏`），生成后由 `js/01-core.js` 的 `toPinyinSyllables()` 按最长词组优先应用。
 - `.tmp/verify_formula.js` — 伤害公式的 Node 沙箱校验脚本（含拆分护栏：公式唯一实现 / 关键符号存在 / `js/02-damage.js` 禁 DOM / 跨文件重名检测 / 全部来源按 script 顺序拼接解析），**改公式或搬代码后必须重跑**：`node .tmp/verify_formula.js`（当前基线 154 PASS / 0 FAIL）。`.tmp/smoke_load.js` — 加载期冒烟（带 DOM 桩按浏览器顺序加载全部来源，抓 ReferenceError）。
 - `header.png` + `fonts/` — 顶栏 logo（606×109 透明 PNG，白色字 + 黄星）与顶栏专用字体。头部结构为 `.site-header > .site-header-inner`（左 logo / 中 `.site-nav` 两个 wiki 外链 / 右 `.header-actions` 日夜 + 收藏），样式在 `css/head.css` 顶部，颜色走 `--header-bg` / `--header-text` / `--nav-accent`，字体走 `--nav-font`（**仅 header 生效**，正文仍是微软雅黑）。**顶栏不再自托管中文字体**，`--nav-font` 只是系统圆体栈：`Yuanti SC` / `圆体-简`（macOS）→ `YouYuan` / 幼圆 / `SimYou`（Windows）→ 方正兰亭圆 → `PingFang SC` / 微软雅黑，缺失时逐级静默回退，因此**改头栏文案无需再重新子集化**（原「江城圆体」9 片 `nav-rounded-*.woff2` 子集及 `.tmp/build_navfont.py` 已移除）。图标用自托管的 Font Awesome 6 Free Solid（`fonts/fa-solid-900.woff2`，与 wiki 站同版本 6.0.0），`@font-face` 与 `.fa-solid` 基础类在 `css/head.css` 顶部，**需要的图标类必须手写 `::before` 码点**（当前只有 `.fa-book-open` `\f518`、`.fa-bolt` `\f0e7`、`.fa-egg` `\f7fb`），新增图标在 FA 的 all.css 里查到码点后补一条即可。
 - `analytics.js` — 百度统计，勿动。
@@ -95,7 +95,7 @@
   - **显隐依据是「规则声明了哪些通道」，不是「条件当前是否满足」**：如 `蒸汽膨胀` 声明 `powerBonus`，即使层数 0 也只显示「特性威力」，不退化为「特性倍率」。未登记的特性 → 只显示「特性倍率」。
   - **手动覆盖 + 自动回填共存**：`updateTraitInputVisibility()` 用「输入源签名」（特性名 + 该侧全部条件输入）判断数据来源是否变化 —— 变化（换精灵/换技能/改条件）则清 `data-user-edited` 并回填规则值；不变（仅普通重算）则保留手填值。`onTraitInputEdit()` 打标记。
   - **重置 = 回到无加成基线**：`resetTraitInput()` 清该侧全部手动标记 → 条件输入框恢复规则声明默认值（次数 → 0，复选框 → 默认勾选）→ 重跑规则，倍率回到 `1.0`、加成回到 `0`。id 规则见 `traitInputId(kind, mode, side)`；`readTraitInputs()` 对隐藏项回退为规则计算值，不会重复叠加。
-- **技能威力修正**：`data/skillMult.js`（98 条规则）。`resolveSkillPower(skill, ctx)` 返回 `{powerAdd, powerPct, powerMult, hitsSet, label, hasRule, unimplemented}`。条件字段渲染 `renderPowerCond()` / `onPowerCondChange()` / `readPowerOptsByMode()`，id 命名空间 `pwr-opt-{mode}-{slot}-{key}`（与 `trait-opt-*` 隔离）。`ctx.util` 由 `buildPowerUtil()` 注入（查表函数 + 面板值 + 敌方技能槽能耗/威力），**规则表内不碰 DOM**。`ctx.weather`（`rain`/`blizzard`）与 `ctx.mark`（`getMarkInfo()` 返回值）也在该函数内并入 `powerPct`，因此**无规则的技能同样吃天气/印记加成**。
+- **技能威力修正**：`data/skillMult.js`（101 条规则）。`resolveSkillPower(skill, ctx)` 返回 `{powerAdd, powerPct, powerMult, hitsSet, label, hasRule, unimplemented}`。条件字段渲染 `renderPowerCond()` / `onPowerCondChange()` / `readPowerOptsByMode()`，id 命名空间 `pwr-opt-{mode}-{slot}-{key}`（与 `trait-opt-*` 隔离）。`ctx.util` 由 `buildPowerUtil()` 注入（查表函数 + 面板值 + 敌方技能槽能耗/威力），**规则表内不碰 DOM**。`ctx.weather`（`rain`/`blizzard`）与 `ctx.mark`（`getMarkInfo()` 返回值）也在该函数内并入 `powerPct`，因此**无规则的技能同样吃天气/印记加成**。
   - **未实现规则不提示**：`isSkillPowerUnimplemented()` 与 `resolveSkillPower()` 返回的 `unimplemented` 标记仍保留在 `data/skillMult.js`，但 UI 不再显示 `.power-mod-warn` 警告条（该样式已删除）—— 无规则的技能静默按基础威力计算，由用户自行手动填写威力/连击。
   - 变动威力查表：`SPEED_DIFF_TABLE`（闪击）、`PDEF_DIFF_TABLE`（鸣沙陷阱，与前者同一数组引用）、`MANA_BURST_TABLE`（魔能爆，本次新增接入自动回填）、`冰锋横扫`（敌方总能耗×10）、`怨力打击`/`钢钻`（公式型，`p:1` 为占位值）。`diffTableLookup()` 由 `util` 注入。FULL 模式经 `resolveAutoPowerForSlot()` 统一解析，**`buildFullSkillRows`/`calcOneFskDmg` 内不再有逐个 `if (sk.n === ...)` 硬编码**。
   - 愿力冲击为 18 条运行时注入（带 `desc`，`k:'双攻'` 取物攻/魔攻较高者）；「应对状态→威力×2.5」已在 `data/skillMult.js` 注册规则，条件框由 `renderPowerCond()` 在模式 B / FULL 技能槽渲染（走 `powerMult`，且应对倍率只作用于威力层的基础段），FULL 的 `?` 备注只剩说明文字。

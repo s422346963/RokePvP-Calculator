@@ -37,7 +37,7 @@ description: 从 wiki 技能图鉴页面（https://wiki.biligame.com/nrc/技能�
 </div>
 ```
 
-- 图鉴页 `data-skill-catalog-total="579"`：物攻 199 / 魔攻 159 / 状态 167 / 防御 54
+- 图鉴页 `data-skill-catalog-total="607"`：物攻 208 / 魔攻 164 / 状态 178 / 防御 57（实测 2026-11；2026-09 时为 579 张）
 - 图鉴卡片**不直接给出威力/能耗**，因此必须走 Step 2 访问详情页
 - 脚本用 `data-skill-catalog-category` 在图鉴层预过滤，只抓取攻击类（物攻/魔攻）详情页，避免对状态/防御技能发无用请求
 
@@ -72,7 +72,11 @@ description: 从 wiki 技能图鉴页面（https://wiki.biligame.com/nrc/技能�
 | `desc` 描述 | `.nrc-skill-effect-text` | |
 | `img` 图标 | `.nrc-skill-icon img` src | 不写入 `data/skills.js` |
 
-> **注意**：wiki 偶发返回 HTTP `567`（限流），`fetch_skills.py` 已内置指数退避重试（2s/4s/8s，共 3 次）可自动恢复；详情页 HTML 会缓存到 `.tmp/skill_details/<名称>.html`，重跑可复用、便于排查。
+> **注意（WAF 两副面孔，2026-11 实测）**：wiki 限流先返回 HTTP `567`，拦得更狠时会返回 **`200` + 约 1KB 的 JS 反爬壳**（页面里没有任何 `nrc-skill-*` 节点）。`fetch_skills.py` 已按「200 **且**命中页面标记」判定成功，壳页不会写进缓存；缓存里的壳页也会被自动删除重抓。限流是**间歇**的（短时间大量请求后触发，等几分钟自行恢复），整批失败时歇一会儿重跑同一命令即可。
+>
+> **重度限流时的兜底：用真实浏览器抓**（`agent-browser` 技能）。浏览器能自行过反爬，做法是在页面里 `fetch()` 批量取 HTML 再解析，一次拿十几个技能，不必逐页 `open`。注意新版技能详情页可能已换成 `sd-s-*` 模板（`.sd-s-page[data-sd-element]` 属性 / `.sd-s-category` 类型 / `.sd-s-description-text` 描述 / `.sd-s-stat` 威力·能耗），解析时要同时兼容。
+>
+> 详情页 HTML 会缓存到 `.tmp/skill_details/<urlencoded 名称>.html`，重跑可复用、便于排查。
 
 ## 完整工作流程
 
@@ -99,7 +103,7 @@ python ".codebuddy/skills/sync-skills/scripts/fetch_skills.py" .tmp/skill_galler
   - `--limit N`：只抓取前 N 个（测试，不覆盖正式数据）
   - `--all`：不过滤，保留全部技能（含状态/防御）
 - 详情页并发抓取（线程数 `WORKERS=16`），带重试；结果打印类型分布摘要
-- 实测：图鉴 579 张卡 → 攻击类 358 个 → 详情页全部解析成功，0 错误
+- 实测：图鉴 607 张卡 → 攻击类 372 个 → 详情页 371 个解析成功；`升龙咆哮` 的 wiki 页面只剩导航（无技能正文），需沿用 `data/skills.js` 里的旧值
 
 ### Step 3: 备份现有数据（覆盖前必须）
 
@@ -133,7 +137,7 @@ const SKILLS = [
 node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb);const SKILLS=vm.runInContext(fs.readFileSync('data/skills.js','utf8')+'\n;SKILLS;',sb);console.log(SKILLS.length,SKILLS.every(s=>s.n&&s.a&&s.k&&typeof s.p==='number'&&typeof s.c==='number'&&typeof s.cb==='number'),SKILLS.reduce((m,s)=>(m[s.k]=(m[s.k]||0)+1,m),{}));"
 ```
 
-- 检查：数量（攻击类约 358）、字段完整、名称无重复、关键技能存在（闪击/鸣沙陷阱/魔能爆等变动威力技能，其 `p` 为基准威力，运行时由 `index.html` 的分档表覆盖）
+- 检查：数量（攻击类约 372）、字段完整、名称无重复、关键技能存在（闪击/鸣沙陷阱/魔能爆等变动威力技能，其 `p` 为基准威力，运行时由 `index.html` 的分档表覆盖）
 - 打开 `index.html` 手动验证：技能搜索下拉正常、FULL 配招可选到技能
 
 ## 注意事项
@@ -141,5 +145,6 @@ node -e "const vm=require('vm'),fs=require('fs');const sb={};vm.createContext(sb
 - **状态/防御技能默认被过滤**：`index.html` 的技能搜索与伤害计算按 `SKILLS` 工作，过滤后 FULL 配招模式无法选择状态/防御技能（状态技能在代码里 `skill.k==='状态'` 直接判为无伤害）。若用户要求保留全部技能，给 `fetch_skills.py` 加 `--all` 参数
 - 所有用户可见文案为简体中文；文件 UTF-8 编码。终端乱码是显示端解码问题，不要"修复"编码（避免把中文塞进 `python -c` 内联脚本；必要的中文处理放脚本文件内，并用 `sys.stdout.reconfigure(encoding="utf-8")`，本脚本已处理）
 - `data/skills.js` 被 `index.html` 在 body 末尾按序加载，不能移回 `<head>` 或加 `defer`
+- **威力/耗能为空要写成 `null`**：wiki 上显示「—」的技能（变动威力类，如 `砂糖弹球`）解析出来是 `None`，`convert_skills.py` 会转成 JS 的 `null`；若把 Python 的 `None` 直接拼进文件，`data/skills.js` 会直接语法错误。这类技能建议沿用旧值（同步时按 `data/skills.js` 的旧 `p`/`c` 回填）
 - 详情页 HTML 缓存于 `.tmp/skill_details/`，重跑复用；排查异常技能可直接读取对应缓存文件
 - 修改 `fetch_skills.py` / `convert_skills.py` 后同步更新 `.tmp` 中的副本（若有）

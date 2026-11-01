@@ -47,6 +47,7 @@ CHAR_PINYIN_OVERRIDES = {
 WORD_PINYIN_OVERRIDES = {
     "船长": ["chuan", "zhang"],
     "重启": ["chong", "qi"],
+    "重构": ["chong", "gou"],   # 维管束重构：默认读 zhong，此处按「重来」义读 chong
     "恐吓": ["kong", "he"],
     "宝藏": ["bao", "zang"],
 }

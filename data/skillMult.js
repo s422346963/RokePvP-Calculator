@@ -591,6 +591,31 @@ defineSkillPowerRule(['色散'],
   ctx => ctx.opts.mixedBlood ? { powerPct: 0.5, label: '敌方为混血精灵→伤害+50%' } : null);
 
 // ============================================================
+// 2026-11 批次：S5 新同步技能
+//   「永久 +N」可反复叠加的技能按**次数**展开（同特性层的线性口径，不写成幂）
+//   灵扰「偷取能量→连击数永久+1」按约定不实现（连击数一律取 skills.js 的 cb）
+// ============================================================
+defineSkillPowerRule(['过充电'],
+  () => [spCk('charged', '已使用过聚能（至少1次）', false)],
+  ctx => ctx.opts.charged ? { powerAdd: 30, label: '聚能后→威力永久+30' } : null);
+
+// 恋恋不舍：每满足 1 次「敌方获得3次减益」的触发，威力永久 +30（按叠加次数线性展开）
+defineSkillPowerRule(['恋恋不舍'],
+  () => [spNum('stacks', '已叠加次数（每次+30）', 0, 0, 20)],
+  ctx => {
+    const n = clampInt(ctx.opts.stacks, 0, 20);
+    return n > 0 ? { powerAdd: 30 * n, label: '叠加' + n + '次→威力+' + (30 * n) } : null;
+  });
+
+// 投毒：每攻击 1 次中毒目标，威力 +25（按次数线性展开）
+defineSkillPowerRule(['投毒'],
+  () => [spNum('poisonHits', '攻击中毒目标的次数（每次+25）', 0, 0, 20)],
+  ctx => {
+    const n = clampInt(ctx.opts.poisonHits, 0, 20);
+    return n > 0 ? { powerAdd: 25 * n, label: '攻击中毒目标' + n + '次→威力+' + (25 * n) } : null;
+  });
+
+// ============================================================
 // 查询helper（供 index.html 调用，避免各处重复写判定逻辑）
 // ============================================================
 

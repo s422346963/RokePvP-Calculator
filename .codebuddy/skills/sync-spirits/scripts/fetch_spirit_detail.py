@@ -35,7 +35,7 @@ try:
 except Exception:
     pass
 
-# Referer 指向图鉴页：nrc 域对「无来源的直接详情页请求」更容易返回 567（WAF 拦截）
+# Referer 指向图鉴页（顺手对齐浏览器行为；567 是间歇限流，与 Referer 无强相关）
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/126.0 Safari/537.36",
@@ -141,7 +141,8 @@ _SESSION.headers.update(HEADERS)
 def _fetch_via_requests(url: str, retries=3):
     """用 requests 抓取详情页 HTML；非 200 或缺资质节点则按指数退避重试，耗尽后抛异常。
 
-    复用同一个 Session：详情页偶发 567（WAF），带 Referer + 复用连接后成功率明显更高。
+    567 是 wiki 的间歇限流（短时间大量请求后触发，等一段时间自行恢复），
+    复用同一个 Session 降低握手开销；仍有失败时重跑即可，已缓存的页面秒过。
     """
     last = None
     for attempt in range(1, retries + 1):

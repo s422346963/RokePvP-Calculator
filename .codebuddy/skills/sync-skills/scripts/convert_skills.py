@@ -42,9 +42,13 @@ def main():
         cb_counts[cb] = cb_counts.get(cb, 0) + 1
         if not m and "连击" in desc:
             warnings.append(f"{s['n']}：{desc}")
+        # p / c 可能为 None（wiki 上「威力/耗能」显示为「—」，如变动威力技能）：
+        # 必须写成 JS 的 null，直接插 Python 的 None 会让 data/skills.js 语法错误。
+        p_js = "null" if s.get("p") is None else s["p"]
+        c_js = "null" if s.get("c") is None else s["c"]
         item = (
-            f"  {{ n: {js_str(s['n'])}, a: {js_str(s['a'])}, p: {s['p']}, "
-            f"k: {js_str(s['k'])}, c: {s['c']}, cb: {cb}, desc: {js_str(s['desc'])} }}"
+            f"  {{ n: {js_str(s['n'])}, a: {js_str(s['a'])}, p: {p_js}, "
+            f"k: {js_str(s['k'])}, c: {c_js}, cb: {cb}, desc: {js_str(s['desc'])} }}"
         )
         if i < len(skills) - 1:
             item += ","
