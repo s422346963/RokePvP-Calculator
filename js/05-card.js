@@ -423,7 +423,8 @@ function applySpirit_global(side, spirit) {
     const IV_MAP = { hp:'hp', pa:'patk', ma:'matk', pd:'pdef', md:'mdef', sp:'spd' };
     const recIv = pvp.v.map(x => IV_MAP[x]).filter(Boolean);
     ['hp','patk','matk','pdef','mdef','spd'].forEach(k => {
-      setIv(side + '-iv-' + k, recIv.includes(k) ? 60 : 0);
+      // 防御方物防的 id 是历史遗留的 def-iv-def，统一走 getIvElId（定义在 js/08）
+      setIv(getIvElId(side, k), recIv.includes(k) ? 60 : 0);
     });
   }
 
