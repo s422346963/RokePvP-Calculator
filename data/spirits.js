@@ -9613,7 +9613,7 @@ const SPIRITS =
         "a2": "幻",
         "tr": "铭记于月亮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/a/aa/0ujfvmq4wlubavv5a04fxbjcnfkax2h.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/c/c2/0ujfvmq4wlubavv5a04fxbjcnfkax2h.png",
         "tr_desc": "获得自己击败的精灵的特性，每次攻击后自己失去5%生命。"
     },
     {
@@ -9629,7 +9629,7 @@ const SPIRITS =
         "a2": "幻",
         "tr": "铭记于月亮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/1/1b/rqr3i0zz67u3pqxs1rjj1znchtceefh.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/b/bd/rqr3i0zz67u3pqxs1rjj1znchtceefh.png",
         "tr_desc": "获得自己击败的精灵的特性，每次攻击后自己失去5%生命。"
     },
     {
@@ -9645,7 +9645,7 @@ const SPIRITS =
         "a2": "幻",
         "tr": "铭记于月亮",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/c/c4/nm7s4j5tjkrnxj0txd03y6f1x8yz0n8.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/7/76/nm7s4j5tjkrnxj0txd03y6f1x8yz0n8.png",
         "tr_desc": "获得自己击败的精灵的特性，每次攻击后自己失去5%生命。"
     },
     {
@@ -9661,7 +9661,7 @@ const SPIRITS =
         "a2": "冰",
         "tr": "冷光源",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/f/ff/q2ji8cl28zae1nl13apyzcxiaqqm6w3.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/c/cc/q2ji8cl28zae1nl13apyzcxiaqqm6w3.png",
         "tr_desc": "若上回合双方有精灵使用翼系技能，本回合自己携带的冰系技能威力+100%。"
     },
     {
@@ -9677,7 +9677,7 @@ const SPIRITS =
         "a2": "冰",
         "tr": "冷光源",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/8/83/2x13n2474fdfwqtbprh8g3rx66766r7.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/2/2a/2x13n2474fdfwqtbprh8g3rx66766r7.png",
         "tr_desc": "若上回合双方有精灵使用翼系技能，本回合自己携带的冰系技能威力+100%。"
     },
     {
@@ -9693,7 +9693,7 @@ const SPIRITS =
         "a2": "冰",
         "tr": "冷光源",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/4/47/lpluahkosttmya24cb0bun6b4jjfmpn.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/7/73/lpluahkosttmya24cb0bun6b4jjfmpn.png",
         "tr_desc": "若上回合双方有精灵使用翼系技能，本回合自己携带的冰系技能威力+100%。"
     },
     {
@@ -9709,7 +9709,7 @@ const SPIRITS =
         "a2": "虫",
         "tr": "热成像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/3/3a/9mc96nw28hvumoec30fpyqgtxp996at.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/3/35/9mc96nw28hvumoec30fpyqgtxp996at.png",
         "tr_desc": "若上回合双方有精灵使用火系技能，本回合自己携带的虫系技能威力+100%。"
     },
     {
@@ -9725,7 +9725,7 @@ const SPIRITS =
         "a2": "虫",
         "tr": "热成像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/9/95/8a08pch32fc3j1rx04c4ni7360g6euv.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/8/8f/8a08pch32fc3j1rx04c4ni7360g6euv.png",
         "tr_desc": "若上回合双方有精灵使用火系技能，本回合自己携带的虫系技能威力+100%。"
     },
     {
@@ -9741,7 +9741,7 @@ const SPIRITS =
         "a2": "虫",
         "tr": "热成像",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/c/c6/b69ajc8qg48yh2025i5fyypz4ldeypp.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/1/10/b69ajc8qg48yh2025i5fyypz4ldeypp.png",
         "tr_desc": "若上回合双方有精灵使用火系技能，本回合自己携带的虫系技能威力+100%。"
     },
     {
@@ -9757,7 +9757,7 @@ const SPIRITS =
         "a2": "水",
         "tr": "基因编辑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/8/86/h7jfxdksi66wi5hxd0t1pyofg6gc5kw.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/a/a0/h7jfxdksi66wi5hxd0t1pyofg6gc5kw.png",
         "tr_desc": "自己携带技能的基础能耗，变为上回合双方使用的技能能耗之和。"
     },
     {
@@ -9773,7 +9773,7 @@ const SPIRITS =
         "a2": "水",
         "tr": "基因编辑",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/d/d3/to882782tk5lnp0v0cd8zf9xdea1ems.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/9/90/to882782tk5lnp0v0cd8zf9xdea1ems.png",
         "tr_desc": "自己携带技能的基础能耗，变为上回合双方使用的技能能耗之和。"
     },
     {
@@ -9789,7 +9789,7 @@ const SPIRITS =
         "a2": "虫",
         "tr": "正模标本",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/1/19/suzpim4e1b9rys05yh1w8u97xz8js2o.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/e/e3/suzpim4e1b9rys05yh1w8u97xz8js2o.png",
         "tr_desc": "自己队伍中的其他精灵，在力竭1回合后会变为未完虫。"
     },
     {
@@ -9805,7 +9805,7 @@ const SPIRITS =
         "a2": "",
         "tr": "乌龟塔理论",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/e/e9/44e2djw05cuxg7pgbv8rt1jg2b5s5gu.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/4/4c/44e2djw05cuxg7pgbv8rt1jg2b5s5gu.png",
         "tr_desc": "每受到1次攻击伤害，敌方获得3层星陨印记。"
     },
     {
@@ -9821,7 +9821,7 @@ const SPIRITS =
         "a2": "",
         "tr": "乌龟塔理论",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/5/51/hauk884m5wqumkmsh1u7s2o1fh01vuh.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/8/85/hauk884m5wqumkmsh1u7s2o1fh01vuh.png",
         "tr_desc": "每受到1次攻击伤害，敌方获得3层星陨印记。"
     },
     {
@@ -9837,7 +9837,7 @@ const SPIRITS =
         "a2": "机械",
         "tr": "风速仪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/8/83/5pgb7ze1ijipoe5mqmlwcmqgodvyxin.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/a/ab/5pgb7ze1ijipoe5mqmlwcmqgodvyxin.png",
         "tr_desc": "携带的技能每累计传动8，自己获得1层风起印记。"
     },
     {
@@ -9853,7 +9853,7 @@ const SPIRITS =
         "a2": "机械",
         "tr": "风速仪",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/7/74/a25357mcp4dupdq8fpf2ky1udqpdfg2.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/2/2f/a25357mcp4dupdq8fpf2ky1udqpdfg2.png",
         "tr_desc": "携带的技能每累计传动8，自己获得1层风起印记。"
     },
     {
@@ -9869,7 +9869,7 @@ const SPIRITS =
         "a2": "",
         "tr": "翻垃圾桶",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/0/04/3g9j2y632cma214cvoo7oi14om5uenc.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/a/af/3g9j2y632cma214cvoo7oi14om5uenc.png",
         "tr_desc": "入场时自己未携带的技能位置会变为敌方最近使用过的技能，且能耗-2。"
     },
     {
@@ -9885,7 +9885,7 @@ const SPIRITS =
         "a2": "",
         "tr": "翻垃圾桶",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/a/af/b9oulolxim62tj08up2ube61e6fxro9.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/2/2f/b9oulolxim62tj08up2ube61e6fxro9.png",
         "tr_desc": "入场时自己未携带的技能位置会变为敌方最近使用过的技能，且能耗-2。"
     },
     {
@@ -9901,7 +9901,7 @@ const SPIRITS =
         "a2": "",
         "tr": "盗魂铃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/7/77/ncacswlwj812v1f9xguukt51uljy2dg.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/b/ba/ncacswlwj812v1f9xguukt51uljy2dg.png",
         "tr_desc": "初始能量为0，首次入场前敌方每聚能1次，回复5能量（可突破上限），在场时自己回复的能量-4。"
     },
     {
@@ -9917,7 +9917,7 @@ const SPIRITS =
         "a2": "",
         "tr": "盗魂铃",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/6/66/dn2la7idby1er0q89t3ssnkwhhfv3rz.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/a/a8/dn2la7idby1er0q89t3ssnkwhhfv3rz.png",
         "tr_desc": "初始能量为0，首次入场前敌方每聚能1次，回复5能量（可突破上限），在场时自己回复的能量-4。"
     },
     {
@@ -9933,7 +9933,7 @@ const SPIRITS =
         "a2": "",
         "tr": "宇宙之眼",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/e/e3/ktkc0ce1phjhv93f8u6cs0eunmdelnm.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/d/dc/ktkc0ce1phjhv93f8u6cs0eunmdelnm.png",
         "tr_desc": "敌方每有1层星陨印记，自己获得物防+10%。"
     },
     {
@@ -9949,7 +9949,7 @@ const SPIRITS =
         "a2": "光",
         "tr": "旧玩具",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/9/9f/hlprd2ju2pdr7cfu8mrz28pn18lne33.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/5/59/hlprd2ju2pdr7cfu8mrz28pn18lne33.png",
         "tr_desc": "己方精灵每使用过1个不同系别的技能，自己入场时获得双攻+10%。"
     },
     {
@@ -9965,7 +9965,7 @@ const SPIRITS =
         "a2": "光",
         "tr": "旧玩具",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/7/75/rwynpcesfl169vd61q7lavj3hzocamn.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/6/60/rwynpcesfl169vd61q7lavj3hzocamn.png",
         "tr_desc": "己方精灵每使用过1个不同系别的技能，自己入场时获得双攻+10%。"
     },
     {
@@ -9981,7 +9981,7 @@ const SPIRITS =
         "a2": "草",
         "tr": "秋收",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/d/d1/dl65qh8nz5t0geu66tkveepbylm4qf8.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/c/c1/dl65qh8nz5t0geu66tkveepbylm4qf8.png",
         "tr_desc": "处于草系环境中时，机械系技能威力+50%。"
     },
     {
@@ -9997,7 +9997,7 @@ const SPIRITS =
         "a2": "",
         "tr": "吐水",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/b/b4/r2nfkbcq0yhy48tpth456ztup3bc23f.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/5/5d/r2nfkbcq0yhy48tpth456ztup3bc23f.png",
         "tr_desc": "使用技能水弹后，敌方获得双攻+10%，双防-10%。"
     },
     {
@@ -10013,7 +10013,7 @@ const SPIRITS =
         "a2": "",
         "tr": "吐水",
         "st": "",
-        "img": "https://patchwiki.biligame.com/images/nrc/2/22/fmp2c9y1knur9nfah33hpznoxkvuwaq.png",
+        "img": "https://patchwiki.biligame.com/images/nrc/4/46/fmp2c9y1knur9nfah33hpznoxkvuwaq.png",
         "tr_desc": "使用技能水弹后，敌方获得双攻+10%，双防-10%。"
     },
     {
