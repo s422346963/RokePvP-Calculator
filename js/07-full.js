@@ -367,7 +367,7 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   const _traitOptsAtk = readTraitOptsByMode('full', _atkTraitSide);
   const _traitOptsDef = readTraitOptsByMode('full', _defTraitSide);
   // 冰钻：按对手技能槽总能耗自动注入（只注入攻方侧规则）
-  if (atkSpirit && atkSpirit.tr === '冰钻') {
+  if (resolveTraitName(atkSpirit) === '冰钻') {
     let _defCost = 0;
     fullState[_defTraitSide].forEach(slot => { if (slot && slot.skill) _defCost += (slot.skill.c || 0); });
     if (_defCost > 0) _traitOptsAtk.enemyTotalCost = _defCost;
@@ -389,10 +389,10 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   //    方向2（防方出手）时两侧角色互换 —— 此时拿面板输入会把「防御倍率」当成「攻击倍率」，
   //    因此该方向一律只取规则值（没有对应角色的输入框可覆盖）。
   const _atkIn = (atkSpirit === state.atk)
-    ? readTraitInputs('full', 'atk', atkSpirit ? atkSpirit.tr : null, _atkTrCalc, buffsRaw)
+    ? readTraitInputs('full', 'atk', resolveTraitName(atkSpirit), _atkTrCalc, buffsRaw)
     : { atkMult: buffsRaw.pctMult, atkAdd: buffsRaw.flatSum };
   const _defIn = (defSpirit === state.def)
-    ? readTraitInputs('full', 'def', defSpirit ? defSpirit.tr : null, _defTrCalc, defBuffsRaw)
+    ? readTraitInputs('full', 'def', resolveTraitName(defSpirit), _defTrCalc, defBuffsRaw)
     : { atkMult: defBuffsRaw.pctMult, atkAdd: defBuffsRaw.flatSum };
   const atkBuffs = { pctMult: _atkIn.atkMult, flatSum: _atkIn.atkAdd, sources: mergeBuffSourcesList(buffsRaw) };
   const defBuffs = { pctMult: _defIn.atkMult, flatSum: _defIn.atkAdd, sources: mergeBuffSourcesList(defBuffsRaw) };

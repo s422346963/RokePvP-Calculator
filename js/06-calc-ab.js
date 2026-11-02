@@ -120,8 +120,8 @@ function calc() {
     // 特性攻防加成（侧向：物攻技能只吃 patk/pdef）+ 特性输入框覆盖
     atkBuffs = collectStatBuffs(trAtk.stat, isPhysB, 'atk');
     defBuffs = collectStatBuffs(trDef.stat, isPhysB, 'def');
-    const atkIn = readTraitInputs('b', 'atk', state.atk ? state.atk.tr : null, trAtk, atkBuffs);
-    const defIn = readTraitInputs('b', 'def', state.def ? state.def.tr : null, trDef, defBuffs);
+    const atkIn = readTraitInputs('b', 'atk', resolveTraitName(state.atk), trAtk, atkBuffs);
+    const defIn = readTraitInputs('b', 'def', resolveTraitName(state.def), trDef, defBuffs);
     // 攻防层最终生效值：输入框可见时以输入框为权威值（已自动填入规则值），
     // 不可见时 readTraitInputs 回退为规则算出的值 —— 两者都是「单一份量值」，不会重复叠加。
     atkPctMultFinal = atkIn.atkMult;

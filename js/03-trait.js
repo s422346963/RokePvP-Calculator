@@ -31,7 +31,7 @@ function calcDefTotalCost(defSpirit) {
 // ================================================================
 function getTraitLevelValue(side) {
   const spirit = side === 'atk' ? state.atk : state.def;
-  const rule = getTraitLevelRule(spirit ? spirit.tr : null);
+  const rule = getTraitLevelRule(resolveTraitName(spirit));
   if (!rule) return null;
   const v = parseInt(state[side + 'TraitLevel'], 10);
   if (!Number.isFinite(v) || v <= 0) return rule.def;
@@ -57,7 +57,7 @@ function syncTraitLevelInputs(side) {
 // 条件变化后：把「等级」写回 state，等级变了就重算面板值
 function syncTraitLevelState(mode, side) {
   const spirit = side === 'atk' ? state.atk : state.def;
-  const rule = getTraitLevelRule(spirit ? spirit.tr : null);
+  const rule = getTraitLevelRule(resolveTraitName(spirit));
   if (!rule) return;
   const opts = readTraitOptsByMode(mode, side);
   const raw = parseInt(opts.level, 10);
@@ -90,7 +90,8 @@ function traitCondDefault(side, key, def) {
 
 function calcAtkTraitMult(atk, def, skill, opts) {
   opts = opts || {};
-  const atkTr = atk ? atk.tr : null;
+  // 查表用特性名：首领形态可经 SPIRIT_TRAIT_ALIAS 复用基础形态的规则（见 data/traitMult.js）
+  const atkTr = resolveTraitName(atk);
   if (skill && skill.k === '\u72b6\u6001') return { mult:1, desc:'\u72b6\u6001\u6280\u80fd\u65e0\u4f24\u5bb3', needsInput:[] };
   // ⚠️ skill 允许为 null（尚未选技能）：仍按特性规则给出条件字段 + 与技能无关的加成，
   //    使「只选精灵」就能配置特性；依赖技能属性的规则会因 skAttr 为空而自然不生效
@@ -141,7 +142,7 @@ function calcAtkTraitMult(atk, def, skill, opts) {
 // ================================================================
 function calcDefTraitMult(atk, def, skill, opts) {
   opts = opts || {};
-  const defTr = def ? def.tr : null;
+  const defTr = resolveTraitName(def);
   if (skill && skill.k === '\u72b6\u6001') return { mult:1, desc:'\u72b6\u6001\u6280\u80fd\u65e0\u4f24\u5bb3', needsInput:[] };
   // ⚠️ skill 允许为 null（尚未选技能）：防方特性同样给出条件字段，便于先选精灵后配技能
   const skAttr = skill ? (skill.a || '') : '';
@@ -252,8 +253,11 @@ function renderTraitNameWithNote(nameEl, name, desc, icon) {
 
 // 更新某个 mode（'b' 或 'full'）的攻防特性面板
 function updateTraitPanelForMode(mode, skill) {
+  // 展示用真实特性名（首领形态显示「御驾亲征」），查表用 resolveTraitName（可能是别名）
   const atkTr = state.atk ? state.atk.tr : null;
   const defTr = state.def ? state.def.tr : null;
+  const atkTrCalc = resolveTraitName(state.atk);
+  const defTrCalc = resolveTraitName(state.def);
 
   // ── 攻方面板 ──
   const atkNameEl = document.getElementById(`trait-atk-name-${mode}`);
@@ -282,7 +286,7 @@ function updateTraitPanelForMode(mode, skill) {
   const optsAtk = readTraitOptsByMode(mode, 'atk');
   const optsDef = readTraitOptsByMode(mode, 'def');
   // 冰钻特性：自动从防方技能槽累加总能耗（只属于攻方侧规则）
-  if (state.atk && state.atk.tr === '冰钻') {
+  if (resolveTraitName(state.atk) === '冰钻') {
     const autoCost = calcDefTotalCost(state.def);
     if (autoCost > 0) optsAtk.enemyTotalCost = autoCost;
   }
@@ -292,7 +296,7 @@ function updateTraitPanelForMode(mode, skill) {
 
   // 更新攻方倍率（按规则实际影响动态显隐：结算层倍率 / 威力层 / 攻击层）
   const atkBuffs = collectStatBuffs(atkResult.stat, state.atkStat === 'patk', 'atk');
-  updateTraitInputVisibility(mode, 'atk', atkTr, atkResult, atkBuffs);
+  updateTraitInputVisibility(mode, 'atk', atkTrCalc, atkResult, atkBuffs);
   if (atkCondEl) renderTraitCond(atkResult.needsInput, atkCondEl, mode, 'atk');
   // 规则提示 → 跟在特性名称后同行；描述栏只留特性原始文本
   renderTraitNameWithNote(atkNameEl, atkTr, atkResult.desc, '✨');
@@ -300,7 +304,7 @@ function updateTraitPanelForMode(mode, skill) {
 
   // 更新防方倍率（同上，动态显隐）
   const defBuffs = collectStatBuffs(defResult.stat, state.atkStat === 'patk', 'def');
-  updateTraitInputVisibility(mode, 'def', defTr, defResult, defBuffs);
+  updateTraitInputVisibility(mode, 'def', defTrCalc, defResult, defBuffs);
   if (defCondEl) renderTraitCond(defResult.needsInput, defCondEl, mode, 'def');
   renderTraitNameWithNote(defNameEl, defTr, defResult.desc, '🛡️');
   if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
@@ -449,7 +453,7 @@ function resetTraitInput(mode, side, kind) {
 
   // 2) 条件输入框恢复默认值
   const skill = traitSkillFor(mode, side);
-  const trName = side === 'atk' ? (state.atk && state.atk.tr) : (state.def && state.def.tr);
+  const trName = resolveTraitName(side === 'atk' ? state.atk : state.def);
   const table = side === 'atk' ? ATK_TRAIT_RULES : DEF_TRAIT_RULES;
   const rule = trName ? table[trName] : null;
   if (rule && rule.fields && skill) {
@@ -478,7 +482,7 @@ function resetTraitInput(mode, side, kind) {
 function resetTraitPanelForSide(side) {
   resetTraitLevelState(side);   // 等级类特性：换精灵后等级回默认（面板值随之按默认等级重算）
   ['b', 'full'].forEach(mode => {
-    const trName = side === 'atk' ? (state.atk && state.atk.tr) : (state.def && state.def.tr);
+    const trName = resolveTraitName(side === 'atk' ? state.atk : state.def);
     const skill = traitSkillFor(mode, side);
     const table = side === 'atk' ? ATK_TRAIT_RULES : DEF_TRAIT_RULES;
     const rule = trName ? table[trName] : null;
@@ -551,10 +555,8 @@ function refreshStatAreas(mode, skill) {
   const rAtk = calcAtkTraitMult(state.atk, state.def, skill, optsAtk);
   const rDef = calcDefTraitMult(state.atk, state.def, skill, optsDef);
   // 条件勾选框此时已渲染 → 重新判定输入框显隐并回填正确值（与 stat 区保持一致）
-  const atkTr = state.atk ? state.atk.tr : null;
-  const defTr = state.def ? state.def.tr : null;
-  updateTraitInputVisibility(mode, 'atk', atkTr, rAtk, collectStatBuffs(rAtk.stat, isPhys, 'atk'));
-  updateTraitInputVisibility(mode, 'def', defTr, rDef, collectStatBuffs(rDef.stat, isPhys, 'def'));
+  updateTraitInputVisibility(mode, 'atk', resolveTraitName(state.atk), rAtk, collectStatBuffs(rAtk.stat, isPhys, 'atk'));
+  updateTraitInputVisibility(mode, 'def', resolveTraitName(state.def), rDef, collectStatBuffs(rDef.stat, isPhys, 'def'));
 }
 
 // 渲染特性条件选项到指定容器（side: 'atk'|'def'）
@@ -630,7 +632,7 @@ function onTraitCondChange(mode, side) {
 
   if (side === 'atk') {
     const r = calcAtkTraitMult(state.atk, state.def, skill, opts);
-    updateTraitInputVisibility(mode, 'atk', state.atk ? state.atk.tr : null, r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'atk'));
+    updateTraitInputVisibility(mode, 'atk', resolveTraitName(state.atk), r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'atk'));
     const nameEl = document.getElementById(`trait-atk-name-${mode}`);
     const descEl = document.getElementById(`trait-atk-desc-${mode}`);
     const atkTr = state.atk ? state.atk.tr : null;
@@ -638,7 +640,7 @@ function onTraitCondChange(mode, side) {
     if (descEl) descEl.textContent = (state.atk && state.atk.tr_desc) || '';
   } else {
     const r = calcDefTraitMult(state.atk, state.def, skill, opts);
-    updateTraitInputVisibility(mode, 'def', state.def ? state.def.tr : null, r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'def'));
+    updateTraitInputVisibility(mode, 'def', resolveTraitName(state.def), r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'def'));
     const nameEl = document.getElementById(`trait-def-name-${mode}`);
     const descEl = document.getElementById(`trait-def-desc-${mode}`);
     const defTr = state.def ? state.def.tr : null;

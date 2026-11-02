@@ -23,7 +23,8 @@ function readPowerOptsByMode(mode, slot) {
 function traitPowerFor(mode, side, skill) {
   const spirit = side === 'atk' ? state.atk : state.def;
   const foe = side === 'atk' ? state.def : state.atk;
-  const trName = spirit ? spirit.tr : null;
+  // 查表用特性名：首领形态可经 SPIRIT_TRAIT_ALIAS 复用基础形态的规则（见 data/traitMult.js）
+  const trName = resolveTraitName(spirit);
   const channels = getTraitChannelsForSide(trName, side);
   const affectsPower = !!(channels && (channels.pwM || channels.pwA));
   let res = null;
