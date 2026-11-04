@@ -245,13 +245,15 @@ function loadFavConfig(fav, side) {
   // ── 6. 技能：Tab2/Tab3（仅攻击方，取第一个有效技能） ──
   if (side === 'atk') {
     const firstSkillSlot = fav.skills && fav.skills.find(Boolean);
-    if (firstSkillSlot) {
-      const sk = SKILLS.find(s => s.n === firstSkillSlot.skillName);
-      if (sk) {
-        applyQuickSkill(sk);
-        const hitsB = document.getElementById('hits-input-b');
-        if (hitsB && firstSkillSlot.hits) hitsB.value = firstSkillSlot.hits;
-      }
+    const favSk = firstSkillSlot ? (SKILLS.find(s => s.n === firstSkillSlot.skillName) || null) : null;
+    // 旧收藏（skills 全 null）或收藏里的技能名已失效时，整段跳过会沿用上一只精灵的技能，
+    // 表现为「收藏夹切精灵但技能不变」：回落到当前精灵 PVP 推荐 s[0]，
+    // 与搜索框直接选精灵的行为一致；收藏带有效技能时仍以收藏为准。
+    const sk = favSk || (typeof pvpRecommendedSkill === 'function' ? pvpRecommendedSkill('atk') : null);
+    if (sk) {
+      applyQuickSkill(sk);
+      const hitsB = document.getElementById('hits-input-b');
+      if (hitsB && favSk && firstSkillSlot.hits) hitsB.value = firstSkillSlot.hits;
     }
   }
 

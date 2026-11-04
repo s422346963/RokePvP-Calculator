@@ -123,7 +123,21 @@ function swapSpirits() {
   refreshLevelUI('atk'); refreshLevelUI('def');
 
   syncModeBAutoFields();
-  calc();
+
+  // 技能跟着精灵走：FULL 模式两侧技能槽（含选中索引）整体互换；
+  // B 模式的技能属于当前攻方，交换后套用新攻方精灵的 PVP 推荐 s[0]。
+  // 模式 A 的威力是游戏内显示值，无技能概念，不处理。
+  if (state.mode === 'FULL') {
+    const tmpSlots = fullState.atk, tmpSel = fullState.atkSel;
+    fullState.atk = fullState.def;       fullState.def = tmpSlots;
+    fullState.atkSel = fullState.defSel; fullState.defSel = tmpSel;
+    buildFullSkillRows('atk');
+    buildFullSkillRows('def');
+  } else if (state.mode === 'B') {
+    const recSkill = pvpRecommendedSkill('atk');
+    if (recSkill) { applyQuickSkill(recSkill); return; }  // 内部已重算，避免重复 calc
+  }
+  calc();   // FULL 模式内部转发 calcFull()
 }
 
 // ============================================================
