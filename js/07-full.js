@@ -319,6 +319,17 @@ function selectFskSkill(side, idx, sk) {
   calcFull();
 }
 
+// ── PVP 推荐技能：把该侧精灵 s[0] 填进第 1 个技能槽 ──
+// force=true（换精灵）覆盖槽 1；false（切入 FULL）只在槽 1 为空时补，保留手动配置
+function applyPvpRecommendedFullSkill(side, force = false) {
+  if (typeof pvpRecommendedSkill !== 'function' || !fullState[side]) return false;
+  const sk = pvpRecommendedSkill(side);
+  if (!sk || (!force && fullState[side][0])) return false;
+  fullState[side][0] = { skill: sk, hits: skillDefaultHits(sk), power: sk.p };
+  buildFullSkillRows(side);
+  return true;
+}
+
 function selectFullSkill(side, idx) {
   fullState[side + 'Sel'] = idx;  // 始终选中，不 toggle
   updateStarMarksFullState();

@@ -12,10 +12,16 @@ function switchMode(m) {
   // FULL 模式隐藏公共 result-panel，其他模式恢复显示
   const rp = document.getElementById('result-panel');
   if (rp) rp.style.display = m === 'FULL' ? 'none' : '';
-  if (m === 'FULL') calcFull();
-  else {
+  if (m === 'FULL') {
+    // 切入 FULL：两侧第 1 个技能槽为空时补上各自精灵的推荐技能 s[0]（手动配置过则保留）
+    ['atk', 'def'].forEach(side => applyPvpRecommendedFullSkill(side, false));
+    calcFull();
+  } else {
     // FULL 模式选择的技能不回填 Tab2：B 模式保持自己在 B 里选的技能，两侧互不影响
-    calc();
+    // 切入 B 且尚未选技能时，默认采用攻方精灵推荐技能数组的第一个（已手动选过则不覆盖）
+    const recSkill = (m === 'B' && !state.selectedSkillName) ? pvpRecommendedSkill() : null;
+    if (recSkill) applyQuickSkill(recSkill);   // 内部已 calc
+    else calc();
   }
   syncResultDockVisibility();
 }

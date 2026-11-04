@@ -130,7 +130,7 @@ function openSaveFavDialog(side) {
       '</div>' +
       '<label class="app-modal-label" for="app-modal-input">配置名称</label>' +
       '<input id="app-modal-input" class="app-modal-input" maxlength="24" value="' + escapeHtmlText(spirit.n) + '">' +
-      '<div class="app-modal-hint">💡 将保存性格、个体值与 FULL 模式配招</div>',
+      '<div class="app-modal-hint">💡 将保存性格、个体值与技能配招（含当前模式的默认推荐技能）</div>',
     confirmText: '⭐ 收藏',
     onConfirm: name => saveFavConfig(side, spirit, name),
   });
@@ -150,11 +150,25 @@ function saveFavConfig(side, spirit, rawName) {
     ivs[k] = el ? parseInt(el.value) || 0 : 0;
   });
 
-  // 保存4个技能（仅 FULL 模式有意义，其他模式技能槽为空也正常保存）
+  // 保存4个技能：FULL 模式取技能槽，其他模式槽为空时见下方兜底
   const skills = [];
   for (let i = 0; i < 4; i++) {
     const slot = fullState[side] && fullState[side][i];
     skills.push(slot ? { skillName: slot.skill.n, hits: slot.hits || 1 } : null);
+  }
+
+  // 第 1 槽为空时补「当前默认技能」：B 模式的技能（含自动套用的 PVP 推荐 s[0]）只存在
+  // state.selectedSkillName、不写 fullState，直接保存会得到 [null×4] → 收藏后没有推荐技能。
+  //   B 模式攻方优先取当前技能（手动选过则以手动为准），其余情况取该侧精灵的 PVP 推荐 s[0]。
+  if (!skills[0]) {
+    let sk = null, hits = null;
+    if (side === 'atk' && state.mode === 'B' && state.selectedSkillName) {
+      sk = SKILLS.find(s => s.n === state.selectedSkillName) || null;
+      const hitsEl = document.getElementById('hits-input-b');
+      hits = hitsEl ? Math.max(1, parseInt(hitsEl.value) || 1) : 1;
+    }
+    if (!sk && typeof pvpRecommendedSkill === 'function') sk = pvpRecommendedSkill(side);
+    if (sk) skills[0] = { skillName: sk.n, hits: hits || skillDefaultHits(sk) };
   }
 
   const fav = {
@@ -224,6 +238,8 @@ function loadFavConfig(fav, side) {
       fullState[side][i] = null;
     }
   }
+  // 旧收藏未带技能时，补上该精灵的 PVP 推荐 s[0]（与新收藏、选精灵时的默认值一致）
+  if (!fullState[side][0]) applyPvpRecommendedFullSkill(side, false);
   buildFullSkillRows(side);
 
   // ── 6. 技能：Tab2/Tab3（仅攻击方，取第一个有效技能） ──
