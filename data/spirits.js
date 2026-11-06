@@ -10415,5 +10415,37 @@ const SPIRITS =
         "st": "",
         "img": "https://patchwiki.biligame.com/images/nrc/2/2e/dxea2u45nrmgmbco2ympophvg25zwcl.png",
         "tr_desc": "入场时随机获得1~20点，在场时双方根据点数获得不同效果。"
+    },
+    {
+        "no": "493",
+        "n": "阿布",
+        "hp": 126,
+        "pa": 105,
+        "ma": 45,
+        "pd": 122,
+        "md": 80,
+        "sp": 100,
+        "a1": "龙",
+        "a2": "",
+        "tr": "圣龙的心愿",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/3/3c/8h4p3cculcy04ivn7kflfne2j0v7wgf.png",
+        "tr_desc": "己方精灵每使用1次能耗为3的技能，自己入场前等级+2。低于80级时受到伤害+30%。"
+    },
+    {
+        "no": "493",
+        "n": "超能阿布",
+        "hp": 126,
+        "pa": 105,
+        "ma": 45,
+        "pd": 122,
+        "md": 80,
+        "sp": 100,
+        "a1": "龙",
+        "a2": "",
+        "tr": "圣龙的守护",
+        "st": "首领",
+        "img": "https://patchwiki.biligame.com/images/nrc/5/5c/men4ik1vob1cxrc26bh7bt1bizyhoxp.png",
+        "tr_desc": "在战斗中每提升1级，获得物攻+5%，低于80级时受到伤害+30%。"
     }
 ]

@@ -10,11 +10,11 @@
 //        defineAtkTraitRule / defineDefTraitRule / defineBothTraitRule
 //      ⚠️ 两张表的 const 声明与三个注册函数必须排在所有规则定义之前（否则 TDZ 报错）
 //   ② 规则条目（按通道分组：能耗 / 属性判定 / 层数 / 攻防属性 stat / 减伤 f …）
-//   ③ TRAIT_LEVEL_RULES 等级类特性（defineTraitLevelRule，当前仅「恶龙的奢望」）
+//   ③ TRAIT_LEVEL_RULES 等级类特性（defineTraitLevelRule，当前 3 条：恶龙的奢望 / 圣龙的心愿 / 圣龙的守护）
 //   ④ TRAIT_CHANNELS 静态通道声明表 + 查询 helper（决定 UI 显示哪些输入框）
 //   ⑤ SPIRIT_TRAIT_ALIAS 精灵名 → 查表特性名 + resolveTraitName()
 //      首领/特殊形态沿用基础形态的规则，不改 spirits.js 的 tr
-//   规模（2026-11）：规则 攻 76 / 防 28（并集 88 个特性名），通道表 88 条
+//   规模（2026-11）：规则 攻 78 / 防 30（并集 90 个特性名），通道表 90 条
 //
 // ── 新增一条特性规则的最小步骤 ─────────────────────────────
 //   ① 本文件注册（fields + eff），并按「侧向归属」选对注册函数
@@ -1002,7 +1002,8 @@ defineAtkTraitRule(['剪影'], () => [num('stackCount', '敌方精灵离场次�
 // ============================================================
 // 等级口径（与 js/01 calcRealStat / js/03 getEffectiveLevel 同一套）：
 //   · 本表登记「哪些特性按等级结算」+ 等级输入框的范围（label/def/min/max/step）。
-//     持有这类特性时，生效等级 = 条件框里手填的等级（默认 99），而非隐藏基础等级 60
+//     持有这类特性时，生效等级 = 条件框里手填的等级（默认取各特性登记的 def：99 / 60），
+//     而非隐藏基础等级 60
 //   · 等级决定面板值 → 条件变化时 js/03 会调 recalcStats(side) 重算
 //   · 规则内部直接用 ctx.level（当前生效等级），不要自己再算
 // ------------------------------------------------------------
@@ -1034,6 +1035,55 @@ defineDefTraitRule(['恶龙的奢望'],
     const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 99;
     return (lv < 80)
       ? { f: 1.4, d: '当前等级' + lv + '（<80）→受到伤害+40%→×1.4' }
+      : { f: 1, d: '当前等级' + lv + '（≥80，无易伤）' };
+  });
+
+// 圣龙的心愿（493 阿布）：己方每使用 1 次能耗为 3 的技能，自己入场前等级+2；低于 80 级时受到伤害+30%
+//   · 等级输入框表达累计后的入场等级（默认 60，步进 2 → 60 / 62 / 64 …，按使用次数换算）
+//   · 等级同步折算面板值与等级系数（getEffectiveLevel / damageLevelCoef）
+//   · 「低于80级受伤+30%」只登记防方表（f=1.3）；攻方侧只显示等级，无增伤
+defineTraitLevelRule(['圣龙的心愿'], { label: '等级', def: 60, min: 60, max: 99, step: 1 });
+
+defineAtkTraitRule(['圣龙的心愿'],
+  () => levelField(getTraitLevelRule('圣龙的心愿')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 60;
+    return { f: 1, d: '当前等级' + lv + '（<80 时受到伤害+30%）' };
+  });
+
+defineDefTraitRule(['圣龙的心愿'],
+  () => levelField(getTraitLevelRule('圣龙的心愿')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 60;
+    return (lv < 80)
+      ? { f: 1.3, d: '当前等级' + lv + '（<80）→受到伤害+30%→×1.3' }
+      : { f: 1, d: '当前等级' + lv + '（≥80，无易伤）' };
+  });
+
+// 圣龙的守护（493 超能阿布·首领）：战斗中每提升 1 级 → 物攻+5%；低于 80 级时受到伤害+30%
+//   · 等级口径同上：默认 60，每 +1 级物攻 +5%（相对 60 级线性展开，不连乘）
+//   · 物攻加成走 stat.patk.pct（攻方表）；防方表只负责易伤 f ——
+//     防方 stat 只采纳 pdef/mdef，物攻加成对来袭伤害无影响
+defineTraitLevelRule(['圣龙的守护'], { label: '等级', def: 60, min: 60, max: 99, step: 1 });
+
+defineAtkTraitRule(['圣龙的守护'],
+  () => levelField(getTraitLevelRule('圣龙的守护')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 60;
+    const pct = Math.max(0, lv - 60) * 0.05;
+    return {
+      f: 1,
+      d: '当前等级' + lv + '→物攻+' + Math.round(pct * 100) + '%',
+      stat: pct > 0 ? st({ patk: { pct } }) : null,
+    };
+  });
+
+defineDefTraitRule(['圣龙的守护'],
+  () => levelField(getTraitLevelRule('圣龙的守护')),
+  ctx => {
+    const lv = (typeof ctx.level === 'number' && ctx.level > 0) ? ctx.level : 60;
+    return (lv < 80)
+      ? { f: 1.3, d: '当前等级' + lv + '（<80）→受到伤害+30%→×1.3' }
       : { f: 1, d: '当前等级' + lv + '（≥80，无易伤）' };
   });
 
@@ -1169,6 +1219,10 @@ const TRAIT_CHANNELS = {
   '换牙': CH_ATKM,
   '护犊': CH_ATKM,
   '剪影': CH_PWA,
+
+  // ── 2026-11 批次：493 阿布 / 超能阿布（等级类特性）──
+  '圣龙的心愿': CH_MULT,                 // 等级 <80 → 受到伤害 ×1.3
+  '圣龙的守护': CH_ATKM,                 // 每提升1级 物攻+5%（防方易伤走隐藏 mult 回退）
 };
 
 // 取某特性声明的通道；未登记返回 null（UI 退化为只显示「特性倍率」）
