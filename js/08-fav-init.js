@@ -249,7 +249,8 @@ function loadFavConfig(fav, side) {
     // 旧收藏（skills 全 null）或收藏里的技能名已失效时，整段跳过会沿用上一只精灵的技能，
     // 表现为「收藏夹切精灵但技能不变」：回落到当前精灵 PVP 推荐 s[0]，
     // 与搜索框直接选精灵的行为一致；收藏带有效技能时仍以收藏为准。
-    const sk = favSk || (typeof pvpRecommendedSkill === 'function' ? pvpRecommendedSkill('atk') : null);
+    // 切精灵时技能总是同步：收藏带技能用收藏的，否则回落到该精灵 PVP 推荐 s[0]
+    const sk = favSk || pvpRecommendedSkill('atk');
     if (sk) {
       applyQuickSkill(sk);
       const hitsB = document.getElementById('hits-input-b');

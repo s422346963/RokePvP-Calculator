@@ -50,7 +50,10 @@ function syncTraitLevelInputs(side) {
   if (lv === null) return;
   ['b', 'full'].forEach(m => {
     const el = document.getElementById(`trait-opt-${m}-${side}-level`);
-    if (el) el.value = lv;
+    // ⚠️ 不要覆盖正在编辑的框：输入 80 时先键入的「8」会被 clamp 成 60 回写，
+    //    再键入「0」就成了 600 → 99，两位数永远输不进去。
+    //    跨模式同步只作用于非活动框；当前框等完整值输入后再由下一次同步校正。
+    if (el && el !== document.activeElement) el.value = lv;
   });
 }
 
@@ -574,16 +577,20 @@ function renderTraitCond(fields, container, mode, side) {
   });
   if (visibleFields.length === 0) { container.innerHTML = ''; delete container.dataset.traitCondSig; return; }
 
-  // 结构 + 值签名（Phase 5）：字段集合与将要渲染的值都没变就不重建 DOM。
+  // 结构签名（Phase 5）：字段集合没变就不重建 DOM。
   // 此前每次重算都无条件销毁/重建条件框（4 个面板 × 每次按键），白付 DOM 代价。
-  // ⚠️ 值部分必须与下方渲染逻辑同口径：元素已存在 → 读当前值；不存在 → 回退条件默认值。
-  //    否则「首渲前（无元素）」与「首渲后（读回默认值）」签名不一致，守卫永不命中。
+  // ⚠️ number 输入框的当前值不参与签名：输入 60 → 8 → 80 这类连续键入每次都改值，
+  //    若把当前值写进签名就会重建整个条件区、打断输入并丢失焦点。
+  //    数字框的值由 DOM 自身持有，只在字段结构 / 默认值变化（换特性、重置）时重建；
+  //    勾选框仍按实际勾选态参与签名（天气联动改写勾选框后需刷新）。
   const condSig = visibleFields.map(f => f.key + ':' + f.type + ':' + (f.def === undefined ? '' : f.def)).join(',')
     + '#' + visibleFields.map(f => {
         const el = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
-        if (el) return f.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value;
-        if (f.type === 'checkbox') return traitCondDefault(side, f.key, f.def) ? 1 : 0;
-        return traitCondDefault(side, f.key, (f.def === undefined ? '' : f.def));
+        if (f.type === 'checkbox') {
+          if (el) return el.checked ? 1 : 0;
+          return traitCondDefault(side, f.key, f.def) ? 1 : 0;
+        }
+        return f.def === undefined ? '' : f.def;
       }).join(',');
   if (container.dataset.traitCondSig === condSig && container.firstChild) return;
   container.dataset.traitCondSig = condSig;
@@ -614,7 +621,8 @@ function renderTraitCond(fields, container, mode, side) {
         <span>${f.label}：</span>
         <input type="number" id="${targetId}" value="${savedVal}" min="${f.min||0}" max="${f.max||99}" step="${f.step||1}"
           style="width:52px;padding:2px 4px;background:var(--card2);border:1px solid var(--border);border-radius:5px;color:${accentColor};text-align:center;font-size:11px;font-weight:700"
-          oninput="onTraitCondChange('${mode}','${side}')">
+          oninput="onTraitCondChange('${mode}','${side}')"
+          onchange="onTraitCondChange('${mode}','${side}')">
       </div>`;
     }
   });
@@ -625,6 +633,9 @@ function renderTraitCond(fields, container, mode, side) {
 function onTraitCondChange(mode, side) {
   // 等级类特性：等级变化 → state → 该侧面板值重算（等级变了，面板值跟着变）
   syncTraitLevelState(mode, side);
+  // 失焦（onchange）时当前框已不聚焦：把 clamp 后的等级写回，避免「只键入 8」这类
+  // 中间态残留在框里（显示 8、计算却按 60）。oninput 时 syncTraitLevelInputs 会跳过活动框。
+  syncTraitLevelInputs(side);
   // skill 可能为 null（尚未选技能）：仍要让条件变化立即反映到输入框与说明文字
   bumpTraitOptsVersion(mode, side);   // 用户改了条件输入 → 签名缓存失效
   const skill = state.selectedSkillName ? SKILLS.find(s => s.n === state.selectedSkillName) : null;

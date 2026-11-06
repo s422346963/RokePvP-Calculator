@@ -18,7 +18,7 @@ function switchMode(m) {
     calcFull();
   } else {
     // FULL 模式选择的技能不回填 Tab2：B 模式保持自己在 B 里选的技能，两侧互不影响
-    // 切入 B 且尚未选技能时，默认采用攻方精灵推荐技能数组的第一个（已手动选过则不覆盖）
+    // 切精灵时技能已同步（推荐 / 收藏），切模式只在「尚未选技能」时补一次默认推荐
     const recSkill = (m === 'B' && !state.selectedSkillName) ? pvpRecommendedSkill() : null;
     if (recSkill) applyQuickSkill(recSkill);   // 内部已 calc
     else calc();

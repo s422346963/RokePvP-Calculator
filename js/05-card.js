@@ -125,15 +125,14 @@ function swapSpirits() {
   syncModeBAutoFields();
 
   // 技能跟着精灵走：FULL 模式两侧技能槽（含选中索引）整体互换；
-  // B 模式的技能属于当前攻方，交换后套用新攻方精灵的 PVP 推荐 s[0]。
-  // 模式 A 的威力是游戏内显示值，无技能概念，不处理。
+  // 其它模式（A / B）交换后一律套用新攻方精灵的 PVP 推荐 s[0]。
   if (state.mode === 'FULL') {
     const tmpSlots = fullState.atk, tmpSel = fullState.atkSel;
     fullState.atk = fullState.def;       fullState.def = tmpSlots;
     fullState.atkSel = fullState.defSel; fullState.defSel = tmpSel;
     buildFullSkillRows('atk');
     buildFullSkillRows('def');
-  } else if (state.mode === 'B') {
+  } else {
     const recSkill = pvpRecommendedSkill('atk');
     if (recSkill) { applyQuickSkill(recSkill); return; }  // 内部已重算，避免重复 calc
   }
@@ -457,8 +456,9 @@ function applySpirit_global(side, spirit) {
   syncModeBAutoFields();
   // FULL 模式：把该侧精灵的推荐技能 s[0] 填进该侧第 1 个技能槽（只重建行，末尾统一重算）
   if (state.mode === 'FULL') applyPvpRecommendedFullSkill(side, true);
-  // B 模式：选中攻方精灵后默认采用推荐技能数组的第一个（s[0]）；防方精灵不改技能
-  if (side === 'atk' && state.mode === 'B') {
+  // 切攻方精灵：不论 A / B / FULL，技能都同步为该精灵的推荐 s[0]；
+  // 收藏自带的技能由 loadFavConfig 随后覆盖，防方精灵不改技能
+  if (side === 'atk') {
     const recSkill = pvpRecommendedSkill();
     if (recSkill) { applyQuickSkill(recSkill); return; }  // 内部已重算，避免重复 calc
   }
