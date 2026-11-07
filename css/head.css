@@ -8,6 +8,7 @@
   .fa-egg::before { content: "\f7fb"; }
 
   :root {
+    color-scheme: dark;
     --bg: #1a1c2e;
     --card: #242640;
     --card2: #2e3052;
@@ -36,6 +37,7 @@
     color: #145a28 !important;
   }
   [data-theme="light"] {
+    color-scheme: light;
     --bg: #f0f2f8;
     --card: #ffffff;
     --card2: #e8edf5;
@@ -54,6 +56,8 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; }
+  /* 原生表单控件默认用系统 fieldtext，夜间模式下是深底黑字；统一走主题文字色 */
+  input, select, textarea { color: var(--text); }
   /* ===== 顶栏：对齐 BWiki nrc 站点导航的结构与配色 ===== */
   header { background-color: var(--header-bg); background-image: radial-gradient(140% 180% at 12% -40%, rgba(124,104,78,.38) 0%, rgba(41,37,33,0) 62%); color: var(--header-text); border-bottom: 1px solid rgba(255,198,95,.18); padding: 0; display: block; font-family: var(--nav-font); }
   .site-header-inner { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); max-width: 1160px; height: 64px; margin: 0 auto; }
@@ -333,6 +337,10 @@
   .mult-box-label { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
   .mult-box-input { width: 100%; padding: 5px 8px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; font-weight: 700; text-align: center; }
   .mult-box-input:focus { outline: none; border-color: var(--accent); }
+  /* 原生 select 不能用 transparent 背景：夜间模式下系统会画成浅底，配浅色文字就成了白底白字；
+     下拉弹出层的 option 由浏览器单独绘制，同样要显式给出背景与文字色 */
+  select.mult-box-input { background: var(--bg); }
+  select option { background: var(--bg); color: var(--text); }
   /* 天气下拉：与数值输入框同高，文字左对齐 */
   .weather-select { height: 29px; box-sizing: border-box; text-align: left; font-size: 13px; font-weight: 600; padding: 0 6px; cursor: pointer; }
   /* ── 进攻方印记：印记下拉 + 层数 + 说明（在天气之后） ── */
