@@ -523,6 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================================
 const MERCHANT_API = 'https://oiapi.net/api/rocom/shop';
 const MERCHANT_CACHE_KEY = 'roko_merchant_shop';   // localStorage: { fetchedAt, expiresAt, data }
+const MERCHANT_TTL_MAX_SEC = 16200;                // 4.5 小时：接口按 4 小时轮换，超出视为异常值
+const MERCHANT_STALE_TTL_SEC = 60;                 // 已过轮换点但服务端数据未更新：60 秒后重试
+const MERCHANT_FALLBACK_TTL_SEC = 300;             // 接口没给 countdown 时兜底 5 分钟
 let merchantReqSeq = 0;              // 只接受最后一次请求的结果，避免旧响应覆盖
 let merchantCountdownTimer = null;   // 缓存到期（轮换截止）后自动刷新的定时器
 
@@ -557,12 +560,40 @@ function merchantTimeParts(time) {
   return { start: p[0] || '--:--', end: p[1] || '' };
 }
 
+// 北京时间当前分钟数（0-1439）：接口时段以北京时间为准，不能直接用用户本地时区
+function merchantBeijingMinutes() {
+  const d = new Date();
+  return ((d.getUTCHours() + 8) % 24) * 60 + d.getUTCMinutes();
+}
+
+// "08:00 - 12:00" → { start, end }（分钟）；"20:00 - 00:00" 跨午夜，结束按 24:00 处理
+function merchantTimeRange(time) {
+  const t = merchantTimeParts(time);
+  const toMin = s => {
+    const m = /^(\d{1,2}):(\d{2})$/.exec(String(s || '').trim());
+    return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+  };
+  const start = toMin(t.start);
+  const end = toMin(t.end);
+  if (start == null || end == null) return null;
+  return { start, end: end <= start ? 24 * 60 : end };
+}
+
+// 按北京时间给出时段状态：current 正在售卖 / past 已结束 / future 未开售
+function merchantSlotState(time, nowMin) {
+  const r = merchantTimeRange(time);
+  if (!r) return 'future';
+  if (nowMin < r.start) return 'future';
+  if (nowMin >= r.end) return 'past';
+  return 'current';
+}
+
 function merchantUpdateText(s) {
   const m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(String(s || ''));
   return m ? m[1] + ' ' + m[2] : String(s || '');
 }
 
-// 单个轮换时段卡片：state = 'current' | 'past' | 'future'
+// 单个时段卡片：state = 'current' | 'past' | 'future'
 function merchantSlotHtml(r, state) {
   const t = merchantTimeParts(r.time);
   let status = '';
@@ -570,22 +601,29 @@ function merchantSlotHtml(r, state) {
   else if (state === 'past') status = '<span class="merchant-slot-past">已结束</span>';
   else status = '<span class="merchant-slot-future">未开售</span>';
   const items = (r.items || []).filter(it => it && !it.is_permanent);
+  // 当前时段没商品 = 服务端新一期数据还没刷出来
+  const goods = items.length
+    ? merchantGoodsHtml(items)
+    : '<p class="merchant-goods-empty">' + (state === 'current' ? '服务器数据更新中' : '该时段暂无商品') + '</p>';
   return '<div class="merchant-slot is-ready' + (state === 'current' ? ' is-current' : '') +
       (state === 'past' ? ' is-past' : '') + '">' +
       '<header class="merchant-slot-heading"><h4>' + merchantEsc(t.start) +
         (t.end ? '<span>—' + merchantEsc(t.end) + '</span>' : '') + '</h4>' +
         '<small>' + status + '</small></header>' +
-      merchantGoodsHtml(items) +
+      goods +
     '</div>';
 }
 
 // 纯字符串渲染，DOM 结构对齐模板：
 // 活动全天商品 → 当前时段（售卖中）→ 四小时轮换（其余时段）
-function renderMerchantOffers(data) {
+// 当前时段完全按北京时间判断，不看接口的 current_round / is_current
+// nowMin：北京时间分钟数（0-1439），省略时取当前时刻（校验脚本可传固定值）
+function renderMerchantOffers(data, nowMin) {
   const rounds = (Array.isArray(data.all_rounds) && data.all_rounds.length)
     ? data.all_rounds
     : (data.current_round ? [data.current_round] : []);
   const current = data.current_round || null;
+  const now = (nowMin == null) ? merchantBeijingMinutes() : Number(nowMin);
 
   // 全天商品：所有轮次里 is_permanent 的商品按名称去重
   const permanent = new Map();
@@ -603,15 +641,13 @@ function renderMerchantOffers(data) {
       merchantGoodsHtml(Array.from(permanent.values())) +
     '</div>';
 
-  // 当前时段单独成块，夹在全天商品与四小时轮换之间
-  const currentRound = rounds.find(r => r.is_current || (current && r.round === current.round)) || current;
+  // 当前时段单独成块，夹在全天商品与四小时轮换之间（按时钟判断，不看接口 is_current）
+  const currentRound = rounds.find(r => merchantSlotState(r.time, now) === 'current') || null;
   const currentHtml = currentRound ? merchantSlotHtml(currentRound, 'current') : '';
 
-  // 四小时轮换：其余时段（已结束 / 未开售）
-  const otherHtml = rounds.filter(r => r !== currentRound &&
-      !(current && r.round === current.round))
-    .map(r => merchantSlotHtml(r,
-      (current && Number(r.round) < Number(current.round)) ? 'past' : 'future'))
+  // 四小时轮换：其余时段，状态同样按北京时间判断
+  const otherHtml = rounds.filter(r => r !== currentRound)
+    .map(r => merchantSlotHtml(r, merchantSlotState(r.time, now)))
     .join('');
 
   const rotationHtml =
@@ -645,9 +681,14 @@ function merchantBindImageFallback(root) {
 // ── 本地缓存：有效期 = 本轮截止时间（接口 next_round.countdown）──
 // 打开弹窗优先读缓存；只有缓存过期、手动刷新、到点自动刷新才发请求。
 function merchantCacheTtlSec(d) {
-  const c = d && d.next_round && Number(d.next_round.countdown);
-  // 服务端没给 countdown 时兜底 5 分钟；下限 5 秒防止异常值导致频繁请求
-  return (Number.isFinite(c) && c > 0) ? Math.max(5, Math.floor(c)) : 300;
+  const raw = d && d.next_round ? d.next_round.countdown : undefined;
+  // 接口没给 countdown → 兜底 5 分钟
+  if (raw == null || !Number.isFinite(Number(raw))) return MERCHANT_FALLBACK_TTL_SEC;
+  const c = Number(raw);
+  // 已过轮换点但服务端数据还没更新（countdown ≤ 0）→ 短间隔重试，尽快拿到新轮
+  if (c <= 0) return MERCHANT_STALE_TTL_SEC;
+  // 正常：缓存到本轮截止；下限 5 秒防频繁请求，上限防异常值把缓存钉死
+  return Math.min(Math.max(5, Math.floor(c)), MERCHANT_TTL_MAX_SEC);
 }
 
 function merchantReadCache() {
