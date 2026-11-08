@@ -508,9 +508,297 @@ document.addEventListener('DOMContentLoaded', () => {
   applyFullCondState('def');
   renderFavoriteGroup();
   initResultDock();            // 吸底结果条（模式 A/B）
+  initMerchantModal();         // 远行商人弹窗（关闭 / 遮罩 / 刷新 / ESC）
   // 未选精灵时：特性输入区只显示「特性倍率」（结算层），其余按规则显隐的输入框全部隐藏
   ['b', 'full'].forEach(m => {
     updateTraitInputVisibility(m, 'atk', null, null, null);
     updateTraitInputVisibility(m, 'def', null, null, null);
   });
 });
+
+// ============================================================
+// 远行商人（顶栏 tab → 弹窗 → https://oiapi.net/api/rocom/shop）
+// 渲染按 merchant-float-body / merchant-offers / merchant-goods 模板结构；
+// 接口数据映射：is_permanent → 活动全天商品，其余按 all_rounds 归入四小时轮换。
+// ============================================================
+const MERCHANT_API = 'https://oiapi.net/api/rocom/shop';
+const MERCHANT_CACHE_KEY = 'roko_merchant_shop';   // localStorage: { fetchedAt, expiresAt, data }
+let merchantReqSeq = 0;              // 只接受最后一次请求的结果，避免旧响应覆盖
+let merchantCountdownTimer = null;   // 缓存到期（轮换截止）后自动刷新的定时器
+
+function merchantEsc(v) { return escapeHtmlText(v == null ? '' : v); }
+
+// 图片为带签名的外链，只接受 http(s)，其余降级为占位图
+function merchantSafeUrl(u) {
+  return (typeof u === 'string' && /^https?:\/\//i.test(u)) ? u : '';
+}
+
+function merchantGoodHtml(it) {
+  if (!it) return '';
+  const url = merchantSafeUrl(it.icon_url);
+  const img = url
+    ? '<img src="' + merchantEsc(url) + '" alt="' + merchantEsc(it.name) + '" loading="lazy" referrerpolicy="no-referrer">'
+    : '<span class="merchant-good-fallback" aria-hidden="true">🎁</span>';
+  const limit = Number(it.buy_limit);
+  return '<li class="merchant-good">' + img +
+    '<div class="merchant-good-copy">' +
+      '<strong title="' + merchantEsc(it.name) + '">' + merchantEsc(it.name) + '</strong>' +
+      (limit > 0 ? '<span class="merchant-good-limit">限购 ' + limit + ' 份</span>' : '') +
+    '</div></li>';
+}
+
+function merchantGoodsHtml(items) {
+  if (!items || !items.length) return '<p class="merchant-goods-empty">该时段暂无商品</p>';
+  return '<ul class="merchant-goods is-compact">' + items.map(merchantGoodHtml).join('') + '</ul>';
+}
+
+function merchantTimeParts(time) {
+  const p = String(time || '').split(/\s*[-–—]\s*/);
+  return { start: p[0] || '--:--', end: p[1] || '' };
+}
+
+function merchantUpdateText(s) {
+  const m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(String(s || ''));
+  return m ? m[1] + ' ' + m[2] : String(s || '');
+}
+
+// 单个轮换时段卡片：state = 'current' | 'past' | 'future'
+function merchantSlotHtml(r, state) {
+  const t = merchantTimeParts(r.time);
+  let status = '';
+  if (state === 'current') status = '<span class="merchant-slot-now">售卖中</span>';
+  else if (state === 'past') status = '<span class="merchant-slot-past">已结束</span>';
+  else status = '<span class="merchant-slot-future">未开售</span>';
+  const items = (r.items || []).filter(it => it && !it.is_permanent);
+  return '<div class="merchant-slot is-ready' + (state === 'current' ? ' is-current' : '') +
+      (state === 'past' ? ' is-past' : '') + '">' +
+      '<header class="merchant-slot-heading"><h4>' + merchantEsc(t.start) +
+        (t.end ? '<span>—' + merchantEsc(t.end) + '</span>' : '') + '</h4>' +
+        '<small>' + status + '</small></header>' +
+      merchantGoodsHtml(items) +
+    '</div>';
+}
+
+// 纯字符串渲染，DOM 结构对齐模板：
+// 活动全天商品 → 当前时段（售卖中）→ 四小时轮换（其余时段）
+function renderMerchantOffers(data) {
+  const rounds = (Array.isArray(data.all_rounds) && data.all_rounds.length)
+    ? data.all_rounds
+    : (data.current_round ? [data.current_round] : []);
+  const current = data.current_round || null;
+
+  // 全天商品：所有轮次里 is_permanent 的商品按名称去重
+  const permanent = new Map();
+  const collectPermanent = arr => (arr || []).forEach(it => {
+    if (it && it.is_permanent && !permanent.has(it.name)) permanent.set(it.name, it);
+  });
+  if (current) collectPermanent(current.items);
+  rounds.forEach(r => collectPermanent(r.items));
+
+  // 全天商品卡：与「售卖中」同款卡片（标题 + 右侧「全天」徽标 + 商品列表）
+  const allDayHtml =
+    '<div class="merchant-slot is-ready is-all-day" aria-label="活动全天商品">' +
+      '<header class="merchant-slot-heading"><h4>活动全天商品</h4>' +
+        '<small><span class="merchant-all-day-badge">全天</span></small></header>' +
+      merchantGoodsHtml(Array.from(permanent.values())) +
+    '</div>';
+
+  // 当前时段单独成块，夹在全天商品与四小时轮换之间
+  const currentRound = rounds.find(r => r.is_current || (current && r.round === current.round)) || current;
+  const currentHtml = currentRound ? merchantSlotHtml(currentRound, 'current') : '';
+
+  // 四小时轮换：其余时段（已结束 / 未开售）
+  const otherHtml = rounds.filter(r => r !== currentRound &&
+      !(current && r.round === current.round))
+    .map(r => merchantSlotHtml(r,
+      (current && Number(r.round) < Number(current.round)) ? 'past' : 'future'))
+    .join('');
+
+  const rotationHtml =
+    '<section class="merchant-rotation" aria-label="四小时轮换商品">' +
+      '<header class="merchant-offer-heading"><h3>四小时轮换</h3><span>北京时间</span></header>' +
+      (otherHtml || '<p class="merchant-goods-empty">暂无其它时段</p>') +
+    '</section>';
+
+  return '<div class="merchant-float-body"><div class="merchant-offers is-compact">' +
+    allDayHtml + currentHtml + rotationHtml + '</div></div>';
+}
+
+// 图片加载失败（外链带签名，可能过期 / 防盗链）→ 替换为 🎁 占位
+function merchantBindImageFallback(root) {
+  root.querySelectorAll('.merchant-good img').forEach(img => {
+    const fail = () => {
+      if (img.dataset.merchantFailed === '1') return;
+      img.dataset.merchantFailed = '1';
+      const ph = document.createElement('span');
+      ph.className = 'merchant-good-fallback';
+      ph.setAttribute('aria-hidden', 'true');
+      ph.textContent = '🎁';
+      if (img.parentNode) img.parentNode.replaceChild(ph, img);
+    };
+    img.addEventListener('error', fail);
+    // 懒加载图片尚未开始请求时 complete 也可能为 true，需确认已尝试加载再降级
+    if (img.complete && img.currentSrc && img.naturalWidth === 0) fail();
+  });
+}
+
+// ── 本地缓存：有效期 = 本轮截止时间（接口 next_round.countdown）──
+// 打开弹窗优先读缓存；只有缓存过期、手动刷新、到点自动刷新才发请求。
+function merchantCacheTtlSec(d) {
+  const c = d && d.next_round && Number(d.next_round.countdown);
+  // 服务端没给 countdown 时兜底 5 分钟；下限 5 秒防止异常值导致频繁请求
+  return (Number.isFinite(c) && c > 0) ? Math.max(5, Math.floor(c)) : 300;
+}
+
+function merchantReadCache() {
+  try {
+    const c = JSON.parse(localStorage.getItem(MERCHANT_CACHE_KEY));
+    return (c && c.data && Number.isFinite(c.expiresAt)) ? c : null;
+  } catch (_) { return null; }
+}
+
+function merchantWriteCache(d) {
+  const now = Date.now();
+  const c = { fetchedAt: now, expiresAt: now + merchantCacheTtlSec(d) * 1000, data: d };
+  try { localStorage.setItem(MERCHANT_CACHE_KEY, JSON.stringify(c)); } catch (_) {}
+  return c;
+}
+
+function merchantCacheRemainSec(c) {
+  return Math.max(0, Math.floor((c.expiresAt - Date.now()) / 1000));
+}
+
+function merchantStopExpireTimer() {
+  if (merchantCountdownTimer) { clearTimeout(merchantCountdownTimer); merchantCountdownTimer = null; }
+}
+
+// 缓存到期（轮换截止）自动重新请求：一次性定时器，不做每秒轮询
+function merchantStartExpireTimer(expiresAt, onExpire) {
+  merchantStopExpireTimer();
+  const delay = expiresAt - Date.now();
+  if (delay <= 0) {
+    if (typeof onExpire === 'function') onExpire();
+    return;
+  }
+  merchantCountdownTimer = setTimeout(() => {
+    merchantCountdownTimer = null;
+    // 超过 setTimeout 上限（约 24.8 天）时并未真正到期，重新安排
+    if (Date.now() < expiresAt) { merchantStartExpireTimer(expiresAt, onExpire); return; }
+    if (typeof onExpire === 'function') onExpire();
+  }, Math.min(delay, 2147483647));
+}
+
+function merchantSetStatus(kind, msg) {
+  const body = document.getElementById('merchant-modal-body');
+  if (!body) return;
+  if (kind === 'loading') {
+    body.innerHTML = '<div class="merchant-status"><span class="merchant-spinner"></span>正在获取远行商人商品…</div>';
+  } else {
+    body.innerHTML = '<div class="merchant-status is-error"><div>⚠️ ' + merchantEsc(msg) +
+      '</div><button type="button" class="merchant-refresh-btn" data-merchant-retry="1">↻ 重新获取</button></div>';
+  }
+}
+
+function merchantRenderData(d) {
+  const body = document.getElementById('merchant-modal-body');
+  const sub = document.getElementById('merchant-modal-sub');
+  if (!body) return body;
+  body.innerHTML = renderMerchantOffers(d);
+  merchantBindImageFallback(body);
+  if (sub) sub.textContent = d.schedule || '每天 8:00 - 24:00，每4小时刷新';
+  return body;
+}
+
+// 底部只显示数据日期与更新时间，不向用户暴露缓存有效期
+function merchantUpdateFooter(d, warn) {
+  const upd = document.getElementById('merchant-update');
+  if (!upd) return;
+  let text = '数据日期 ' + (d.date || '—') +
+    (d.last_update ? ' · 更新于 ' + merchantUpdateText(d.last_update) : '');
+  if (warn) text += ' · ' + warn;
+  upd.textContent = text;
+  upd.classList.toggle('is-warn', !!warn);
+}
+
+// force=true：忽略缓存强制拉取；silent=true：保留当前内容静默换新（到点自动刷新用）
+function loadMerchantData(force, silent) {
+  const seq = ++merchantReqSeq;
+  const upd = document.getElementById('merchant-update');
+  merchantStopExpireTimer();
+  if (upd && !silent) { upd.textContent = ''; upd.classList.remove('is-warn'); }
+
+  // 命中「未到轮换截止时间」的缓存 → 直接渲染，不发请求
+  if (!force) {
+    const cached = merchantReadCache();
+    if (cached && merchantCacheRemainSec(cached) > 0) {
+      merchantRenderData(cached.data);
+      merchantUpdateFooter(cached.data);
+      merchantStartExpireTimer(cached.expiresAt, () => loadMerchantData(true, true));
+      return;
+    }
+  }
+
+  if (!silent) merchantSetStatus('loading');
+  const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  const timer = setTimeout(() => { if (ctrl) ctrl.abort(); }, 10000);
+  fetch(MERCHANT_API, ctrl ? { signal: ctrl.signal, cache: 'no-store' } : { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(json => {
+      clearTimeout(timer);
+      if (seq !== merchantReqSeq) return;
+      if (!json || !json.data) throw new Error((json && json.message) || '接口返回异常');
+      const cache = merchantWriteCache(json.data);
+      merchantRenderData(cache.data);
+      merchantUpdateFooter(cache.data);
+      // 到本轮截止时间自动重新请求
+      merchantStartExpireTimer(cache.expiresAt, () => loadMerchantData(true, true));
+    })
+    .catch(err => {
+      clearTimeout(timer);
+      if (seq !== merchantReqSeq) return;
+      // 兜底：缓存还在就照常展示，且不自动重试（避免失败时反复请求）
+      const cached = merchantReadCache();
+      if (cached) {
+        merchantRenderData(cached.data);
+        merchantUpdateFooter(cached.data, '刷新失败，可点「刷新」重试');
+      } else {
+        merchantSetStatus('error', err && err.name === 'AbortError'
+          ? '请求超时，请稍后重试'
+          : ((err && err.message) || '网络异常，请稍后重试'));
+      }
+    });
+}
+
+function openMerchantModal() {
+  const overlay = document.getElementById('merchant-modal-overlay');
+  if (!overlay) return;
+  overlay.hidden = false;
+  if (document.body && document.body.classList) document.body.classList.add('merchant-modal-open');
+  loadMerchantData(false);   // 打开时走缓存，不重复请求
+  const closeBtn = document.getElementById('merchant-modal-close');
+  if (closeBtn) closeBtn.focus();
+}
+
+function closeMerchantModal() {
+  const overlay = document.getElementById('merchant-modal-overlay');
+  if (overlay) overlay.hidden = true;
+  if (document.body && document.body.classList) document.body.classList.remove('merchant-modal-open');
+  merchantStopExpireTimer();
+  merchantReqSeq++;   // 让在途请求的结果作废
+}
+
+function initMerchantModal() {
+  const overlay = document.getElementById('merchant-modal-overlay');
+  if (!overlay) return;
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) { closeMerchantModal(); return; }
+    if (e.target.closest && e.target.closest('[data-merchant-retry]')) loadMerchantData(true);
+  });
+  const closeBtn = document.getElementById('merchant-modal-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeMerchantModal);
+  const refreshBtn = document.getElementById('merchant-refresh-btn');
+  if (refreshBtn) refreshBtn.addEventListener('click', () => loadMerchantData(true));
+  document.addEventListener('keydown', e => {
+    if (!overlay.hidden && e.key === 'Escape') { e.preventDefault(); closeMerchantModal(); }
+  });
+}
