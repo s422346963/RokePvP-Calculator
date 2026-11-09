@@ -21,7 +21,7 @@
       <a class="site-nav-link" target="_blank" rel="noopener" title="数据来源：BWiki 精灵图鉴" href="https://wiki.biligame.com/nrc/%E7%B2%BE%E7%81%B5%E5%9B%BE%E9%89%B4"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>精灵图鉴</span></a>
       <a class="site-nav-link" target="_blank" rel="noopener" href="https://wiki.biligame.com/nrc/%E6%8A%80%E8%83%BD%E5%9B%BE%E9%89%B4"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>技能图鉴</span></a>
       <a class="site-nav-link" target="_blank" rel="noopener" href="https://wiki.biligame.com/nrc/%E5%AD%B5%E8%9B%8B%E7%BB%84%E5%88%AB%E6%9F%A5%E8%AF%A2"><i class="fa-solid fa-egg" aria-hidden="true"></i><span>蛋组查询</span></a>
-      <button type="button" class="site-nav-link" id="merchant-nav-btn" onclick="openMerchantModal()" title="查看远行商人当前与轮换商品"><i class="fa-solid fa-store" aria-hidden="true"></i><span>远行商人</span></button>
+      <a class="site-nav-link" target="_blank" rel="noopener" href="https://rocokingdom.app/zh/merchant/"><i class="fa-solid fa-store" aria-hidden="true"></i><span>远行商人</span></a>
     </nav>
     <div class="header-actions">
       <div class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="切换日间 / 夜间模式">
@@ -543,26 +543,6 @@
   </div>
 </div>
 
-<!-- 远行商人弹窗：顶栏 tab 打开，数据来自 https://oiapi.net/api/rocom/shop -->
-<div id="merchant-modal-overlay" class="merchant-modal-overlay" hidden>
-  <div class="merchant-modal" role="dialog" aria-modal="true" aria-labelledby="merchant-modal-title">
-    <div class="merchant-modal-header">
-      <span class="merchant-modal-icon" aria-hidden="true">🛒</span>
-      <div class="merchant-modal-heading">
-        <h2 class="merchant-modal-title" id="merchant-modal-title">远行商人</h2>
-        <p class="merchant-modal-sub" id="merchant-modal-sub">每天 8:00 - 24:00，每4小时刷新</p>
-      </div>
-      <button type="button" class="merchant-modal-close" id="merchant-modal-close" aria-label="关闭" title="关闭">✕</button>
-    </div>
-    <div class="merchant-modal-body" id="merchant-modal-body">
-      <div class="merchant-status">正在准备商品数据…</div>
-    </div>
-    <div class="merchant-modal-footer">
-      <span class="merchant-update" id="merchant-update"></span>
-      <button type="button" class="merchant-refresh-btn" id="merchant-refresh-btn" title="忽略本地缓存，强制重新获取">↻ 刷新</button>
-    </div>
-  </div>
-</div>
 
 <!-- 游戏数据 -->
 <script src="data/spirits.js"></script>
