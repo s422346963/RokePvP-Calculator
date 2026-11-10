@@ -835,6 +835,13 @@
     color: var(--atk-color); text-align: center; font-size: 11px; font-weight: 700;
   }
   .power-cond-num input:focus { outline: none; border-color: var(--atk-color); }
+  /* 手动选威力档位（闪击 / 鸣沙陷阱）：选项含差值区间，宽度随内容自适应 */
+  .power-cond-sel select {
+    padding: 2px 4px; background: var(--card2);
+    border: 1px solid var(--border); border-radius: 5px;
+    color: var(--atk-color); font-size: 11px; font-weight: 700; max-width: 100%;
+  }
+  .power-cond-sel select:focus { outline: none; border-color: var(--atk-color); }
 
   /* 修正链路：基础 → 修正 → 基数 → ×百分比 → ×倍率 → 终值 */
   .power-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }

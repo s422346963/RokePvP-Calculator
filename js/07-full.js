@@ -158,7 +158,7 @@ function buildFullSkillRows(side) {
     };
     row.appendChild(hitsInput);
 
-    // 变动威力技能（闪击/鸣沙陷阱/冰锋横扫/魔能爆等）：改由 data/skillMult.js 规则表
+    // 变动威力技能（冰锋横扫/魔能爆/怨力打击/钢钻等）：改由 data/skillMult.js 规则表
     // 统一解析，不再在此处逐个 if 硬编码。规则未覆盖时保持用户填写的威力不变。
     if (slotData && skillObj && !isStatusSkill) {
       const _aSide = side === 'atk' ? state.atk : state.def;
@@ -409,11 +409,11 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   const defBuffs = { pctMult: _defIn.atkMult, flatSum: _defIn.atkAdd, sources: mergeBuffSourcesList(defBuffsRaw) };
 
   // ── 技能威力规则（data/skillMult.js）──
-  // 变动威力（闪击/鸣沙陷阱/冰锋横扫/魔能爆/怨力打击/钢钻）在此统一解析，
+  // 变动威力（冰锋横扫/魔能爆/怨力打击/钢钻等）在此统一解析，
   // 不再散落 if 硬编码。先定位本槽在 fullState 中的位置以读取其条件输入。
   const slotRef = findFullSlotRef(skillSlot);
   let powerBase = (skillSlot.power !== undefined ? skillSlot.power : sk.p) || 0;
-  let pw = { powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false, unimplemented: false };
+  let pw = { powerSet: null, powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false, unimplemented: false };
   if (slotRef) {
     const auto = resolveAutoPowerForSlot(slotRef.side, slotRef.idx, sk);
     if (auto !== null) { powerBase = auto; skillSlot.power = auto; }

@@ -56,8 +56,9 @@ function renderPowerCond(skill, mode, slot, container) {
   //    否则会留下一块只有「技能威力 100 → 威力 100」的空框（如蒸汽膨胀层数 0 时）。
   const side = (mode === 'b') ? 'atk' : (String(slot).indexOf('def') === 0 ? 'def' : 'atk');
   const tp = traitPowerFor(mode, side, skill);
-  const probe = resolveSkillPower(skill, buildPowerCtx(mode, slot, skill));
-  const hasEffect = (probe.powerAdd !== 0) || (probe.powerPct !== 0) || (probe.powerMult !== 1)
+  const powerCtx = buildPowerCtx(mode, slot, skill);
+  const probe = resolveSkillPower(skill, powerCtx);
+  const hasEffect = (probe.powerSet != null) || (probe.powerAdd !== 0) || (probe.powerPct !== 0) || (probe.powerMult !== 1)
     || (tp.powerMult !== 1) || (tp.powerAdd !== 0);
   if (fields.length === 0 && !hasEffect) { container.innerHTML = ''; delete container.dataset.pwrSig; return; }
 
@@ -87,7 +88,17 @@ function renderPowerCond(skill, mode, slot, container) {
     html += `<div class="power-cond-row">`;
     fields.forEach(f => {
       const id = prefix + f.key;
-      if (f.type === 'checkbox') {
+      if (f.type === 'select') {
+        // 选项由 ctx.util 注入的查表数据生成，文本「威力 (差值区间)」，value = 该档威力
+        const table = (powerCtx.util && powerCtx.util[f.tableKey]) || [];
+        const cur = saved.hasOwnProperty(f.key) ? saved[f.key] : (f.def === undefined ? '' : f.def);
+        const options = table.map(row => {
+          const seg = String(row.label).split('（')[0];   // 选项只留差值区间，不带表内附注
+          return `<option value="${row.p}"${String(row.p) === String(cur) ? ' selected' : ''}>${row.p} (${f.prefix}${seg})</option>`;
+        }).join('');
+        html += `<label class="power-cond-num power-cond-sel"><span>${f.label}：</span>`
+          + `<select id="${id}" onchange="onPowerCondChange('${mode}','${slot}')">${options}</select></label>`;
+      } else if (f.type === 'checkbox') {
         const checked = saved.hasOwnProperty(f.key) ? (saved[f.key] ? 'checked' : '') : (weatherCondDefault(f.key, f.def) ? 'checked' : '');
     html += `<label class="power-cond-ck"><input type="checkbox" id="${id}" ${checked} onchange="onPowerCondChange('${mode}','${slot}')"> ${f.label}</label>`;
       } else {
@@ -368,30 +379,30 @@ function getFskPowerTipHTML(n) {
   // ── 辅助：读实战面板值 ──────────────────────────────────────
   const panelVal = id => parseInt((document.getElementById(id)||{}).textContent) || 0;
 
-  // ── 1. 闪击 ─────────────────────────────────────────────────
+  // ── 1. 闪击（只给差值参考，威力改在下拉中手动选）─────────────
   if (n === '闪击') {
     const atkV = panelVal('val-atk-spd'), defV = panelVal('val-def-spd');
-    const { p, diff } = diffTableLookup(SPEED_DIFF_TABLE, atkV, defV);
+    const { diff } = diffTableLookup(SPEED_DIFF_TABLE, atkV, defV);
     const rows = SPEED_DIFF_TABLE.map(row => {
       const active = diff >= row.min && diff <= row.max;
       return [[row.label, row.p], active];
     });
-    return tipWrap('⚡','闪击：速度差决定威力',
-      tipInfo(`攻方速度 <b style="color:#ffd970">${atkV}</b> − 防方速度 <b style="color:#80c8ff">${defV}</b> = <b style="color:${diff>=0?'#80e080':'#ff7070'}">${diff}</b> → 威力 <b style="color:#ffd970;font-size:14px">${p}</b>`) +
+    return tipWrap('⚡','闪击：速度差档位',
+      tipInfo(`攻方速度 <b style="color:#ffd970">${atkV}</b> − 防方速度 <b style="color:#80c8ff">${defV}</b> = <b style="color:${diff>=0?'#80e080':'#ff7070'}">${diff}</b>`) +
       tipTable(['速度差','威力'], rows)
     );
   }
 
-  // ── 2. 鸣沙陷阱 ──────────────────────────────────────────────
+  // ── 2. 鸣沙陷阱（只给差值参考，威力改在下拉中手动选）──────────
   if (n === '鸣沙陷阱') {
     const atkV = panelVal('val-atk-pdef'), defV = panelVal('val-def-pdef');
-    const { p, diff } = diffTableLookup(PDEF_DIFF_TABLE, atkV, defV);
+    const { diff } = diffTableLookup(PDEF_DIFF_TABLE, atkV, defV);
     const rows = PDEF_DIFF_TABLE.map(row => {
       const active = diff >= row.min && diff <= row.max;
       return [[row.label, row.p], active];
     });
-    return tipWrap('🏔️','鸣沙陷阱：物防差决定威力',
-      tipInfo(`攻方物防 <b style="color:#ffd970">${atkV}</b> − 防方物防 <b style="color:#80c8ff">${defV}</b> = <b style="color:${diff>=0?'#80e080':'#ff7070'}">${diff}</b> → 威力 <b style="color:#ffd970;font-size:14px">${p}</b>`) +
+    return tipWrap('🏔️','鸣沙陷阱：物防差档位',
+      tipInfo(`攻方物防 <b style="color:#ffd970">${atkV}</b> − 防方物防 <b style="color:#80c8ff">${defV}</b> = <b style="color:${diff>=0?'#80e080':'#ff7070'}">${diff}</b>`) +
       tipTable(['物防差','威力'], rows)
     );
   }
@@ -400,7 +411,7 @@ function getFskPowerTipHTML(n) {
   if (n === '魔能爆') {
     const rows = MANA_BURST_TABLE.map(([e,p]) => [[`${e} 能量`, p], false]);
     return tipWrap('✨','魔能爆：消耗所有能量，威力随能量变化',
-      tipInfo('使用时消耗所有能量，<b>请根据当前能量手动填入威力</b>') +
+      tipInfo('威力按填写的消耗能量自动写入基础威力') +
       tipTable(['当前能量','威力'], rows)
     );
   }
@@ -756,24 +767,19 @@ function getFskPowerTipHTML(n) {
   return null;
 }
 
-// FULL 模式：解析某个技能槽的「变动威力」（闪击/鸣沙陷阱/冰锋横扫/魔能爆等）
-//   返回目标威力值；规则表未覆盖该技能时返回 null（保持用户填写的威力不变）
+// FULL 模式：把变动威力技能的目标威力写回技能槽的「基础威力」输入框。
+//   · 下列技能的规则直接给出目标威力（powerSet），powerAdd 恒为 0
+//     → 拆解里不产生「技能威力加成」项。
+//   · 规则未给出 powerSet（条件不满足等）时保持占位基础威力 1。
+//   ⚠️ 目标威力只能写回一次，否则 computeDamage 会把同一档威力算两遍。
+const AUTO_BASE_SKILLS = ['冰锋横扫', '魔能爆', '怨力打击', '钢钻'];
 function resolveAutoPowerForSlot(side, idx, skillObj) {
+  if (!skillObj || AUTO_BASE_SKILLS.indexOf(skillObj.n) < 0) return null;
   const atkS = side === 'atk' ? state.atk : state.def;
   const defS = side === 'atk' ? state.def : state.atk;
   if (!atkS || !defS) return null;
-
-  // 只有「基础威力为占位值」的技能才自动覆盖，避免抹掉用户手动修改
-  const AUTO_POWERS = { '闪击': 60, '鸣沙陷阱': 60, '冰锋横扫': 1, '魔能爆': 1, '怨力打击': 1, '钢钻': 1 };
-  const base = AUTO_POWERS[skillObj.n];
-  if (base === undefined) return null;
-
-  const ctx = buildFullPowerCtx(side, idx, skillObj);
-  const r = resolveSkillPower(skillObj, ctx);
-  if (!r.hasRule) return null;
-  const target = (skillObj.p || 0) + r.powerAdd;
-  if (!(target > 0)) return null;
-  return target;
+  const r = resolveSkillPower(skillObj, buildFullPowerCtx(side, idx, skillObj));
+  return (r.powerSet === null || r.powerSet === undefined) ? (skillObj.p || 0) : r.powerSet;
 }
 
 // FULL 模式：组装技能槽的威力规则 ctx（含 util 注入与两侧技能槽数据）

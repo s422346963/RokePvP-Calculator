@@ -71,7 +71,7 @@ function calc() {
   let atkTraitMult = 1, defTraitMult = 1;  // 预声明，避免 mode=A 时 breakdown 引用未定义变量
   let hits = 1;
   // 技能威力规则解析结果（模式 B 生效；模式 A 威力为游戏内显示值，不走规则表）
-  let pw = { powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false, unimplemented: false };
+  let pw = { powerSet: null, powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false, unimplemented: false };
   // 特性攻防属性加成（stat 通道）
   let atkBuffs = { pctMult: 1, flatSum: 0, sources: [] };
   let defBuffs = { pctMult: 1, flatSum: 0, sources: [] };
@@ -146,6 +146,12 @@ function calc() {
     // 由 updateTraitPanelForMode / onTraitCondChange 自动同步，也可手动覆盖
     traitPowerShown = traitPowerBonusFinal;
 
+    // 「本技能威力等于 N」类（冰锋横扫/钢钻/怨力打击）：规则直接给出基础威力，
+    //   写回输入框后由它作为唯一权威值参与计算，拆解里不再出现「技能威力加成」。
+    if (pw.powerSet !== null && pw.powerSet !== undefined) {
+      const baseEl = document.getElementById('base-power-b');
+      if (baseEl) baseEl.value = pw.powerSet;
+    }
     const powerBaseB = parseFloat(document.getElementById('base-power-b').value) || 0;
     hits = pw.hitsSet || Math.max(1, parseInt(document.getElementById('hits-input-b').value) || 1);
     // 属性克制 / 本系：原「自动填入」输入框已移除，直接由技能属性 + 双方精灵计算
@@ -577,13 +583,15 @@ function applyQuickSkill(skill) {
   // 连击次数同步为技能固有连击数
   const hitsB = document.getElementById('hits-input-b');
   if (hitsB) hitsB.value = skillDefaultHits(skill);
+  // ⚠️ 必须先更新当前技能/属性：setSkillType() 内部会 calc()，若这里仍是旧技能，
+  //    那次 calc() 会把旧技能的 powerSet 写回基础威力框，换技能后威力停在旧值。
+  state.skillAttr = skill.a;
+  state.selectedSkillName = skill.n;
   // 双攻技能：取攻方物攻/魔攻较高一项，与伤害计算(isPhys)逻辑一致
   const isPhys = skill.k === '双攻'
     ? ((state.atk ? (state.atk.patk || state.atk.pa || 0) : 0) >= (state.atk ? (state.atk.matk || state.atk.ma || 0) : 0))
     : skill.k === '物攻';
   setSkillType(isPhys ? 'physical' : 'magical');
-  state.skillAttr = skill.a;
-  state.selectedSkillName = skill.n;
   document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('selected', b.textContent === skill.a));
   syncModeBAutoFields();
   const selIcon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[skill.a])

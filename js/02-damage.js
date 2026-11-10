@@ -166,7 +166,7 @@ function buildPowerUtil(opt) {
     pdefDef: opt.pdefDef || 0,
     // 敌方（对手）技能槽总能耗
     foeTotalCost: () => (typeof opt.foeCost === 'function' ? opt.foeCost() : 0),
-    // 本方左右邻槽威力（钢钻等「两侧技能」公式型用）
+    // 本方左右邻槽威力（钢钻 / 六自由度）：未注入时恒返回 0，规则侧须回退到手填值
     sidePower: (ctx, side) => {
       if (typeof opt.sidePower === 'function') return opt.sidePower(ctx, side);
       return 0;

@@ -20,9 +20,11 @@
 //     加载顺序：spirits → skills → type → traitMult → skillMult → pinyin → spiritsPvP
 //
 // 一条规则 = 一个技能名（或一组共享同一逻辑的技能名）：
-//   fields(skill) → 该技能需要用户输入的字段（渲染成复选框 / 数字框）
-//   eff(ctx)      → { powerAdd, powerPct, powerMult, hitsSet, label, implemented }
+//   fields(skill) → 该技能需要用户输入的字段（渲染成复选框 / 数字框 / 下拉框）
+//   eff(ctx)      → { powerSet, powerAdd, powerPct, powerMult, hitsSet, label, implemented }
 //                   条件不满足时返回 null（不加成、不显示修正项）
+//   powerSet：「本技能威力等于 N」类规则直接给出目标威力，由调用方写回基础威力输入框，
+//            不进固定威力提升区（拆解里不产生「技能威力加成」项）。
 //   ctx 结构：
 //   { skill, skAttr, skCost, skKind, skHits, atk, def,
 //     atkA1, atkA2, defA1, defA2, opts, util }
@@ -41,6 +43,11 @@ function defineSkillPowerRule(names, fieldsFn, effFn) {
 // 输入字段构造器（独立命名空间，避免与 traitMult.js 的 ck()/num() 冲突）
 const spCk = (key, label, def) => ({ id: 'pwr-opt-' + key, label, type: 'checkbox', key, def: !!def });
 const spNum = (key, label, def, min, max) => ({ id: 'pwr-opt-' + key, label, type: 'number', key, def, min, max });
+// 下拉框：选项由渲染层按 tableKey 从 ctx.util 注入的查表数据生成（data 层不得直接引用
+//   js/01-core.js 的 SPEED_DIFF_TABLE —— 加载期还不存在）。value 一律取威力数值，
+//   故 readPowerOptsByMode 的 parseInt 分支无需改动就能读到用户选中的档位。
+const spSel = (key, label, def, tableKey, prefix) =>
+  ({ id: 'pwr-opt-' + key, label, type: 'select', key, def, tableKey, prefix });
 
 // 常用条件字段（多处复用，避免重复字面量）
 const F_COUNTERED = () => [spCk('countered', '应对成功', false)];
@@ -179,59 +186,73 @@ defineSkillPowerRule(['草虫冲击'], F_FOE_SWITCH,
   ctx => ctx.opts.foeSwitched ? { powerAdd: 90, label: '敌方换精灵→威力+90（并无视系别抵抗）' } : null);
 
 // ------------------------------------------------------------
-// 公式型（基础威力 p=1 为占位值，用 powerAdd 覆盖到目标威力）
+// 公式型（基础威力 p=1 为占位值，用 powerSet 直接改写基础威力）
 //   怨力打击：威力 = 蓄力期间敌方使用的技能威力 × 3
 //   钢钻：    威力 = 两侧技能威力和 ÷ 3
+//   ⚠️ 与冰锋横扫同属「本技能威力等于…」，目标威力属于基础威力，
+//      不再走 powerAdd（否则拆解里会多出一项「技能威力加成」）。
 // ------------------------------------------------------------
+
+// 两侧技能威力（钢钻 / 六自由度共用）：手填优先，util 的邻槽自动查询兜底。
+//   ⚠️ buildPowerUtil 未注入 sidePower 时该函数仍存在但恒返回 0（B 模式、
+//      FULL 邻槽为空），只认自动值会让「左/右侧技能威力」输入框完全失效。
+function resolveSidePowers(ctx) {
+  const o = ctx.opts || {};
+  const manualL = Math.max(0, Number(o.leftPower) || 0);
+  const manualR = Math.max(0, Number(o.rightPower) || 0);
+  if (manualL + manualR > 0) return { l: manualL, r: manualR };
+  const u = ctx.util;
+  const auto = which => (u && typeof u.sidePower === 'function')
+    ? Math.max(0, Number(u.sidePower(ctx, which)) || 0) : 0;
+  return { l: auto('left'), r: auto('right') };
+}
 
 defineSkillPowerRule(['怨力打击'],
   () => [spCk('wasHit', '蓄力期间受到攻击', true), spNum('foePower', '蓄力期间敌方技能威力', 0, 0, 999)],
   ctx => {
-    const base = ctx.skill.p || 1;
     if (!ctx.opts.wasHit) return null;
     const foe = Math.max(0, Math.min(999, ctx.opts.foePower || 0));
     if (foe === 0) return null;
     const target = foe * 3;
-    return { powerAdd: target - base, label: '敌方威力' + foe + '×3→威力' + target, implemented: true };
+    return { powerSet: target, label: '敌方威力' + foe + '×3→威力' + target };
   });
 
 defineSkillPowerRule(['钢钻'],
   () => [spNum('leftPower', '左侧技能威力', 0, 0, 999), spNum('rightPower', '右侧技能威力', 0, 0, 999)],
   ctx => {
-    const base = ctx.skill.p || 1;
-    // FULL 模式可由 util 直接取邻槽威力；B 模式走上面的数字框
-    const l = ctx.util && typeof ctx.util.sidePower === 'function'
-      ? ctx.util.sidePower(ctx, 'left') : (ctx.opts.leftPower || 0);
-    const r = ctx.util && typeof ctx.util.sidePower === 'function'
-      ? ctx.util.sidePower(ctx, 'right') : (ctx.opts.rightPower || 0);
-    const lVal = Math.max(0, l), rVal = Math.max(0, r);
+    const { l: lVal, r: rVal } = resolveSidePowers(ctx);
     if (lVal === 0 && rVal === 0) return null;
     const target = Math.round((lVal + rVal) / 3);
-    return { powerAdd: target - base, label: '(' + lVal + '+' + rVal + ')÷3→威力' + target };
+    return { powerSet: target, label: '(' + lVal + '+' + rVal + ')÷3→威力' + target };
   });
 
 // ------------------------------------------------------------
 // 查表型
-//   闪击：速度比敌方越高威力越高  → SPEED_DIFF_TABLE（由 util 注入）
-//   鸣沙陷阱：物防比敌方越高威力越高 → PDEF_DIFF_TABLE（同一张表，勿复制数据）
-//   魔能爆：消耗能量越多威力越高 → MANA_BURST_TABLE（本次新增接入自动回填）
-//   冰锋横扫：威力 = 敌方技能总能耗 × 10
-//   注：p=60 / p=1 均为占位值，规则返回 powerAdd = 目标威力 - p
+//   闪击 / 鸣沙陷阱：**不再**按双方面板速度/物防自动判定威力，改为下拉手动选档位。
+//     选项由渲染层按 fields.tableKey 从 ctx.util.speedDiffTable / pdefDiffTable 生成
+//     （js/01-core.js 的 SPEED_DIFF_TABLE，两张表同一引用），文本形如
+//     「190 (速度差241 ~ 270)」「200 (速度差≥ 271)」，value = 该档威力。
+//     eff 只把选中的威力换算成 powerAdd（目标威力 − 技能基础威力 p=60），
+//     B / FULL 共用同一条增量链路，不再需要自动覆盖槽位威力（见 resolveAutoPowerForSlot）。
+//   魔能爆：消耗能量越多威力越高 → MANA_BURST_TABLE；与冰锋横扫 / 钢钻 / 怨力打击
+//     同属「本技能威力等于 N」，powerSet 直接改写基础威力，不进加成
+//   冰锋横扫：威力 = 敌方技能总能耗 × 10（手填优先；FULL 未填时按对手技能槽自动统计）
+//   注：p=60 / p=1 均为占位值；闪击 / 鸣沙陷阱仍走 powerAdd（目标威力 − p），
+//      魔能爆 / 冰锋横扫 / 钢钻 / 怨力打击走 powerSet（直接给出目标威力）
 // ------------------------------------------------------------
+const manualTierPower = prefix => ctx => {
+  const p = Number(ctx.opts.tier);
+  if (!Number.isFinite(p) || p <= 0) return null;
+  return { powerAdd: p - (ctx.skill.p || 0), label: prefix + '档位→威力' + p };
+};
 
-defineSkillPowerRule(['闪击'], () => [], ctx => {
-  const u = ctx.util;
-  if (!u || typeof u.diffTableLookup !== 'function') return null;
-  const r = u.diffTableLookup(u.speedDiffTable, u.spdAtk, u.spdDef);
-  return { powerAdd: r.p - (ctx.skill.p || 0), label: '速度差' + r.diff + '→威力' + r.p };
-});
+defineSkillPowerRule(['闪击'],
+  () => [spSel('tier', '速度差档位', 60, 'speedDiffTable', '速度差')],
+  manualTierPower('速度差'));
 
-defineSkillPowerRule(['鸣沙陷阱'], () => [], ctx => {
-  const u = ctx.util;
-  if (!u || typeof u.diffTableLookup !== 'function') return null;
-  const r = u.diffTableLookup(u.pdefDiffTable, u.pdefAtk, u.pdefDef);
-  return { powerAdd: r.p - (ctx.skill.p || 0), label: '物防差' + r.diff + '→威力' + r.p };
-});
+defineSkillPowerRule(['鸣沙陷阱'],
+  () => [spSel('tier', '物防差档位', 60, 'pdefDiffTable', '物防差')],
+  manualTierPower('物防差'));
 
 defineSkillPowerRule(['魔能爆'],
   () => [spNum('energy', '本次消耗能量', 0, 0, 10)],
@@ -241,18 +262,22 @@ defineSkillPowerRule(['魔能爆'],
     const table = u && u.manaBurstTable;
     if (!table) return null;
     const row = table.find(r => r[0] === n) || table[table.length - 1];
-    return { powerAdd: row[1] - (ctx.skill.p || 0), label: '消耗' + n + '能量→威力' + row[1] };
+    return { powerSet: row[1], label: '消耗' + n + '能量→威力' + row[1] };
   });
 
 defineSkillPowerRule(['冰锋横扫'],
   () => [spNum('foeTotalCost', '敌方携带技能总能耗', 0, 0, 40)],
   ctx => {
     const u = ctx.util;
-    const cost = (u && typeof u.foeTotalCost === 'function')
-      ? u.foeTotalCost(ctx) : Math.max(0, Math.min(40, ctx.opts.foeTotalCost || 0));
+    // 手填优先、自动兜底：B 模式没有敌方配招槽，util 的自动统计恒为 0（或用 FULL
+    //   残留数据盖掉手填值），若只认自动值会让这个输入框完全失效。
+    //   FULL 模式未填（0）时仍按对手技能槽自动统计。
+    const manual = Math.max(0, Math.min(40, Number(ctx.opts.foeTotalCost) || 0));
+    const auto = (u && typeof u.foeTotalCost === 'function') ? Number(u.foeTotalCost(ctx)) || 0 : 0;
+    const cost = manual > 0 ? manual : Math.max(0, auto);
     if (cost === 0) return null;
     const target = cost * 10;
-    return { powerAdd: target - (ctx.skill.p || 0), label: '敌方总能耗' + cost + '×10→威力' + target };
+    return { powerSet: target, label: '敌方总能耗' + cost + '×10→威力' + target };
   });
 
 // ------------------------------------------------------------
@@ -427,11 +452,7 @@ defineSkillPowerRule(['燃尽'],
 defineSkillPowerRule(['六自由度'],
   () => [spNum('leftPower', '左侧技能威力', 0, 0, 999), spNum('rightPower', '右侧技能威力', 0, 0, 999)],
   ctx => {
-    const u = ctx.util;
-    const get = (which, key) => (u && typeof u.sidePower === 'function')
-      ? u.sidePower(ctx, which) : (ctx.opts[key] || 0);
-    const l = Math.max(0, get('left', 'leftPower'));
-    const r = Math.max(0, get('right', 'rightPower'));
+    const { l, r } = resolveSidePowers(ctx);
     if (l === 0 && r === 0) return null;
     const add = Math.round(Math.abs(l - r) / 4);
     return add > 0 ? { powerAdd: add, label: '两侧威力差|' + l + '-' + r + '|÷4→威力+' + add } : null;
@@ -633,7 +654,8 @@ function isSkillPowerUnimplemented(skill) {
 }
 
 // 解析技能威力修正（统一入口）
-//   返回 { powerAdd, powerPct, powerMult, hitsSet, label, implemented, hasRule }
+//   返回 { powerSet, powerAdd, powerPct, powerMult, hitsSet, label, implemented, hasRule }
+//   powerSet != null：目标威力由调用方写回基础威力输入框，规则的 powerAdd 恒为 0
 //   无规则时返回全零 + hasRule:false，由调用方决定是否提示「待补全」
 //   天气（ctx.weather）与进攻方印记（ctx.mark）在此统一计入，与技能规则同区相加：
 //   雨天 → 水系技能威力 +75%；印记 → 每层按对应百分比提升技能威力
@@ -646,7 +668,7 @@ function resolveSkillPower(skill, ctx) {
   if (weatherPct) extraLabels.push('雨天→水系技能威力+75%');
   // ctx.mark = { pct, label }，label 由 js/01-core.js 的 getMarkInfo 汇总（支持多种印记并存）
   if (markPct) extraLabels.push(mk.label || ('印记→技能威力+' + Math.round(markPct * 100) + '%'));
-  const zero = { powerAdd: 0, powerPct: extraPct, powerMult: 1, hitsSet: null, label: extraLabels.join(' · '), hasRule: false };
+  const zero = { powerSet: null, powerAdd: 0, powerPct: extraPct, powerMult: 1, hitsSet: null, label: extraLabels.join(' · '), hasRule: false };
   if (!skill) return Object.assign(zero, { unimplemented: false });
   const rule = getSkillPowerRule(skill.n);
   if (!rule) return Object.assign(zero, { unimplemented: isSkillPowerUnimplemented(skill) });
@@ -655,6 +677,7 @@ function resolveSkillPower(skill, ctx) {
   const full = Object.assign({ opts: {} }, ctx, { skill, skHits: (skill.cb || 1) });
   const r = rule.eff(full) || {};
   return {
+    powerSet: (r.powerSet === undefined || r.powerSet === null) ? null : r.powerSet,
     powerAdd: r.powerAdd || 0,
     powerPct: (r.powerPct || 0) + extraPct,
     powerMult: (r.powerMult === undefined || r.powerMult === null) ? 1 : r.powerMult,
