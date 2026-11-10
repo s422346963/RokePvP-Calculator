@@ -583,7 +583,14 @@ function renderTraitCond(fields, container, mode, side) {
   //    若把当前值写进签名就会重建整个条件区、打断输入并丢失焦点。
   //    数字框的值由 DOM 自身持有，只在字段结构 / 默认值变化（换特性、重置）时重建；
   //    勾选框仍按实际勾选态参与签名（天气联动改写勾选框后需刷新）。
-  const condSig = visibleFields.map(f => f.key + ':' + f.type + ':' + (f.def === undefined ? '' : f.def)).join(',')
+  // ⚠️ 文案与范围（label / min / max / step）必须进签名：多个特性共用同一个条件 key
+  //    （如 stackCount：迪莫「克制触发次数」、助燃「己方已使用火系技能次数」、
+  //      观星「敌方星陨印记层数(0-20)」），换精灵时 key/def 相同但文案不同，
+  //    只按 key 比对会沿用旧 DOM，条件框一直显示上一个精灵的文字与数值范围。
+  const fieldSig = visibleFields.map(f =>
+    [f.key, f.type, f.label, f.def, f.min, f.max, f.step]
+      .map(v => v === undefined ? '' : v).join(':')).join(',');
+  const condSig = fieldSig
     + '#' + visibleFields.map(f => {
         const el = document.getElementById(`trait-opt-${mode}-${side}-${f.key}`);
         if (f.type === 'checkbox') {
