@@ -148,9 +148,19 @@ function calc() {
 
     // 「本技能威力等于 N」类（冰锋横扫/钢钻/怨力打击）：规则直接给出基础威力，
     //   写回输入框后由它作为唯一权威值参与计算，拆解里不再出现「技能威力加成」。
-    if (pw.powerSet !== null && pw.powerSet !== undefined) {
+    //   条件取消后要回滚自动写入的值（否则怨力打击的 300 会一直留着），
+    //   但不能覆盖用户手动改过的威力：只有值仍等于上次自动写入值时才恢复技能原威力。
+    {
       const baseEl = document.getElementById('base-power-b');
-      if (baseEl) baseEl.value = pw.powerSet;
+      if (baseEl) {
+        if (pw.powerSet !== null && pw.powerSet !== undefined) {
+          baseEl.value = pw.powerSet;
+          baseEl.dataset.autoPower = String(pw.powerSet);
+        } else if (baseEl.dataset.autoPower) {
+          if (String(baseEl.value) === baseEl.dataset.autoPower && skillObj) baseEl.value = skillObj.p || 0;
+          delete baseEl.dataset.autoPower;
+        }
+      }
     }
     const powerBaseB = parseFloat(document.getElementById('base-power-b').value) || 0;
     hits = pw.hitsSet || Math.max(1, parseInt(document.getElementById('hits-input-b').value) || 1);
@@ -205,7 +215,8 @@ function calc() {
   // 星陨伤害计算
   // 威力公式：x*x + 24*x - 24，x = 星陨层数
   // 星陨为幻系伤害，物理/魔法跟随触发技能
-  // 使用与普通伤害相同的攻防值和减伤比
+  // 使用与普通伤害相同的最终攻防值（含特性 stat 加成与能力等级）、等级系数与减伤比；
+  // 不吃本系 / 特性结算倍率 / 额外倍率（口径以本公式为准，与 FULL 对齐）
   let starDmg = 0, starFormula = '', starPower = 0;
   if (starMarks > 0) {
     starPower = starMarks * starMarks + 24 * starMarks - 24;
@@ -579,7 +590,9 @@ function applyQuickSkill(skill) {
   if (dd)    dd.classList.remove('open');
   if (arrow) arrow.textContent = '▼';
 
-  document.getElementById('base-power-b').value = skill.p;
+  const basePowerB = document.getElementById('base-power-b');
+  basePowerB.value = skill.p;
+  delete basePowerB.dataset.autoPower;   // 换技能后旧技能的派生威力标记作废
   // 连击次数同步为技能固有连击数
   const hitsB = document.getElementById('hits-input-b');
   if (hitsB) hitsB.value = skillDefaultHits(skill);

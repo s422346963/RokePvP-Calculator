@@ -660,8 +660,11 @@ function isSkillPowerUnimplemented(skill) {
 //   天气（ctx.weather）与进攻方印记（ctx.mark）在此统一计入，与技能规则同区相加：
 //   雨天 → 水系技能威力 +75%；印记 → 每层按对应百分比提升技能威力
 function resolveSkillPower(skill, ctx) {
-  const weatherPct = (skill && ctx && ctx.weather === 'rain' && skill.a === '水') ? 0.75 : 0;
-  const mk = (skill && ctx && ctx.mark) ? ctx.mark : null;
+  // 模式 B 允许覆盖技能属性：天气按「生效属性」判定，其余模式回退技能原始属性。
+  // 未选技能时只要仍有生效属性/印记，加成照常生效（此前被 skill && 短路成 0）。
+  const effAttr = (ctx && ctx.effectiveAttr) || (skill && skill.a) || '';
+  const weatherPct = (ctx && ctx.weather === 'rain' && effAttr === '水') ? 0.75 : 0;
+  const mk = (ctx && ctx.mark) ? ctx.mark : null;
   const markPct = mk ? (mk.pct || 0) : 0;
   const extraPct = weatherPct + markPct;
   const extraLabels = [];

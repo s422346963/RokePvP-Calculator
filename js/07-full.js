@@ -163,7 +163,7 @@ function buildFullSkillRows(side) {
     if (slotData && skillObj && !isStatusSkill) {
       const _aSide = side === 'atk' ? state.atk : state.def;
       const _dSide = side === 'atk' ? state.def : state.atk;
-      if (_aSide && _dSide) {
+      if (_aSide && _dSide && !slotData.powerManual) {
         const _auto = resolveAutoPowerForSlot(side, i, skillObj);
         if (_auto !== null) slotData.power = _auto;
       }
@@ -179,7 +179,10 @@ function buildFullSkillRows(side) {
     powerInput.disabled = isStatusSkill;
     if (isStatusSkill) { powerInput.style.opacity = '0.45'; powerInput.style.textAlign = 'center'; }
     powerInput.oninput = () => {
-      if (fullState[side][i]) fullState[side][i].power = Math.max(0, parseInt(powerInput.value) || 0);
+      if (fullState[side][i]) {
+        fullState[side][i].power = Math.max(0, parseInt(powerInput.value) || 0);
+        fullState[side][i].powerManual = true;
+      }
       calcFull();
     };
     row.appendChild(powerInput);
@@ -331,7 +334,10 @@ function applyPvpRecommendedFullSkill(side, force = false) {
 }
 
 function selectFullSkill(side, idx) {
+  // 两侧选中互斥：renderFullResult 优先取 atkSel，若不清另一侧，
+  // 点过左侧技能后详情面板就再也切不回右侧。
   fullState[side + 'Sel'] = idx;  // 始终选中，不 toggle
+  fullState[(side === 'atk' ? 'def' : 'atk') + 'Sel'] = -1;
   updateStarMarksFullState();
   buildFullSkillRows(side);
   buildFullSkillRows(side === 'atk' ? 'def' : 'atk');
@@ -383,30 +389,32 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
     fullState[_defTraitSide].forEach(slot => { if (slot && slot.skill) _defCost += (slot.skill.c || 0); });
     if (_defCost > 0) _traitOptsAtk.enemyTotalCost = _defCost;
   }
-  const _atkTrCalc = calcAtkTraitMult(atkSpirit, defSpirit, sk, _traitOptsAtk);
-  const _defTrCalc = calcDefTraitMult(atkSpirit, defSpirit, sk, _traitOptsDef);
-  const _atkTrMult = _atkTrCalc.mult;
-  const _defTrMult = _defTrCalc.mult;
+  // 等级判定按出手/受击精灵归属的面板侧传参（方向 2 时两侧角色互换）
+  const _atkTrCalc = calcAtkTraitMult(atkSpirit, defSpirit, sk, _traitOptsAtk, _atkTraitSide);
+  const _defTrCalc = calcDefTraitMult(atkSpirit, defSpirit, sk, _traitOptsDef, _defTraitSide);
+  // 结算层「特性倍率」框：规则值为基线，仅用户手动覆盖时采信该侧输入框
+  const _atkTrMult = traitInputEffective('mult', 'full', _atkTraitSide, _atkTrCalc.mult);
+  const _defTrMult = traitInputEffective('mult', 'full', _defTraitSide, _defTrCalc.mult);
   const traitMult = _atkTrMult * _defTrMult;
   const _atkTrMultFinal = _atkTrMult, _defTrMultFinal = _defTrMult;
   const extraMult = parseFloat(document.getElementById('extra-mult-full').value) || 1;
 
   // 特性攻防属性加成（stat 通道）：侧向生效，物攻技能只吃 patk/pdef
+  // ⚠️ FULL 一份输入框对应 4 个技能槽，而 stat 规则与技能种类相关：自动回填值只代表
+  //    某一个槽，无条件套用会让「专注力」把魔攻技能也 ×2。与威力通道同口径：
+  //    以本槽重算的规则值为基线，仅在用户手动覆盖该框时采信输入框。
   const buffsRaw = collectStatBuffs(_atkTrCalc.stat, isPhys, 'atk');
   const defBuffsRaw = collectStatBuffs(_defTrCalc.stat, isPhys, 'def');
-  // 叠加界面输入（特性攻击倍率 / 特性攻击 / 特性防御倍率 / 特性防御）
-  // ⚠️ 数值输入框只在「精灵角色 == 面板归属侧」时才采信：
-  //    atk 面板的那个输入框语义是「该侧精灵的攻击倍率」，def 面板的是「该侧精灵的防御倍率」。
-  //    方向2（防方出手）时两侧角色互换 —— 此时拿面板输入会把「防御倍率」当成「攻击倍率」，
-  //    因此该方向一律只取规则值（没有对应角色的输入框可覆盖）。
-  const _atkIn = (atkSpirit === state.atk)
-    ? readTraitInputs('full', 'atk', resolveTraitName(atkSpirit), _atkTrCalc, buffsRaw)
-    : { atkMult: buffsRaw.pctMult, atkAdd: buffsRaw.flatSum };
-  const _defIn = (defSpirit === state.def)
-    ? readTraitInputs('full', 'def', resolveTraitName(defSpirit), _defTrCalc, defBuffsRaw)
-    : { atkMult: defBuffsRaw.pctMult, atkAdd: defBuffsRaw.flatSum };
-  const atkBuffs = { pctMult: _atkIn.atkMult, flatSum: _atkIn.atkAdd, sources: mergeBuffSourcesList(buffsRaw) };
-  const defBuffs = { pctMult: _defIn.atkMult, flatSum: _defIn.atkAdd, sources: mergeBuffSourcesList(defBuffsRaw) };
+  const atkBuffs = {
+    pctMult: traitInputEffective('atkMult', 'full', _atkTraitSide, buffsRaw.pctMult),
+    flatSum: traitInputEffective('atkAdd', 'full', _atkTraitSide, buffsRaw.flatSum),
+    sources: mergeBuffSourcesList(buffsRaw),
+  };
+  const defBuffs = {
+    pctMult: traitInputEffective('atkMult', 'full', _defTraitSide, defBuffsRaw.pctMult),
+    flatSum: traitInputEffective('atkAdd', 'full', _defTraitSide, defBuffsRaw.flatSum),
+    sources: mergeBuffSourcesList(defBuffsRaw),
+  };
 
   // ── 技能威力规则（data/skillMult.js）──
   // 变动威力（冰锋横扫/魔能爆/怨力打击/钢钻等）在此统一解析，
@@ -416,7 +424,13 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   let pw = { powerSet: null, powerAdd: 0, powerPct: 0, powerMult: 1, hitsSet: null, label: '', hasRule: false, unimplemented: false };
   if (slotRef) {
     const auto = resolveAutoPowerForSlot(slotRef.side, slotRef.idx, sk);
-    if (auto !== null) { powerBase = auto; skillSlot.power = auto; }
+    if (auto !== null && !skillSlot.powerManual) {
+      powerBase = auto;
+      skillSlot.power = auto;
+      // 派生威力写回内存的同时刷新输入框，否则框里还留着占位威力 1
+      const pEl = document.getElementById(`fsk-power-${slotRef.side}-${slotRef.idx}`);
+      if (pEl && document.activeElement !== pEl) pEl.value = auto;
+    }
     pw = resolveSkillPower(sk, buildFullPowerCtx(slotRef.side, slotRef.idx, sk));
   }
 
@@ -458,7 +472,8 @@ function calcOneFskDmg(atkSpirit, defSpirit, skillSlot) {
   if (starMarks > 0) {
     starPower = starMarks * starMarks + 24 * starMarks - 24;
     const starTypeEff = getTypeEff('幻', defSpirit.a1, defSpirit.a2 || '');
-    // 星陨为独立追加伤害：不吃攻防特性与额外倍率（与 A/B 公式对齐）
+    // 星陨为独立追加伤害：复用本次伤害的最终攻防值（含特性 stat 加成与能力等级）与等级系数，
+    // 只再乘幻系克制与减伤；不吃本系 / 特性结算倍率 / 额外倍率（与 A/B 公式对齐）
     starDmg = Math.floor((res.attackValue / res.defenseValue) * res.levelCoef * starPower * starTypeEff * reduceMult);
   }
   const totalDmg = dmg + starDmg;

@@ -193,7 +193,8 @@ function mergeBuffSourcesList(buffs) {
 function renderLayersHtml(o) {
   const res = o.res;
   if (!res) return '';
-  const isB = o.mode === 'B';
+  // B 与 FULL 都要展示能力等级 / 本系 / 攻防特性等完整拆解行；A 模式这些乘区不参与计算
+  const showChain = o.mode !== 'A';
   const grp = (title, tagCls, inner) =>
     `<div class="breakdown-group"><div class="breakdown-group-title ${tagCls}">${title}</div>${inner}</div>`;
   const item = (label, val, cls, style) =>
@@ -229,7 +230,7 @@ function renderLayersHtml(o) {
         r += item('　└ ' + (s.flat ? traitTag : traitTag + '倍率'), v, '', color + ';opacity:.85');
       });
     }
-    if (isB && lvMult !== 1) r += item('　└ ' + lvLabel + lvSuffix, pctStr(lvMult - 1), '', color + ';opacity:.85');
+    if (showChain && lvMult !== 1) r += item('　└ ' + lvLabel + lvSuffix, pctStr(lvMult - 1), '', color + ';opacity:.85');
     r += item('＝ ' + baseLabel + '终值', f1(finalVal), 'highlight', color);
     return r;
   };
@@ -271,12 +272,10 @@ function renderLayersHtml(o) {
   let stRows = '';
   stRows += item('攻防比 × ' + damageCoefLabel(res.atkLevel), '', '');
   stRows += item('属性克制', o.typeEff === 0 ? '免疫' : '×' + o.typeEff, o.typeEff !== 1 ? 'highlight' : '', 'color:#ff6464');
-  if (isB) {
+  if (showChain) {
     if (o.stabMult !== 1) stRows += item('本系加成 STAB', '×' + o.stabMult, 'highlight', 'color:#ffd700');
     if (o.atkTraitMult !== 1) stRows += item('攻方特性', '×' + f2(o.atkTraitMult), 'highlight', 'color:#a5d6a7');
     if (o.defTraitMult !== 1) stRows += item('防方特性', '×' + f2(o.defTraitMult), 'highlight', 'color:#90caf9');
-  } else if (o.stabMult > 1) {
-    stRows += item('本系加成 STAB', '×1.25', 'highlight', 'color:#ffd700');
   }
   if (o.extraMult !== 1) stRows += item('其他倍率', '×' + o.extraMult, 'highlight');
   if (o.reducePct > 0) stRows += item('减伤', '×' + f2(o.reduceMult) + `（-${o.reducePct}%）`, '', 'color:#80e080');

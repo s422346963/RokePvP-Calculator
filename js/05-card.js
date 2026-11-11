@@ -237,7 +237,7 @@ function renderCard(side, spirit) {
     ? spirit.st.split('/').filter(p => p && !spirit.n.includes(p)).join('/')
     : '';
   card.innerHTML = `
-    <div class="spirit-avatar">${spirit.img ? `<img src="${spirit.img}" alt="${spirit.n}" onerror="this.parentNode.innerHTML='<span class=\'avatar-fallback\'>${getEmoji(spirit.a1)}</span>'">` : `<span class="avatar-fallback">${getEmoji(spirit.a1)}</span>`}</div>
+    <div class="spirit-avatar">${spirit.img ? `<img src="${spirit.img}" alt="${spirit.n}" onerror="this.parentNode.innerHTML='<span class=&quot;avatar-fallback&quot;>${getEmoji(spirit.a1)}</span>'">` : `<span class="avatar-fallback">${getEmoji(spirit.a1)}</span>`}</div>
     <div class="spirit-info">
       <div class="spirit-title-row">
         <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>

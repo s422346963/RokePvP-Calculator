@@ -1,7 +1,7 @@
 // js/04-power.js — 技能威力桥接层：条件框渲染/读取、powerCtx 构建、浮动威力提示、FULL 变动威力解析
 // 加载顺序位次 4：依赖 js/01（查表常量）/ js/02（buildPowerUtil）/ js/03（特性倍率）与 data/skillMult.js 规则表。
 // 规则表内不碰 DOM，全部经 buildPowerUtil 注入的 ctx.util；本文件自身只做 DOM 读写。
-// 运行时前向引用（合法）：calc / calcFull / findFullSlotRef 仍在 index.html 行内脚本，调用期才解析。
+// 运行时前向引用（合法）：calc / calcFull / findFullSlotRef 在 js/06、js/07 中声明，调用期才解析。
 // 读取技能威力条件选项
 function readPowerOptsByMode(mode, slot) {
   const opts = {};
@@ -56,7 +56,7 @@ function renderPowerCond(skill, mode, slot, container) {
   //    否则会留下一块只有「技能威力 100 → 威力 100」的空框（如蒸汽膨胀层数 0 时）。
   const side = (mode === 'b') ? 'atk' : (String(slot).indexOf('def') === 0 ? 'def' : 'atk');
   const tp = traitPowerFor(mode, side, skill);
-  const powerCtx = buildPowerCtx(mode, slot, skill);
+  const powerCtx = powerCtxFor(mode, slot, skill);
   const probe = resolveSkillPower(skill, powerCtx);
   const hasEffect = (probe.powerSet != null) || (probe.powerAdd !== 0) || (probe.powerPct !== 0) || (probe.powerMult !== 1)
     || (tp.powerMult !== 1) || (tp.powerAdd !== 0);
@@ -126,8 +126,8 @@ function renderPowerCond(skill, mode, slot, container) {
 function updatePowerChain(skill, mode, slot) {
   const box = document.getElementById(`pwr-chain-${mode}-${slot}`);
   if (!box) return;
-  const r = resolveSkillPower(skill, buildPowerCtx(mode, slot, skill));
-  const basePower = readBasePower(mode, slot);
+  const r = resolveSkillPower(skill, powerCtxFor(mode, slot, skill));
+  const basePower = chainBasePower(mode, slot, skill);
   // 特性威力倍率 / 特性威力加成：取该侧特性面板的最终生效值（与攻击层/防御层同一来源）
   const side = (mode === 'b') ? 'atk' : (String(slot).indexOf('def') === 0 ? 'def' : 'atk');
   const tp = traitPowerFor(mode, side, skill);
@@ -293,6 +293,8 @@ function fullSlotPwrOpts(slot) {
 function buildPowerCtx(mode, slot, skill) {
   const atkS = state.atk, defS = state.def;
   return {
+    // 模式 B 的属性覆盖会改变「生效属性」：天气/印记按它判定；FULL 无覆盖，用技能原属性
+    effectiveAttr: mode === 'b' ? (state.skillAttr || '') : (skill ? (skill.a || '') : ''),
     skAttr: skill ? (skill.a || '') : '',
     skCost: skill ? (skill.c || 0) : 0,
     skKind: skill ? (skill.k || '') : '',
@@ -816,4 +818,21 @@ function buildFullPowerCtx(side, idx, skillObj) {
       },
     }),
   };
+}
+
+// 威力链路/条件探测的上下文必须与 calcOneFskDmg 完全一致：
+//   FULL 用 buildFullPowerCtx（按出手侧互换攻防、统计对手侧能耗），
+//   模式 B / A 用 buildPowerCtx。此前 FULL 链路误用 buildPowerCtx，
+//   导致防方槽的「冰锋横扫」显示自己的总能耗、威力也与伤害对不上。
+function powerCtxFor(mode, slot, skill) {
+  const m = (mode === 'full') ? /^(atk|def)(\d)$/.exec(String(slot)) : null;
+  return m ? buildFullPowerCtx(m[1], parseInt(m[2], 10), skill) : buildPowerCtx(mode, slot, skill);
+}
+
+// 链路里的「技能威力」取槽位已解析的值（自动派生威力 / 用户手填威力），
+// 而不是只读 DOM 输入框 —— 派生威力写回内存时输入框可能尚未刷新。
+function chainBasePower(mode, slot, skill) {
+  const ref = (mode === 'full') ? fullSlotBySlotName(slot) : null;
+  if (ref) return ref.power !== undefined ? ref.power : (skill ? (skill.p || 0) : 0);
+  return readBasePower(mode, slot);
 }

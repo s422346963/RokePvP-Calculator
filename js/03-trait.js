@@ -1,7 +1,7 @@
 // js/03-trait.js — 特性层：倍率计算（calcAtkTraitMult / calcDefTraitMult）+ 面板 UI（显隐 / 条件框 / 输入读写）
 // 加载顺序位次 3：依赖 js/01-core（state）/ js/02-damage（collectStatBuffs）与 data/traitMult.js 规则表。
 // 边界：本文件只通过 traitInputId(kind, mode, side) / trait-opt-* 读写 DOM，不做布局；卡片级交互归 js/05+。
-// 运行时前向引用（合法）：calc / calcFull / switchMode / recalcStats 仍在 index.html 行内脚本，调用期才解析。
+// 运行时前向引用（合法）：calc / calcFull / switchMode / recalcStats 在 js/05~07 中声明，调用期才解析。
 // ============================================================
 // TRAIT MULTIPLIER AUTO-CALC  特性倍率自动计算 v3.0
 // ============================================================
@@ -91,7 +91,9 @@ function traitCondDefault(side, key, def) {
   return weatherCondDefault(key, def);
 }
 
-function calcAtkTraitMult(atk, def, skill, opts) {
+// levelSide：出手精灵归属的面板侧。FULL 方向 2 时右卡出手，须显式传 'def'，
+//   否则会拿左卡的等级去判定右卡特性（恶龙的奢望等会出现错误倍率）。
+function calcAtkTraitMult(atk, def, skill, opts, levelSide) {
   opts = opts || {};
   // 查表用特性名：首领形态可经 SPIRIT_TRAIT_ALIAS 复用基础形态的规则（见 data/traitMult.js）
   const atkTr = resolveTraitName(atk);
@@ -117,8 +119,8 @@ function calcAtkTraitMult(atk, def, skill, opts) {
   // 特殊特性规则已数据化到 data/traitMult.js（ATK_TRAIT_RULES）
   if (atkTr && ATK_TRAIT_RULES[atkTr]) {
     const rule = ATK_TRAIT_RULES[atkTr];
-    // level：攻方当前生效等级（基础等级 + 等级类特性增量），供等级判定类规则使用
-    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff: skAttr ? getTypeEff(skAttr, defA1, defA2) : 1, level: getEffectiveLevel('atk'), opts });
+    // level：出手方当前生效等级（基础等级 + 等级类特性增量），供等级判定类规则使用
+    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff: skAttr ? getTypeEff(skAttr, defA1, defA2) : 1, level: getEffectiveLevel(levelSide || 'atk'), opts });
     if (eff) {
       mult *= (eff.f === undefined ? 1 : eff.f);
       if (eff.d) desc.push(eff.d);
@@ -143,7 +145,8 @@ function calcAtkTraitMult(atk, def, skill, opts) {
 // ================================================================
 // 防方特性倍率计算（仅计算防方 defTr 的减伤）
 // ================================================================
-function calcDefTraitMult(atk, def, skill, opts) {
+// levelSide：受击精灵归属的面板侧（FULL 方向 2 须传 'atk'）
+function calcDefTraitMult(atk, def, skill, opts, levelSide) {
   opts = opts || {};
   const defTr = resolveTraitName(def);
   if (skill && skill.k === '\u72b6\u6001') return { mult:1, desc:'\u72b6\u6001\u6280\u80fd\u65e0\u4f24\u5bb3', needsInput:[] };
@@ -169,8 +172,8 @@ function calcDefTraitMult(atk, def, skill, opts) {
     const rule = DEF_TRAIT_RULES[defTr];
     // ⚠️ 防方 ctx 也补齐 skCost / skKind / skName / typeEff：防方规则可能需要按「来袭技能」判定
     //    （如 毒牙「只对物攻生效」、狂欢开始「受到的克制伤害+25%」）。字段与攻方 ctx 同名同义。
-    // level：防方当前生效等级（基础等级 + 等级类特性增量），供「低于X级受伤+N%」类规则使用
-    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff, level: getEffectiveLevel('def'), opts });
+    // level：受击方当前生效等级（基础等级 + 等级类特性增量），供「低于X级受伤+N%」类规则使用
+    const eff = rule.eff({ skAttr, skCost, skKind, skName, atkA1, atkA2, defA1, defA2, def, typeEff, level: getEffectiveLevel(levelSide || 'def'), opts });
     if (eff) {
       mult *= (eff.f === undefined ? 1 : eff.f);
       if (eff.d) desc.push(eff.d);
@@ -223,6 +226,19 @@ function getTraitNeedsInput(atkTr, defTr, skill) {
   return [];
 }
 
+// FULL 模式两侧精灵都可能出手（方向 2 时右卡进攻），因此每侧条件区要同时容纳
+// 该精灵的 ATK 规则与 DEF 规则字段；同 key 去重，避免生成重复 id 互相覆盖。
+function mergeTraitFields(primary, extra) {
+  const out = [];
+  const seen = new Set();
+  (primary || []).concat(extra || []).forEach(f => {
+    if (!f || !f.key || seen.has(f.key)) return;
+    seen.add(f.key);
+    out.push(f);
+  });
+  return out;
+}
+
 // ================================================================
 // 更新特性双面板 UI（攻防分离）
 // ================================================================
@@ -265,7 +281,6 @@ function updateTraitPanelForMode(mode, skill) {
   // ── 攻方面板 ──
   const atkNameEl = document.getElementById(`trait-atk-name-${mode}`);
   const atkDescEl = document.getElementById(`trait-atk-desc-${mode}`);
-  const atkMultEl = document.getElementById(mode === 'b' ? 'trait-mult-b' : 'trait-mult-full');
   const atkCondEl = document.getElementById(`trait-atk-cond-${mode}`);
 
   if (atkNameEl) atkNameEl.textContent = atkTr || '暂无特性';
@@ -274,7 +289,6 @@ function updateTraitPanelForMode(mode, skill) {
   // ── 防方面板 ──
   const defNameEl = document.getElementById(`trait-def-name-${mode}`);
   const defDescEl = document.getElementById(`trait-def-desc-${mode}`);
-  const defMultEl = document.getElementById(`trait-def-mult-${mode}`);
   const defCondEl = document.getElementById(`trait-def-cond-${mode}`);
 
   if (defNameEl) defNameEl.textContent = defTr || '暂无特性';
@@ -300,7 +314,9 @@ function updateTraitPanelForMode(mode, skill) {
   // 更新攻方倍率（按规则实际影响动态显隐：结算层倍率 / 威力层 / 攻击层）
   const atkBuffs = collectStatBuffs(atkResult.stat, state.atkStat === 'patk', 'atk');
   updateTraitInputVisibility(mode, 'atk', atkTrCalc, atkResult, atkBuffs);
-  if (atkCondEl) renderTraitCond(atkResult.needsInput, atkCondEl, mode, 'atk');
+  if (atkCondEl) renderTraitCond(
+    mode === 'full' ? mergeTraitFields(atkResult.needsInput, getDefTraitNeedsInput(atkTrCalc, skill)) : atkResult.needsInput,
+    atkCondEl, mode, 'atk');
   // 规则提示 → 跟在特性名称后同行；描述栏只留特性原始文本
   renderTraitNameWithNote(atkNameEl, atkTr, atkResult.desc, '✨');
   if (atkDescEl) atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
@@ -308,7 +324,9 @@ function updateTraitPanelForMode(mode, skill) {
   // 更新防方倍率（同上，动态显隐）
   const defBuffs = collectStatBuffs(defResult.stat, state.atkStat === 'patk', 'def');
   updateTraitInputVisibility(mode, 'def', defTrCalc, defResult, defBuffs);
-  if (defCondEl) renderTraitCond(defResult.needsInput, defCondEl, mode, 'def');
+  if (defCondEl) renderTraitCond(
+    mode === 'full' ? mergeTraitFields(defResult.needsInput, getTraitNeedsInput(defTrCalc, null, skill)) : defResult.needsInput,
+    defCondEl, mode, 'def');
   renderTraitNameWithNote(defNameEl, defTr, defResult.desc, '🛡️');
   if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
 }
@@ -396,7 +414,10 @@ function updateTraitInputVisibility(mode, side, traitName, res, buffs) {
     // 签名变化 = 规则的数据来源变了（换精灵/ 换技能 / 改条件）→ 手动覆盖作废，
     // 回到条件生成的自动值。签名不变（仅普通重算）→ 保留用户手动填写的值。
     // 例：次数 2 → 1.4，手动改 1.5 生效；再把次数改成 4 → 签名变化 → 恢复 1.8。
-    const sig = (traitName || '') + '|' + traitOptsSignature(mode, side);
+    // 换技能也会改变规则的数据来源，旧手动覆盖必须作废（此前只含特性名 + 条件输入）
+    const _sigSkill = traitSkillFor(mode, side);
+    const sig = (traitName || '') + '|' + (_sigSkill ? _sigSkill.n + ':' + (_sigSkill.k || '') : '-')
+      + '|' + traitOptsSignature(mode, side);
     if (row.dataset.sig !== sig) {
       row.dataset.sig = sig;
       // ⚠️ 手动标记 data-user-edited 打在 <input> 上，而 [data-trait-input] 在分组 <span> 上，
@@ -712,10 +733,6 @@ function readTraitOptsByMode(mode, side) {
   return opts;
 }
 
-function readTraitOpts() {
-  // 兼容旧代码，优先读mode-b的选项
-  return readTraitOptsByMode('b');
-}
 // ================================================================
 // 技能威力条件（data/skillMult.js）的输入 / 渲染 / 读取
 // ================================================================
