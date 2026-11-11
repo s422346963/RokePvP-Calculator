@@ -365,19 +365,23 @@ Mobile:   [ 攻击方面板 ]
 
   | `TRAIT_CHANNELS` 声明 | 可见输入框 | 所属层 |
   | --- | --- | --- |
-  | 无通道（含未登记） | 特性倍率 | 结算层 |
-  | 仅 `mult` | 特性倍率 | 结算层 |
+  | 无通道（含未登记） | 特性倍率（兜底） | 结算层 |
+  | `mult` | 特性倍率 | 结算层 |
   | `pwM` | 特性威力倍率 | 威力层（乘法段） |
   | `pwA` | 特性威力 | 威力层（加法段） |
   | `atkM` | 特性攻击倍率（防方：特性防御倍率） | 攻击层 / 防御层 |
   | `atkA` | 特性攻击（防方：特性防御） | 攻击层 / 防御层 |
+  | 多通道并列 | 各通道对应输入框一起显示 | 按通道所属层 |
 
+  - **按侧声明**：同一特性攻/防侧落在不同层时，登记 `{ sides: { atk: <ch>, def: <ch> } }`，
+    由 `getTraitChannelsForSide(name, side)` 解析（例：`圣龙的守护` 攻方 `atkM` 物攻加成 /
+    防方 `mult` 易伤 ×1.3，两侧各显示自己的框）
   - ⚠️ **显隐依据是「规则声明了哪些通道」，不是「条件当前是否满足」**
     例：`蒸汽膨胀` 声明了 `powerBonus`，即使层数为 0 也只显示「特性威力」，
     不会退化成显示「特性倍率」。`烈火守护`即为此例。
   - 声明表位置：`data/traitMult.js` 的 `TRAIT_CHANNELS`
-  - 判定实现：`getTraitChannels()` / `traitChannelsToKinds()` → `traitInputKinds()` /
-    `updateTraitInputVisibility()` / `readTraitInputs()`
+  - 判定实现：`getTraitChannelsForSide()`（解析按侧声明 + 防方自动推导）/ `traitChannelsToKinds()`
+    → `traitInputKinds()` / `updateTraitInputVisibility()` / `readTraitInputs()`
   - **可见时输入框即权威值**（已自动回填规则算出的数值，用户可手动改）；
     不可见时 `readTraitInputs()` 回退为规则计算值 —— 任何情况下都只有一份量值，不会重复叠加
   - 隐藏的输入框不参与计算，但值保留在 DOM 中不丢失

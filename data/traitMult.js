@@ -11,14 +11,16 @@
 //      ⚠️ 两张表的 const 声明与三个注册函数必须排在所有规则定义之前（否则 TDZ 报错）
 //   ② 规则条目（按通道分组：能耗 / 属性判定 / 层数 / 攻防属性 stat / 减伤 f …）
 //   ③ TRAIT_LEVEL_RULES 等级类特性（defineTraitLevelRule，当前 3 条：恶龙的奢望 / 圣龙的心愿 / 圣龙的守护）
-//   ④ TRAIT_CHANNELS 静态通道声明表 + 查询 helper（决定 UI 显示哪些输入框）
+//   ④ TRAIT_CHANNELS 静态通道声明表 + 查询 helper（决定 UI 显示哪些输入框；
+//      支持普通通道与 { sides: { atk, def } } 按侧声明）
 //   ⑤ SPIRIT_TRAIT_ALIAS 精灵名 → 查表特性名 + resolveTraitName()
 //      首领/特殊形态沿用基础形态的规则，不改 spirits.js 的 tr
 //   规模（2026-11）：规则 攻 78 / 防 31（并集 90 个特性名），通道表 90 条
 //
 // ── 新增一条特性规则的最小步骤 ─────────────────────────────
 //   ① 本文件注册（fields + eff），并按「侧向归属」选对注册函数
-//   ② TRAIT_CHANNELS 登记通道，否则 UI 退化为只显示「特性倍率」
+//   ② TRAIT_CHANNELS 登记通道（攻/防侧不同时用 { sides: { atk, def } }），
+//      否则 UI 退化为只显示「特性倍率」
 //   ③ node .tmp/verify_new_traits.js / verify_formula.js / smoke_load.js
 //   ⚠️ 条件字段构造器只能用本文件的 ck（复选框）/ num（数字框）；
 //      skillMult.js 另有 spCk / spNum，两套同名会整页白屏
@@ -72,6 +74,7 @@
 //   依据「规则声明了哪些通道」，而非「条件当前是否满足」
 //     （例：蒸汽膨胀声明 powerBonus，层数为 0 时仍显示「特性威力」，不退化）
 //   未登记 → 只显示「特性倍率」；查询走 getTraitChannelsForSide(name, side)
+//   通道可并列（mult + atkM 会同时显示两个框）；攻/防侧落在不同层时用按侧声明
 //
 // ── f 通道迁移记录（避免重复计算 / 归位到正确的层）──────────
 //   下列特性原先用 f 表达，已按语义归位，迁移后 f 一律为 1：
@@ -1099,10 +1102,11 @@ defineDefTraitRule(['圣龙的守护'],
 //   atkM —— 攻击/防御层「特性攻击倍率」：stat 的百分比加成
 //   atkA —— 攻击/防御层「特性攻击」：stat 的固定点数加成
 //
-// 显示规则（index.html 的 traitInputKinds）：
-//   有 pwM / pwA / atkM / atkA 任一 → 只显示对应输入框，不显示「特性倍率」
-//   都没有但有 mult              → 只显示「特性倍率」
-//   规则表未登记                 → 只显示「特性倍率」
+// 显示规则（js/03-trait.js 的 traitInputKinds）：
+//   pwM / pwA / atkM / atkA / mult 各自对应一个输入框，可并列显示
+//   规则表未登记 → 只显示「特性倍率」（兜底）
+//   ⚠️ 同一特性攻/防侧通道不同 → 用 { sides: { atk: <ch>, def: <ch> } } 按侧声明，
+//      由 getTraitChannelsForSide(name, side) 解析；普通登记仍走下方自动推导
 const CH_NONE = { };                                        // 无通道（未登记）
 const CH_MULT = { mult: true };                             // 仅结算层倍率
 const CH_PWM  = { pwM: true };                              // 仅威力倍率
@@ -1214,36 +1218,48 @@ const TRAIT_CHANNELS = {
 
   // ── 2026-11 批次：493 阿布 / 超能阿布（等级类特性）──
   '圣龙的心愿': CH_MULT,                 // 等级 <80 → 受到伤害 ×1.3
-  '圣龙的守护': CH_ATKM,                 // 每提升1级 物攻+5%（防方易伤走隐藏 mult 回退）
+  // 双通道特性：攻方是 stat.patk 百分比（atkM），防方是 f 易伤（mult）。
+  //   按侧声明分别指定，否则一条登记只能选一个通道，防方的 ×1.3 会落到
+  //   不可见的「特性倍率」上，面板只显示一个恒 1.0 的「特性防御倍率」。
+  '圣龙的守护': { sides: { atk: CH_ATKM, def: CH_MULT } },
 };
 
-// 取某特性声明的通道；未登记返回 null（UI 退化为只显示「特性倍率」）
+// 取某特性声明的**原始**通道；未登记返回 null（UI 退化为只显示「特性倍率」）。
+//   值可以是普通通道对象，也可以是 { sides: { atk, def } } 按侧声明；
+//   UI 查询一律走 getTraitChannelsForSide(name, side)，由它解析 sides。
 function getTraitChannels(traitName) {
   if (!traitName) return null;
   const ch = TRAIT_CHANNELS[traitName];
   return ch === undefined ? null : ch;
 }
 
-// 按「侧」取通道声明（防方必须与攻方分开，否则会把只影响自身出招的特性显示到防方面板）
-//   防方路径 calcDefTraitMult 只采纳 f 与 stat —— 威力层通道（pwM / pwA）在防方永不生效：
-//     · 不在 DEF_TRAIT_RULES 里的特性 = 攻方专属（只增强持有者自己出手的技能，
-//       如蒸汽膨胀「己方每用1次火系技能→全技能威力+10」），当防方时对来袭伤害毫无作用，
-//       防方面板只应显示「特性倍率」（1.0），不能出现「特性威力」并被误当成减伤/威力加成。
-//     · 在 DEF_TRAIT_RULES 里的特性：剔除威力层通道，只保留 mult / atkM / atkA；
-//       剔完为空则同样退化为「特性倍率」。
+// 按「侧」取通道声明
+//   ① 按侧声明 { sides: { atk, def } }：显式指定优先，直接返回该侧通道，跳过自动推导。
+//      用于同一特性攻/防侧落在不同层的场景（圣龙的守护：攻方 stat.atkM / 防方 f.mult）。
+//   ② 普通通道对象：防方做自动推导 —— 防方路径 calcDefTraitMult 只采纳 f 与 stat，
+//      威力层通道（pwM / pwA）在防方永不生效：
+//        · 不在 DEF_TRAIT_RULES 里的特性 = 攻方专属（只增强持有者自己出手的技能，
+//          如蒸汽膨胀「己方每用1次火系技能→全技能威力+10」），当防方时对来袭伤害毫无作用，
+//          防方面板只应显示「特性倍率」（1.0），不能出现「特性威力」并被误当成减伤/威力加成。
+//        · 在 DEF_TRAIT_RULES 里的特性：剔除威力层通道，只保留 mult / atkM / atkA；
+//          剔完为空则同样退化为「特性倍率」。
 function getTraitChannelsForSide(traitName, side) {
-  const ch = getTraitChannels(traitName);
-  if (side !== 'def') return ch;
-  if (!ch) return null;
+  const raw = getTraitChannels(traitName);
+  if (!raw) return null;
+  if (raw.sides) {
+    const ch = side === 'def' ? raw.sides.def : raw.sides.atk;
+    return ch === undefined ? null : ch;
+  }
+  if (side !== 'def') return raw;
   if (!DEF_TRAIT_RULES[traitName]) return CH_MULT;
   const defCh = {};
-  if (ch.mult) defCh.mult = true;
-  if (ch.atkM) defCh.atkM = true;
-  if (ch.atkA) defCh.atkA = true;
+  if (raw.mult) defCh.mult = true;
+  if (raw.atkM) defCh.atkM = true;
+  if (raw.atkA) defCh.atkA = true;
   return Object.keys(defCh).length ? defCh : CH_MULT;
 }
 
-// 通道 → UI 输入框 kind 列表（供index.html 的 traitInputKinds 使用）
+// 通道 → UI 输入框 kind 列表（供 js/03-trait.js 的 traitInputKinds 使用）
 //   mult → '特性倍率'（结算层）
 //   pwM  → '特性威力倍率'（威力层乘法段）
 //   pwA  → '特性威力'（威力层加法段）
@@ -1251,12 +1267,16 @@ function getTraitChannelsForSide(traitName, side) {
 //   atkA → '特性攻击' / '特性防御'（攻击层/防御层）
 function traitChannelsToKinds(ch) {
   if (!ch) return ['mult'];
+  // 允许直接传原始按侧登记值（如校验脚本）：按攻方解析
+  if (ch.sides) ch = ch.sides.atk || {};
   const kinds = [];
   if (ch.pwM) kinds.push('powerMult');
   if (ch.pwA) kinds.push('powerAdd');
   if (ch.atkM) kinds.push('atkMult');
   if (ch.atkA) kinds.push('atkAdd');
-  if (kinds.length === 0) kinds.push('mult');   //含「只有 mult」与「未登记」两种情况
+  // mult 是可并列通道：显式声明时与其它输入框一起显示；
+  // 未声明任何具体通道时仍作兜底（含「仅 mult」与「未登记」）。
+  if (ch.mult || kinds.length === 0) kinds.push('mult');
   return kinds;
 }
 
