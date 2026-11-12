@@ -25,9 +25,9 @@
   | --- | --- | --- |
   | `js/01-core.js` | 纯逻辑 1 | `toPinyin`/`toInitials`/`matchQuery`、愿力冲击运行时注入（顶层 `SKILLS.push`，唯一允许的数据注入类顶层语句）、`state`（含 `weather`/`marks`）、`getWeather`/`weatherCondDefault`、`MARK_TABLE`/`getActiveMarks`/`getMarkInfo`、`calcRealStat`/`readIV`/`setIv`/`toggleIV`、性格表、`f1`/`f2`/`f3`、`diffTableLookup`/`levelMult`/`getTypeEff`/`hasStab`、`SPEED_DIFF_TABLE`/`PDEF_DIFF_TABLE`/`MANA_BURST_TABLE`、搜索索引 `filterSpiritsByQuery`/`filterSkillsByQuery`/`searchScore`/`pinyinSegmentMatch` |
   | `js/02-damage.js` | 公式层 | **`computeDamage`（唯一实现点）**、`collectStatBuffs`、`applyStatBuff`、`buildPowerUtil`、`mergeBuffSourcesList`、`renderLayersHtml`（纯字符串）。**禁止出现 DOM 引用**（`verify_formula.js` 有断言） |
-  | `js/03-trait.js` | 特性层 | `calcAtkTraitMult`/`calcDefTraitMult`/`checkDefCarriesAttr`/`getTraitNeedsInput` 等计算 + 特性面板 UI（`updateTraitInputVisibility`/`renderTraitCond`/`readTraitInputs`/`traitInputId`/条件签名缓存）；条件默认值经 `weatherCondDefault()` 支持天气联动 |
+  | `js/03-trait.js` | 特性层 | `calcAtkTraitMult`/`calcDefTraitMult`/`checkDefCarriesAttr`/`getTraitNeedsInput` 等计算 + 特性面板 UI（`updateTraitInputVisibility`/`renderTraitCond`/`renderTraitNote`/`readTraitInputs`/`traitInputId`/条件签名缓存）；条件默认值经 `weatherCondDefault()` 支持天气联动 |
   | `js/04-power.js` | 威力桥接层 | `renderPowerCond`/`readPowerOptsByMode`/`buildPowerCtx`/`buildFullPowerCtx`/`resolveAutoPowerForSlot`/`getFskPowerTipHTML`/`updatePowerTip`/`traitPowerFor`；全局参数 UI：`syncWeatherSelects`/`applyWeatherToConds`/`onWeatherChange`、`syncMarkUI`/`onMarkChange`/`onMarkStacksChange` |
-  | `js/05-card.js` | 卡片交互层 | `renderCard`/`setupSearch`/`recalcStats`/能力等级/IV/交换/num-combo/`traitPanelHTML`+`renderTraitPanels`（特性面板模板）、`SORTED_SPIRITS` 别名 |
+  | `js/05-card.js` | 卡片交互层 | `renderCard`/`setupSearch`/`recalcStats`/能力等级/IV/交换/num-combo/`traitPanelHTML`+`renderTraitPanels`（特性面板模板：`.trait-head-row` / 每组重置按钮 / 规则提示位 `#trait-{side}-note-{mode}`）、`SORTED_SPIRITS` 别名 |
   | `js/06-calc-ab.js` | 模式 A/B | `switchMode`/`calc`/技能下拉 picker/`buildTypeSelector`（B 模式活调用）/吸底结果条 `updateResultDock`·`clearResultDock`·`syncResultDockVisibility` |
   | `js/07-full.js` | FULL 模式 | `fullState`/`buildFullSkillRows`/`openFskDropdown`/`selectFskSkill`/`calcOneFskDmg`/`calcFull`/`renderFullResult` |
   | `js/08-fav-init.js` | 收尾层 | 收藏/`loadFavorites`·`saveFavorites`/拖动浮层/`toggleTheme`/通用弹窗/**全部事件绑定**/顶层 INIT（含 `syncWeatherSelects`/`syncMarkUI` 对齐）/`initResultDock`/`DOMContentLoaded` 入口 |
@@ -54,7 +54,7 @@
 - 三种模式：`switchMode()` 切换 A（快捷）/ B（参数）/ FULL（配招），互斥显示：
   - **A**：威力按「游戏内显示值」处理 —— 已含特性/克制/能级/本系/天气/印记，因此 `calc()` 内**不乘**克制、本系、能级倍率，也不套能力等级、不吃特性攻防加成；属性选择器已隐藏（`js/08-fav-init.js` 顶层 `buildTypeSelector('skill-type-selector-a')` 被注释），天气/印记控件在 A 面板也不存在。
   - **B**：`applyQuickSkill()` 选中技能后由 `syncModeBAutoFields()` 自动填克制/本系/能级倍率；威力基数 = `base-power-b` + 技能威力固定修正 + 特性威力加算 `trait-power-b`，再经 `resolveSkillPower()` 叠加技能规则 / 天气 / 印记的百分比。
-  - **FULL**：`fullState` + `buildFullSkillRows()` / `openFskDropdown()` / `selectFskSkill()` / `calcOneFskDmg()` / `calcFull()` / `renderFullResult()`，攻防各 4 个技能槽；此模式下公共 `result-panel` 被隐藏。
+  - **FULL**：`fullState` + `buildFullSkillRows()` / `openFskDropdown()` / `selectFskSkill()` / `calcOneFskDmg()` / `calcFull()` / `renderFullResult()`，攻防各 4 个技能槽；此模式下公共 `result-panel` 被隐藏。技能行 8 列中**第 7 列为伤害列**（`#fsk-dmg-cell-{side}-{i}`：总伤害 + 占受击方 HP 百分比，`title` 给出单次伤害 / 连击 / 威力链路等明细；白天伤害数字黑色、百分比按占比染色），原「修正威力」只读列已移除。`#full-result-panel` 只渲染选中技能的详细拆解，未选中时才显示引导文字（无顶部横线、无左右多技能对比列表）；点击技能行走 `selectFullSkill()` → `calcFull()`，因为行会被重建、必须重算回填伤害列。
 - **伤害公式：四层拆分，唯一实现为 `computeDamage(o)`**（`calc()` 与 `calcOneFskDmg()` 都只调它，两处**不得**再出现连乘公式字面量）：
   ```
   attackValue  = (面板攻击 + Σ固定加成) × (1 + Σ特性百分比加成 + (攻击能力等级倍率 − 1))
@@ -101,6 +101,7 @@
   - **显隐依据是「规则声明了哪些通道」，不是「条件当前是否满足」**：如 `蒸汽膨胀` 声明 `powerBonus`，即使层数 0 也只显示「特性威力」，不退化为「特性倍率」。未登记的特性 → 只显示「特性倍率」。
   - **手动覆盖 + 自动回填共存**：`updateTraitInputVisibility()` 用「输入源签名」（特性名 + 该侧全部条件输入）判断数据来源是否变化 —— 变化（换精灵/换技能/改条件）则清 `data-user-edited` 并回填规则值；不变（仅普通重算）则保留手填值。`onTraitInputEdit()` 打标记。
   - **重置 = 回到无加成基线**：`resetTraitInput()` 清该侧全部手动标记 → 条件输入框恢复规则声明默认值（次数 → 0，复选框 → 默认勾选）→ 重跑规则，倍率回到 `1.0`、加成回到 `0`。id 规则见 `traitInputId(kind, mode, side)`；`readTraitInputs()` 对隐藏项回退为规则计算值，不会重复叠加。
+  - **面板布局与规则提示**：特性名与描述同行包在 `.trait-head-row`（窄屏自动换行）；每个输入组末尾带「重置」按钮，触发 `resetTraitInput(mode, side, kind)`；规则提示由 `renderTraitNote()` 写入倍率行末尾的 `#trait-{side}-note-{mode}`（`.trait-name-note`，攻橙防蓝，空则隐藏），不再拼进特性名元素。
 - **技能威力修正**：`data/skillMult.js`（101 条规则）。`resolveSkillPower(skill, ctx)` 返回 `{powerAdd, powerPct, powerMult, hitsSet, label, hasRule, unimplemented}`。条件字段渲染 `renderPowerCond()` / `onPowerCondChange()` / `readPowerOptsByMode()`，id 命名空间 `pwr-opt-{mode}-{slot}-{key}`（与 `trait-opt-*` 隔离）。`ctx.util` 由 `buildPowerUtil()` 注入（查表函数 + 面板值 + 敌方技能槽能耗/威力），**规则表内不碰 DOM**。`ctx.weather`（`rain`/`blizzard`）与 `ctx.mark`（`getMarkInfo()` 返回值）也在该函数内并入 `powerPct`，因此**无规则的技能同样吃天气/印记加成**。
   - **未实现规则不提示**：`isSkillPowerUnimplemented()` 与 `resolveSkillPower()` 返回的 `unimplemented` 标记仍保留在 `data/skillMult.js`，但 UI 不再显示 `.power-mod-warn` 警告条（该样式已删除）—— 无规则的技能静默按基础威力计算，由用户自行手动填写威力/连击。
   - 变动威力查表：`SPEED_DIFF_TABLE`（闪击）、`PDEF_DIFF_TABLE`（鸣沙陷阱，与前者同一数组引用）、`MANA_BURST_TABLE`（魔能爆，本次新增接入自动回填）、`冰锋横扫`（敌方总能耗×10）、`怨力打击`/`钢钻`（公式型，`p:1` 为占位值）。`diffTableLookup()` 由 `util` 注入。FULL 模式经 `resolveAutoPowerForSlot()` 统一解析，**`buildFullSkillRows`/`calcOneFskDmg` 内不再有逐个 `if (sk.n === ...)` 硬编码**。

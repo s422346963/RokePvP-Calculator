@@ -260,14 +260,14 @@ Mobile:   [ 攻击方面板 ]
 #### 模式 FULL — 完整技能配置
 
 - 左右两列 `.full-skill-panel`：攻 4 槽 / 防 4 槽  
-- 每槽 Grid：`技能 | 类型 | 属性 | 能耗 | 连击 | 威力 | 修正后威力 | 备注? | 条件区`  
-  - 修正后威力为只读列 `.fsk-power-eff`，生效时加 `.is-effected`（紫色 `#ce93d8`），`title` 展示完整链路
+- 每槽 Grid：`技能 | 类型 | 属性 | 能耗 | 连击 | 威力 | 伤害 | 备注? | 条件区`  
+  - 伤害列 `.fsk-dmg-cell`：上行总伤害 + 下行占受击方 HP 的百分比；白天模式伤害数字为黑色、夜间用主题文字色，百分比按占比绿 / 黄 / 红染色；`title` 展示单次伤害 / 连击 / 威力链路 / 星陨合计明细
   - 条件区 `.fsk-cond-box`（`grid-column: 1 / -1` 整行宽），内嵌同款 `.power-mod-box`
     字段 id 命名空间 `pwr-opt-full-{side}{i}-{key}`
 - 修正栏的展开 / 收起：侧标题尾部三角形 `.cond-toggle`（收起态 `▲`、展开态 `▼`，图标表示
   「点击后的动作」），两侧独立、**默认收起**；收起只是隐藏 `.fsk-cond-box`（DOM 与已填条件值保留）
 - 特性双面板 + 额外倍率 / 星陨 / 减伤  
-- 内嵌 `full-result-panel`：左右对比条 + 点击技能看明细  
+- 内嵌 `full-result-panel`：未选中技能时显示引导文字；选中后只显示该技能的详细拆解（大数字 / HP 条 / 四层拆解 / 公式），无左右对比列表、无顶部横线  
 
 ### 4.4 结果面板（`.result-panel`）
 
@@ -359,8 +359,8 @@ Mobile:   [ 攻击方面板 ]
 
 - 双列 Grid；移动单列  
 - 攻方 header 浅橙底；防方 header 浅蓝底  
-- 名称加粗语义色；描述 11px  
-- 倍率输入 + 重置按钮  
+- `.trait-head-row`：特性名称（加粗语义色）与描述（11px）同行，窄屏自动换行  
+- 倍率输入行 `.trait-mult-row`：每个输入组带「重置」按钮（`resetTraitInput(mode, side, kind)`）；行末 `.trait-name-note` 显示规则提示（`renderTraitNote()` 写入 `#trait-{side}-note-{mode}`，攻橙防蓝，空则隐藏）  
 - **输入框按规则声明的通道动态显隐**（`trait-inputs-{mode}-{side}` 容器 + `[data-trait-input]` 标记）：
 
   | `TRAIT_CHANNELS` 声明 | 可见输入框 | 所属层 |
@@ -399,15 +399,15 @@ Mobile:   [ 攻击方面板 ]
 
 ### 5.11 技能槽行 FSK Row（FULL）
 
-- CSS Grid 固定列宽（技能栏 flex 吃剩余）  
+- CSS Grid 固定列宽（技能栏 flex 吃剩余）；8 列已整体收紧：`gap:4px`、行内左右内边距 7px、伤害列 62px、备注列 18px  
 - hover 浅底；`.selected` accent 边  
 - 物/魔/状态 tag 不同色边  
 - 备注 `?` 图标 hover 出 tooltip  
 
-### 5.12 结果对比条 FRS Row
+### 5.12 结果对比条 FRS Row（已移除）
 
-- 名称 + 细进度条 + 百分比  
-- 选中高亮同 accent  
+- 原 FULL 结果面板左右两侧各 4 行的技能伤害对比列表已删除（DOM / CSS / `buildResultSide()` 均移除）  
+- 各技能伤害与百分比改由技能行「伤害」列展示，结果面板只保留选中技能的详细拆解  
 
 ### 5.13 收藏 Fav
 

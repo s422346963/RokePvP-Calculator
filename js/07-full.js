@@ -46,7 +46,7 @@ function buildFullSkillRows(side) {
   // ── header 行 ──
   const header = document.createElement('div');
   header.className = 'fsk-header-row';
-  ['', '类型', '属性', '能耗', '连击', '威力', '修正威力', '备注'].forEach(txt => {
+  ['', '类型', '属性', '能耗', '连击', '威力', '伤害', '备注'].forEach(txt => {
     const cell = document.createElement('span');
     cell.className = 'fsk-header-cell';
     cell.textContent = txt;
@@ -168,7 +168,7 @@ function buildFullSkillRows(side) {
         if (_auto !== null) slotData.power = _auto;
       }
     }
-// 列5：威力
+// 列6：威力
     const powerInput = document.createElement('input');
     powerInput.type = isStatusSkill ? 'text' : 'number';
     powerInput.className = 'fsk-power';
@@ -187,14 +187,22 @@ function buildFullSkillRows(side) {
     };
     row.appendChild(powerInput);
 
-    // 列5.5：修正后威力（只读，规则表 + 特性加算 + 乘除段的结果）
-    const effPowerSpan = document.createElement('span');
-    effPowerSpan.className = 'fsk-power-eff';
-    effPowerSpan.id = `fsk-peff-${side}-${i}`;
-    effPowerSpan.textContent = isStatusSkill ? '' : '—';
-    row.appendChild(effPowerSpan);
+    // 列7：伤害列（总伤害 + 占受击方 HP 的百分比），由 calcFull 回填
+    const dmgCell = document.createElement('div');
+    dmgCell.className = 'fsk-dmg-cell dmg-' + side;
+    dmgCell.id = `fsk-dmg-cell-${side}-${i}`;
+    const dmgSpan = document.createElement('span');
+    dmgSpan.className = 'fsk-dmg';
+    dmgSpan.id = `fsk-dmg-${side}-${i}`;
+    dmgSpan.textContent = '—';
+    const pctSpan = document.createElement('span');
+    pctSpan.className = 'fsk-dmg-pct';
+    pctSpan.id = `fsk-pct-${side}-${i}`;
+    dmgCell.appendChild(dmgSpan);
+    dmgCell.appendChild(pctSpan);
+    row.appendChild(dmgCell);
 
-    // 列6：备注❓（列5.6 的修正栏要在它之后 append，见行末）
+    // 列8：备注❓（整行条件区要在它之后 append，见行末）
     const remarkTip = document.createElement('span');
     remarkTip.className = 'fsk-tip-icon';
     remarkTip.id = `fsk-tip-${side}-${i}`;
@@ -221,7 +229,7 @@ function buildFullSkillRows(side) {
     }
     row.appendChild(remarkTip);
 
-    // 列5.6：技能威力条件（内嵌勾选/数字框，整行贯通 width:100%）
+    // 条件区：技能威力条件（内嵌勾选/数字框，整行贯通 width:100%）
     //   ⚠️ 必须放在备注之后 append：它 grid-column:1/-1 独占一行，
     //      若排在备注前面，自动排布会把备注❓挤到它下面的一行（备注列对不齐）
     const condBox = document.createElement('div');
@@ -229,17 +237,7 @@ function buildFullSkillRows(side) {
     condBox.id = `fsk-cond-${side}-${i}`;
     row.appendChild(condBox);
 
-    // 隐藏的伤害/百分比（供 calcFull 使用，放在 row 外避免影响 grid）
-    const dmgSpan = document.createElement('span');
-    dmgSpan.className = 'fsk-dmg';
-    dmgSpan.id = `fsk-dmg-${side}-${i}`;
-    const pctSpan = document.createElement('span');
-    pctSpan.className = 'fsk-dmg-pct';
-    pctSpan.id = `fsk-pct-${side}-${i}`;
-
     container.appendChild(row);
-    container.appendChild(dmgSpan);
-    container.appendChild(pctSpan);
 
     // 行渲染完成后填充技能威力条件区（FULL 模式内嵌）
     if (skillObj && !isStatusSkill) {
@@ -341,7 +339,7 @@ function selectFullSkill(side, idx) {
   updateStarMarksFullState();
   buildFullSkillRows(side);
   buildFullSkillRows(side === 'atk' ? 'def' : 'atk');
-  renderFullResult();
+  calcFull();   // 行已重建：重算并回填两侧伤害列，同时刷新详情面板
 }
 
 // 计算单个技能伤害（完整模式）
@@ -543,26 +541,28 @@ function calcFull() {
       const res = calcOneFskDmg(atkSp, defSp, fullState[side][i]);
       const dmgEl = document.getElementById(`fsk-dmg-${side}-${i}`);
       const pctEl = document.getElementById(`fsk-pct-${side}-${i}`);
+      const dmgCell = document.getElementById(`fsk-dmg-cell-${side}-${i}`);
       if (dmgEl) dmgEl.textContent = res ? (res.isStatus ? '—' : f1(res.dmg)) : '—';
-      if (pctEl) pctEl.textContent = res && !res.isStatus ? res.pct.toFixed(1) + '%' : '';
-      // 「修正后威力」只读列：显示规则表 + 特性加算 + 乘除段后的结果
-      const peEl = document.getElementById(`fsk-peff-${side}-${i}`);
-      if (peEl) {
-        if (!res || res.isStatus) { peEl.textContent = ''; peEl.className = 'fsk-power-eff'; }
+      if (pctEl) {
+        pctEl.textContent = res && !res.isStatus ? res.pct.toFixed(1) + '%' : '';
+        pctEl.style.color = res && !res.isStatus
+          ? (res.pct >= 50 ? '#ef5350' : res.pct >= 25 ? '#ffa726' : '#66bb6a') : '';
+      }
+      // 伤害列：hover 展示单次伤害 / 连击 / 威力链路等完整明细
+      if (dmgCell) {
+        if (!res || res.isStatus) { dmgCell.title = ''; dmgCell.classList.remove('has-dmg'); }
         else {
-          // 口径：威力 = (基础威力区 + 固定威力提升区) × 技能威力乘区
+          dmgCell.classList.add('has-dmg');
           const _pr = res.layers.res;
-          const _pCore = _pr.powerSkill * _pr.powerCounter;                      // 基础威力区
-          const _pBase = _pr.powerSkill + _pr.powerFlatAll;                      // 无任何倍率时的威力
-          peEl.textContent = f1(_pr.powerFinal);
-          peEl.className = 'fsk-power-eff' + (_pr.powerFinal !== _pBase ? ' is-effected' : '');
-          peEl.title = '技能威力 ' + f1(_pr.powerSkill)
+          dmgCell.title = `总伤害 ${f1(res.dmg)}（受击方 HP ${res.pct.toFixed(1)}%）\n`
+            + `单次 ${f1(Math.floor(_pr.singleDmg))} × ${res.hits} 连击\n`
+            + '技能威力 ' + f1(_pr.powerSkill)
             + (_pr.powerCounter !== 1 ? ' ×应对' + f2(_pr.powerCounter) : '')
             + (_pr.powerFlatAll !== 0 ? ' +固定提升' + (_pr.powerFlatAll > 0 ? '+' : '') + f1(_pr.powerFlatAll) : '')
-            + ' → ' + f1(_pCore + _pr.powerFlatAll)
             + (_pr.powerMultAll !== 1 ? ' ×乘区' + f2(_pr.powerMultAll) : '')
-            + ' = ' + f1(_pr.powerFinal)
-            + (res.layers.pw && res.layers.pw.label ? '\n' + res.layers.pw.label : '');
+            + ' → ' + f1(_pr.powerFinal)
+            + (res.layers.pw && res.layers.pw.label ? '\n' + res.layers.pw.label : '')
+            + (res.starMarks > 0 ? `\n星陨追加 ${f1(res.starDmg)}（合计 ${f1(res.totalDmg)}）` : '');
         }
       }
       // 本次威力修正的只读链路：FULL 行不会重建，条件改动后必须在这里刷新
@@ -591,38 +591,7 @@ function renderFullResult() {
   const atkSel = fullState.atkSel;
   const defSel = fullState.defSel;
 
-  // 构建左右技能列表
-  function buildResultSide(side, label, color) {
-    const atkSp = side === 'atk' ? state.atk : state.def;
-    const defSp = side === 'atk' ? state.def : state.atk;
-    const defHp = defSp.real_hp || defSp.hp;
-    const selIdx = fullState[side + 'Sel'];
-    let rows = '';
-
-    for (let i = 0; i < 4; i++) {
-      const res = calcOneFskDmg(atkSp, defSp, fullState[side][i]);
-      const skName = fullState[side][i] ? fullState[side][i].skill.n : `技能${i+1}`;
-      const isStatus = res && res.isStatus;
-      const pct = (res && !isStatus) ? res.totalPct : 0;
-      const barW = (res && !isStatus) ? Math.min(100, res.totalPct).toFixed(1) : 0;
-      const pctColor = pct >= 50 ? '#ef5350' : pct >= 25 ? '#ffa726' : '#66bb6a';
-      const isSel = selIdx === i;
-      rows += `
-        <div class="frs-row${isSel ? ' selected' : ''}" onclick="selectFullSkill('${side}', ${i})">
-          <span class="frs-name" style="font-weight:${isSel?'700':'500'}">${skName}</span>
-          <div class="frs-bar-wrap"><div class="frs-bar" style="width:${barW}%;background:${color}"></div></div>
-          <span class="frs-pct" style="color:${(res && !isStatus) ? pctColor : 'var(--text2)'}">${isStatus ? '<span style="color:var(--text2);font-size:11px">状态</span>' : (res ? pct.toFixed(1)+'%' : '—')}</span>
-        </div>`;
-    }
-    return `
-      <div class="full-result-side">
-        <div class="full-result-side-title" style="color:${color}">${label}</div>
-        ${rows}
-      </div>`;
-  }
-
-  const atkColor = 'var(--atk-color)';
-  const defColor = 'var(--def-color)';
+  // 各技能伤害已直接显示在技能行的「伤害」列，此处只保留选中技能的详细拆解
   let detailHtml = '';
 
   // 当前选中技能的详细面板
@@ -635,7 +604,7 @@ function renderFullResult() {
     if (res && res.isStatus) {
       const sk = fullState[selSide][selIdx].skill;
       detailHtml = `
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+        <div>
           <div style="font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px">
             ${atkSp.n} <span style="font-size:13px">→</span> ${defSp.n}
             <b style="color:var(--text)">${sk.n}</b>
@@ -712,7 +681,7 @@ function renderFullResult() {
         </div>` : '';
 
       detailHtml = `
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+        <div>
           <div style="font-size:11px;color:var(--text2);margin-bottom:6px;display:flex;align-items:center;gap:6px">
             ${atkSp.n} <span style="font-size:13px">→</span> ${defSp.n}
             <b style="color:var(--text)">${sk.n}</b>
@@ -759,12 +728,9 @@ function renderFullResult() {
     }
   }
 
-  rp.innerHTML = `
-    <div class="full-result-header">${state.atk.n} vs ${state.def.n} — 点击技能查看详细伤害</div>
-    <div class="full-result-grid">
-      ${buildResultSide('atk', '⚔️ ' + state.atk.n + ' 的技能（打 ' + state.def.n + '）', 'var(--atk-color)')}
-      ${buildResultSide('def', '🛡️ ' + state.def.n + ' 的技能（打 ' + state.atk.n + '）', 'var(--def-color)')}
-    </div>
-    ${detailHtml}`;
+  // 已选中技能时直接进入详细拆解，不再显示「点击技能查看」的引导文字
+  rp.innerHTML = detailHtml
+    ? detailHtml
+    : `<div class="full-result-header">${state.atk.n} vs ${state.def.n} — 点击上方技能行查看详细伤害拆解</div>`;
 }
 

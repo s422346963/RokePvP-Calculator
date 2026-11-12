@@ -257,17 +257,12 @@ function autoUpdateTraitUI() {
   updateTraitPanelForMode('full', skillFull);
 }
 
-// 特性规则提示（如「✨ 火系技能2次→全技能威力+20」）跟在特性名称后同行显示。
-//   占位文案（无特性 / 无直接伤害加成）不显示；每次调用重置名称文本以清掉旧提示。
+// 特性规则提示（如「✨ 当前等级99（<80 时受到伤害+40%）」）显示在倍率输入行的重置按钮之后。
+//   占位文案（无特性 / 无直接伤害加成）不显示；每次调用重置提示文本以清掉旧提示。
 const TRAIT_DESC_PLACEHOLDERS = ['无特性', '特性对此技能无直接伤害加成'];
-function renderTraitNameWithNote(nameEl, name, desc, icon) {
-  if (!nameEl) return;
-  nameEl.textContent = name || '暂无特性';
-  if (!desc || TRAIT_DESC_PLACEHOLDERS.indexOf(desc) >= 0) return;
-  const note = document.createElement('span');
-  note.className = 'trait-name-note';
-  note.textContent = `${icon} ${desc}`;
-  nameEl.appendChild(note);
+function renderTraitNote(noteEl, desc, icon) {
+  if (!noteEl) return;
+  noteEl.textContent = (!desc || TRAIT_DESC_PLACEHOLDERS.indexOf(desc) >= 0) ? '' : `${icon} ${desc}`;
 }
 
 // 更新某个 mode（'b' 或 'full'）的攻防特性面板
@@ -282,6 +277,7 @@ function updateTraitPanelForMode(mode, skill) {
   const atkNameEl = document.getElementById(`trait-atk-name-${mode}`);
   const atkDescEl = document.getElementById(`trait-atk-desc-${mode}`);
   const atkCondEl = document.getElementById(`trait-atk-cond-${mode}`);
+  const atkNoteEl = document.getElementById(`trait-atk-note-${mode}`);
 
   if (atkNameEl) atkNameEl.textContent = atkTr || '暂无特性';
   if (atkDescEl) atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
@@ -290,6 +286,7 @@ function updateTraitPanelForMode(mode, skill) {
   const defNameEl = document.getElementById(`trait-def-name-${mode}`);
   const defDescEl = document.getElementById(`trait-def-desc-${mode}`);
   const defCondEl = document.getElementById(`trait-def-cond-${mode}`);
+  const defNoteEl = document.getElementById(`trait-def-note-${mode}`);
 
   if (defNameEl) defNameEl.textContent = defTr || '暂无特性';
   if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
@@ -317,8 +314,8 @@ function updateTraitPanelForMode(mode, skill) {
   if (atkCondEl) renderTraitCond(
     mode === 'full' ? mergeTraitFields(atkResult.needsInput, getDefTraitNeedsInput(atkTrCalc, skill)) : atkResult.needsInput,
     atkCondEl, mode, 'atk');
-  // 规则提示 → 跟在特性名称后同行；描述栏只留特性原始文本
-  renderTraitNameWithNote(atkNameEl, atkTr, atkResult.desc, '✨');
+  // 规则提示 → 重置按钮之后；描述栏只留特性原始文本
+  renderTraitNote(atkNoteEl, atkResult.desc, '✨');
   if (atkDescEl) atkDescEl.textContent = (state.atk && state.atk.tr_desc) || (atkTr ? '（暂无说明）' : '选择攻击方精灵后自动显示');
 
   // 更新防方倍率（同上，动态显隐）
@@ -327,7 +324,7 @@ function updateTraitPanelForMode(mode, skill) {
   if (defCondEl) renderTraitCond(
     mode === 'full' ? mergeTraitFields(defResult.needsInput, getTraitNeedsInput(defTrCalc, null, skill)) : defResult.needsInput,
     defCondEl, mode, 'def');
-  renderTraitNameWithNote(defNameEl, defTr, defResult.desc, '🛡️');
+  renderTraitNote(defNoteEl, defResult.desc, '🛡️');
   if (defDescEl) defDescEl.textContent = (state.def && state.def.tr_desc) || (defTr ? '（暂无说明）' : '选择防御方精灵后自动显示');
 }
 
@@ -633,8 +630,8 @@ function renderTraitCond(fields, container, mode, side) {
     if (_el) _savedVals[f.key] = f.type === 'checkbox' ? _el.checked : _el.value;
   });
 
-  let html = `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;padding:6px 8px;background:rgba(124,107,255,.06);border-radius:7px;border:1px dashed rgba(124,107,255,.2)">`;
-  html += `<div style="width:100%;font-size:10px;color:${accentColor};font-weight:600;margin-bottom:1px">⚙️ 特性生效条件</div>`;
+  let html = `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;padding:6px 8px;background:rgba(124,107,255,.06);border-radius:7px;border:1px dashed rgba(124,107,255,.2)">`;
+  html += `<div style="font-size:10px;color:${accentColor};font-weight:600;white-space:nowrap;margin-right:2px">⚙️ 特性生效条件</div>`;
 
   visibleFields.forEach(f => {
     const targetId = `trait-opt-${mode}-${side}-${f.key}`;
@@ -672,18 +669,16 @@ function onTraitCondChange(mode, side) {
   if (side === 'atk') {
     const r = calcAtkTraitMult(state.atk, state.def, skill, opts);
     updateTraitInputVisibility(mode, 'atk', resolveTraitName(state.atk), r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'atk'));
-    const nameEl = document.getElementById(`trait-atk-name-${mode}`);
+    const noteEl = document.getElementById(`trait-atk-note-${mode}`);
     const descEl = document.getElementById(`trait-atk-desc-${mode}`);
-    const atkTr = state.atk ? state.atk.tr : null;
-    renderTraitNameWithNote(nameEl, atkTr, r.desc, '✨');
+    renderTraitNote(noteEl, r.desc, '✨');
     if (descEl) descEl.textContent = (state.atk && state.atk.tr_desc) || '';
   } else {
     const r = calcDefTraitMult(state.atk, state.def, skill, opts);
     updateTraitInputVisibility(mode, 'def', resolveTraitName(state.def), r, collectStatBuffs(r.stat, state.atkStat === 'patk', 'def'));
-    const nameEl = document.getElementById(`trait-def-name-${mode}`);
+    const noteEl = document.getElementById(`trait-def-note-${mode}`);
     const descEl = document.getElementById(`trait-def-desc-${mode}`);
-    const defTr = state.def ? state.def.tr : null;
-    renderTraitNameWithNote(nameEl, defTr, r.desc, '🛡️');
+    renderTraitNote(noteEl, r.desc, '🛡️');
     if (descEl) descEl.textContent = (state.def && state.def.tr_desc) || '';
   }
   // 触发重算

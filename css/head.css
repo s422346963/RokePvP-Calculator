@@ -293,7 +293,6 @@
   .mode-tab.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(124,107,255,.4); }
   .mode-tab .tab-sub { font-size: 10px; font-weight: 400; opacity: .8; display: block; margin-top: 1px; }
   .skill-panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-  .skill-panel h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text2); }
   .skill-row { display: flex; gap: 12px; flex-wrap: wrap; }
   .skill-field { flex: 1; min-width: 130px; }
   .field-label { font-size: 11px; color: var(--text2); margin-bottom: 5px; }
@@ -427,20 +426,19 @@
   .full-skill-side { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
   .full-skill-side-title { font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
   /* ── fsk 技能表格：独立 header + row，统一 grid 列宽 ── */
-  .fsk-grid-container { display: block; } /* 回退，不用大grid */
-  /* 8 列：技能 / 类型 / 属性 / 能耗 / 连击 / 威力 / 修正威力 / 备注
-     ⚠️ 行内共有 8 个格子 + 修正栏（独占一行）。此前模板只写了 7 列，
+  /* 8 列：技能 / 类型 / 属性 / 能耗 / 连击 / 威力 / 伤害 / 备注
+     ⚠️ 行内共有 8 个格子 + 条件区（独占一行）。此前模板只写了 7 列，
         行内最后一个「备注 ?」被挤到第二个网格行，导致每行凭空多出一行高度 */
-  .fsk-header-row { display: grid; grid-template-columns: 1fr 46px 44px 38px 46px 50px 46px 22px; gap: 6px; padding: 3px 11px 4px 11px; /* 与 fsk-row-bg 的 padding+border 对齐 */ }
+  .fsk-header-row { display: grid; grid-template-columns: 1fr 40px 38px 30px 36px 42px 62px 18px; gap: 4px; padding: 3px 8px 4px 8px; /* 与 fsk-row-bg 的 padding+border 对齐 */ }
   .fsk-header-cell { font-size: 10px; color: var(--text2); text-align: center; white-space: nowrap; }
-  .fsk-row-bg { display: grid; grid-template-columns: 1fr 46px 44px 38px 46px 50px 46px 22px; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; transition: background .12s; position: relative; }
+  .fsk-row-bg { display: grid; grid-template-columns: 1fr 40px 38px 30px 36px 42px 62px 18px; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; transition: background .12s; position: relative; }
   .fsk-row-bg:hover { background: var(--card2); }
   .fsk-row-bg.selected { border-color: var(--accent); background: rgba(124,107,255,.12); }
   .fsk-row { display: contents; } /* 兼容旧引用，不破坏 JS 逻辑 */
   .fsk-cell { display: flex; align-items: center; justify-content: center; }
-  .fsk-idx { font-size: 11px; color: var(--text2); text-align: center; flex-shrink: 0; margin-right: 4px; }
+  .fsk-idx { font-size: 11px; color: var(--text2); text-align: center; flex-shrink: 0; margin-right: 3px; }
   .fsk-combo-wrap { display: flex; align-items: center; position: relative; min-width: 0; }
-  .fsk-combo-input { flex: 1; min-width: 0; padding: 5px 22px 5px 8px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; cursor: pointer; box-sizing: border-box; }
+  .fsk-combo-input { flex: 1; min-width: 0; padding: 4px 20px 4px 6px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 12px; cursor: pointer; box-sizing: border-box; }
   .fsk-combo-input:focus { outline: none; border-color: var(--accent); }
   /* 已选项在框内只作「占位显示」（灰字）：点击即回到未选择状态，不按该名字过滤 */
   .search-input.is-placeholder,
@@ -452,35 +450,29 @@
   .fsk-col { display: flex; flex-direction: column; align-items: center; }
   .fsk-col-label { font-size: 10px; color: var(--text2); line-height: 1; white-space: nowrap; text-align: center; display: block; margin-bottom: 3px; }
   .fsk-cell-first { display: flex; align-items: center; justify-content: flex-start; }
-  .fsk-tag { font-size: 10px; padding: 2px 6px; border-radius: 10px; border: 1px solid var(--border); color: var(--text2); background: var(--card); white-space: nowrap; text-align: center; display: block; justify-self: center; }
+  .fsk-tag { font-size: 10px; padding: 2px 4px; border-radius: 10px; border: 1px solid var(--border); color: var(--text2); background: var(--card); white-space: nowrap; text-align: center; display: block; justify-self: center; }
   .fsk-tag.phys { color: #ef9a9a; border-color: #ef9a9a44; }
   .fsk-tag.magic { color: #ce93d8; border-color: #ce93d844; }
   .fsk-tag.status { color: #80cbc4; border-color: #80cbc444; }
-  .fsk-attr-tag { font-size: 10px; padding: 2px 6px; border-radius: 10px; white-space: nowrap; text-align: center; display: block; justify-self: center; }
-  .fsk-hits { width: 100%; padding: 4px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: #ffca28; font-size: 12px; font-weight: 700; text-align: center; box-sizing: border-box; }
+  .fsk-attr-tag { font-size: 10px; padding: 2px 4px; border-radius: 10px; white-space: nowrap; text-align: center; display: block; justify-self: center; }
+  .fsk-hits { width: 100%; padding: 3px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: #ffca28; font-size: 11px; font-weight: 700; text-align: center; box-sizing: border-box; }
   .fsk-hits:focus { outline: none; border-color: #ffca28; }
-  .fsk-power { width: 100%; padding: 4px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--atk-color); font-size: 12px; font-weight: 700; text-align: center; box-sizing: border-box; }
+  .fsk-power { width: 100%; padding: 3px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--atk-color); font-size: 11px; font-weight: 700; text-align: center; box-sizing: border-box; }
   .fsk-power:focus { outline: none; border-color: var(--atk-color); }
-  .fsk-dmg { display: none; }
-  .fsk-dmg-pct { display: none; }
+  /* 伤害列：总伤害 + 占受击方 HP 的百分比（上下两行，紧凑展示） */
+  .fsk-dmg-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-width: 0; line-height: 1.1; white-space: nowrap; cursor: help; }
+  .fsk-dmg { font-size: 12px; font-weight: 800; font-family: monospace; color: var(--text2); }
+  .fsk-dmg-cell.has-dmg .fsk-dmg { color: var(--text); }
+  /* 白天模式伤害数字用黑色，夜间随主题文字色变浅 */
+  [data-theme="light"] .fsk-dmg-cell.has-dmg .fsk-dmg { color: #000; }
+  .fsk-dmg-pct { font-size: 9px; font-weight: 700; color: var(--text2); }
   .fsk-tip-icon { font-size: 12px; cursor: pointer; position: relative; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
   .fsk-tip-icon .fsk-tooltip { display: none; position: absolute; bottom: calc(100% + 4px); right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 11px; color: var(--text); white-space: pre-line; min-width: 160px; max-width: 240px; z-index: 400; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .fsk-tip-icon:hover .fsk-tooltip { display: block; }
   .fsk-remark-tooltip { display: none; position: absolute; bottom: calc(100% + 4px); right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--text); min-width: 200px; max-width: 280px; z-index: 400; box-shadow: 0 4px 16px rgba(0,0,0,.35); white-space: normal; }
   .fsk-tip-icon:hover .fsk-remark-tooltip { display: block; }
-  /* 结果面板 - 完整模式 */
+  /* 结果面板 - 完整模式（各技能伤害已在技能行展示，这里只留选中技能的拆解） */
   .full-result-header { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
-  .full-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  @media (max-width: 800px) { .full-result-grid { grid-template-columns: 1fr; } }
-  .full-result-side { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
-  .full-result-side-title { font-size: 11px; color: var(--text2); font-weight: 700; margin-bottom: 8px; }
-  .frs-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 7px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; }
-  .frs-row:hover { background: var(--card2); }
-  .frs-row.selected { border-color: var(--accent); background: rgba(124,107,255,.10); }
-  .frs-name { flex: 1; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .frs-bar-wrap { flex: 1; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
-  .frs-bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width .25s; }
-  .frs-pct { font-size: 12px; font-weight: 700; min-width: 52px; text-align: right; }
   /* 收藏 */
   .fav-group-header { font-size: 12px; font-weight: 700; color: var(--text2); margin: 10px 0 6px; padding: 4px 8px; background: rgba(124,107,255,.08); border-radius: 6px; display: flex; align-items: center; justify-content: space-between; }
   .fav-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; margin-bottom: 3px; }
@@ -610,14 +602,16 @@
   .trait-panel-atk .trait-panel-header { background:rgba(255,112,67,.18); color:var(--atk-color); border-bottom:1px solid rgba(255,112,67,.25); }
   .trait-panel-def .trait-panel-header { background:rgba(66,165,245,.18); color:#42a5f5; border-bottom:1px solid rgba(66,165,245,.25); }
   .trait-panel-body { padding:10px 12px; background:var(--card2); }
-  .trait-name-row { font-size:14px; font-weight:700; margin-bottom:3px; }
+  .trait-head-row { display:flex; flex-wrap:wrap; align-items:baseline; column-gap:8px; }
+  .trait-name-row { font-size:14px; font-weight:700; flex-shrink:0; }
   .trait-name-row.atk-color { color:var(--atk-color); }
   .trait-name-row.def-color { color:#42a5f5; }
-  .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; }
-  /* 规则提示：跟在特性名称后同行显示（攻橙防蓝，颜色随 name-row 主题类） */
-  .trait-name-note { margin-left:6px; font-size:11px; font-weight:600; }
-  .trait-name-row.atk-color .trait-name-note { color:var(--atk-color); }
-  .trait-name-row.def-color .trait-name-note { color:#42a5f5; }
+  .trait-desc-text { font-size:11px; color:var(--text2); line-height:1.6; flex:1 1 0; min-width:0; }
+  /* 规则提示：显示在倍率输入行的重置按钮之后（攻橙防蓝） */
+  .trait-name-note { font-size:11px; font-weight:600; }
+  .trait-name-note:empty { display:none; }
+  .trait-name-note.trait-note-atk { color:var(--atk-color); }
+  .trait-name-note.trait-note-def { color:#42a5f5; }
   .trait-mult-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
   .trait-mult-group { display:inline-flex; align-items:center; gap:6px; }
   .trait-mult-group + .trait-mult-group { margin-left:2px; padding-left:10px; border-left:1px solid var(--border); }
@@ -657,7 +651,6 @@
     .panels { grid-template-columns: 1fr; gap: 12px; }
     .swap-col { display: flex; align-items: center; justify-content: center; padding-top: 0; }
     .full-skill-panel { grid-template-columns: 1fr; }
-    .fsk-grid-container { grid-template-columns: 1fr 44px 44px 40px 46px 48px 22px; gap: 0 4px; padding: 0 6px; }
 
     /* 精灵卡片 */
     .spirit-avatar { width: 52px; height: 52px; font-size: 22px; }
@@ -863,12 +856,7 @@
   }
 
 
-  /* ── FULL 技能行：修正后威力只读列 + 内嵌条件区 ── */
-  .fsk-power-eff {
-    font-size: 11px; font-weight: 700; color: var(--text2);
-    text-align: center; font-family: monospace; min-width: 34px;
-  }
-  .fsk-power-eff.is-effected { color: #ce93d8; }
+  /* ── FULL 技能行：伤害列 + 内嵌条件区 ── */
   .fsk-cond-box { grid-column: 1 / -1; width: 100%; }
   .fsk-cond-box .power-mod-box { margin-top: 2px; }
   .fsk-cond-box .power-chain { margin-top: 2px; }
@@ -876,12 +864,12 @@
   .fsk-cond-box:empty { display: none; }
   /* ── 威力修正栏的展开/收起（仅作用于修正栏本身）──
      图标表示「点击后的动作」：收起时 ▲（点击展开）/ 展开时 ▼（点击收起）
-     位置：靠右，与「备注」列（第 8 列）中心对齐 —— 行/表头的右侧内边距都是 11px，
-     备注列宽 22px，因此 22px 宽 + margin-right:11px 即与之中心对齐 */
+     位置：靠右，与「备注」列（第 8 列）中心对齐 —— 行/表头右侧内边距均为 8px，
+     备注列宽 18px，因此 18px 宽 + margin-right:8px 即与之中心对齐 */
   .cond-toggle {
     cursor: pointer; color: var(--text2); font-size: 10px; line-height: 1;
-    padding: 2px 5px; margin-left: auto; margin-right: 11px;
-    min-width: 22px; box-sizing: border-box; text-align: center;
+    padding: 2px 3px; margin-left: auto; margin-right: 8px;
+    min-width: 18px; box-sizing: border-box; text-align: center;
     border: 1px solid var(--border); border-radius: 4px; user-select: none;
   }
   .cond-toggle:hover { color: var(--accent); border-color: var(--accent); }
@@ -896,7 +884,7 @@
     .pc-op { font-size: 11px; }
     .pc-seg-label { font-size: 8px; }
     .power-cond-row { gap: 4px 8px; }
-    .fsk-power-eff { font-size: 10px; min-width: 28px; }
+    .fsk-dmg { font-size: 11px; }
   }
   
   

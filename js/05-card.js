@@ -652,10 +652,13 @@ function traitPanelHTML(side, mode) {
       '                  <button class="trait-reset-btn" onclick="resetTraitInput(\'' + mode + '\',\'' + side + '\',\'' + k.kind + '\')">重置</button>\n' +
       '                </span>';
   }).join('\n');
-  return '              <div class="trait-name-row ' + (isAtk ? 'atk-color' : 'def-color') + '" id="trait-' + side + '-name-' + mode + '">暂无特性</div>\n' +
-    '              <div class="trait-desc-text" id="trait-' + side + '-desc-' + mode + '">选择' + (isAtk ? '攻击' : '防御') + '方精灵后自动显示</div>\n' +
+  return '              <div class="trait-head-row">\n' +
+    '                <div class="trait-name-row ' + (isAtk ? 'atk-color' : 'def-color') + '" id="trait-' + side + '-name-' + mode + '">暂无特性</div>\n' +
+    '                <div class="trait-desc-text" id="trait-' + side + '-desc-' + mode + '">选择' + (isAtk ? '攻击' : '防御') + '方精灵后自动显示</div>\n' +
+    '              </div>\n' +
     '              <div class="trait-mult-row" style="flex-wrap:wrap" id="trait-inputs-' + mode + '-' + side + '">\n' +
     groups + '\n' +
+    '                <span class="trait-name-note trait-note-' + cls + '" id="trait-' + side + '-note-' + mode + '"></span>\n' +
     '              </div>\n' +
     '              <div class="trait-cond-area" id="trait-' + side + '-cond-' + mode + '"></div>';
 }
