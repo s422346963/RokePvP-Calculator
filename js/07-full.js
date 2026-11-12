@@ -518,7 +518,7 @@ function updateStarMarksFullState() {
 }
 
 function calcFull() {
-  if (!state.atk || !state.def) return;
+  if (!state.atk || !state.def) { clearResultDock(); return; }
   // 每次计算前先刷新特性面板（渲染条件框、更新倍率显示），避免循环调用时用标志位保护
   if (!calcFull._updating) {
     calcFull._updating = true;
@@ -593,6 +593,8 @@ function renderFullResult() {
 
   // 各技能伤害已直接显示在技能行的「伤害」列，此处只保留选中技能的详细拆解
   let detailHtml = '';
+  // 选中技能（且造成直接伤害）时同步喂给底部吸底结果条
+  let dockInfo = null;
 
   // 当前选中技能的详细面板
   const selSide = atkSel >= 0 ? 'atk' : (defSel >= 0 ? 'def' : null);
@@ -620,6 +622,10 @@ function renderFullResult() {
       const barCls = res.pct >= 50 ? 'fill-red' : res.pct >= 25 ? 'fill-yellow' : 'fill-green';
       const pctColor = res.totalPct >= 50 ? '#ef5350' : res.totalPct >= 25 ? '#ffa726' : '#66bb6a';
       const sk = fullState[selSide][selIdx].skill;
+      dockInfo = {
+        atkName: atkSp.n, defName: defSp.n, skillName: sk.n,
+        dmg: f1(res.dmg), pct: res.pct,
+      };
       const asLabel = res.isPhys ? '物攻' : '魔攻';
       const dsLabel = res.isPhys ? '物防' : '魔防';
       // 原始属性（不含能级）
@@ -689,7 +695,7 @@ function renderFullResult() {
             ${res.stabMult > 1 ? '<span class="eff-tag" style="background:rgba(255,200,0,.25);color:#ffd700;border:1px solid rgba(255,200,0,.4)">本系 ×1.25</span>' : ''}
             ${yuanliTag}
           </div>
-          <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+          <div id="full-result-summary" style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:10px">
             <span style="font-size:32px;font-weight:900;color:var(--text)">${f1(res.dmg)}</span>
             <span style="font-size:13px;color:var(--text2)">伤害</span>
             <span style="font-size:16px;font-weight:700;color:${pctColor}">${res.pct.toFixed(1)}%</span>
@@ -732,5 +738,8 @@ function renderFullResult() {
   rp.innerHTML = detailHtml
     ? detailHtml
     : `<div class="full-result-header">${state.atk.n} vs ${state.def.n} — 点击上方技能行查看详细伤害拆解</div>`;
+  // 吸底栏只跟当前选中技能走：未选中 / 状态技能时清空，避免残留上一技能的数字
+  if (dockInfo) updateResultDock(Object.assign({ mode: 'FULL' }, dockInfo));
+  else clearResultDock();
 }
 

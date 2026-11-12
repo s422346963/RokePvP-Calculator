@@ -401,12 +401,12 @@ function setupFavPanelDrag() {
   });
 }
 
-// ── 模式 A/B 吸底结果条：滚动/缩放时重判显隐，点击回到伤害明细 ──
+// ── 模式 A/B/FULL 吸底结果条：滚动/缩放时重判显隐，点击回到伤害明细 ──
 function initResultDock() {
   const dock = document.getElementById('result-dock');
   if (!dock) return;
   dock.addEventListener('click', () => {
-    const rp = document.getElementById('result-panel');
+    const rp = document.getElementById(state.mode === 'FULL' ? 'full-result-panel' : 'result-panel');
     if (rp) rp.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   let ticking = false;

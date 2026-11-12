@@ -340,20 +340,22 @@ function calc() {
   });
 }
 
-// ── 模式 A/B 吸底结果条 ──
-// 伤害栏（#result-summary）滚出视口时，在底部固定一行摘要；点整条回到伤害明细。
-// 显隐判定放在这里（纯读取 + 切 hidden），事件绑定在 js/08-fav-init.js。
+// ── 模式 A/B/FULL 吸底结果条 ──
+// 伤害栏（A/B 用 #result-summary，FULL 用 #full-result-summary）滚出视口时，在底部固定一行摘要；
+// 点整条回到伤害明细。显隐判定放在这里（纯读取 + 切 hidden），事件绑定在 js/08-fav-init.js。
 function updateResultDock(info) {
   const dock = document.getElementById('result-dock');
   if (!dock) return;
   if (!info) { clearResultDock(); return; }
+  const isFull = info.mode === 'FULL';
   const modeEl = document.getElementById('result-dock-mode');
   if (modeEl) {
-    modeEl.textContent = '模式' + info.mode;
-    modeEl.className = 'result-dock-mode ' + (info.mode === 'A' ? 'is-a' : 'is-b');
+    modeEl.textContent = isFull ? 'FULL' : '模式' + info.mode;
+    modeEl.className = 'result-dock-mode ' + (info.mode === 'A' ? 'is-a' : isFull ? 'is-full' : 'is-b');
   }
   const pairEl = document.getElementById('result-dock-pair');
-  if (pairEl) pairEl.textContent = info.atkName + ' → ' + info.defName;
+  // FULL 一份结果对应一个选中技能，带上技能名以免与其余技能槽混淆
+  if (pairEl) pairEl.textContent = info.atkName + ' → ' + info.defName + (info.skillName ? ' · ' + info.skillName : '');
   const dmgEl = document.getElementById('result-dock-dmg');
   if (dmgEl) dmgEl.textContent = info.dmg;
   const pctEl = document.getElementById('result-dock-pct');
@@ -372,10 +374,11 @@ function clearResultDock() {
 function syncResultDockVisibility() {
   const dock = document.getElementById('result-dock');
   if (!dock) return;
-  const rp = document.getElementById('result-panel');
-  const summary = document.getElementById('result-summary');
-  if (dock.dataset.ready !== '1' || state.mode === 'FULL' ||
-      !rp || rp.style.display === 'none' || !summary) {
+  const isFull = state.mode === 'FULL';
+  const panel = document.getElementById(isFull ? 'full-result-panel' : 'result-panel');
+  const summary = document.getElementById(isFull ? 'full-result-summary' : 'result-summary');
+  if (dock.dataset.ready !== '1' || !panel || !summary ||
+      (!isFull && panel.style.display === 'none')) {
     dock.hidden = true;
     return;
   }

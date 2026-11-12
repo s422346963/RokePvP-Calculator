@@ -369,7 +369,7 @@
   .num-combo-option:hover { background: var(--card); }
   .num-combo-option.selected { color: var(--accent); }
   .result-panel { background: var(--result-bg); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-top: 16px; }
-  /* 模式 A/B 吸底结果条：伤害栏滚出视口时固定在底部（点击回滚） */
+  /* 模式 A/B/FULL 吸底结果条：伤害栏滚出视口时固定在底部（点击回滚） */
   .result-dock {
     position: fixed; left: 50%; bottom: 16px;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -388,8 +388,10 @@
   .result-dock-mode { flex: 0 0 auto; font-size: 11px; padding: 1px 8px; border-radius: 8px; }
   .result-dock-mode.is-a { color: #a89fff; background: rgba(124,107,255,.25); border: 1px solid rgba(124,107,255,.4); }
   .result-dock-mode.is-b { color: #ff9bbf; background: rgba(255,107,157,.25); border: 1px solid rgba(255,107,157,.4); }
+  .result-dock-mode.is-full { color: #80cbc4; background: rgba(128,203,196,.2); border: 1px solid rgba(128,203,196,.4); }
   [data-theme="light"] .result-dock-mode.is-a { color: #4a3bd6; background: rgba(124,107,255,.14); border-color: rgba(124,107,255,.45); }
   [data-theme="light"] .result-dock-mode.is-b { color: #c0246a; background: rgba(255,107,157,.14); border-color: rgba(255,107,157,.45); }
+  [data-theme="light"] .result-dock-mode.is-full { color: #1a7a70; background: rgba(128,203,196,.14); border-color: rgba(128,203,196,.45); }
   .result-dock-pair { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text2); }
   .result-dock-dmg { flex: 0 0 auto; margin-left: auto; color: var(--text); }
   .result-dock-dmg b { font-size: 20px; font-weight: 900; color: var(--accent); }
