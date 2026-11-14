@@ -253,7 +253,26 @@
   .spirit-types { display: flex; gap: 4px; flex-shrink: 0; }
   .spirit-trait { font-size: 11px; font-weight: 600; color: var(--text2); margin-top: 4px; }
   .spirit-trait-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.5; }
-  .type-chip { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  /* 精灵卡属性芯片：图标自带属性色底，只显示图标；悬停气泡显示属性名；图标加载失败回退彩色文字标签 */
+  .type-chip {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; flex-shrink: 0; border-radius: 6px; background: transparent;
+    color: var(--type-fg, #fff); font-size: 11px; font-weight: 600; cursor: help;
+  }
+  .type-chip-icon { width: 20px; height: 20px; object-fit: contain; display: block; border-radius: 6px; }
+  .type-chip-text { display: none; }
+  .type-chip.no-icon { width: auto; height: auto; padding: 2px 8px; border-radius: 10px; background: var(--type-bg, #888); }
+  .type-chip.no-icon .type-chip-text { display: inline; }
+  .type-chip:not(.no-icon)::after {
+    content: attr(data-type); display: none; position: absolute;
+    bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    padding: 3px 9px; border-radius: 6px; white-space: nowrap;
+    background: #1f2937; border: 1px solid rgba(255,255,255,.14);
+    color: #fff; font-size: 11px; font-weight: 600; line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,.28); z-index: 1000; pointer-events: none;
+  }
+  .type-chip:not(.no-icon):hover { z-index: 1001; }
+  .type-chip:not(.no-icon):hover::after { display: block; }
   .nature-iv-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 8px; flex-wrap: wrap; }
   /* 该行现位于面板末尾（个体栏下方），去掉多余的下边距 */
   .panel > .nature-iv-row:last-child { margin-bottom: 0; }

@@ -667,11 +667,16 @@ function typeTagHtml(type, extraStyle) {
   return `<span class="type-tag" style="background:${bg};color:${tc};${extraStyle || ''}">${icon}${type}</span>`;
 }
 
+// 精灵卡属性芯片：图标自带属性色底，只展示图标，悬停气泡显示属性名；
+// 图标加载失败时加 no-icon 类，回退为原来的彩色文字标签
 function typeChip(type) {
   if (!type) return '';
   const bg = TYPE_COLORS[type] || '#888';
   const tc = TYPE_TEXT_DARK.has(type) ? '#333' : '#fff';
-  return `<span class="type-chip" style="background:${bg};color:${tc}">${type}</span>`;
+  const icon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[type])
+    ? `<img src="${TYPE_ICONS[type]}" alt="${type}" class="type-chip-icon" loading="lazy" onerror="this.parentNode.classList.add('no-icon');this.remove()">`
+    : '';
+  return `<span class="type-chip${icon ? '' : ' no-icon'}" data-type="${type}系" style="--type-bg:${bg};--type-fg:${tc}">${icon}<span class="type-chip-text">${type}</span></span>`;
 }
 
 function getEmoji(type) {
