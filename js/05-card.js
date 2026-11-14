@@ -328,11 +328,14 @@ function buildTypeAnalysisHtml(spirit) {
 
 function openTypeAnalysisModal(spirit) {
   if (!spirit) return;
+  // 双属性进攻面并排两组，需要宽档；单属性只有一组，收窄避免右侧大片留白
+  const typeCount = new Set([spirit.a1, spirit.a2].filter(Boolean)).size;
   openAppModal({
     title: '属性分析 · ' + spirit.n,
     icon: '🧩',
     bodyHtml: buildTypeAnalysisHtml(spirit),
     wide: true,
+    compact: typeCount < 2,
     closeOnly: true,
   });
 }

@@ -233,8 +233,8 @@ function calc() {
 
   const pct = defHp > 0 ? dmg / defHp * 100 : 0;
   const barW = Math.min(100, pct).toFixed(1);
-  const barCls = pct >= 50 ? 'fill-red' : pct >= 25 ? 'fill-yellow' : 'fill-green';
-  const pctColor = pct >= 50 ? '#ef5350' : pct >= 25 ? '#ffa726' : '#66bb6a';
+  const barCls = dmgPctBarClass(pct);
+  const pctColor = dmgPctColor(pct);
 
   let effLabel = '', effCls = '';
   if (typeEff === 0)       { effLabel = '免疫';           effCls = 'eff-05x'; }
@@ -359,7 +359,13 @@ function updateResultDock(info) {
   const dmgEl = document.getElementById('result-dock-dmg');
   if (dmgEl) dmgEl.textContent = info.dmg;
   const pctEl = document.getElementById('result-dock-pct');
-  if (pctEl) pctEl.textContent = info.pct > 0 ? info.pct.toFixed(1) + '%' : '';
+  if (pctEl) {
+    const pctTxt = info.pct > 0 ? info.pct.toFixed(1) + '%' : '';
+    pctEl.textContent = pctTxt;
+    // 与伤害面板同口径染色：< 50% 绿 / 50%~100% 黄 / ≥ 100% 红（只有打到 100% 才标红）
+    pctEl.style.color = pctTxt ? dmgPctColor(info.pct) : '';
+    pctEl.style.fontWeight = pctTxt ? '700' : '';
+  }
   dock.dataset.ready = '1';
   syncResultDockVisibility();
 }

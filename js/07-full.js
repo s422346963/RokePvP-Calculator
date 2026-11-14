@@ -545,8 +545,7 @@ function calcFull() {
       if (dmgEl) dmgEl.textContent = res ? (res.isStatus ? '—' : f1(res.dmg)) : '—';
       if (pctEl) {
         pctEl.textContent = res && !res.isStatus ? res.pct.toFixed(1) + '%' : '';
-        pctEl.style.color = res && !res.isStatus
-          ? (res.pct >= 50 ? '#ef5350' : res.pct >= 25 ? '#ffa726' : '#66bb6a') : '';
+        pctEl.style.color = res && !res.isStatus ? dmgPctColor(res.pct) : '';
       }
       // 伤害列：hover 展示单次伤害 / 连击 / 威力链路等完整明细
       if (dmgCell) {
@@ -619,8 +618,8 @@ function renderFullResult() {
     } else if (res) {
       const defHp = defSp.real_hp || defSp.hp;
       const barW = Math.min(100, res.pct).toFixed(1);
-      const barCls = res.pct >= 50 ? 'fill-red' : res.pct >= 25 ? 'fill-yellow' : 'fill-green';
-      const pctColor = res.totalPct >= 50 ? '#ef5350' : res.totalPct >= 25 ? '#ffa726' : '#66bb6a';
+      const barCls = dmgPctBarClass(res.pct);
+      const pctColor = dmgPctColor(res.totalPct);
       const sk = fullState[selSide][selIdx].skill;
       dockInfo = {
         atkName: atkSp.n, defName: defSp.n, skillName: sk.n,

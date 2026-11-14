@@ -275,6 +275,20 @@ const f1 = v => String(Math.floor(v));
 const f2 = v => v.toFixed(2);
 const f3 = v => v.toFixed(3);
 
+// 伤害占受击方 HP 的百分比 → 颜色分档（唯一实现，模式 B / FULL / 吸底条共用）
+//   只有打到 100%（一击击倒）才标红；50%~100% 黄；50% 以下绿
+function dmgPctColor(pct) {
+  if (pct >= 100) return '#ef5350';
+  if (pct >= 50) return '#ffa726';
+  return '#66bb6a';
+}
+// 血条填充档位，阈值与 dmgPctColor 一致
+function dmgPctBarClass(pct) {
+  if (pct >= 100) return 'fill-red';
+  if (pct >= 50) return 'fill-yellow';
+  return 'fill-green';
+}
+
 // 闪击：速度差→威力查表（攻方速度 - 防方速度）
 const SPEED_DIFF_TABLE = [
   { min: -Infinity, max: 0,   p: 60,  label: '≤ 0（不快于对方）' },

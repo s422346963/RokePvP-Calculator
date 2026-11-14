@@ -92,13 +92,17 @@ function escapeHtmlText(s) {
 
 let appModalOnConfirm = null;
 
-// cfg: { title, icon, bodyHtml, confirmText, danger, wide, closeOnly, onConfirm(value) }
+// cfg: { title, icon, bodyHtml, confirmText, danger, wide, compact, closeOnly, onConfirm(value) }
 // closeOnly：纯展示型弹窗 —— 只隐藏底部按钮栏；右上角 × 所有弹窗都显示
+// compact：宽弹窗的窄档（属性分析里单属性精灵只有一组芯片时用，避免右侧留白）
 function openAppModal(cfg) {
   const overlay = document.getElementById('app-modal-overlay');
   if (!overlay) return;
   const modal = overlay.querySelector('.app-modal');
-  if (modal) modal.classList.toggle('is-wide', !!cfg.wide);
+  if (modal) {
+    modal.classList.toggle('is-wide', !!cfg.wide);
+    modal.classList.toggle('is-compact', !!cfg.compact);
+  }
   const actions = overlay.querySelector('.app-modal-actions');
   if (actions) actions.hidden = !!cfg.closeOnly;
   document.getElementById('app-modal-icon').textContent = cfg.icon || '⭐';
