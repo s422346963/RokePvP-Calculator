@@ -93,14 +93,12 @@ function escapeHtmlText(s) {
 let appModalOnConfirm = null;
 
 // cfg: { title, icon, bodyHtml, confirmText, danger, wide, closeOnly, onConfirm(value) }
-// closeOnly：纯展示型弹窗 —— 隐藏底部按钮栏，改用右上角 × 关闭
+// closeOnly：纯展示型弹窗 —— 只隐藏底部按钮栏；右上角 × 所有弹窗都显示
 function openAppModal(cfg) {
   const overlay = document.getElementById('app-modal-overlay');
   if (!overlay) return;
   const modal = overlay.querySelector('.app-modal');
   if (modal) modal.classList.toggle('is-wide', !!cfg.wide);
-  const headerClose = document.getElementById('app-modal-close');
-  if (headerClose) headerClose.hidden = !cfg.closeOnly;
   const actions = overlay.querySelector('.app-modal-actions');
   if (actions) actions.hidden = !!cfg.closeOnly;
   document.getElementById('app-modal-icon').textContent = cfg.icon || '⭐';
@@ -150,17 +148,40 @@ function openSaveFavDialog(side) {
     alert('请先选择' + (side === 'atk' ? '攻击方' : '防御方') + '精灵');
     return;
   }
+  // 摘要卡信息：性格直接读面板下拉；攻击方 / 防御方用徽标区分
+  const natureSel = document.getElementById(side + '-nature');
+  const natureRaw = natureSel ? natureSel.value : 'neutral';
+  const natureLabel = (!natureRaw || natureRaw === 'neutral') ? '普通' : natureRaw;
+  const spiritName = escapeHtmlText(spirit.n);
+  const avatar = spirit.img
+    ? '<img src="' + spirit.img + '" alt="" loading="lazy" onerror="this.remove()">'
+    : '';
+  const typeTags = typeTagHtml(spirit.a1) + (spirit.a2 ? typeTagHtml(spirit.a2) : '');
   openAppModal({
     title: '收藏当前配置',
     icon: '⭐',
     bodyHtml:
-      '<div class="app-modal-side-row">' +
-        '<span class="app-modal-side-badge">精灵名称</span>' +
-        '<span class="app-modal-spirit">' + escapeHtmlText(spirit.n) + '</span>' +
+      '<div class="app-modal-spirit-card">' +
+        '<div class="app-modal-spirit-avatar">' +
+          '<span class="app-modal-spirit-avatar__emoji">' + getEmoji(spirit.a1) + '</span>' + avatar +
+        '</div>' +
+        '<div class="app-modal-spirit-info">' +
+          '<div class="app-modal-spirit-line">' +
+            '<span class="app-modal-spirit-name" title="' + spiritName + '">' + spiritName + '</span>' +
+            '<span class="app-modal-side-tag ' + (side === 'atk' ? 'is-atk' : 'is-def') + '">' +
+              (side === 'atk' ? '攻击方' : '防御方') + '</span>' +
+          '</div>' +
+          '<div class="app-modal-spirit-meta">' + typeTags +
+            '<span class="app-modal-nature">性格 · ' + escapeHtmlText(natureLabel) + '</span>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<label class="app-modal-label" for="app-modal-input">配置名称</label>' +
-      '<input id="app-modal-input" class="app-modal-input" maxlength="24" value="' + escapeHtmlText(spirit.n) + '">' +
-      '<div class="app-modal-hint">💡 将保存性格、个体值与技能配招（含当前模式的默认推荐技能）</div>',
+      '<input id="app-modal-input" class="app-modal-input" maxlength="24" value="' + spiritName + '" placeholder="给这套配置起个名字">' +
+      '<div class="app-modal-hint">' +
+        '<span class="app-modal-hint-icon">💡</span>' +
+        '<span>将保存性格、个体值与技能配招（含当前模式的默认推荐技能）</span>' +
+      '</div>',
     confirmText: '⭐ 收藏',
     onConfirm: name => saveFavConfig(side, spirit, name),
   });
