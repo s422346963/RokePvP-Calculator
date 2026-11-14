@@ -240,7 +240,7 @@ function renderCard(side, spirit) {
     <div class="spirit-avatar">${spirit.img ? `<img src="${spirit.img}" alt="${spirit.n}" onerror="this.parentNode.innerHTML='<span class=&quot;avatar-fallback&quot;>${getEmoji(spirit.a1)}</span>'">` : `<span class="avatar-fallback">${getEmoji(spirit.a1)}</span>`}</div>
     <div class="spirit-info">
       <div class="spirit-title-row">
-        <span class="spirit-types">${typeChip(spirit.a1)}${spirit.a2?typeChip(spirit.a2):''}</span>
+        <span class="spirit-types">${typeChip(spirit.a1, side)}${spirit.a2?typeChip(spirit.a2, side):''}</span>
         <a class="spirit-name" href="${spiritWikiUrl(spirit.n)}" target="_blank" rel="noopener noreferrer" title="在 BWiki 查看「${spirit.n}」图鉴">${spirit.n}</a>
         ${stText ? `<span class="spirit-meta">${stText}</span>` : ''}
         <span class="spirit-meta spirit-level" id="spirit-level-${side}" style="display:none">Lv.${getEffectiveLevel(side)}</span>
@@ -255,6 +255,86 @@ function renderCard(side, spirit) {
   if (redRow && side === 'def') redRow.style.display = 'flex';
   updatePanelFavBtn(side, true);
   recalcStats(side);
+}
+
+// ============================================================
+// 属性分析弹窗：点击卡片上任意属性芯片，展示该精灵的进攻面 / 防御面
+// 克制表字段语义与 js/01-core.js 的 getTypeEff 一致：
+//   strong     = 以该属性进攻时，打这些防御属性 ×2（克制）
+//   resist     = 以该属性进攻时，打这些防御属性 ×0.5（抵抗）
+//   weak       = 以该属性防守时，被这些攻击属性打 ×2（弱点）
+//   vulnerable = 以该属性防守时，被这些攻击属性打 ×0.5（抗性）
+// ============================================================
+function sortTypeList(list) {
+  const rank = t => { const i = ALL_TYPES.indexOf(t); return i < 0 ? ALL_TYPES.length : i; };
+  return list.filter((t, i) => list.indexOf(t) === i).sort((a, b) => rank(a) - rank(b));
+}
+
+function typeAnalysisChipHtml(type, mult, tone) {
+  const icon = (typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[type])
+    ? `<img class="type-analysis-chip__icon" src="${TYPE_ICONS[type]}" alt="" loading="lazy" onerror="this.remove()">`
+    : '';
+  return `<span class="type-analysis-chip" data-tone="${tone}" title="${type} ×${mult}" aria-label="${type} ${mult}倍">` +
+    icon + `<span class="type-analysis-chip__name">${type}</span><b>×${mult}</b></span>`;
+}
+
+function typeAnalysisRowHtml(label, items, tone) {
+  const body = items.length
+    ? items.map(x => typeAnalysisChipHtml(x.t, x.mult, tone)).join('')
+    : '<span class="type-analysis-empty">无</span>';
+  return `<div class="type-analysis-row" data-tone="${tone}"><span class="type-analysis-row__label">${label}</span>` +
+    `<div class="type-analysis-row__items">${body}</div></div>`;
+}
+
+function typeAnalysisGroupHtml(title, rows, iconTypes) {
+  const icons = (iconTypes || [])
+    .filter(t => typeof TYPE_ICONS !== 'undefined' && TYPE_ICONS[t])
+    .map(t => `<img class="type-analysis-group__icon" src="${TYPE_ICONS[t]}" alt="${t}" loading="lazy" onerror="this.remove()">`)
+    .join('');
+  return `<div class="type-analysis-group"><h3>${icons}` +
+    `<span class="type-analysis-group__title">${escapeHtmlText(title)}</span></h3>${rows.join('')}</div>`;
+}
+
+function buildTypeAnalysisHtml(spirit) {
+  const types = [spirit.a1, spirit.a2].filter(Boolean);
+  // 进攻面：每个属性各一组（双属性 → 两组），各含「克制」「抵抗」
+  const offGroups = types.map(t => {
+    const c = TYPE_CHART[t] || {};
+    return typeAnalysisGroupHtml(t, [
+      typeAnalysisRowHtml('克制', sortTypeList(c.strong || []).map(x => ({ t: x, mult: 2 })), 'coverage'),
+      typeAnalysisRowHtml('抵抗', sortTypeList(c.resist || []).map(x => ({ t: x, mult: 0.5 })), 'blind'),
+    ], [t]);
+  });
+  // 防御面：逐个攻击属性算「打本精灵双属性」的净倍率，复用公式层 getTypeEff，
+  // 双重克制封顶 ×3、双重抵抗下限 ×0.25；×2 与 ×0.5 相遇抵消为 ×1 则不展示
+  const weak = [], resist = [];
+  ALL_TYPES.forEach(at => {
+    const eff = getTypeEff(at, spirit.a1, spirit.a2 || '');
+    if (eff > 1) weak.push({ t: at, mult: eff });
+    else if (eff > 0 && eff < 1) resist.push({ t: at, mult: eff });
+  });
+  const defGroup = typeAnalysisGroupHtml(spirit.n, [
+    typeAnalysisRowHtml('弱点', weak, 'weakness'),
+    typeAnalysisRowHtml('抗性', resist, 'resistance'),
+  ], types);
+  // 进攻在上、防御在下；区块标题颜色由 is-off / is-def 区分（橙 / 蓝）
+  return '<section class="type-analysis-panel" aria-label="属性分析">' +
+    '<div class="type-analysis-section is-off"><h2>进攻面</h2>' +
+      '<div class="type-analysis-groups">' + offGroups.join('') + '</div></div>' +
+    '<div class="type-analysis-section is-def"><h2>防御面</h2>' +
+      '<div class="type-analysis-groups">' + defGroup + '</div></div>' +
+    '</section>';
+}
+
+function openTypeAnalysisModal(spirit) {
+  if (!spirit) return;
+  openAppModal({
+    title: '属性分析 · ' + spirit.n,
+    icon: '🧩',
+    bodyHtml: buildTypeAnalysisHtml(spirit),
+    wide: true,
+    closeOnly: true,
+  });
 }
 
 // ============================================================

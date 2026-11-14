@@ -7,6 +7,28 @@ document.addEventListener('mousedown', e => {
   closeAllNumCombos();
 });
 
+// 卡片属性芯片 → 属性分析弹窗。卡片会被 renderCard 反复重建，故在 document 上做事件委托；
+// data-side 决定读 state.atk / state.def，点该精灵任意一个属性都展示同一份分析。
+function openTypeAnalysisFromChip(chip) {
+  const side = chip.dataset.side;
+  if (side !== 'atk' && side !== 'def') return;
+  const spirit = state[side];
+  if (spirit) openTypeAnalysisModal(spirit);
+}
+document.addEventListener('click', e => {
+  const chip = e.target && e.target.closest && e.target.closest('.type-chip');
+  if (chip) openTypeAnalysisFromChip(chip);
+});
+document.addEventListener('keydown', e => {
+  const overlay = document.getElementById('app-modal-overlay');
+  if (overlay && !overlay.hidden) return;   // 弹窗已打开时 Enter/Esc 交给弹窗自身处理
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const chip = e.target && e.target.closest && e.target.closest('.type-chip');
+  if (!chip) return;
+  e.preventDefault();
+  openTypeAnalysisFromChip(chip);
+});
+
 // ============================================================
 // INIT
 // ============================================================
@@ -70,10 +92,17 @@ function escapeHtmlText(s) {
 
 let appModalOnConfirm = null;
 
-// cfg: { title, icon, bodyHtml, confirmText, danger, onConfirm(value) }
+// cfg: { title, icon, bodyHtml, confirmText, danger, wide, closeOnly, onConfirm(value) }
+// closeOnly：纯展示型弹窗 —— 隐藏底部按钮栏，改用右上角 × 关闭
 function openAppModal(cfg) {
   const overlay = document.getElementById('app-modal-overlay');
   if (!overlay) return;
+  const modal = overlay.querySelector('.app-modal');
+  if (modal) modal.classList.toggle('is-wide', !!cfg.wide);
+  const headerClose = document.getElementById('app-modal-close');
+  if (headerClose) headerClose.hidden = !cfg.closeOnly;
+  const actions = overlay.querySelector('.app-modal-actions');
+  if (actions) actions.hidden = !!cfg.closeOnly;
   document.getElementById('app-modal-icon').textContent = cfg.icon || '⭐';
   document.getElementById('app-modal-title').textContent = cfg.title || '';
   document.getElementById('app-modal-body').innerHTML = cfg.bodyHtml || '';
@@ -106,6 +135,7 @@ function handleAppModalConfirm() {
   overlay.addEventListener('click', e => { if (e.target === overlay) closeAppModal(); });
   document.getElementById('app-modal-cancel').addEventListener('click', closeAppModal);
   document.getElementById('app-modal-confirm').addEventListener('click', handleAppModalConfirm);
+  document.getElementById('app-modal-close').addEventListener('click', closeAppModal);
   document.addEventListener('keydown', e => {
     if (overlay.hidden) return;
     if (e.key === 'Escape') { e.preventDefault(); closeAppModal(); }

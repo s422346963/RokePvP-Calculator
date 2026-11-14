@@ -257,7 +257,7 @@
   .type-chip {
     position: relative; display: inline-flex; align-items: center; justify-content: center;
     width: 20px; height: 20px; flex-shrink: 0; border-radius: 6px; background: transparent;
-    color: var(--type-fg, #fff); font-size: 11px; font-weight: 600; cursor: help;
+    color: var(--type-fg, #fff); font-size: 11px; font-weight: 600; cursor: pointer;
   }
   .type-chip-icon { width: 20px; height: 20px; object-fit: contain; display: block; border-radius: 6px; }
   .type-chip-text { display: none; }
@@ -269,9 +269,10 @@
     padding: 3px 9px; border-radius: 6px; white-space: nowrap;
     background: #1f2937; border: 1px solid rgba(255,255,255,.14);
     color: #fff; font-size: 11px; font-weight: 600; line-height: 1.5;
-    box-shadow: 0 4px 12px rgba(0,0,0,.28); z-index: 1000; pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,.28); z-index: 400; pointer-events: none;
   }
-  .type-chip:not(.no-icon):hover { z-index: 1001; }
+  /* 400/401 需低于弹窗遮罩（1000），否则弹窗打开时气泡会浮在遮罩之上 */
+  .type-chip:not(.no-icon):hover { z-index: 401; }
   .type-chip:not(.no-icon):hover::after { display: block; }
   .nature-iv-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 8px; flex-wrap: wrap; }
   /* 该行现位于面板末尾（个体栏下方），去掉多余的下边距 */
@@ -562,14 +563,44 @@
     overflow: hidden;
     animation: app-modal-pop .18s ease;
   }
+  /* 头部：图标做成色块徽标 + 标题 700 字重，底部叠一条渐隐强调线 */
   .app-modal-header {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px;
-    background: linear-gradient(135deg, rgba(124,107,255,.16), rgba(124,107,255,.04));
+    position: relative;
+    display: flex; align-items: center; gap: 10px;
+    padding: 13px 16px;
+    background: linear-gradient(180deg, rgba(124,107,255,.18), rgba(124,107,255,.04));
     border-bottom: 1px solid var(--border);
   }
-  .app-modal-icon { font-size: 16px; }
-  .app-modal-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .app-modal-header::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+    background: linear-gradient(90deg, rgba(124,107,255,.85), rgba(124,107,255,0) 68%);
+  }
+  .app-modal-icon {
+    width: 26px; height: 26px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 15px; line-height: 1;
+    border-radius: 8px;
+    background: rgba(124,107,255,.16);
+    border: 1px solid rgba(124,107,255,.34);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .app-modal-title {
+    font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: .02em;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* 纯展示型弹窗（属性分析）：右上角 × 关闭，底部按钮栏隐藏 */
+  .app-modal-close {
+    margin-left: auto; flex-shrink: 0;
+    width: 26px; height: 26px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid transparent; border-radius: 8px;
+    background: transparent; color: var(--text2);
+    font-size: 19px; line-height: 1; cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .app-modal-close:hover { background: rgba(239,83,80,.14); color: #ef5350; border-color: rgba(239,83,80,.32); }
+  .app-modal-close[hidden] { display: none; }
+  .app-modal-actions[hidden] { display: none; }
   .app-modal-body { padding: 14px 16px; }
   .app-modal-side-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-width: 0; }
   .app-modal-side-badge {
@@ -610,6 +641,85 @@
   @media (prefers-reduced-motion: reduce) {
     .app-modal-overlay, .app-modal { animation: none; }
   }
+
+  /* ===== 属性分析弹窗（点击精灵卡片属性芯片） ===== */
+  .app-modal.is-wide { width: min(620px, 100%); }
+  /* 头部横向内边距与宽弹窗正文对齐 */
+  .app-modal.is-wide .app-modal-header { padding-left: 18px; padding-right: 18px; }
+  .app-modal.is-wide .app-modal-body { max-height: 78vh; overflow-y: auto; padding: 16px 18px; scrollbar-width: thin; }
+  /* 文字统一继承面板色：浅色（默认）纯黑，深色主题回退浅色字保证可读 */
+  .type-analysis-panel { display: flex; flex-direction: column; gap: 18px; color: var(--text); }
+  [data-theme="light"] .type-analysis-panel { color: #000; }
+  /* 区块标题：进攻橙 / 防御蓝（与结果栏「攻击层 / 防御层」同色语义），尾部细线补满宽度 */
+  .type-analysis-section > h2 {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: .12em;
+    margin-bottom: 9px; white-space: nowrap;
+  }
+  .type-analysis-section.is-off > h2 { color: var(--atk-color); }
+  .type-analysis-section.is-def > h2 { color: var(--def-color); }
+  .type-analysis-section > h2::after {
+    content: ''; flex: 1 1 auto; height: 1px; min-width: 12px;
+    background: currentColor; opacity: .25;
+  }
+  /* 双属性时「进攻面」两组并排，窄屏自动回落单列 */
+  .type-analysis-groups { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  /* 分组卡：比弹窗底色暗一档形成内嵌层次（浅色主题下为浅灰） */
+  .type-analysis-group {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 11px 10px; min-width: 0;
+  }
+  .type-analysis-group > h3 {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12.5px; font-weight: 700; margin-bottom: 9px; color: var(--text);
+  }
+  .type-analysis-group > h3::after { content: ''; flex: 1 1 auto; height: 1px; min-width: 8px; background: var(--border); }
+  .type-analysis-group__icon { width: 18px; height: 18px; object-fit: contain; border-radius: 5px; display: block; flex-shrink: 0; }
+  .type-analysis-group__title { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .type-analysis-row { display: flex; align-items: flex-start; gap: 7px; margin-top: 7px; }
+  .type-analysis-row:first-of-type { margin-top: 0; }
+  .type-analysis-row__label {
+    flex: 0 0 34px; display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--text2);
+    line-height: 26px; letter-spacing: .04em;
+  }
+  .type-analysis-row__label::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: .55; flex-shrink: 0;
+  }
+  .type-analysis-row[data-tone="coverage"] .type-analysis-row__label::before,
+  .type-analysis-row[data-tone="weakness"] .type-analysis-row__label::before { background: #ef5350; opacity: 1; }
+  .type-analysis-row[data-tone="blind"] .type-analysis-row__label::before,
+  .type-analysis-row[data-tone="resistance"] .type-analysis-row__label::before { background: #42a5f5; opacity: 1; }
+  .type-analysis-row__items { display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; flex: 1 1 auto; }
+  /* 属性芯片：底色比分组卡亮一档（浅色主题为纯白），倍率单做成色块徽标 */
+  .type-analysis-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 4px; border-radius: 8px;
+    font-size: 11px; line-height: 16px; white-space: nowrap;
+    background: var(--card); border: 1px solid var(--border);
+    transition: border-color .15s, background .15s;
+  }
+  .type-analysis-chip:hover { border-color: var(--accent); }
+  .type-analysis-chip__icon { width: 18px; height: 18px; object-fit: contain; border-radius: 5px; display: block; flex-shrink: 0; }
+  .type-analysis-chip__name { font-weight: 600; padding-left: 1px; }
+  .type-analysis-chip b {
+    font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums;
+    padding: 1px 5px; border-radius: 5px; line-height: 14px;
+    background: rgba(124,107,255,.14); color: var(--text2);
+  }
+  .type-analysis-chip[data-tone="coverage"] b, .type-analysis-chip[data-tone="weakness"] b {
+    background: rgba(239,83,80,.16); color: #ef5350;
+  }
+  .type-analysis-chip[data-tone="blind"] b, .type-analysis-chip[data-tone="resistance"] b {
+    background: rgba(66,165,245,.16); color: #42a5f5;
+  }
+  /* 浅色主题下提亮倍率文字，避免浅底彩字发虚 */
+  [data-theme="light"] .type-analysis-chip[data-tone="coverage"] b,
+  [data-theme="light"] .type-analysis-chip[data-tone="weakness"] b { color: #c62828; }
+  [data-theme="light"] .type-analysis-chip[data-tone="blind"] b,
+  [data-theme="light"] .type-analysis-chip[data-tone="resistance"] b { color: #1565c0; }
+  .type-analysis-empty { font-size: 11px; line-height: 26px; color: var(--text2); }
 
   .t-normal{background:#9e9e9e;color:#fff}.t-grass{background:#66bb6a;color:#fff}
   .t-普通{background:#9e9e9e;color:#fff}.t-草{background:#66bb6a;color:#fff}.t-火{background:#ef5350;color:#fff}.t-水{background:#42a5f5;color:#fff}.t-光{background:#ffcc02;color:#333}.t-地{background:#a1887f;color:#fff}.t-冰{background:#80deea;color:#333}.t-龙{background:#7c4dff;color:#fff}.t-电{background:#ffca28;color:#333}.t-毒{background:#ab47bc;color:#fff}.t-虫{background:#9ccc65;color:#fff}.t-武{background:#ef9a9a;color:#333}.t-翼{background:#81d4fa;color:#333}.t-萌{background:#f48fb1;color:#fff}.t-幽{background:#5c6bc0;color:#fff}.t-恶{background:#4e342e;color:#fff}.t-机械{background:#78909c;color:#fff}.t-幻{background:#ce93d8;color:#333}
