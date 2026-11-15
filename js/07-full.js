@@ -11,6 +11,10 @@ const fullState = {
   def: [null, null, null, null],
   atkSel: -1, // 当前选中的攻击技能索引（-1=无）
   defSel: -1,
+  // 技能槽归属的精灵名：切进 FULL 时若与当前精灵不一致（A/B 模式换过精灵），
+  // 说明槽内是旧精灵的技能，必须清空后按新精灵推荐重填
+  atkName: null,
+  defName: null,
 };
 
 // ── 威力修正栏的展开 / 收起（每侧独立，默认收起；▲ 收起 / ▼ 展开）──
@@ -341,17 +345,21 @@ function selectFskSkill(side, idx, sk) {
 
 // ── PVP 推荐技能：把该侧精灵 s 数组按序填入技能槽（最多 4 个）──
 // force=true（换精灵）清空该侧 4 槽后按列表重填（同时清掉旧选中索引）；
+//   ⚠️ 清空必须早于「有无推荐」判断：无 PVP 配置的精灵（当前 321 只）若直接
+//   return，槽里会残留上一只精灵的技能，表现为「换精灵后老技能还在」。
 // force=false（切入 FULL / 旧收藏）只填空槽、跳过已在槽内的技能，保留手动配置
 function applyPvpRecommendedFullSkill(side, force = false) {
-  if (typeof pvpRecommendedSkills !== 'function' || !fullState[side]) return false;
-  const list = pvpRecommendedSkills(side);
-  if (!list.length) return false;
+  if (!fullState[side]) return false;
+  const spirit = side === 'atk' ? state.atk : state.def;
   if (force) {
     fullState[side] = [null, null, null, null];
     fullState[side + 'Sel'] = -1;
   }
+  // 槽内技能从此归属当前精灵（切入 FULL 时用它判断是否为旧精灵残留）
+  fullState[side + 'Name'] = spirit ? spirit.n : null;
+  const list = (typeof pvpRecommendedSkills === 'function') ? pvpRecommendedSkills(side) : [];
   const used = new Set(fullState[side].filter(Boolean).map(slot => slot.skill.n));
-  let changed = false;
+  let changed = !!force;   // 换精灵即使无推荐也要重建行，把清空后的空槽刷到 UI
   list.forEach(sk => {
     if (used.has(sk.n)) return;
     const idx = fullState[side].findIndex(slot => !slot);

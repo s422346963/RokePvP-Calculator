@@ -127,9 +127,10 @@ function swapSpirits() {
   // 技能跟着精灵走：FULL 模式两侧技能槽（含选中索引）整体互换；
   // 其它模式（A / B）交换后一律套用新攻方精灵的 PVP 推荐 s[0]。
   if (state.mode === 'FULL') {
-    const tmpSlots = fullState.atk, tmpSel = fullState.atkSel;
+    const tmpSlots = fullState.atk, tmpSel = fullState.atkSel, tmpName = fullState.atkName;
     fullState.atk = fullState.def;       fullState.def = tmpSlots;
     fullState.atkSel = fullState.defSel; fullState.defSel = tmpSel;
+    fullState.atkName = fullState.defName; fullState.defName = tmpName;
     buildFullSkillRows('atk');
     buildFullSkillRows('def');
   } else {

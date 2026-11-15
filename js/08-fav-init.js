@@ -293,6 +293,8 @@ function loadFavConfig(fav, side) {
       fullState[side][i] = null;
     }
   }
+  // 技能槽归属当前收藏精灵：切进 FULL 时据此判断槽内是否为旧精灵残留
+  fullState[side + 'Name'] = spirit.n;
   // 旧收藏未带技能时，按该精灵的 PVP 推荐 s 数组补空槽（与新收藏、选精灵时的默认值一致）
   if (!fullState[side][0]) applyPvpRecommendedFullSkill(side, false);
   buildFullSkillRows(side);

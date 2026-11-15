@@ -13,8 +13,14 @@ function switchMode(m) {
   const rp = document.getElementById('result-panel');
   if (rp) rp.style.display = m === 'FULL' ? 'none' : '';
   if (m === 'FULL') {
-    // 切入 FULL：两侧只补空槽，按各自精灵的推荐技能 s 数组依次填（手动配置过则保留）
-    ['atk', 'def'].forEach(side => applyPvpRecommendedFullSkill(side, false));
+    // 切入 FULL：只补空槽、保留手动配置；但若技能槽归属的精灵已被换掉
+    // （A/B 模式换过精灵，槽内还是上一只的技能），则强制按当前精灵重填
+    ['atk', 'def'].forEach(side => {
+      const sp = side === 'atk' ? state.atk : state.def;
+      const slotName = fullState[side + 'Name'];
+      const stale = !!(sp && slotName && slotName !== sp.n);
+      applyPvpRecommendedFullSkill(side, stale);
+    });
     calcFull();
   } else {
     // FULL 模式选择的技能不回填 Tab2：B 模式保持自己在 B 里选的技能，两侧互不影响
