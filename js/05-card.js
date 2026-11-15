@@ -483,13 +483,26 @@ function initNumCombos() {
 }
 
 
-// ── PVP 推荐技能：取指定侧精灵 s 数组的第一个（B / FULL 模式默认值）──
-function pvpRecommendedSkill(side = 'atk') {
+// ── PVP 推荐技能：把指定侧精灵的 s 数组解析成技能对象列表（按序、去重、跳过查不到的技能名）──
+function pvpRecommendedSkills(side = 'atk') {
   const spirit = side === 'def' ? state.def : state.atk;
-  if (typeof SPIRITS_PVP === 'undefined' || !spirit || typeof SKILLS === 'undefined') return null;
+  if (typeof SPIRITS_PVP === 'undefined' || !spirit || typeof SKILLS === 'undefined') return [];
   const cfg = SPIRITS_PVP[spirit.n];
-  const name = cfg && Array.isArray(cfg.s) && cfg.s[0];
-  return name ? (SKILLS.find(s => s.n === name) || null) : null;
+  const names = (cfg && Array.isArray(cfg.s)) ? cfg.s : [];
+  const out = [], seen = new Set();
+  names.forEach(name => {
+    if (!name || seen.has(name)) return;
+    const sk = SKILLS.find(s => s.n === name);
+    if (!sk) return;
+    seen.add(name);
+    out.push(sk);
+  });
+  return out;
+}
+
+// ── PVP 推荐技能：s 数组的第一个（B 模式默认值 / FULL 首槽）──
+function pvpRecommendedSkill(side = 'atk') {
+  return pvpRecommendedSkills(side)[0] || null;
 }
 
 // ── 全局版：应用精灵到指定侧（供 loadFavConfig 等外部调用）──
@@ -537,7 +550,7 @@ function applySpirit_global(side, spirit) {
   if (side === 'atk') setAtkStat(state.skillType === 'physical' ? 'patk' : 'matk', false);
   if (side === 'def') setDefStat(state.skillType === 'physical' ? 'pdef' : 'mdef', false);
   syncModeBAutoFields();
-  // FULL 模式：把该侧精灵的推荐技能 s[0] 填进该侧第 1 个技能槽（只重建行，末尾统一重算）
+  // FULL 模式：清空该侧技能槽后按精灵推荐技能 s 数组依次重填（只重建行，末尾统一重算）
   if (state.mode === 'FULL') applyPvpRecommendedFullSkill(side, true);
   // 切攻方精灵：不论 A / B / FULL，技能都同步为该精灵的推荐 s[0]；
   // 收藏自带的技能由 loadFavConfig 随后覆盖，防方精灵不改技能

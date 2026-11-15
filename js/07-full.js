@@ -123,15 +123,34 @@ function buildFullSkillRows(side) {
     tagSpan.textContent = skKind || '—';
     row.appendChild(tagSpan);
 
-    // 列3：属性标签
+    // 列3：属性图标（图标自带属性色底，悬停 title 显示属性名；图标缺失/加载失败回退彩色文字标签）
     const attrSpan = document.createElement('span');
     const skAttr = skillObj ? skillObj.a : '';
     const attrBg = (skAttr && !isStatusSkill) ? (TYPE_COLORS[skAttr] || '#888') : 'transparent';
     const attrTc = (skAttr && !isStatusSkill) ? (TYPE_TEXT_DARK.has(skAttr) ? '#333' : '#fff') : 'var(--text2)';
     attrSpan.className = 'fsk-attr-tag';
-    attrSpan.style.cssText = `background:${attrBg};color:${attrTc}`;
     attrSpan.id = `fsk-attr-${side}-${i}`;
-    attrSpan.textContent = isStatusSkill ? '—' : (skAttr || '—');
+    const attrIcon = (!isStatusSkill && skAttr && typeof TYPE_ICONS !== 'undefined') ? TYPE_ICONS[skAttr] : null;
+    if (attrIcon) {
+      attrSpan.classList.add('is-icon');
+      attrSpan.title = skAttr + '系';
+      const attrImg = document.createElement('img');
+      attrImg.className = 'fsk-attr-icon';
+      attrImg.src = attrIcon;
+      attrImg.alt = skAttr;
+      attrImg.loading = 'lazy';
+      attrImg.onerror = () => {
+        attrSpan.classList.remove('is-icon');
+        attrSpan.classList.add('is-text');
+        attrSpan.style.cssText = `background:${attrBg};color:${attrTc}`;
+        attrSpan.textContent = skAttr;
+      };
+      attrSpan.appendChild(attrImg);
+    } else {
+      attrSpan.classList.add('is-text');
+      attrSpan.style.cssText = `background:${attrBg};color:${attrTc}`;
+      attrSpan.textContent = isStatusSkill ? '—' : (skAttr || '—');
+    }
     row.appendChild(attrSpan);
 
     // 列4：能耗
@@ -320,13 +339,28 @@ function selectFskSkill(side, idx, sk) {
   calcFull();
 }
 
-// ── PVP 推荐技能：把该侧精灵 s[0] 填进第 1 个技能槽 ──
-// force=true（换精灵）覆盖槽 1；false（切入 FULL）只在槽 1 为空时补，保留手动配置
+// ── PVP 推荐技能：把该侧精灵 s 数组按序填入技能槽（最多 4 个）──
+// force=true（换精灵）清空该侧 4 槽后按列表重填（同时清掉旧选中索引）；
+// force=false（切入 FULL / 旧收藏）只填空槽、跳过已在槽内的技能，保留手动配置
 function applyPvpRecommendedFullSkill(side, force = false) {
-  if (typeof pvpRecommendedSkill !== 'function' || !fullState[side]) return false;
-  const sk = pvpRecommendedSkill(side);
-  if (!sk || (!force && fullState[side][0])) return false;
-  fullState[side][0] = { skill: sk, hits: skillDefaultHits(sk), power: sk.p };
+  if (typeof pvpRecommendedSkills !== 'function' || !fullState[side]) return false;
+  const list = pvpRecommendedSkills(side);
+  if (!list.length) return false;
+  if (force) {
+    fullState[side] = [null, null, null, null];
+    fullState[side + 'Sel'] = -1;
+  }
+  const used = new Set(fullState[side].filter(Boolean).map(slot => slot.skill.n));
+  let changed = false;
+  list.forEach(sk => {
+    if (used.has(sk.n)) return;
+    const idx = fullState[side].findIndex(slot => !slot);
+    if (idx < 0) return;
+    fullState[side][idx] = { skill: sk, hits: skillDefaultHits(sk), power: sk.p };
+    used.add(sk.n);
+    changed = true;
+  });
+  if (!changed) return false;
   buildFullSkillRows(side);
   return true;
 }

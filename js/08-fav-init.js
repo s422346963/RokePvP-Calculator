@@ -293,7 +293,7 @@ function loadFavConfig(fav, side) {
       fullState[side][i] = null;
     }
   }
-  // 旧收藏未带技能时，补上该精灵的 PVP 推荐 s[0]（与新收藏、选精灵时的默认值一致）
+  // 旧收藏未带技能时，按该精灵的 PVP 推荐 s 数组补空槽（与新收藏、选精灵时的默认值一致）
   if (!fullState[side][0]) applyPvpRecommendedFullSkill(side, false);
   buildFullSkillRows(side);
 

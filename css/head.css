@@ -476,7 +476,11 @@
   .fsk-tag.phys { color: #ef9a9a; border-color: #ef9a9a44; }
   .fsk-tag.magic { color: #ce93d8; border-color: #ce93d844; }
   .fsk-tag.status { color: #80cbc4; border-color: #80cbc444; }
+  /* 属性列：优先显示图标（图标自带属性色底，悬停 title 显示属性名）；
+     图标缺失 / 加载失败时由 JS 切到 .is-text 回退为彩色文字标签 */
   .fsk-attr-tag { font-size: 10px; padding: 2px 4px; border-radius: 10px; white-space: nowrap; text-align: center; display: block; justify-self: center; }
+  .fsk-attr-tag.is-icon { padding: 0; background: transparent; line-height: 0; }
+  .fsk-attr-icon { width: 18px; height: 18px; object-fit: contain; display: block; }
   .fsk-hits { width: 100%; padding: 3px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: #ffca28; font-size: 11px; font-weight: 700; text-align: center; box-sizing: border-box; }
   .fsk-hits:focus { outline: none; border-color: #ffca28; }
   .fsk-power { width: 100%; padding: 3px 2px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--atk-color); font-size: 11px; font-weight: 700; text-align: center; box-sizing: border-box; }

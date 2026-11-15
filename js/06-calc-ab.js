@@ -13,7 +13,7 @@ function switchMode(m) {
   const rp = document.getElementById('result-panel');
   if (rp) rp.style.display = m === 'FULL' ? 'none' : '';
   if (m === 'FULL') {
-    // 切入 FULL：两侧第 1 个技能槽为空时补上各自精灵的推荐技能 s[0]（手动配置过则保留）
+    // 切入 FULL：两侧只补空槽，按各自精灵的推荐技能 s 数组依次填（手动配置过则保留）
     ['atk', 'def'].forEach(side => applyPvpRecommendedFullSkill(side, false));
     calcFull();
   } else {
