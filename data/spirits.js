@@ -10447,5 +10447,53 @@ const SPIRITS =
         "st": "首领",
         "img": "https://patchwiki.biligame.com/images/nrc/5/5c/men4ik1vob1cxrc26bh7bt1bizyhoxp.png",
         "tr_desc": "在战斗中每提升1级，获得物攻+5%，低于80级时受到伤害+30%。"
+    },
+    {
+        "no": "494",
+        "n": "呆呆铃",
+        "hp": 82,
+        "pa": 27,
+        "ma": 66,
+        "pd": 49,
+        "md": 69,
+        "sp": 36,
+        "a1": "萌",
+        "a2": "草",
+        "tr": "幸福铃音",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/d/d4/m2paulx7gda9n7uy684bqzeytzcjvcc.png",
+        "tr_desc": "天气为霞光梦境时，回合结束时敌方获得3层寄生。"
+    },
+    {
+        "no": "495",
+        "n": "跳跳铃",
+        "hp": 109,
+        "pa": 37,
+        "ma": 88,
+        "pd": 65,
+        "md": 92,
+        "sp": 48,
+        "a1": "萌",
+        "a2": "草",
+        "tr": "幸福铃音",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/6/64/m48t5963ucbot1wi7j5c1hut4e3te21.png",
+        "tr_desc": "天气为霞光梦境时，回合结束时敌方获得3层寄生。"
+    },
+    {
+        "no": "496",
+        "n": "铃兰夫人",
+        "hp": 136,
+        "pa": 46,
+        "ma": 110,
+        "pd": 81,
+        "md": 115,
+        "sp": 60,
+        "a1": "萌",
+        "a2": "草",
+        "tr": "幸福铃音",
+        "st": "",
+        "img": "https://patchwiki.biligame.com/images/nrc/a/a2/he7y3g2xfazw684toaylew2edehmm4b.png",
+        "tr_desc": "天气为霞光梦境时，回合结束时敌方获得3层寄生。"
     }
 ]
